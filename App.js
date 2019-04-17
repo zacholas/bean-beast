@@ -11,6 +11,7 @@ import ReduxThunk from 'redux-thunk';
 // import reducers from './reducers';
 
 const { store, persistor } = configuredStore.default();
+// persistor.purge();
 
 export default class App extends React.Component {
   state = {

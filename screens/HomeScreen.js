@@ -11,13 +11,15 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import { connect } from 'react-redux';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
   render() {
+    // console.log('home state', this.props.state);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -186,3 +188,12 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+
+const mapStateToProps = state => ({
+  state
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
