@@ -3,12 +3,14 @@ import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-nativ
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { Provider } from 'react-redux';
-import { store, persistor } from './configureStore';
+import * as configuredStore from './configureStore';
+import { PersistGate } from 'redux-persist/integration/react'
 import { createStore, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
 // import * as types from './constants/Types';
 // import reducers from './reducers';
 
+const { store, persistor } = configuredStore.default();
 
 export default class App extends React.Component {
   state = {
@@ -19,20 +21,24 @@ export default class App extends React.Component {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <Provider store={store}>
-          <AppLoading
-            startAsync={this._loadResourcesAsync}
-            onError={this._handleLoadingError}
-            onFinish={this._handleFinishLoading}
-          />
+          <PersistGate loading={null} persistor={persistor}>
+            <AppLoading
+              startAsync={this._loadResourcesAsync}
+              onError={this._handleLoadingError}
+              onFinish={this._handleFinishLoading}
+            />
+          </PersistGate>
         </Provider>
       );
     } else {
       return (
         <Provider store={store}>
-          <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
-          </View>
+          <PersistGate loading={null} persistor={persistor}>
+            <View style={styles.container}>
+              {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+              <AppNavigator />
+            </View>
+          </PersistGate>
         </Provider>
       );
     }
