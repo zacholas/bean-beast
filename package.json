@@ -18,7 +18,9 @@
     "react-navigation": "^3.0.9",
     "react-redux": "^7.0.2",
     "redux": "^4.0.1",
-    "redux-persist": "^5.10.0"
+    "redux-form": "^8.2.0",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
