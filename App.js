@@ -7,7 +7,7 @@ import * as configuredStore from './configureStore';
 import { PersistGate } from 'redux-persist/integration/react'
 import { createStore, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
-// import * as types from './constants/Types';
+// import * as types from './constants/types';
 // import reducers from './reducers';
 
 const { store, persistor } = configuredStore.default();

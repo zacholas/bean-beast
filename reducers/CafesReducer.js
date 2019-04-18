@@ -3,28 +3,29 @@ import * as types from '../constants/types';
 const INITIAL_STATE = {
   loading: false,
   error: '',
-  beans: null,
-  bean: {
-    source: null,
-    roastDate: null,
-  },
-  fakeCounter: 0
+  cafes: {
+    'cafe-1': {
+      id: 'cafe-1',
+      title: 'Combi Coffee'
+    },
+    'cafe-2': {
+      id: 'cafe-2',
+      title: 'C\'alma'
+    }
+  }
+
 };
 
 /*
-Bean Fields:
-- Roaster / Cafe
-- Roast Date
-- Roast Level
-- Origin Region
-- Origin Details (farm/estate/plantation/whatever)
-- Process
-- Varietal
-- Altitude
-- Tasting Notes
-- Buy again
-- Comments
-- Roast name
+Cafe Fields:
+- ID
+- Name
+- Google place id if linked to google place (IDK about api cost tho)
+- Address
+- Phone Number
+- Website
+- Location Notes
+- Notes about seating, power outlets, barista's name, etc.
  */
 
 export default (state = INITIAL_STATE, action) => {

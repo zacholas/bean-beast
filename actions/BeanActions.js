@@ -1,4 +1,4 @@
-import * as types from '../constants/Types';
+import * as types from '../constants/types';
 
 export const demoBeanIncrement = () => {
   console.log('bean increment');

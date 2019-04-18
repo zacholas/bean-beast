@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import EquipmentScreen from '../screens/EquipmentScreen';
+import CafeListScreen from '../screens/cafes/CafeListScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -32,6 +33,20 @@ const EquipmentStack = createStackNavigator({
 
 EquipmentStack.navigationOptions = {
   tabBarLabel: 'Equipment',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    />
+  ),
+};
+
+const CafeStack = createStackNavigator({
+  Cafes: CafeListScreen,
+});
+
+CafeStack.navigationOptions = {
+  tabBarLabel: 'Cafes / Roasters',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -70,6 +85,7 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
+  CafeStack,
   EquipmentStack,
   LinksStack,
   SettingsStack,
