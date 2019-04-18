@@ -21,7 +21,7 @@ class EquipmentScreen extends Component {
     console.log(this.props.state);
     return (
       <ScrollView style={{padding:15}}>
-        <Text>HELLO NADIA I WILL KILL YOU IN YOUR SLEEP.</Text>
+        <Text>Hi.</Text>
         <Text>Val: {this.props.state.beans.fakeCounter}</Text>
         <TouchableOpacity onPress={() => { this.props.demoBeanIncrement() }}><Text>Increment the number</Text></TouchableOpacity>
       </ScrollView>
