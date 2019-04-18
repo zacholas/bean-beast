@@ -53,6 +53,13 @@ class HomeScreen extends React.Component {
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={styles.getStartedContainer}>
+            <Text style={{...styles.getStartedText, marginBottom: 15}}>What are you doing?</Text>
+            <Text style={styles.getStartedText}>Drinking a coffee at a cafe</Text>
+            <Text style={styles.getStartedText}>Brewing coffee at home</Text>
+            <Text style={styles.getStartedText}>Buying new beans</Text>
+          </View>
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
