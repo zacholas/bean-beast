@@ -30,7 +30,6 @@ Bean Fields:
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.BEAN_INCREMENT:
-      console.log('incrementing bean to be ', state.fakeCounter + 1);
       return { ...state,
         fakeCounter: state.fakeCounter + 1,
       };
@@ -48,7 +47,6 @@ export default (state = INITIAL_STATE, action) => {
         // },
       };
     default:
-      console.log('reducer default');
       return state;
   }
 };
