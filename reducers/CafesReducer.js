@@ -1,19 +1,11 @@
 import * as types from '../constants/types';
+import * as navRoutes from '../constants/NavRoutes';
 
 const INITIAL_STATE = {
   loading: false,
+  redirect: false,
   error: '',
-  cafes: {
-    'cafe-1': {
-      id: 'cafe-1',
-      name: 'Combi Coffee'
-    },
-    'cafe-2': {
-      id: 'cafe-2',
-      name: 'C\'alma'
-    }
-  }
-
+  cafes: {}
 };
 
 /*
@@ -30,22 +22,35 @@ Cafe Fields:
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.BEAN_INCREMENT:
+    case types.CAFE_CREATING:
       return { ...state,
-        fakeCounter: state.fakeCounter + 1,
+        loading: true,
+        redirect: false,
+        error: '',
+        cafes: {
+          ...state.cafes,
+          [action.payload.id]: {
+            created: action.payload.created,
+            modified: action.payload.modified,
+            id: action.payload.id,
+            ...action.payload.data,
+          },
+        },
       };
-    case types.BEAN_CREATE:
+    case types.CAFE_CREATE_SUCCESS:
       return { ...state,
         loading: false,
-        // beans: {
-        //   ...state.beans,
-        //   [action.payload.id]: {
-        //     created: action.payload.created,
-        //     modified: action.payload.modified,
-        //     _key: action.payload.id,
-        //     ...action.payload.data,
-        //   },
-        // },
+        redirect: {
+          routeName: navRoutes.VIEW_CAFE,
+          params: {
+            id: action.payload
+          }
+        },
+      };
+    case types.CAFE_CREATE_FAIL:
+      return { ...state,
+        loading: false,
+        error: action.payload
       };
     default:
       return state;

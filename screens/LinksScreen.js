@@ -8,7 +8,6 @@ export default class LinksScreen extends React.Component {
   };
 
   render() {
-    console.log('lins screen props', this.props);
     return (
 
       <ScrollView style={styles.container}>

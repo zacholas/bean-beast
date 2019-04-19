@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 // import { connect } from 'react-redux';
 import { Button } from "../../components/common";
 import CafeList from '../../components/CafeList';
-// import { demoBeanIncrement } from '../../actions';
-
-
-// import styles from './styles';
+import * as navRoutes from "../../constants/NavRoutes";
 
 class CafeListScreen extends Component {
   static navigationOptions = {
     title: 'Cafes / Roasters',
   };
 
+  //* todo make the button at the bottom stay there even when the list is really long and goes off screen
   render() {
     return (
-      <View>
-        <ScrollView style={{padding:15}}>
-          <CafeList navigation={this.props.navigation} />
-        </ScrollView>
+      <ScrollView>
+        <View>
+          <ScrollView style={{padding:15}}>
+            <CafeList navigation={this.props.navigation} />
+          </ScrollView>
+        </View>
         <View style={{padding: 15}}>
           <Button onPress={() => { this._addNewCafe() }} title="Add a new Cafe" />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 
   _addNewCafe(){
-    this.props.navigation.navigate('EditCafe', {
+    this.props.navigation.navigate(navRoutes.EDIT_CAFE, {
       type: 'create'
     })
   }

@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import {
   bodyText,
   marginBottom,
-} from '../../../Styles';
+} from '../Styles';
 
 const styles = StyleSheet.create({
   input: {

@@ -2,6 +2,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
+import * as navRoutes from '../constants/NavRoutes';
+
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
@@ -12,7 +14,7 @@ import EditCafeScreen from '../screens/cafes/EditCafeScreen';
 import ViewCafeScreen from '../screens/cafes/ViewCafeScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  [navRoutes.HOME]: HomeScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -30,7 +32,7 @@ HomeStack.navigationOptions = {
 };
 
 const EquipmentStack = createStackNavigator({
-  Equipment: EquipmentScreen,
+  [navRoutes.EQUIPMENT]: EquipmentScreen,
 });
 
 EquipmentStack.navigationOptions = {
@@ -44,9 +46,9 @@ EquipmentStack.navigationOptions = {
 };
 
 const CafeStack = createStackNavigator({
-  CafeList: CafeListScreen,
-  EditCafe: EditCafeScreen,
-  ViewCafe: ViewCafeScreen
+  [navRoutes.CAFE_LIST]: CafeListScreen,
+  [navRoutes.EDIT_CAFE]: EditCafeScreen,
+  [navRoutes.VIEW_CAFE]: ViewCafeScreen
 });
 
 CafeStack.navigationOptions = {
@@ -60,7 +62,7 @@ CafeStack.navigationOptions = {
 };
 
 const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+  [navRoutes.LINKS]: LinksScreen,
 });
 
 LinksStack.navigationOptions = {
@@ -74,7 +76,7 @@ LinksStack.navigationOptions = {
 };
 
 const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+  [navRoutes.SETTINGS]: SettingsScreen,
 });
 
 SettingsStack.navigationOptions = {

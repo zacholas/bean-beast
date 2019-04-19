@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-
 import { View, FlatList } from 'react-native';
-
 import { connect } from 'react-redux';
-
 import CafeListItem from './CafeListItem';
-
-// import styles from './styles';
-
+import * as navRoutes from '../constants/NavRoutes';
 
 class CafeList extends Component {
 
@@ -17,8 +12,7 @@ class CafeList extends Component {
   };
 
   _onPressItem = (id) => {
-    console.log('item pressed with id: ', id);
-    this.props.navigation.navigate('ViewCafe', {
+    this.props.navigation.navigate(navRoutes.VIEW_CAFE, {
       id
     })
   };
@@ -33,6 +27,7 @@ class CafeList extends Component {
 
   render() {
     const cafes = _.values(this.props.cafes.cafes);
+    console.log(cafes);
     return (
       <FlatList
         data={cafes}
