@@ -8,6 +8,8 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import EquipmentScreen from '../screens/EquipmentScreen';
 import CafeListScreen from '../screens/cafes/CafeListScreen';
+import EditCafeScreen from '../screens/cafes/EditCafeScreen';
+import ViewCafeScreen from '../screens/cafes/ViewCafeScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -42,7 +44,9 @@ EquipmentStack.navigationOptions = {
 };
 
 const CafeStack = createStackNavigator({
-  Cafes: CafeListScreen,
+  CafeList: CafeListScreen,
+  EditCafe: EditCafeScreen,
+  ViewCafe: ViewCafeScreen
 });
 
 CafeStack.navigationOptions = {

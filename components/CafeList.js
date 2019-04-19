@@ -18,14 +18,16 @@ class CafeList extends Component {
 
   _onPressItem = (id) => {
     console.log('item pressed with id: ', id);
-    //* Navigate to the cafe
+    this.props.navigation.navigate('ViewCafe', {
+      id
+    })
   };
 
   _renderItem = ({item}) => (
     <CafeListItem
       id={item.id}
       onPressItem={this._onPressItem}
-      title={item.title}
+      title={item.name}
     />
   );
 

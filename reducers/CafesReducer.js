@@ -6,11 +6,11 @@ const INITIAL_STATE = {
   cafes: {
     'cafe-1': {
       id: 'cafe-1',
-      title: 'Combi Coffee'
+      name: 'Combi Coffee'
     },
     'cafe-2': {
       id: 'cafe-2',
-      title: 'C\'alma'
+      name: 'C\'alma'
     }
   }
 

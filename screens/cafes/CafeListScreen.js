@@ -13,16 +13,11 @@ class CafeListScreen extends Component {
     title: 'Cafes / Roasters',
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    // console.log(this.props.state);
     return (
       <View>
         <ScrollView style={{padding:15}}>
-          <CafeList />
+          <CafeList navigation={this.props.navigation} />
         </ScrollView>
         <View style={{padding: 15}}>
           <Button onPress={() => { this._addNewCafe() }} title="Add a new Cafe" />
@@ -32,8 +27,9 @@ class CafeListScreen extends Component {
   }
 
   _addNewCafe(){
-    // console.log('add new cafe');
-    this.props.demoBeanIncrement();
+    this.props.navigation.navigate('EditCafe', {
+      type: 'create'
+    })
   }
 }
 

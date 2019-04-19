@@ -19,7 +19,7 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    // console.log('home state', this.props.state);
+    // console.log('home state', this.props);
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
