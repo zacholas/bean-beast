@@ -5,9 +5,11 @@ import { reduxForm } from 'redux-form';
 import { saveCafe } from "../actions";
 import { TextField } from "./common/reduxForm";
 import { Button } from "./common";
+import PropTypes from "prop-types";
 
 class EditCafeForm extends Component {
   componentWillMount(): void {
+    this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
   }
 
@@ -49,3 +51,7 @@ EditCafeForm = reduxForm({
 EditCafeForm = connect(mapStateToProps, { saveCafe })(EditCafeForm);
 
 export default EditCafeForm;
+
+EditCafeForm.propTypes = {
+  navigation: PropTypes.object.isRequired
+};

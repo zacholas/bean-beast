@@ -59,6 +59,9 @@ const buttonBackgroundColor = (props) => {
       case 'black':
         backgroundColor = '#273247';
         break;
+      case 'gray':
+        backgroundColor = '#989898';
+        break;
       case 'blue':
         backgroundColor = '#3255d1';
         break;

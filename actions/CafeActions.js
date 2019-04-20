@@ -1,5 +1,5 @@
 import * as types from '../constants/types';
-import { NavigationActions } from 'react-navigation';
+import * as navRoutes from '../constants/NavRoutes';
 
 export const saveCafe = (values) => {
   if(values.type === 'create'){
@@ -19,6 +19,7 @@ const _createCafe = (values) => {
           type: types.CAFE_CREATE_SUCCESS,
           payload: id,
         });
+        values.navigation.goBack();
       });
   };
 };
@@ -45,6 +46,7 @@ const _updateCafe = (values) => {
         dispatch({
           type: types.CAFE_UPDATE_SUCCESS,
         });
+        values.navigation.goBack();
       });
   };
 };
@@ -56,6 +58,33 @@ const _updatingCafe = (dispatch, values) => new Promise((resolve, reject) => {
       modified: new Date().getTime(),
       data: values,
     },
+  });
+  resolve();
+});
+
+export const deleteCafe = (id, navigation) => {
+  return (dispatch) => {
+    _deletingCafe(dispatch, id)
+      .then(() => {
+        dispatch({
+          type: types.CAFE_DELETE_SUCCESS,
+        });
+        navigation.popToTop();
+        // navigation.navigate({
+        //   routeName: navRoutes.CAFE_LIST
+        // });
+        // console.log('delete cafe navigation', navigation);
+        // navigation.reset({
+        //   routeName: navRoutes.CAFE_LIST
+        // });
+      });
+  };
+};
+
+const _deletingCafe = (dispatch, id) => new Promise((resolve, reject) => {
+  dispatch({
+    type: types.CAFE_DELETING,
+    payload: id
   });
   resolve();
 });

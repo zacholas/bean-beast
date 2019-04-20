@@ -21,7 +21,7 @@ export const container = {
 };
 
 export const centeredContainer = {
-  padding: 20,
+  ...container,
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',

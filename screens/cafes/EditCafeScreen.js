@@ -27,7 +27,7 @@ class EditCafeScreen extends Component {
     return (
       <Container>
         {this._pageTitle()}
-        <EditCafeForm type={this.type} />
+        <EditCafeForm type={this.type} navigation={this.props.navigation} />
       </Container>
     );
   }

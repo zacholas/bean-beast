@@ -8,3 +8,4 @@ export const SETTINGS = 'settings';
 export const CAFE_LIST = 'cafeList';
 export const EDIT_CAFE = 'editCafe';
 export const VIEW_CAFE = 'viewCafe';
+export const DELETE_CAFE_MODAL = 'deleteCafeModal';

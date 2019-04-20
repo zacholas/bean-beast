@@ -6,7 +6,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 export default class CafeListItem extends Component {
   render() {
-    console.log('cafe list item with id ' + this.props.id + 'selected? ', this.props.selected);
+    // console.log('cafe list item with id ' + this.props.id + 'selected? ', this.props.selected);
     return (
       <View>
         <TouchableOpacity onPress={() => this.props.onPressItem(this.props.id)}>

@@ -27,7 +27,7 @@ class CafeList extends Component {
 
   render() {
     const cafes = _.values(this.props.cafes.cafes);
-    console.log(cafes);
+    // console.log(cafes);
     return (
       <FlatList
         data={cafes}

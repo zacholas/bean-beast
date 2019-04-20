@@ -4,6 +4,9 @@ import { View, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 import {Headline, Hr, BodyText, Container, Button} from "../../components/common";
+import * as navRoutes from "../../constants/NavRoutes";
+import { deleteCafe } from "../../actions";
+
 
 // import styles from './styles';
 
@@ -13,7 +16,7 @@ class ViewCafeScreen extends Component {
   // };
 
   componentWillMount(): void {
-    const cafeID = this.props.navigation.getParam('id');
+    // const cafeID = this.props.navigation.getParam('id');
     //* TODO not working.
     // this.props.navigation.setParams({
     //   navigationOptions: {
@@ -21,6 +24,12 @@ class ViewCafeScreen extends Component {
     //   }
     // })
 
+  }
+
+  constructor(props){
+    super(props);
+
+    this.cafeID = props.navigation.getParam('id');
   }
 
   render() {
@@ -40,8 +49,19 @@ class ViewCafeScreen extends Component {
           {/*spinner={loading}*/}
         {/*/>*/}
         <BodyText>Delete, edit, clone (maybe)</BodyText>
+        <Button
+          onPress={() => this._deleteCafeButtonPress()}
+          title="Delete Cafe"
+          iconName="trash"
+        />
       </Container>
     );
+  }
+
+  _deleteCafeButtonPress(){
+    this.props.navigation.navigate(navRoutes.DELETE_CAFE_MODAL, {
+      onPress: () => this.props.deleteCafe(this.cafeID, this.props.navigation)
+    })
   }
 
   _cafeName(){
@@ -55,6 +75,4 @@ const mapStateToProps = (state, props) => ({
   cafe: state.cafes.cafes[props.navigation.getParam('id')]
 });
 
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ViewCafeScreen);
+export default connect(mapStateToProps, { deleteCafe })(ViewCafeScreen);

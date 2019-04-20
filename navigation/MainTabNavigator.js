@@ -9,9 +9,12 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import EquipmentScreen from '../screens/EquipmentScreen';
+
+//* Cafes
 import CafeListScreen from '../screens/cafes/CafeListScreen';
 import EditCafeScreen from '../screens/cafes/EditCafeScreen';
 import ViewCafeScreen from '../screens/cafes/ViewCafeScreen';
+import DeleteCafeModalScreen from '../screens/cafes/DeleteCafeModalScreen';
 
 const HomeStack = createStackNavigator({
   [navRoutes.HOME]: HomeScreen,
@@ -48,7 +51,8 @@ EquipmentStack.navigationOptions = {
 const CafeStack = createStackNavigator({
   [navRoutes.CAFE_LIST]: CafeListScreen,
   [navRoutes.EDIT_CAFE]: EditCafeScreen,
-  [navRoutes.VIEW_CAFE]: ViewCafeScreen
+  [navRoutes.VIEW_CAFE]: ViewCafeScreen,
+  [navRoutes.DELETE_CAFE_MODAL]: DeleteCafeModalScreen
 });
 
 CafeStack.navigationOptions = {
@@ -60,6 +64,21 @@ CafeStack.navigationOptions = {
     />
   ),
 };
+
+// const CafeDeleteStack = createStackNavigator(
+//   {
+//     Main: {
+//       screen: CafeStack,
+//     },
+//     [navRoutes.DELETE_CAFE_MODAL]: {
+//       screen: DeleteCafeModalScreen,
+//     },
+//   },
+//   {
+//     mode: 'modal',
+//     headerMode: 'none',
+//   }
+// );
 
 const LinksStack = createStackNavigator({
   [navRoutes.LINKS]: LinksScreen,
