@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import {Headline, Hr, BodyText, Container, Button} from "../../components/common";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteCafe } from "../../actions";
+import PropTypes from "prop-types";
 
 
 // import styles from './styles';
@@ -76,3 +77,13 @@ const mapStateToProps = (state, props) => ({
 });
 
 export default connect(mapStateToProps, { deleteCafe })(ViewCafeScreen);
+
+ViewCafeScreen.propTypes = {
+  cafe: PropTypes.object
+};
+
+ViewCafeScreen.defaultProps = {
+  cafe: {
+    name: ''
+  }
+};

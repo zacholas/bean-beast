@@ -1,26 +1,12 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
 import EditCafeForm from '../../components/EditCafeForm';
 import { Headline, Container } from "../../components/common";
-
-// import styles from './styles';
+import PropTypes from "prop-types";
 
 class EditCafeScreen extends Component {
   constructor(props){
     super(props);
     this.type = props.navigation.getParam('type', 'create');
-  }
-
-  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
-    //* If there's a redirect set, redirect them.
-    const { navigation, redirect } = this.props;
-    if(redirect && redirect.routeName){
-      navigation.replace({
-        routeName: redirect.routeName,
-        params: redirect.params
-      });
-    }
   }
 
   render() {
@@ -42,10 +28,8 @@ class EditCafeScreen extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    redirect: state.cafes.redirect,
-  }
+export default EditCafeScreen;
+
+EditCafeScreen.propTypes = {
+  navigation: PropTypes.object.isRequired
 };
-const mapDispatchToProps = dispatch => ({});
-export default connect(mapStateToProps, mapDispatchToProps)(EditCafeScreen);

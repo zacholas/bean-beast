@@ -1,9 +1,9 @@
+import _ from 'lodash';
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
 
 const INITIAL_STATE = {
   loading: false,
-  redirect: false,
   error: '',
   cafes: {}
 };
@@ -25,7 +25,6 @@ export default (state = INITIAL_STATE, action) => {
     case types.CAFE_CREATING:
       return { ...state,
         loading: true,
-        redirect: false,
         error: '',
         cafes: {
           ...state.cafes,
@@ -33,21 +32,31 @@ export default (state = INITIAL_STATE, action) => {
             created: action.payload.created,
             modified: action.payload.modified,
             id: action.payload.id,
-            ...action.payload.data,
+            name: action.payload.data.name,
           },
         },
       };
+    case types.CAFE_UPDATING:
+      return { ...state,
+        loading: true,
+        error: '',
+      };
+    case types.CAFE_DELETING:
+      const newCafes = _.omit(state.cafes, action.payload);
+      return { ...state,
+        loading: true,
+        error: '',
+        cafes: newCafes
+      };
     case types.CAFE_CREATE_SUCCESS:
+    case types.CAFE_UPDATE_SUCCESS:
+    case types.CAFE_DELETE_SUCCESS:
       return { ...state,
         loading: false,
-        redirect: {
-          routeName: navRoutes.VIEW_CAFE,
-          params: {
-            id: action.payload
-          }
-        },
       };
     case types.CAFE_CREATE_FAIL:
+    case types.CAFE_UPDATE_FAIL:
+    case types.CAFE_DELETE_FAIL:
       return { ...state,
         loading: false,
         error: action.payload
