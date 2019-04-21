@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
+import { SafeAreaView } from "react-navigation";
 import {Container, BodyText, Headline, Button, Spinner} from "./index";
 import {bodyText, centeredContainer, container} from "./Styles";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,21 +24,23 @@ export default class Modal extends Component {
   render() {
     // console.log('modal common component', this.props);
     return (
-      <Container style={container}>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Icon name='window-close' size={22} color="#000" style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-        <View>
-          {this._modalTitle()}
-          {this._modalContent()}
-          <View>
-            {this._modalButton()}
-            {this._dismissButton()}
+      <SafeAreaView>
+        <Container style={container}>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Icon name='window-close' size={22} color="#000" style={styles.icon} />
+            </TouchableOpacity>
           </View>
-        </View>
-      </Container>
+          <View>
+            {this._modalTitle()}
+            {this._modalContent()}
+            <View>
+              {this._modalButton()}
+              {this._dismissButton()}
+            </View>
+          </View>
+        </Container>
+      </SafeAreaView>
     );
   }
 

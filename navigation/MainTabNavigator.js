@@ -52,7 +52,7 @@ const CafeStack = createStackNavigator({
   [navRoutes.CAFE_LIST]: CafeListScreen,
   [navRoutes.EDIT_CAFE]: EditCafeScreen,
   [navRoutes.VIEW_CAFE]: ViewCafeScreen,
-  [navRoutes.DELETE_CAFE_MODAL]: DeleteCafeModalScreen
+  // [navRoutes.DELETE_CAFE_MODAL]: DeleteCafeModalScreen
 });
 
 CafeStack.navigationOptions = {
@@ -64,21 +64,6 @@ CafeStack.navigationOptions = {
     />
   ),
 };
-
-// const CafeDeleteStack = createStackNavigator(
-//   {
-//     Main: {
-//       screen: CafeStack,
-//     },
-//     [navRoutes.DELETE_CAFE_MODAL]: {
-//       screen: DeleteCafeModalScreen,
-//     },
-//   },
-//   {
-//     mode: 'modal',
-//     headerMode: 'none',
-//   }
-// );
 
 const LinksStack = createStackNavigator({
   [navRoutes.LINKS]: LinksScreen,
@@ -115,3 +100,4 @@ export default createBottomTabNavigator({
   LinksStack,
   SettingsStack,
 });
+
