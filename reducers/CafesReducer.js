@@ -57,7 +57,6 @@ export default (state = INITIAL_STATE, action) => {
     case types.CAFE_CREATE_FAIL:
     case types.CAFE_UPDATE_FAIL:
     case types.CAFE_DELETE_FAIL:
-      console.log('cafes reducer error: ', action.payload);
       return { ...state,
         loading: false,
         error: action.payload

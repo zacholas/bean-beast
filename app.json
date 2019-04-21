@@ -24,6 +24,18 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "websites-for-less-llc",
+            "project": "bean-beast",
+            "authToken": "6426d7bafe9847a9b2e667ec2f269cbf2c13e05f72d94daaba083823c38aad9f"
+          }
+        }
+      ]
     }
   }
 }

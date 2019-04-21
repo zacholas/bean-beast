@@ -1,14 +1,19 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
-import { Provider } from 'react-redux';
-import * as configuredStore from './configureStore';
+import Sentry from 'sentry-expo';
+// import { SentrySeverity, SentryLog } from 'react-native-sentry';
 import { PersistGate } from 'redux-persist/integration/react'
 import { createStore, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import AppNavigator from './navigation/AppNavigator';
+import * as configuredStore from './configureStore';
 // import * as types from './constants/types';
 // import reducers from './reducers';
+
+// Sentry.enableInExpoDevelopment = true;
+Sentry.config('https://6f35c3cf2cc44de3af3a3622a1637054@sentry.io/1443579').install();
 
 const { store, persistor } = configuredStore.default();
 // persistor.purge();

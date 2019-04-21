@@ -1,5 +1,6 @@
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
+import { throwError, generateRandomID } from "../helpers";
 // import { NavigationActions, StackActions } from "react-navigation";
 
 export const saveCafe = (values) => {
@@ -12,7 +13,8 @@ export const saveCafe = (values) => {
 };
 
 const _createCafe = (values) => {
-  const id = 'cafe-' + new Date().getTime() + Math.floor(Math.random() * (9999 - 1));
+  // const id = 'cafe-' + new Date().getTime() + Math.floor(Math.random() * (9999 - 1));
+  const id = generateRandomID('cafe');
   return (dispatch) => {
     _creatingCafe(dispatch, values, id)
       .then(() => {
@@ -21,12 +23,18 @@ const _createCafe = (values) => {
           payload: id,
         });
         values.navigation.goBack();
+      })
+      .catch(error => {
+        dispatch({
+          type: types.CAFE_CREATE_FAIL,
+          payload: error,
+        });
+        throwError(error, '/actions/CafeActions.js', '_createCafe');
       });
   };
 };
 
 
-//* TODO catch error
 const _creatingCafe = (dispatch, values, id) => new Promise((resolve, reject) => {
   dispatch({
     type: types.CAFE_CREATING,
@@ -48,6 +56,13 @@ const _updateCafe = (values) => {
           type: types.CAFE_UPDATE_SUCCESS,
         });
         values.navigation.goBack();
+      })
+      .catch(error => {
+        dispatch({
+          type: types.CAFE_UPDATE_FAIL,
+          payload: error,
+        });
+        throwError(error, '/actions/CafeActions.js', '_updateCafe');
       });
   };
 };
@@ -62,7 +77,6 @@ const _updatingCafe = (dispatch, values) => new Promise((resolve, reject) => {
   });
   resolve();
 });
-
 
 //* I got this working by calling `navigation.dispatch(resetAction)` in the deleteCafe function below, but I don't currently need it.
 // const resetAction = StackActions.reset({
@@ -91,12 +105,13 @@ export const deleteCafe = (id, navigation) => {
           type: types.CAFE_DELETE_FAIL,
           payload: error,
         });
+        throwError(error, '/actions/CafeActions.js', 'deleteCafe');
       });
   };
 };
 
 const _deletingCafe = (dispatch, id) => new Promise((resolve, reject) => {
-  dispatzch({
+  dispatch({
     type: types.CAFE_DELETING,
     payload: id
   });
