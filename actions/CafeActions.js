@@ -1,6 +1,6 @@
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
-import { NavigationActions, StackActions } from "react-navigation";
+// import { NavigationActions, StackActions } from "react-navigation";
 
 export const saveCafe = (values) => {
   if(values.type === 'create'){
@@ -65,15 +65,15 @@ const _updatingCafe = (dispatch, values) => new Promise((resolve, reject) => {
 
 
 //* I got this working by calling `navigation.dispatch(resetAction)` in the deleteCafe function below, but I don't currently need it.
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: 'Main',
-      action: NavigationActions.navigate({ routeName: navRoutes.CAFE_LIST }),
-    }),
-  ],
-});
+// const resetAction = StackActions.reset({
+//   index: 0,
+//   actions: [
+//     NavigationActions.navigate({
+//       routeName: 'Main',
+//       action: NavigationActions.navigate({ routeName: navRoutes.CAFE_LIST }),
+//     }),
+//   ],
+// });
 
 export const deleteCafe = (id, navigation) => {
   return (dispatch) => {
@@ -85,12 +85,18 @@ export const deleteCafe = (id, navigation) => {
         navigation.navigate({
           routeName: navRoutes.CAFE_LIST
         });
+      })
+      .catch(error => {
+        dispatch({
+          type: types.CAFE_DELETE_FAIL,
+          payload: error,
+        });
       });
   };
 };
 
 const _deletingCafe = (dispatch, id) => new Promise((resolve, reject) => {
-  dispatch({
+  dispatzch({
     type: types.CAFE_DELETING,
     payload: id
   });
