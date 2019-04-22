@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { createStore, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import FlashMessage from "react-native-flash-message";
 import AppNavigator from './navigation/AppNavigator';
 import * as configuredStore from './configureStore';
 // import * as types from './constants/types';
@@ -43,6 +44,7 @@ export default class App extends React.Component {
             <View style={styles.container}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <AppNavigator />
+              <FlashMessage position="top" />
             </View>
           </PersistGate>
         </Provider>

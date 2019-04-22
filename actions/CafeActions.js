@@ -1,3 +1,4 @@
+import { showMessage, hideMessage } from "react-native-flash-message";
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
 import { throwError, generateRandomID } from "../helpers";
@@ -13,7 +14,6 @@ export const saveCafe = (values) => {
 };
 
 const _createCafe = (values) => {
-  // const id = 'cafe-' + new Date().getTime() + Math.floor(Math.random() * (9999 - 1));
   const id = generateRandomID('cafe');
   return (dispatch) => {
     _creatingCafe(dispatch, values, id)
@@ -30,6 +30,14 @@ const _createCafe = (values) => {
           payload: error,
         });
         throwError(error, '/actions/CafeActions.js', '_createCafe');
+        values.navigation.goBack();
+        showMessage({
+          message: "Error",
+          description: "There was an error creating the cafe.",
+          type: "danger",
+          autoHide: false,
+          icon: 'auto'
+        });
       });
   };
 };
@@ -63,6 +71,14 @@ const _updateCafe = (values) => {
           payload: error,
         });
         throwError(error, '/actions/CafeActions.js', '_updateCafe');
+        values.navigation.goBack();
+        showMessage({
+          message: "Error",
+          description: "There was an error updating the cafe.",
+          type: "danger",
+          autoHide: false,
+          icon: 'auto'
+        });
       });
   };
 };
@@ -106,6 +122,16 @@ export const deleteCafe = (id, navigation) => {
           payload: error,
         });
         throwError(error, '/actions/CafeActions.js', 'deleteCafe');
+        navigation.navigate({
+          routeName: navRoutes.CAFE_LIST
+        });
+        showMessage({
+          message: "Error",
+          description: "There was an error deleting the cafe.",
+          type: "danger",
+          autoHide: false,
+          icon: 'auto'
+        });
       });
   };
 };
