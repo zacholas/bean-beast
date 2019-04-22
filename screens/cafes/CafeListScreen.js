@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 // import { connect } from 'react-redux';
 import { Button } from "../../components/common";
-import CafeList from '../../components/CafeList';
+import CafeList from '../../components/cafes/CafeList';
 import * as navRoutes from "../../constants/NavRoutes";
 
 class CafeListScreen extends Component {

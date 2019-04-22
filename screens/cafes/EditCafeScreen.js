@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import EditCafeForm from '../../components/EditCafeForm';
+import EditCafeForm from '../../components/cafes/EditCafeForm';
 import { Headline, Container } from "../../components/common";
 import PropTypes from "prop-types";
 

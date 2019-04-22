@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import CafeListItem from './CafeListItem';
-import * as navRoutes from '../constants/NavRoutes';
+import * as navRoutes from '../../constants/NavRoutes';
 
 class CafeList extends Component {
 
