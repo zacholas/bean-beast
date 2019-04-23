@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
   // const initialValues = state.beans.bean;
   // const { beans } = state;
   return {
-    initialValues: state.cafes.cafe,
+    initialValues: state.cafes.currentlyEditingCafe,
     loading: state.cafes.loading,
   }
 };

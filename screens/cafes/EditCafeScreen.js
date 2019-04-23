@@ -7,6 +7,7 @@ class EditCafeScreen extends Component {
   constructor(props){
     super(props);
     this.type = props.navigation.getParam('type', 'create');
+    this.cafe = props.navigation.getParam('cafe', null);
   }
 
   render() {
@@ -22,9 +23,12 @@ class EditCafeScreen extends Component {
     if(this.type === 'create'){
       return <Headline>Create New Cafe / Roaster</Headline>
     }
-    // else if(this.type === 'edit'){
-    //   return <Headline>Edit xyz cafe/roaster</Headline>
-    // }
+    else if(this.type === 'edit'){
+      if(this.cafe && this.cafe.name){
+        return <Headline>Edit {this.cafe.name}</Headline>
+      }
+      return <Headline>Edit Cafe</Headline>
+    }
   }
 }
 

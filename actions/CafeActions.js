@@ -8,7 +8,7 @@ export const saveCafe = (values) => {
   if(values.type === 'create'){
     return _createCafe(values);
   }
-  else if(values.type === 'update'){
+  else if(values.type === 'edit'){
     return _updateCafe(values);
   }
 };
@@ -41,7 +41,6 @@ const _createCafe = (values) => {
       });
   };
 };
-
 
 const _creatingCafe = (dispatch, values, id) => new Promise((resolve, reject) => {
   dispatch({
@@ -143,3 +142,16 @@ const _deletingCafe = (dispatch, id) => new Promise((resolve, reject) => {
   });
   resolve();
 });
+
+export const createCafe = () => {
+  return {
+    type: types.CAFE_CREATE
+  };
+};
+
+export const editCafe = (cafeData) => {
+  return {
+    type: types.CAFE_EDIT,
+    payload: cafeData
+  };
+};

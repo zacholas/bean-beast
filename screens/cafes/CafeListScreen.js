@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Button } from "../../components/common";
 import CafeList from '../../components/cafes/CafeList';
 import * as navRoutes from "../../constants/NavRoutes";
+import { createCafe } from "../../actions";
 
 class CafeListScreen extends Component {
   static navigationOptions = {
@@ -27,6 +28,7 @@ class CafeListScreen extends Component {
   }
 
   _addNewCafe(){
+    this.props.createCafe();
     this.props.navigation.navigate(navRoutes.EDIT_CAFE, {
       type: 'create'
     })
@@ -37,5 +39,6 @@ class CafeListScreen extends Component {
 //   cafes: state.cafes
 // });
 
-// export default connect(mapStateToProps, { demoBeanIncrement })(CafeListScreen);
-export default CafeListScreen;
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, { createCafe })(CafeListScreen);

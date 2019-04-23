@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import {Headline, Hr, BodyText, Container, Button} from "../../components/common";
 import * as navRoutes from "../../constants/NavRoutes";
-import { deleteCafe } from "../../actions";
+import { deleteCafe, editCafe } from "../../actions";
 import PropTypes from "prop-types";
 
 
@@ -51,12 +51,26 @@ class ViewCafeScreen extends Component {
         {/*/>*/}
         <BodyText>Delete, edit, clone (maybe)</BodyText>
         <Button
+          onPress={() => this._editCafeButtonPress()}
+          title="Edit Cafe"
+          iconName="pencil"
+          backgroundColor="gray"
+        />
+        <Button
           onPress={() => this._deleteCafeButtonPress()}
           title="Delete Cafe"
           iconName="trash"
         />
       </Container>
     );
+  }
+
+  _editCafeButtonPress(){
+    this.props.editCafe(this.props.cafe);
+    this.props.navigation.navigate(navRoutes.EDIT_CAFE, {
+      type: 'edit',
+      cafe: this.props.cafe
+    })
   }
 
   _deleteCafeButtonPress(){
@@ -76,7 +90,7 @@ const mapStateToProps = (state, props) => ({
   cafe: state.cafes.cafes[props.navigation.getParam('id')]
 });
 
-export default connect(mapStateToProps, { deleteCafe })(ViewCafeScreen);
+export default connect(mapStateToProps, { deleteCafe, editCafe })(ViewCafeScreen);
 
 ViewCafeScreen.propTypes = {
   cafe: PropTypes.object
