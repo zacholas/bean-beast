@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from "../../components/common";
+import { Button, ScrollContainer } from "../../components/common";
 import CafeList from '../../components/cafes/CafeList';
 import * as navRoutes from "../../constants/NavRoutes";
 import { createCafe } from "../../actions";
@@ -14,16 +14,16 @@ class CafeListScreen extends Component {
   //* todo make the button at the bottom stay there even when the list is really long and goes off screen
   render() {
     return (
-      <ScrollView>
+      <ScrollContainer>
         <View>
-          <ScrollView style={{padding:15}}>
+          <ScrollView>
             <CafeList navigation={this.props.navigation} />
           </ScrollView>
         </View>
-        <View style={{padding: 15}}>
+        <View style={{marginTop: 15}}>
           <Button onPress={() => { this._addNewCafe() }} title="Add a new Cafe" />
         </View>
-      </ScrollView>
+      </ScrollContainer>
     );
   }
 

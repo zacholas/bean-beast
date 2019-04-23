@@ -16,6 +16,11 @@ import EditCafeScreen from '../screens/cafes/EditCafeScreen';
 import ViewCafeScreen from '../screens/cafes/ViewCafeScreen';
 import DeleteCafeModalScreen from '../screens/cafes/DeleteCafeModalScreen';
 
+//* Beans
+import BeansListScreen from '../screens/beans/BeansListScreen';
+import EditBeanScreen from '../screens/beans/EditBeanScreen';
+import ViewBeanScreen from '../screens/beans/ViewBeanScreen';
+
 const HomeStack = createStackNavigator({
   [navRoutes.HOME]: HomeScreen,
 });
@@ -65,6 +70,23 @@ CafeStack.navigationOptions = {
   ),
 };
 
+
+const BeansStack = createStackNavigator({
+  [navRoutes.BEANS_LIST]: BeansListScreen,
+  [navRoutes.EDIT_BEAN]: EditBeanScreen,
+  [navRoutes.VIEW_BEAN]: ViewBeanScreen,
+});
+
+BeansStack.navigationOptions = {
+  tabBarLabel: 'Beans',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    />
+  ),
+};
+
 const LinksStack = createStackNavigator({
   [navRoutes.LINKS]: LinksScreen,
 });
@@ -96,8 +118,8 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   CafeStack,
+  BeansStack,
   EquipmentStack,
-  LinksStack,
   SettingsStack,
 });
 

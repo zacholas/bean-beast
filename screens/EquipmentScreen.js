@@ -4,7 +4,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import { demoBeanIncrement } from '../actions';
+// import {  } from '../actions';
 
 // import styles from './styles';
 
@@ -23,7 +23,7 @@ class EquipmentScreen extends Component {
       <ScrollView style={{padding:15}}>
         <Text>Hi</Text>
         <Text>Val: {this.props.state.beans.fakeCounter}</Text>
-        <TouchableOpacity onPress={() => { this.props.demoBeanIncrement() }}><Text>Increment the number</Text></TouchableOpacity>
+        {/*<TouchableOpacity onPress={() => { this.props.demoBeanIncrement() }}><Text>Increment the number</Text></TouchableOpacity>*/}
       </ScrollView>
     );
   }
@@ -31,4 +31,4 @@ class EquipmentScreen extends Component {
 
 const mapStateToProps = state => ({state});
 
-export default connect(mapStateToProps, { demoBeanIncrement })(EquipmentScreen);
+export default connect(mapStateToProps, {  })(EquipmentScreen);

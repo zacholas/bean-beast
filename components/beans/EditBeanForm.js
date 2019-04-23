@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import PropTypes from "prop-types";
-import { saveCafe } from "../../actions";
 import { TextField } from "../common/reduxForm";
 import { Button } from "../common";
 import { required } from "../../helpers";
+import { saveBean } from "../../actions";
 
-class EditCafeForm extends Component {
+class EditBeanForm extends Component {
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
@@ -20,12 +20,12 @@ class EditCafeForm extends Component {
       <View>
         <TextField
           name="name"
-          label="Cafe / Roaster Name"
+          label="Bean Name"
           validate={[required]}
         />
         <Button
-          title="Save Cafe"
-          onPress={handleSubmit((values) => this.props.saveCafe(values))}
+          title="Save Bean"
+          onPress={handleSubmit((values) => this.props.saveBean(values))}
           iconName="check"
           backgroundColor="green"
           spinner={loading}
@@ -37,20 +37,20 @@ class EditCafeForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    initialValues: state.cafes.currentlyEditingCafe,
-    loading: state.cafes.loading,
+    initialValues: state.beans.currentlyEditingBean,
+    loading: state.beans.loading,
   }
 };
 
-EditCafeForm = reduxForm({
-  form: 'EditCafeForm',
+EditBeanForm = reduxForm({
+  form: 'EditBeanForm',
   enableReinitialize: true,
-})(EditCafeForm);
+})(EditBeanForm);
 
-EditCafeForm = connect(mapStateToProps, { saveCafe })(EditCafeForm);
+EditBeanForm = connect(mapStateToProps, { saveBean })(EditBeanForm);
 
-export default EditCafeForm;
+export default EditBeanForm;
 
-EditCafeForm.propTypes = {
+EditBeanForm.propTypes = {
   navigation: PropTypes.object.isRequired
 };

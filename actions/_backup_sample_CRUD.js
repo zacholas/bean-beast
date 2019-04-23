@@ -1,21 +1,24 @@
+/*********
+ *
+ *
+ *
+ *
+ *
+ * All you have to do to get a full crud working here is replace "cafe" with "bean" or whatever, and match the case,
+ * and that seems to be it.
+ *
+ * Would potentially be good to make some kind of reusable class or something, IDK. Just wanted to keep this as a backup
+ * before the code gets too complicated in case I decide to go down that path eventually.
+ *
+ *
+ *
+ */
+
 import { showMessage, hideMessage } from "react-native-flash-message";
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
 import { throwError, generateRandomID } from "../helpers";
 // import { NavigationActions, StackActions } from "react-navigation";
-
-export const createCafe = () => {
-  return {
-    type: types.CAFE_CREATE
-  };
-};
-
-export const editCafe = (cafeData) => {
-  return {
-    type: types.CAFE_EDIT,
-    payload: cafeData
-  };
-};
 
 export const saveCafe = (values) => {
   if(values.type === 'create'){
@@ -155,3 +158,16 @@ const _deletingCafe = (dispatch, id) => new Promise((resolve, reject) => {
   });
   resolve();
 });
+
+export const createCafe = () => {
+  return {
+    type: types.CAFE_CREATE
+  };
+};
+
+export const editCafe = (cafeData) => {
+  return {
+    type: types.CAFE_EDIT,
+    payload: cafeData
+  };
+};

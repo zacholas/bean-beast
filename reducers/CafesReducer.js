@@ -4,7 +4,7 @@ import * as navRoutes from '../constants/NavRoutes';
 
 const INITIAL_STATE = {
   loading: false,
-  error: '',
+  error: null,
   currentlyEditingCafe: null,
   cafes: {}
 };
@@ -24,12 +24,12 @@ Cafe Fields:
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.CAFE_CREATE:
-      return {
-        ...state,
-        currentlyEditingCafe: INITIAL_STATE.currentlyEditingCafe
+      return { ...state,
+        loading: false,
+        error: null,
+        currentlyEditingCafe: null
       };
     case types.CAFE_CREATING:
-      console.log('cafe creating data received: ', action.payload);
       return { ...state,
         loading: true,
         error: '',
@@ -64,8 +64,9 @@ export default (state = INITIAL_STATE, action) => {
         cafes: newCafes
       };
     case types.CAFE_EDIT:
-      return {
-        ...state,
+      return { ...state,
+        loading: false,
+        error: null,
         currentlyEditingCafe: action.payload
       };
     case types.CAFE_CREATE_SUCCESS:
@@ -73,7 +74,7 @@ export default (state = INITIAL_STATE, action) => {
     case types.CAFE_DELETE_SUCCESS:
       return { ...state,
         loading: false,
-        currentlyEditingCafe: INITIAL_STATE.currentlyEditingCafe
+        currentlyEditingCafe: null
       };
     case types.CAFE_CREATE_FAIL:
     case types.CAFE_UPDATE_FAIL:
