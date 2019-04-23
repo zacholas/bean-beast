@@ -12,6 +12,8 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 import { connect } from 'react-redux';
+import Modal from '../components/common/Modal';
+import {Button} from "../components/common";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -22,6 +24,13 @@ class HomeScreen extends React.Component {
     // console.log('home state', this.props);
     return (
       <View style={styles.container}>
+        <Modal>
+          <Button
+            onPress={() => {console.log('delete')}}
+            title='Yes, delete'
+            iconName='trash'
+          />
+        </Modal>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image

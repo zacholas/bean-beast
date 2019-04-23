@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { Headline, Hr, BodyText, Container, Button } from "../../components/common";
+import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
 
@@ -9,6 +10,10 @@ class ViewBeanScreen extends Component {
   constructor(props){
     super(props);
     this.beanID = props.navigation.getParam('id');
+    this.deleteConfirmModal = null;
+    this.state = {
+      deleteModalVisible: false
+    }
   }
 
   render() {
@@ -32,6 +37,12 @@ class ViewBeanScreen extends Component {
           title="Delete Bean"
           iconName="trash"
         />
+        <Modal
+          ref={ref => {
+            this.deleteConfirmModal = ref;
+          }}
+          visible={this.state.deleteModalVisible}
+        />
       </Container>
     );
   }
@@ -45,6 +56,10 @@ class ViewBeanScreen extends Component {
   }
 
   _deleteBeanButtonPress(){
+    this.deleteConfirmModal.show();
+    // this.setState({
+    //   deleteModalVisible: true
+    // })
     // this.props.navigation.navigate(navRoutes.DELETE_BEAN_MODAL, {
     //   onPress: () => this.props.deleteBean(this.beanID, this.props.navigation)
     // })

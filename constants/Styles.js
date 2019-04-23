@@ -1,3 +1,7 @@
+export const defaultPadding = {
+  padding: 15,
+};
+
 export const marginBottom = {
   marginBottom: 20,
 };
@@ -17,11 +21,11 @@ export const centerText = {
 };
 
 export const container = {
-  padding: 15,
+  ...defaultPadding
 };
 
 export const centeredContainer = {
-  ...container,
+  ...defaultPadding,
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',

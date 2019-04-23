@@ -1,7 +1,9 @@
+//* General Components
 export * from './Button';
 export * from './Spinner';
 export * from './ErrorText';
 export * from './Error';
+// export * from './Modal';
 
 //* Text
 export * from './Text/BodyText';

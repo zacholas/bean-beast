@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Modal from "../../components/common/Modal";
+import ModalScreen from "../../components/common/ModalScreen";
 
 class DeleteCafeModalScreen extends Component {
   render() {
     return (
-      <Modal
+      <ModalScreen
         headlineText="Are you sure you want to permanently delete this cafe?"
         bodyText={"(You'll never be able to get it back.)\n\nAll beans and tastes you have associated with this cafe will no longer be associated with it."}
         buttonText="Delete Cafe Permanently"
