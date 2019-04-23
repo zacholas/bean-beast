@@ -14,7 +14,6 @@ import EquipmentScreen from '../screens/EquipmentScreen';
 import CafeListScreen from '../screens/cafes/CafeListScreen';
 import EditCafeScreen from '../screens/cafes/EditCafeScreen';
 import ViewCafeScreen from '../screens/cafes/ViewCafeScreen';
-import DeleteCafeModalScreen from '../screens/cafes/DeleteCafeModalScreen';
 
 //* Beans
 import BeansListScreen from '../screens/beans/BeansListScreen';
@@ -57,7 +56,6 @@ const CafeStack = createStackNavigator({
   [navRoutes.CAFE_LIST]: CafeListScreen,
   [navRoutes.EDIT_CAFE]: EditCafeScreen,
   [navRoutes.VIEW_CAFE]: ViewCafeScreen,
-  // [navRoutes.DELETE_CAFE_MODAL]: DeleteCafeModalScreen
 });
 
 CafeStack.navigationOptions = {

@@ -134,9 +134,10 @@ export const deleteCafe = (id, navigation) => {
           payload: error,
         });
         throwError(error, '/actions/CafeActions.js', 'deleteCafe');
-        navigation.navigate({
-          routeName: navRoutes.CAFE_LIST
-        });
+        // navigation.navigate({
+        //   routeName: navRoutes.CAFE_LIST
+        // });
+        navigation.goBack();
         showMessage({
           message: "Error",
           description: "There was an error deleting the cafe.",

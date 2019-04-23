@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 class zModal extends Component {
   state = {
-    visible: true,
+    visible: false,
   };
 
   setVisible(visible) {

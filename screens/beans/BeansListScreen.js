@@ -7,11 +7,13 @@ import * as navRoutes from "../../constants/NavRoutes";
 import BeansList from "../../components/beans/BeansList";
 
 class BeansListScreen extends Component {
+  static navigationOptions = {
+    title: 'Beans',
+  };
+
   render() {
     return (
       <ScrollContainer>
-        <BodyText>BeansListScreen</BodyText>
-
         <View>
           <ScrollView>
             <BeansList navigation={this.props.navigation} />

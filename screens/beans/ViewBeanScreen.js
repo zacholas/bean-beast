@@ -11,9 +11,6 @@ class ViewBeanScreen extends Component {
     super(props);
     this.beanID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
-    this.state = {
-      deleteModalVisible: false
-    }
   }
 
   render() {
@@ -33,16 +30,17 @@ class ViewBeanScreen extends Component {
           backgroundColor="gray"
         />
         <Button
-          onPress={() => this._deleteBeanButtonPress()}
+          onPress={() => this.deleteConfirmModal.show()}
           title="Delete Bean"
           iconName="trash"
         />
-        <Modal
-          ref={ref => {
-            this.deleteConfirmModal = ref;
-          }}
-          visible={this.state.deleteModalVisible}
-        />
+        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
+          <Button
+            onPress={() => {this._deleteBean()}}
+            title='Yes, delete'
+            iconName='trash'
+          />
+        </Modal>
       </Container>
     );
   }
@@ -55,14 +53,9 @@ class ViewBeanScreen extends Component {
     })
   }
 
-  _deleteBeanButtonPress(){
-    this.deleteConfirmModal.show();
-    // this.setState({
-    //   deleteModalVisible: true
-    // })
-    // this.props.navigation.navigate(navRoutes.DELETE_BEAN_MODAL, {
-    //   onPress: () => this.props.deleteBean(this.beanID, this.props.navigation)
-    // })
+  _deleteBean(){
+    this.deleteConfirmModal.hide();
+    this.props.deleteBean(this.beanID, this.props.navigation);
   }
 
   _beanName(){

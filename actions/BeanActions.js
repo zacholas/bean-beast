@@ -116,9 +116,7 @@ export const deleteBean = (id, navigation) => {
         dispatch({
           type: types.BEAN_DELETE_SUCCESS,
         });
-        navigation.navigate({
-          routeName: navRoutes.BEANS_LIST
-        });
+        navigation.goBack();
       })
       .catch(error => {
         dispatch({

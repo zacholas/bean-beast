@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ModalScreen from "../../components/common/ModalScreen";
 
-class DeleteCafeModalScreen extends Component {
+class _unused_DeleteCafeModalScreen extends Component {
   render() {
     return (
       <ModalScreen
@@ -16,4 +16,4 @@ class DeleteCafeModalScreen extends Component {
 }
 
 
-export default DeleteCafeModalScreen;
+export default _unused_DeleteCafeModalScreen;

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-
+import PropTypes from "prop-types";
 import { View, Text } from 'react-native';
-
 import { connect } from 'react-redux';
 import {Headline, Hr, BodyText, Container, Button} from "../../components/common";
+import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteCafe, editCafe } from "../../actions";
-import PropTypes from "prop-types";
 
 
 // import styles from './styles';
@@ -31,6 +30,7 @@ class ViewCafeScreen extends Component {
     super(props);
 
     this.cafeID = props.navigation.getParam('id');
+    this.deleteConfirmModal = null;
   }
 
   render() {
@@ -42,13 +42,6 @@ class ViewCafeScreen extends Component {
         <BodyText>Details:</BodyText>
         <BodyText>{JSON.stringify(cafe)}</BodyText>
         <Hr />
-        {/*<Button*/}
-          {/*title="Save Cafe"*/}
-          {/*onPress={(cafe) => this.props.deleteCafe(cafe)}*/}
-          {/*iconName="x"*/}
-          {/*backgroundColor="green"*/}
-          {/*spinner={loading}*/}
-        {/*/>*/}
         <BodyText>Delete, edit, clone (maybe)</BodyText>
         <Button
           onPress={() => this._editCafeButtonPress()}
@@ -56,11 +49,19 @@ class ViewCafeScreen extends Component {
           iconName="pencil"
           backgroundColor="gray"
         />
+
         <Button
-          onPress={() => this._deleteCafeButtonPress()}
+          onPress={() => this.deleteConfirmModal.show()}
           title="Delete Cafe"
           iconName="trash"
         />
+        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
+          <Button
+            onPress={() => {this._deleteCafe()}}
+            title='Yes, delete'
+            iconName='trash'
+          />
+        </Modal>
       </Container>
     );
   }
@@ -73,10 +74,9 @@ class ViewCafeScreen extends Component {
     })
   }
 
-  _deleteCafeButtonPress(){
-    this.props.navigation.navigate(navRoutes.DELETE_CAFE_MODAL, {
-      onPress: () => this.props.deleteCafe(this.cafeID, this.props.navigation)
-    })
+  _deleteCafe(){
+    this.deleteConfirmModal.hide();
+    this.props.deleteCafe(this.cafeID, this.props.navigation);
   }
 
   _cafeName(){

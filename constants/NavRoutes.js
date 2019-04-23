@@ -8,7 +8,7 @@ export const SETTINGS = 'settings';
 export const CAFE_LIST = 'cafeList';
 export const EDIT_CAFE = 'editCafe';
 export const VIEW_CAFE = 'viewCafe';
-export const DELETE_CAFE_MODAL = 'deleteCafeModal';
+// export const DELETE_CAFE_MODAL = 'deleteCafeModal';
 
 //* Beans
 export const BEANS_LIST = 'beansList';

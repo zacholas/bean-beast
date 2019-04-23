@@ -24,13 +24,6 @@ class HomeScreen extends React.Component {
     // console.log('home state', this.props);
     return (
       <View style={styles.container}>
-        <Modal>
-          <Button
-            onPress={() => {console.log('delete')}}
-            title='Yes, delete'
-            iconName='trash'
-          />
-        </Modal>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
             <Image
