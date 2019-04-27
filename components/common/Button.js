@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Spinner } from './';
+import { Spinner } from './Spinner';
 import {
   bodyText,
 } from './Styles';

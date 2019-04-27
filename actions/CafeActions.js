@@ -24,6 +24,12 @@ export const saveCafe = (values) => {
   else if(values.type === 'edit'){
     return _updateCafe(values);
   }
+  // else if(values.type === 'createModal'){
+  //   return _createCafeModal(values);
+  // }
+  else if(values.type === 'beanCreateModal'){
+    return _beanModalCreateCafe(values);
+  }
 };
 
 const _createCafe = (values) => {
@@ -35,7 +41,12 @@ const _createCafe = (values) => {
           type: types.CAFE_CREATE_SUCCESS,
           payload: id,
         });
-        values.navigation.goBack();
+        if(Object.keys(values.modal).length){
+          values.modal.hide();
+        }
+        else {
+          values.navigation.goBack();
+        }
       })
       .catch(error => {
         dispatch({
@@ -58,6 +69,50 @@ const _createCafe = (values) => {
 const _creatingCafe = (dispatch, values, id) => new Promise((resolve, reject) => {
   dispatch({
     type: types.CAFE_CREATING,
+    payload: {
+      id,
+      created: new Date().getTime(),
+      modified: new Date().getTime(),
+      data: values,
+    },
+  });
+  resolve();
+});
+
+const _beanModalCreateCafe = (values) => {
+  const id = generateRandomID('cafe');
+  return (dispatch) => {
+    _beanModalCreatingCafe(dispatch, values, id)
+      .then(() => {
+        dispatch({
+          type: types.CAFE_CREATE_SUCCESS,
+          payload: id,
+        });
+        // values.navigation.goBack();
+        values.modal.hide();
+      })
+      .catch(error => {
+        dispatch({
+          type: types.CAFE_CREATE_FAIL,
+          payload: error,
+        });
+        throwError(error, '/actions/CafeActions.js', '_beanModalCreateCafe');
+        // values.navigation.goBack();
+        values.modal.hide();
+        showMessage({
+          message: "Error",
+          description: "There was an error creating the cafe.",
+          type: "danger",
+          autoHide: false,
+          icon: 'auto'
+        });
+      });
+  };
+};
+
+const _beanModalCreatingCafe = (dispatch, values, id) => new Promise((resolve, reject) => {
+  dispatch({
+    type: types.CAFE_CREATING_BEAN_MODAL,
     payload: {
       id,
       created: new Date().getTime(),

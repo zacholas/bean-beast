@@ -1,5 +1,6 @@
 export const CAFE_CREATE          = 'cafe_create';
 export const CAFE_CREATING        = 'cafe_creating';
+export const CAFE_CREATING_BEAN_MODAL = 'cafe_creating_bean_modal';
 export const CAFE_CREATE_SUCCESS  = 'cafe_create_success';
 export const CAFE_CREATE_FAIL     = 'cafe_create_fail';
 export const CAFE_EDIT            = 'cafe_edit';

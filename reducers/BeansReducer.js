@@ -76,6 +76,12 @@ export default (state = INITIAL_STATE, action) => {
         error: null,
         currentlyEditingBean: action.payload
       };
+    case types.CAFE_CREATING_BEAN_MODAL:
+      return { ...state,
+        currentlyEditingBean: { ...state.currentlyEditingBean,
+          cafe: action.payload.id
+        }
+      };
     case types.BEAN_CREATE_SUCCESS:
     case types.BEAN_UPDATE_SUCCESS:
     case types.BEAN_DELETE_SUCCESS:

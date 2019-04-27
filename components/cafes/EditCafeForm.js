@@ -7,14 +7,17 @@ import { saveCafe } from "../../actions";
 import { TextField } from "../common/reduxForm";
 import { Button } from "../common";
 import { required } from "../../helpers";
+// import Modal from "../common/Modal";
 
 class EditCafeForm extends Component {
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
+    this.props.change('modal', this.props.modal);
   }
 
   render() {
+    // console.log(Object.keys(this.props.modal).length ? 'yes!': 'no');
     const { handleSubmit, loading } = this.props;
     return (
       <View>
@@ -52,5 +55,10 @@ EditCafeForm = connect(mapStateToProps, { saveCafe })(EditCafeForm);
 export default EditCafeForm;
 
 EditCafeForm.propTypes = {
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  modal: PropTypes.object
+};
+
+EditCafeForm.defaultProps = {
+  modal: {}
 };

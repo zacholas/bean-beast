@@ -30,6 +30,7 @@ export default (state = INITIAL_STATE, action) => {
         currentlyEditingCafe: null
       };
     case types.CAFE_CREATING:
+    case types.CAFE_CREATING_BEAN_MODAL:
       return { ...state,
         loading: true,
         error: '',
