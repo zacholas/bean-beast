@@ -45,6 +45,7 @@ export default (state = INITIAL_STATE, action) => {
             modified: action.payload.modified,
             id: action.payload.id,
             name: action.payload.data.name,
+            cafe: action.payload.data.cafe
           },
         },
       };
@@ -58,6 +59,7 @@ export default (state = INITIAL_STATE, action) => {
             ...state.beans[action.payload.data.id],
             modified: action.payload.modified,
             name: action.payload.data.name,
+            cafe: action.payload.data.cafe
           }
         }
       };

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-// import { View } from 'react-native';
-// import { Container, BodyText } from "/components/common";
+import { View, TouchableOpacity } from 'react-native';
+import { Container, BodyText } from "./common";
 
 export default class MoreMenuLink extends Component {
   render() {
     return (
-      <Container>
-        <BodyText>MoreMenuLink</BodyText>
-      </Container>
+      <TouchableOpacity onPress={this.props.onPress}>
+        <BodyText>{this.props.title}</BodyText>
+      </TouchableOpacity>
     );
   }
 }
 
-MoreMenuLink.propTypes = {};
+MoreMenuLink.propTypes = {
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+};

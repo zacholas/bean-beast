@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { TextField } from "../common/reduxForm";
+import { BodyText } from "../common";
+import { TextField, Select } from "../common/reduxForm";
 import { Button } from "../common";
 import { required } from "../../helpers";
 import { saveBean } from "../../actions";
@@ -23,6 +24,12 @@ class EditBeanForm extends Component {
           label="Bean Name"
           validate={[required]}
         />
+        <Select
+          name="cafe"
+          label="Roastery"
+          options={this.props.cafes}
+          // validate={{required}}
+        />
         <Button
           title="Save Bean"
           onPress={handleSubmit((values) => this.props.saveBean(values))}
@@ -37,6 +44,7 @@ class EditBeanForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    cafes: state.cafes.cafes,
     initialValues: state.beans.currentlyEditingBean,
     loading: state.beans.loading,
   }
