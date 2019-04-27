@@ -3,6 +3,7 @@ export const HOME = 'home';
 export const EQUIPMENT = 'equipment';
 export const LINKS = 'links';
 export const SETTINGS = 'settings';
+export const MENU_MORE = 'menuMore';
 
 //* Cafes
 export const CAFE_LIST = 'cafeList';

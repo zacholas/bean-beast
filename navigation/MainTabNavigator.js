@@ -9,6 +9,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import EquipmentScreen from '../screens/EquipmentScreen';
+import MenuMoreScreen from '../screens/MenuMoreScreen';
+
 
 //* Cafes
 import CafeListScreen from '../screens/cafes/CafeListScreen';
@@ -99,16 +101,37 @@ LinksStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  [navRoutes.SETTINGS]: SettingsScreen,
-});
+// const SettingsStack = createStackNavigator({
+//   [navRoutes.SETTINGS]: SettingsScreen,
+// });
+//
+// SettingsStack.navigationOptions = {
+//   tabBarLabel: 'Settings',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon
+//       focused={focused}
+//       name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+//     />
+//   ),
+// };
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+const MoreStack = createStackNavigator(
+  {
+    [navRoutes.MENU_MORE]: MenuMoreScreen,
+    [navRoutes.SETTINGS]: SettingsScreen,
+  },
+  {
+    // mode: 'modal',
+    // headerMode: 'none',
+  }
+);
+
+MoreStack.navigationOptions = {
+  tabBarLabel: 'More',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
     />
   ),
 };
@@ -118,6 +141,7 @@ export default createBottomTabNavigator({
   CafeStack,
   BeansStack,
   EquipmentStack,
-  SettingsStack,
+  // SettingsStack,
+  MoreStack
 });
 
