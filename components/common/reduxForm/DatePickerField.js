@@ -37,7 +37,7 @@ const DatePickerComponent = ({
   );
 };
 
-const DatePicker = (props) => {
+const DatePickerField = (props) => {
   return (
     <View style={{ alignItems: 'stretch' }}>
       <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
@@ -47,8 +47,8 @@ const DatePicker = (props) => {
 };
 
 // export default Button;
-export { DatePicker };
+export { DatePickerField };
 
-DatePicker.defaultProps = {
+DatePickerField.defaultProps = {
   mode: 'date' // date, time, datetime
 };

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import { BodyText } from "../common";
-import {TextField, Select, DatePicker} from "../common/reduxForm";
+import {TextField, Picker, DatePickerField, Switch } from "../common/reduxForm";
 import { Button } from "../common";
 import { required, futureDate, alwaysError } from "../../helpers";
 import { saveBean } from "../../actions";
@@ -40,7 +40,7 @@ class EditBeanForm extends Component {
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
-        <DatePicker
+        <DatePickerField
           name="roast_date"
           label="Roast Date"
           mode="date"
@@ -53,7 +53,7 @@ class EditBeanForm extends Component {
         <TouchableOpacity onPress={() => this.addCafeModal.show()}>
           <BodyText>Add New Roastery</BodyText>
         </TouchableOpacity>
-        <Select
+        <Picker
           name="cafe"
           label="Roastery"
           options={cafes}

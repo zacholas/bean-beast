@@ -31,7 +31,7 @@ const SelectComponent = ({
   );
 };
 
-const Select = (props) => {
+const PickerField = (props) => {
   return (
     <View style={{ alignItems: 'stretch' }}>
       <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
@@ -40,5 +40,4 @@ const Select = (props) => {
   );
 };
 
-// export default Button;
-export { Select };
+export { PickerField as Picker };
