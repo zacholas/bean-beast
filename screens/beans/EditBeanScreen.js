@@ -13,7 +13,7 @@ export default class EditBeanScreen extends Component {
 
   render() {
     return (
-      <Container>
+      <Container scroll={true}>
         {this._pageTitle()}
         <EditBeanForm type={this.type} navigation={this.props.navigation} />
       </Container>

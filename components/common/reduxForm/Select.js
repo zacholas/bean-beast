@@ -1,38 +1,11 @@
 import React from 'react';
-import { TextInput, StyleSheet, Text, View, Picker } from 'react-native';
+import { StyleSheet, Text, View, Picker } from 'react-native';
 import _ from 'lodash';
 import { Field } from 'redux-form';
 import {
   bodyText,
-  marginBottom,
 } from '../Styles';
-import colors from '../../../constants/Colors';
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    // alignSelf: 'stretch',
-    // flex: 1,
-  },
-  input: {
-    borderColor: 'rgba(0,0,0,.2)',
-    borderWidth: 1,
-    height: 47,
-
-    padding: 10,
-    borderRadius: 2,
-  },
-  label: {
-    marginBottom: 7,
-  },
-  warningText: {
-    marginTop: 2,
-    color: colors.colorWarning,
-  },
-  errorText: {
-    marginTop: 2,
-    color: colors.colorDanger
-  }
-});
+import * as styles from "./Styles";
 
 const SelectComponent = ({
   input: { onChange, ...restInput },
@@ -46,15 +19,9 @@ const SelectComponent = ({
   });
 
   return (
-    <View style={StyleSheet.flatten([marginBottom, styles.inputContainer])}>
-      {/*<TextInput*/}
-        {/*style={StyleSheet.flatten([bodyText, styles.input])}*/}
-        {/*onChangeText={onChange}*/}
-        {/*{...restInput}*/}
-        {/*value={restInput.value.toString()}*/}
-        {/*underlineColorAndroid="rgba(0,0,0,.2)"*/}
-      {/*/>*/}
+    <View style={styles.inputContainer}>
       <Picker selectedValue={restInput.value.toString()} onValueChange={onChange} {...restInput}>
+        <Picker.Item key='default' value='' label='–  Select an Option  –' />
         {pickerOptions}
       </Picker>
       {touched &&

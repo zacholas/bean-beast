@@ -3,35 +3,8 @@ import { TextInput, StyleSheet, Text, View } from 'react-native';
 import { Field } from 'redux-form';
 import {
   bodyText,
-  marginBottom,
 } from '../Styles';
-import colors from '../../../constants/Colors';
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    // alignSelf: 'stretch',
-    // flex: 1,
-  },
-  input: {
-    borderColor: 'rgba(0,0,0,.2)',
-    borderWidth: 1,
-    height: 47,
-
-    padding: 10,
-    borderRadius: 2,
-  },
-  label: {
-    marginBottom: 7,
-  },
-  warningText: {
-    marginTop: 2,
-    color: colors.colorWarning,
-  },
-  errorText: {
-    marginTop: 2,
-    color: colors.colorDanger
-  }
-});
+import * as styles from "./Styles";
 
 const TextFieldComponent = ({
   input: { onChange, ...restInput },
@@ -40,9 +13,9 @@ const TextFieldComponent = ({
   meta: { touched, error, warning }
 }) => {
   return (
-    <View style={StyleSheet.flatten([marginBottom, styles.inputContainer])}>
+    <View style={styles.inputContainer}>
       <TextInput
-        style={StyleSheet.flatten([bodyText, styles.input])}
+        style={styles.textInput}
         onChangeText={onChange}
         {...restInput}
         value={restInput.value.toString()}

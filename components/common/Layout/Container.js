@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import {
   container
 } from '../Styles';
 
 const Container = (props) => {
-  return (
-    <View style={StyleSheet.flatten([container, props.style])}>
-      {props.children}
-    </View>
-  );
-}
+  if(props.scroll === true){
+    return (
+      <ScrollView style={StyleSheet.flatten([container, props.style])}>
+        {props.children}
+      </ScrollView>
+    );
+  }
+  else {
+    return (
+      <View style={StyleSheet.flatten([container, props.style])}>
+        {props.children}
+      </View>
+    );
+  }
+};
 
 export { Container };
+
+Container.defaultProps = {
+  scroll: false,
+};

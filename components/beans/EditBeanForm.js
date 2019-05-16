@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import { BodyText } from "../common";
-import { TextField, Select } from "../common/reduxForm";
+import {TextField, Select, DatePicker} from "../common/reduxForm";
 import { Button } from "../common";
-import { required } from "../../helpers";
+import { required, futureDate, alwaysError } from "../../helpers";
 import { saveBean } from "../../actions";
 import Modal from '../common/Modal';
 import EditCafeForm from '../cafes/EditCafeForm';
@@ -21,6 +21,11 @@ class EditBeanForm extends Component {
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
+
+    //* If this is in "create" mode, ad there are no initial values already, set them.
+    if(!this.props.initialValues && this.props.type === 'create'){
+      this.props.change('roast_date', new Date());
+    }
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -35,6 +40,11 @@ class EditBeanForm extends Component {
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
+        <DatePicker
+          name="roast_date"
+          label="Roast Date"
+          mode="date"
+        />
         <TextField
           name="name"
           label="Bean Name"
@@ -47,7 +57,7 @@ class EditBeanForm extends Component {
           name="cafe"
           label="Roastery"
           options={cafes}
-          // validate={{required}}
+          validate={[required]}
         />
 
         <Button
