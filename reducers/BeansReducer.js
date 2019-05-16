@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   error: null,
   currentlyEditingBean: null,
   beans: null,
+  modalData: {},
 };
 
 /*
@@ -32,7 +33,8 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: null,
-        currentlyEditingBean: null
+        currentlyEditingBean: null,
+        modalData: {},
       };
     case types.BEAN_CREATING:
       return { ...state,
@@ -74,12 +76,13 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,
         loading: false,
         error: null,
-        currentlyEditingBean: action.payload
+        currentlyEditingBean: action.payload,
+        modalData: {},
       };
     case types.CAFE_CREATING_BEAN_MODAL:
       return { ...state,
-        currentlyEditingBean: { ...state.currentlyEditingBean,
-          cafe: action.payload.id
+        modalData: {
+         cafe: action.payload.id
         }
       };
     case types.BEAN_CREATE_SUCCESS:
@@ -87,7 +90,8 @@ export default (state = INITIAL_STATE, action) => {
     case types.BEAN_DELETE_SUCCESS:
       return { ...state,
         loading: false,
-        currentlyEditingBean: null
+        currentlyEditingBean: null,
+        modalData: {},
       };
     case types.BEAN_CREATE_FAIL:
     case types.BEAN_UPDATE_FAIL:

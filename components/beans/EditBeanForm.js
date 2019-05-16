@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
+import _ from 'lodash';
 import { BodyText } from "../common";
 import { TextField, Select } from "../common/reduxForm";
 import { Button } from "../common";
@@ -22,8 +23,16 @@ class EditBeanForm extends Component {
     this.props.change('type', this.props.type);
   }
 
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    if(nextProps.modalData.cafe){
+      this.props.change('cafe', nextProps.modalData.cafe);
+    }
+  }
+
   render() {
+    // console.log(this.props);
     const { handleSubmit, loading } = this.props;
+    const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
         <TextField
@@ -31,15 +40,15 @@ class EditBeanForm extends Component {
           label="Bean Name"
           validate={[required]}
         />
+        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
+          <BodyText>Add New Roastery</BodyText>
+        </TouchableOpacity>
         <Select
           name="cafe"
           label="Roastery"
-          options={this.props.cafes}
+          options={cafes}
           // validate={{required}}
         />
-        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
-          <BodyText>Add New Cafe</BodyText>
-        </TouchableOpacity>
 
         <Button
           title="Save Bean"
@@ -69,12 +78,13 @@ const mapStateToProps = (state) => {
     cafes: state.cafes.cafes,
     initialValues: state.beans.currentlyEditingBean,
     loading: state.beans.loading,
+    modalData: state.beans.modalData,
   }
 };
 
 EditBeanForm = reduxForm({
   form: 'EditBeanForm',
-  // enableReinitialize: true,
+  enableReinitialize: true,
 })(EditBeanForm);
 
 EditBeanForm = connect(mapStateToProps, { saveBean })(EditBeanForm);

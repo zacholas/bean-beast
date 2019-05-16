@@ -18,6 +18,7 @@ class ViewBeanScreen extends Component {
     return (
       <Container>
         {this._beanName()}
+        {this._roasterName()}
         <Hr />
         <BodyText>Details:</BodyText>
         <BodyText>{JSON.stringify(bean)}</BodyText>
@@ -63,16 +64,23 @@ class ViewBeanScreen extends Component {
       return <Headline>{this.props.bean.name}</Headline>;
     }
   }
+
+  _roasterName(){
+    if(this.props.roaster && this.props.roaster.name !== undefined){
+      return <BodyText>Roaster: {this.props.roaster.name}</BodyText>;
+    }
+  }
 }
 
 const mapStateToProps = (state, props) => ({
-  bean: state.beans.beans[props.navigation.getParam('id')]
+  bean: state.beans.beans[props.navigation.getParam('id')],
+  roaster: state.cafes.cafes[state.beans.beans[props.navigation.getParam('id')].cafe]
 });
 
 export default connect(mapStateToProps, { deleteBean, editBean })(ViewBeanScreen);
 
 ViewBeanScreen.propTypes = {
-  bean: PropTypes.object
+  bean: PropTypes.object.isRequired
 };
 
 ViewBeanScreen.defaultProps = {
