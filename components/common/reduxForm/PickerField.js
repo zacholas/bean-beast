@@ -6,6 +6,7 @@ import {
   bodyText,
 } from '../Styles';
 import * as styles from "./Styles";
+import PropTypes from "prop-types";
 
 const SelectComponent = ({
   input: { onChange, ...restInput },
@@ -35,9 +36,21 @@ const PickerField = (props) => {
   return (
     <View style={{ alignItems: 'stretch' }}>
       <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
-      <Field name={props.name} validate={props.validate} options={props.options} component={SelectComponent} />
+      <Field
+        name={props.name}
+        validate={props.validate}
+        component={SelectComponent}
+        options={props.options}
+      />
     </View>
   );
 };
 
-export { PickerField as Picker };
+export { PickerField };
+
+PickerField.propTypes = {
+  name: PropTypes.string.isRequired,
+  validate: PropTypes.array,
+  options: PropTypes.array.isRequired
+};
+

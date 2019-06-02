@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import { BodyText } from "../common";
-import {TextField, Picker, DatePickerField, Switch } from "../common/reduxForm";
+import { TextField, PickerField, DatePickerField, SliderField } from "../common/reduxForm";
 import { Button } from "../common";
 import { required, futureDate, alwaysError } from "../../helpers";
 import { saveBean } from "../../actions";
@@ -40,6 +40,13 @@ class EditBeanForm extends Component {
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
+        <SliderField
+          name="roast_level"
+          label="Roast Level"
+          step={0.01}
+          textLabelEnabled={true}
+          textLabelPosition="left"
+        />
         <DatePickerField
           name="roast_date"
           label="Roast Date"
@@ -53,7 +60,7 @@ class EditBeanForm extends Component {
         <TouchableOpacity onPress={() => this.addCafeModal.show()}>
           <BodyText>Add New Roastery</BodyText>
         </TouchableOpacity>
-        <Picker
+        <PickerField
           name="cafe"
           label="Roastery"
           options={cafes}
@@ -83,10 +90,17 @@ class EditBeanForm extends Component {
   }
 }
 
+const initializedValues = {
+  roast_level: 0.1
+};
+
 const mapStateToProps = (state) => {
   return {
     cafes: state.cafes.cafes,
-    initialValues: state.beans.currentlyEditingBean,
+    initialValues: {
+      ...initializedValues,
+      ...state.beans.currentlyEditingBean,
+    },
     loading: state.beans.loading,
     modalData: state.beans.modalData,
   }

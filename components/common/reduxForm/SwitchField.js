@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, StyleSheet, Text, View, Switch } from 'react-native';
+import { StyleSheet, Text, View, Switch } from 'react-native';
 import { Field } from 'redux-form';
 import {
   bodyText,
@@ -35,4 +35,4 @@ const SwitchField = (props) => {
   );
 };
 
-export { SwitchField as Switch };
+export { SwitchField };

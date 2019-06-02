@@ -48,7 +48,8 @@ export default (state = INITIAL_STATE, action) => {
             id: action.payload.id,
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
-            roast_date: action.payload.data.roast_date
+            roast_date: action.payload.data.roast_date,
+            roast_level: action.payload.data.roast_level
           },
         },
       };
@@ -63,7 +64,8 @@ export default (state = INITIAL_STATE, action) => {
             modified: action.payload.modified,
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
-            roast_date: action.payload.data.roast_date
+            roast_date: action.payload.data.roast_date,
+            roast_level: action.payload.data.roast_level
           }
         }
       };
