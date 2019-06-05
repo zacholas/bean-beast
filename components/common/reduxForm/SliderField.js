@@ -52,21 +52,25 @@ const SliderComponent = ({
   const roundedValue = restInput.value;
 
   //* Non-editable text labels
-  if(textLabelEnabled && textLabelPosition === 'left' && textLabelInputEnabled === false) {
+  // if(textLabelEnabled && textLabelPosition === 'left' && textLabelInputEnabled === false) {
+  //
+  // }
+  if(textLabelEnabled && textLabelPosition === 'right' && textLabelInputEnabled === false){
+    textLabelRight = (
+      <View style={styles.sliderRightLabelContainer}>
+        <Text>{roundedValue}</Text>
+      </View>
+    );
+  }
+  else if(textLabelEnabled && textLabelInputEnabled === false){
     textLabelLeft = (
       <View style={styles.sliderLeftLabelContainer}>
         <Text>{roundedValue}</Text>
       </View>
     );
   }
-  else if(textLabelEnabled && textLabelPosition === 'right' && textLabelInputEnabled === false){
 
-  }
-  else if(textLabelEnabled && textLabelInputEnabled === false){
-
-  }
-
-  //* Editable text labels
+  //* Editable text labels TODO create this functionality with validation
   if(textLabelEnabled && textLabelPosition === 'left' && textLabelInputEnabled === true) {
 
   }

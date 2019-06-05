@@ -22,6 +22,7 @@ class ViewBeanScreen extends Component {
         <Hr />
         <BodyText>Details:</BodyText>
         <BodyText>{JSON.stringify(bean)}</BodyText>
+        {/*<BodyText>Roasted on: {Date.parse(this.props.bean.roast_date)}</BodyText>*/}
         <Hr />
         <BodyText>Delete, edit, clone (maybe)</BodyText>
         <Button

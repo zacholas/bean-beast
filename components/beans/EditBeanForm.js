@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { View, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import { BodyText } from "../common";
-import { TextField, PickerField, DatePickerField, SliderField } from "../common/reduxForm";
+import { TextField, PickerField, DatePickerField, SliderField, LabeledSliderField, SwitchField } from "../common/reduxForm";
 import { Button } from "../common";
 import { required, futureDate, alwaysError } from "../../helpers";
 import { saveBean } from "../../actions";
@@ -40,12 +41,55 @@ class EditBeanForm extends Component {
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
-        <SliderField
+        <LabeledSliderField
           name="roast_level"
+          label="Roast Level"
+          step={1}
+          minimumValue={0}
+          maximumValue={4}
+          tallNotches={[0, 2, 4]}
+          bottomLabels={[
+            { content: 'Light' },
+            { content: 'Medium' },
+            { content: 'Dark' },
+          ]}
+        />
+        <LabeledSliderField
+          name="rating"
+          label="How did you enjoy it?"
+          step={1}
+          minimumValue={0}
+          maximumValue={10}
+          tallNotches={[0, 5, 10]}
+          topLabels={[
+            {
+              content: <Icon name="frown-o" size={30} />,
+              containerStyle: { marginLeft: 2 }
+            },
+            {
+              content: <Icon name="meh-o" size={30} />
+            },
+            {
+              content: <Icon name="smile-o" size={30} />,
+              containerStyle: { marginRight: 2 }
+            }
+          ]}
+          bottomLabels={[
+            { content: 'Hated it' },
+            { content: 'Meh' },
+            { content: 'Loved it' }
+          ]}
+        />
+        <SwitchField
+          name="buy_again"
+          label="Buy Again?"
+        />
+        <SliderField
+          name="roast_levelz"
           label="Roast Level"
           step={0.01}
           textLabelEnabled={true}
-          textLabelPosition="left"
+          textLabelPosition="right"
         />
         <DatePickerField
           name="roast_date"
@@ -91,7 +135,8 @@ class EditBeanForm extends Component {
 }
 
 const initializedValues = {
-  roast_level: 0.1
+  roast_level: 2,
+  rating: 5,
 };
 
 const mapStateToProps = (state) => {
