@@ -117,7 +117,10 @@ export const deleteBean = (id, navigation) => {
         dispatch({
           type: types.BEAN_DELETE_SUCCESS,
         });
-        navigation.goBack();
+        // navigation.goBack();
+        navigation.navigate({
+          routeName: navRoutes.BEANS_LIST
+        });
       })
       .catch(error => {
         dispatch({
@@ -125,9 +128,10 @@ export const deleteBean = (id, navigation) => {
           payload: error,
         });
         throwError(error, '/actions/BeanActions.js', 'deleteBean');
-        navigation.navigate({
-          routeName: navRoutes.BEANS_LIST
-        });
+        navigation.goBack();
+        // navigation.navigate({
+        //   routeName: navRoutes.BEANS_LIST
+        // });
         showMessage({
           message: "Error",
           description: "There was an error deleting the bean.",

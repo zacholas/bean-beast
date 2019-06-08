@@ -75,7 +75,7 @@ class ViewBeanScreen extends Component {
 
 const mapStateToProps = (state, props) => ({
   bean: state.beans.beans[props.navigation.getParam('id')],
-  roaster: state.cafes.cafes[state.beans.beans[props.navigation.getParam('id')].cafe]
+  roaster: state.beans.beans[props.navigation.getParam('id')] ? state.cafes.cafes[state.beans.beans[props.navigation.getParam('id')].cafe] : null
 });
 
 export default connect(mapStateToProps, { deleteBean, editBean })(ViewBeanScreen);

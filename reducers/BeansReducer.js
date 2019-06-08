@@ -15,11 +15,12 @@ Bean Fields:
 - Roaster / Bean
 - Roast Date
 - Roast Level
-- Origin Region
+- Origin Country -- picker with add custom, e.g. Ethiopia
+- Origin Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
 - Origin Details (farm/estate/plantation/whatever)
-- Process
-- Varietal
-- Altitude
+- Process -- natural, semi washed, fully washed, honey, allow custom
+- Varietal -- maybe just open text
+- Altitude -- slider or open text
 - Tasting Notes
 - Buy again
 - Comments

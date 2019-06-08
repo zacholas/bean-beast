@@ -110,7 +110,16 @@ class EditBeanForm extends Component {
           options={cafes}
           validate={[required]}
         />
-
+        <TextField
+          name="tasting_notes"
+          label="Tasting Notes"
+          multiline
+        />
+        <TextField
+          name="comments"
+          label="Comments / Misc. Notes"
+          multiline
+        />
         <Button
           title="Save Bean"
           onPress={handleSubmit((values) => this.props.saveBean(values))}
@@ -119,10 +128,12 @@ class EditBeanForm extends Component {
           spinner={loading}
         />
 
-        <Modal ref={(ref) => { this.addCafeModal = ref; }}>
+        <Modal
+          ref={(ref) => { this.addCafeModal = ref; }}
+          headlineText="Add New Cafe / Roastery"
+        >
           <EditCafeForm
-            headlineText="Add New Cafe / Roastery"
-            // type="createModal"
+
             // type="create"
             type="beanCreateModal"
             navigation={this.props.navigation}
