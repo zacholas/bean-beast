@@ -49,7 +49,7 @@ const SliderComponent = ({
 }) => {
   let textLabelLeft, textLabelRight;
   // const roundedValue = restInput.value ? _.round(restInput.value, getDecimalLength(step)) : null;
-  const roundedValue = parseFloat(restInput.value);
+  const roundedValue = restInput.value ? parseFloat(restInput.value) : parseFloat(minimumValue);
 
   //* Non-editable text labels
   // if(textLabelEnabled && textLabelPosition === 'left' && textLabelInputEnabled === false) {

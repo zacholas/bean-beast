@@ -23,7 +23,7 @@ class EditBeanForm extends Component {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
 
-    //* If this is in "create" mode, ad there are no initial values already, set them.
+    //* If this is in "create" mode, and there are no initial values already, set them.
     if(!this.props.initialValues && this.props.type === 'create'){
       this.props.change('roast_date', new Date());
     }
