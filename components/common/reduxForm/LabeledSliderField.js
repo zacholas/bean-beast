@@ -149,10 +149,10 @@ const LabeledSliderComponent = ({
           <Slider
             onValueChange={(val) => onChange(_.round(val, getDecimalLength(step)))}
             {...restInput}
-            value={restInput.value}
-            minimumValue={minimumValue}
-            maximumValue={maximumValue}
-            step={step}
+            value={parseFloat(restInput.value)}
+            minimumValue={parseFloat(minimumValue)}
+            maximumValue={parseFloat(maximumValue)}
+            step={parseFloat(step)}
             style={{zIndex: 2, position: 'relative'}}
           />
           {notchesOutput}

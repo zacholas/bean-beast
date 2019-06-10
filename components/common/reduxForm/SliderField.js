@@ -49,7 +49,7 @@ const SliderComponent = ({
 }) => {
   let textLabelLeft, textLabelRight;
   // const roundedValue = restInput.value ? _.round(restInput.value, getDecimalLength(step)) : null;
-  const roundedValue = restInput.value;
+  const roundedValue = parseFloat(restInput.value);
 
   //* Non-editable text labels
   // if(textLabelEnabled && textLabelPosition === 'left' && textLabelInputEnabled === false) {
@@ -91,9 +91,9 @@ const SliderComponent = ({
             onValueChange={(val) => onChange(_.round(val, getDecimalLength(step)))}
             {...restInput}
             value={roundedValue}
-            minimumValue={minimumValue}
-            maximumValue={maximumValue}
-            step={step}
+            minimumValue={parseFloat(minimumValue)}
+            maximumValue={parseFloat(maximumValue)}
+            step={parseFloat(step)}
           />
         </View>
         {textLabelRight}
