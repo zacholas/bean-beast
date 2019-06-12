@@ -25,6 +25,11 @@
     "ios": {
       "supportsTablet": true
     },
+    "android": {
+      "permissions": [
+        "CAMERA"
+      ]
+    },
     "hooks": {
       "postPublish": [
         {
@@ -36,6 +41,6 @@
           }
         }
       ]
-    }
+    },
   }
 }

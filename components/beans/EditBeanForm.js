@@ -7,6 +7,7 @@ import { reduxForm } from 'redux-form';
 import _ from 'lodash';
 import { BodyText } from "../common";
 import { TextField, PickerField, DatePickerField, SliderField, LabeledSliderField, SwitchField } from "../common/reduxForm";
+import ImageUploadField from '../common/reduxForm/ImageUploadField';
 import { Button } from "../common";
 import { required, futureDate, alwaysError } from "../../helpers";
 import { saveBean } from "../../actions";
@@ -41,6 +42,7 @@ class EditBeanForm extends Component {
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
+        <ImageUploadField />
         <LabeledSliderField
           name="roast_level"
           label="Roast Level"

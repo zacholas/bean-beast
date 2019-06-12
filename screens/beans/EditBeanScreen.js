@@ -5,6 +5,12 @@ import {Container, BodyText, Headline} from "../../components/common";
 import EditBeanForm from "../../components/beans/EditBeanForm";
 
 export default class EditBeanScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('type', 'create') === 'create' ? 'Add New Bean' : 'Edit Bean',
+    }
+  };
+
   constructor(props){
     super(props);
     this.type = props.navigation.getParam('type', 'create');
