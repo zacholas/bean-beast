@@ -12,19 +12,20 @@ const INITIAL_STATE = {
 /*
 Bean Fields:
 *** @todo need some way to account for blend components --- maybe allow someone to select single origin or blend and show certain fields based on that.
-- Roaster / Bean
-- Roast Date
-- Roast Level
+✓ - Roaster / Cafe
+✓ - Roast Date
+- Picture of bean bag
+✓ - Roast Level
 - Origin Country -- picker with add custom, e.g. Ethiopia
 - Origin Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
 - Origin Details (farm/estate/plantation/whatever)
 - Process -- natural, semi washed, fully washed, honey, allow custom
 - Varietal -- maybe just open text
 - Altitude -- slider or open text
-- Tasting Notes
-- Buy again
-- Comments
-- Roast name
+✓ - Tasting Notes
+✓ - Buy again
+✓ - Comments
+- Roast name (autofilled by origin + roast level if not edited)
  */
 
 export default (state = INITIAL_STATE, action) => {
@@ -50,7 +51,9 @@ export default (state = INITIAL_STATE, action) => {
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
             roast_date: action.payload.data.roast_date,
-            roast_level: action.payload.data.roast_level
+            roast_level: action.payload.data.roast_level,
+            tasting_notes: action.payload.data.tasting_notes,
+            comments: action.payload.data.comments
           },
         },
       };
@@ -66,7 +69,9 @@ export default (state = INITIAL_STATE, action) => {
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
             roast_date: action.payload.data.roast_date,
-            roast_level: action.payload.data.roast_level
+            roast_level: action.payload.data.roast_level,
+            tasting_notes: action.payload.data.tasting_notes,
+            comments: action.payload.data.comments
           }
         }
       };
@@ -106,7 +111,6 @@ export default (state = INITIAL_STATE, action) => {
         error: action.payload
       };
     case types.BEAN_RATE:
-      console.log('rating bean reducer', action.payload);
       return { ...state,
         loading: false,
         error: '',

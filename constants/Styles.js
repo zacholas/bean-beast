@@ -37,14 +37,12 @@ export const h4 = {
 
 export const h5 = {
   fontSize: 14,
-  textTransform: 'uppercase',
   fontWeight: fontWeightBold,
   letterSpacing: 1
 };
 
 export const h6 = {
   fontSize: 10,
-  textTransform: 'uppercase',
   fontWeight: fontWeightBold,
   letterSpacing: 1
 };

@@ -54,43 +54,13 @@ class EditBeanForm extends Component {
             { content: 'Dark' },
           ]}
         />
-        <LabeledSliderField
-          name="rating"
-          label="How did you enjoy it?"
-          step={1}
-          minimumValue={0}
-          maximumValue={10}
-          tallNotches={[0, 5, 10]}
-          topLabels={[
-            {
-              content: <Icon name="frown-o" size={30} />,
-              containerStyle: { marginLeft: 2 }
-            },
-            {
-              content: <Icon name="meh-o" size={30} />
-            },
-            {
-              content: <Icon name="smile-o" size={30} />,
-              containerStyle: { marginRight: 2 }
-            }
-          ]}
-          bottomLabels={[
-            { content: 'Hated it' },
-            { content: 'Meh' },
-            { content: 'Loved it' }
-          ]}
-        />
-        <SwitchField
-          name="buy_again"
-          label="Buy Again?"
-        />
-        <SliderField
-          name="roast_levelz"
-          label="Roast Level"
-          step={0.01}
-          textLabelEnabled={true}
-          textLabelPosition="right"
-        />
+        {/*<SliderField*/}
+          {/*name="roast_levelz"*/}
+          {/*label="Roast Level"*/}
+          {/*step={0.01}*/}
+          {/*textLabelEnabled={true}*/}
+          {/*textLabelPosition="right"*/}
+        {/*/>*/}
         <DatePickerField
           name="roast_date"
           label="Roast Date"

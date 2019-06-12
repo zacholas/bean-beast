@@ -9,17 +9,27 @@ import PropTypes from "prop-types";
 
 const Headline = (props) => {
   let specialHeadingStyle = headline;
+  let output = props.children;
   if(props.h1 === true){ specialHeadingStyle = h1 }
   else if(props.h2 === true){ specialHeadingStyle = h2 }
   else if(props.h3 === true){ specialHeadingStyle = h3 }
   else if(props.h4 === true){ specialHeadingStyle = h4 }
-  else if(props.h5 === true){ specialHeadingStyle = h5 }
-  else if(props.h6 === true){ specialHeadingStyle = h6 }
-
+  else if(props.h5 === true){
+    specialHeadingStyle = h5;
+    if(typeof props.children === 'string'){
+      output = props.children.toUpperCase();
+    }
+  }
+  else if(props.h6 === true){
+    specialHeadingStyle = h6;
+    if(typeof props.children === 'string'){
+      output = props.children.toUpperCase();
+    }
+  }
   return (
     <View>
       <Text style={StyleSheet.flatten([specialHeadingStyle, marginBottom, props.style])}>
-        {props.children}
+        {output}
       </Text>
     </View>
   );
