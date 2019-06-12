@@ -105,6 +105,22 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
         error: action.payload
       };
+    case types.BEAN_RATE:
+      console.log('rating bean reducer', action.payload);
+      return { ...state,
+        loading: false,
+        error: '',
+        beans: {
+          ...state.beans,
+          [action.payload.id]: {
+            ...state.beans[action.payload.id],
+            rating: action.payload.rating,
+            buy_again: action.payload.buy_again,
+            rating_comments: action.payload.rating_comments
+          }
+        }
+
+      };
     default:
       return state;
   }

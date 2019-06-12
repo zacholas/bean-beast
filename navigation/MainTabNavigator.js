@@ -21,6 +21,7 @@ import ViewCafeScreen from '../screens/cafes/ViewCafeScreen';
 import BeansListScreen from '../screens/beans/BeansListScreen';
 import EditBeanScreen from '../screens/beans/EditBeanScreen';
 import ViewBeanScreen from '../screens/beans/ViewBeanScreen';
+import RateBeanScreen from '../screens/beans/RateBeanScreen';
 
 const HomeStack = createStackNavigator({
   [navRoutes.HOME]: HomeScreen,
@@ -75,6 +76,7 @@ const BeansStack = createStackNavigator({
   [navRoutes.BEANS_LIST]: BeansListScreen,
   [navRoutes.EDIT_BEAN]: EditBeanScreen,
   [navRoutes.VIEW_BEAN]: ViewBeanScreen,
+  [navRoutes.RATE_BEAN]: RateBeanScreen
 });
 
 BeansStack.navigationOptions = {

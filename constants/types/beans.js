@@ -9,3 +9,5 @@ export const BEAN_UPDATE_FAIL    = 'bean_update_fail';
 export const BEAN_DELETING       = 'bean_deleting';
 export const BEAN_DELETE_SUCCESS = 'bean_delete_success';
 export const BEAN_DELETE_FAIL    = 'bean_delete_fail';
+
+export const BEAN_RATE = 'bean_rate';

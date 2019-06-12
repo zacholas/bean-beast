@@ -150,3 +150,16 @@ const _deletingBean = (dispatch, id) => new Promise((resolve, reject) => {
   });
   resolve();
 });
+
+
+/* Bean Rating
+----------------------------------------------------------------------------------------------------------------------*/
+export const rateBean = (values) => {
+  return (dispatch) => {
+    dispatch({
+      type: types.BEAN_RATE,
+      payload: values
+    });
+    values.navigation.goBack();
+  };
+};
