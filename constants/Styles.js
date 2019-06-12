@@ -1,5 +1,7 @@
+export const defaultPaddingAmount = 15;
+
 export const defaultPadding = {
-  padding: 15,
+  padding: defaultPaddingAmount,
 };
 
 export const marginBottom = {
@@ -21,7 +23,8 @@ export const centerText = {
 };
 
 export const container = {
-  ...defaultPadding
+  paddingRight: defaultPaddingAmount,
+  paddingLeft: defaultPaddingAmount,
 };
 
 export const centeredContainer = {

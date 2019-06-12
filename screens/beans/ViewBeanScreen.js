@@ -19,6 +19,8 @@ class ViewBeanScreen extends Component {
       <Container>
         {this._beanName()}
         {this._roasterName()}
+        <BodyText>Rating (like 0/10 with face) and checkmark or x of buy again</BodyText>
+        <BodyText>If there's no rating, have a link to rate the bean</BodyText>
         <Hr />
         <BodyText>Details:</BodyText>
         <BodyText>{JSON.stringify(bean)}</BodyText>
