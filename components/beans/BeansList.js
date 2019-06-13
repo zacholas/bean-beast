@@ -26,8 +26,11 @@ class BeanList extends Component {
   );
 
   render() {
-    const beans = _.values(this.props.beans.beans);
-    // console.log(beans);
+    const orderedBeans = _.orderBy(this.props.beans.beans, ['modified'], ['desc']);
+    // const beans = _.values(this.props.beans.beans);
+    const beans = _.values(orderedBeans);
+
+    console.log(beans);
     return (
       <FlatList
         data={beans}

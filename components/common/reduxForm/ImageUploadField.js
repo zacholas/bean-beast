@@ -9,46 +9,6 @@ import {
 } from '../Styles';
 import * as styles from "./Styles";
 import PropTypes from "prop-types";
-import {SliderField} from "./SliderField";
-
-// const ImageUploadFieldComponent = ({
-//   input: { onChange, ...restInput },
-//   label,
-//   type,
-//   meta: { touched, error, warning },
-// }) => {
-//   return (
-//     <View style={styles.inputContainer}>
-//       <TextInput
-//         style={styles.textInput}
-//         onChangeText={onChange}
-//         {...restInput}
-//         value={restInput.value.toString()}
-//         underlineColorAndroid="rgba(0,0,0,.2)"
-//       />
-//       {touched &&
-//       ((error && <Text style={styles.errorText}>{error}</Text>) ||
-//         (warning && <Text style={styles.warningText}>{warning}</Text>))}
-//     </View>
-//   );
-// };
-//
-// const ImageUploadField = (props) => {
-//   return (
-//     <View style={{ alignItems: 'stretch' }}>
-//       <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
-//       <Field name={props.name} validate={props.validate} component={ImageUploadFieldComponent} />
-//     </View>
-//   );
-// };
-//
-// export { ImageUploadField };
-//
-// ImageUploadField.propTypes = {
-// };
-//
-// ImageUploadField.defaultProps = {
-// };
 
 
 
@@ -77,8 +37,12 @@ class ImageUploadComponent extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getPermissionAsync();
+    this.getCameraPermissionAsync();
+  }
+
   render() {
-    console.log('this props', this.props);
     const { input: { value, onChange } } = this.props;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -87,11 +51,6 @@ class ImageUploadComponent extends Component {
         {this._imageOutput()}
       </View>
     )
-  }
-
-  componentDidMount() {
-    this.getPermissionAsync();
-    this.getCameraPermissionAsync();
   }
 
   getPermissionAsync = async () => {
@@ -155,63 +114,22 @@ class ImageUploadComponent extends Component {
   }
 }
 
+const ImageUploadField = (props) => {
+  return (
+    <View style={{ alignItems: 'stretch' }}>
+      <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
+      <Field name={props.name} validate={props.validate} component={ImageUploadComponent} />
+    </View>
+  );
+};
 
-export default class ImagePickerExample extends React.Component {
-  state = {
-    image: null,
-    hasGalleryPermission: false,
-    hasCameraPermission: false
-  };
+export { ImageUploadField };
 
-  constructor(props){
-    super(props);
+ImageUploadField.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
+  validate: PropTypes.array
+};
 
-    this.hiddenTextField = null;
-
-    // this._galleryPickerButton = this._galleryPickerButton.bind(this);
-    // this._cameraButton = this._cameraButton.bind(this);
-  }
-
-  render() {
-    // console.log('upload field state', this.state);
-    // console.log('upload field props', this.props);
-    let { image } = this.state;
-
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {/*{this._galleryPickerButton()}*/}
-        {/*{this._cameraButton()}*/}
-        {/*{image &&*/}
-        {/*<Image source={{ uri: image }} style={{ width: 150, height: 200 }} />}*/}
-        {/*<Field name={this.props.name} validate={this.props.validate} component={this.ImageUploadFieldComponent} image={image} />*/}
-        <Field name={this.props.name} validate={this.props.validate} component={ImageUploadComponent} />
-      </View>
-    );
-  }
-
-  ImageUploadFieldComponent = ({
-    input: { onChange, ...restInput },
-    label,
-    type,
-    meta: { touched, error, warning },
-    image
-   }) => {
-    return (
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={onChange}
-          {...restInput}
-          value={image ? image : restInput.value}
-          underlineColorAndroid="rgba(0,0,0,.2)"
-          ref={(ref) => { this.hiddenTextField = ref; }}
-        />
-        {touched &&
-        ((error && <Text style={styles.errorText}>{error}</Text>) ||
-          (warning && <Text style={styles.warningText}>{warning}</Text>))}
-      </View>
-    );
-  };
-
-
-}
+ImageUploadField.defaultProps = {
+};

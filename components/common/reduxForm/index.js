@@ -4,3 +4,4 @@ export * from './DatePickerField';
 export * from './SwitchField';
 export * from './SliderField';
 export * from './LabeledSliderField';
+export * from './ImageUploadField';
