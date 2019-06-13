@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, Image } from 'react-native';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,12 +16,14 @@ class ViewBeanScreen extends Component {
     this.beanID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
     this.beanRatingCommentsFullModal = null;
+    // this._beanImage = this._beanImage.bind(this);
   }
 
   render() {
     const bean = this.props.bean;
     return (
       <Container>
+        {this._beanImage()}
         {this._beanName()}
         {this._roasterName()}
         <Hr />
@@ -72,6 +74,12 @@ class ViewBeanScreen extends Component {
   _deleteBean(){
     this.deleteConfirmModal.hide();
     this.props.deleteBean(this.beanID, this.props.navigation);
+  }
+
+  _beanImage(){
+    if(this.props.bean.bean_image !== undefined){
+      return <Image source={{ uri: this.props.bean.bean_image }} style={{ width: 150, height: 200 }} />;
+    }
   }
 
   _beanName(){

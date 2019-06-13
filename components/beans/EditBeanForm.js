@@ -42,7 +42,10 @@ class EditBeanForm extends Component {
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
     return (
       <View>
-        <ImageUploadField />
+        <ImageUploadField
+          name="bean_image"
+          label="Bean Image"
+        />
         <LabeledSliderField
           name="roast_level"
           label="Roast Level"

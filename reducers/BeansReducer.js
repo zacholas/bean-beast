@@ -53,7 +53,8 @@ export default (state = INITIAL_STATE, action) => {
             roast_date: action.payload.data.roast_date,
             roast_level: action.payload.data.roast_level,
             tasting_notes: action.payload.data.tasting_notes,
-            comments: action.payload.data.comments
+            comments: action.payload.data.comments,
+            bean_image: action.payload.data.bean_image
           },
         },
       };
@@ -71,7 +72,8 @@ export default (state = INITIAL_STATE, action) => {
             roast_date: action.payload.data.roast_date,
             roast_level: action.payload.data.roast_level,
             tasting_notes: action.payload.data.tasting_notes,
-            comments: action.payload.data.comments
+            comments: action.payload.data.comments,
+            bean_image: action.payload.data.bean_image
           }
         }
       };
