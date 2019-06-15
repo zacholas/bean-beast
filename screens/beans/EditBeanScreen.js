@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 // import { View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {Container, BodyText, Headline} from "../../components/common";
 import EditBeanForm from "../../components/beans/EditBeanForm";
 
@@ -20,12 +19,10 @@ export default class EditBeanScreen extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView>
-        <Container scroll={true}>
-          {this._pageTitle()}
-          <EditBeanForm type={this.type} navigation={this.props.navigation} />
-        </Container>
-      </KeyboardAwareScrollView>
+      <Container scroll={true}>
+        {this._pageTitle()}
+        <EditBeanForm type={this.type} navigation={this.props.navigation} />
+      </Container>
     );
   }
 
