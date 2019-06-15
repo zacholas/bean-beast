@@ -36,6 +36,7 @@ class ViewCafeScreen extends Component {
   render() {
     const cafe = this.props.cafe;
     return (
+
       <Container>
         {this._cafeName()}
         <Hr />

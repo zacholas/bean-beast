@@ -5313,9 +5313,20 @@ react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-iphone-x-helper@^1.0.3:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
+
 react-native-iphone-x-helper@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
+
+react-native-keyboard-aware-scroll-view@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.8.0.tgz#00bcaa38c91323913bb7a733059ad2bc4875f88c"
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-iphone-x-helper "^1.0.3"
 
 react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
