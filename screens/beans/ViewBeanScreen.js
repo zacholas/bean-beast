@@ -7,7 +7,7 @@ import { Headline, Hr, BodyText, Container, Button } from "../../components/comm
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
-import {textLink, bodyText, marginBottomHalf} from "../../constants/Styles";
+import {textLink, bodyText, marginBottomHalf, defaultMarginAmount} from "../../constants/Styles";
 import EditCafeForm from "../../components/beans/EditBeanForm";
 
 class ViewBeanScreen extends Component {
@@ -16,6 +16,7 @@ class ViewBeanScreen extends Component {
     this.beanID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
     this.beanRatingCommentsFullModal = null;
+    this.beanImageModal = null;
     // this._beanImage = this._beanImage.bind(this);
   }
 
@@ -23,9 +24,13 @@ class ViewBeanScreen extends Component {
     const bean = this.props.bean;
     return (
       <Container>
+        <View style={{ flexDirection: 'row' }}>
         {this._beanImage()}
-        {this._beanName()}
-        {this._roasterName()}
+          <View style={{ flex: 1 }}>
+            {this._beanName()}
+            {this._roasterName()}
+          </View>
+        </View>
         <Hr />
         {this._ratingInfo()}
         <Hr />
@@ -78,7 +83,23 @@ class ViewBeanScreen extends Component {
 
   _beanImage(){
     if(this.props.bean.bean_image !== undefined){
-      return <Image source={{ uri: this.props.bean.bean_image }} style={{ width: 150, height: 200 }} />;
+      const beanImage = this.props.bean.bean_image;
+      return (
+        <View>
+          <TouchableOpacity onPress={() => { this.beanImageModal.show() }}>
+            <Image source={{ uri: beanImage }} style={{ width: 150, height: 200, marginRight: 15, marginBottom: defaultMarginAmount }} />
+          </TouchableOpacity>
+          <Modal
+            ref={(ref) => { this.beanImageModal = ref; }}
+            dismissButtonText='Close'
+            headlineText='Bean Image'
+          >
+            <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+              <Image source={{ uri: beanImage }} style={{ width: 400, height: 600, maxWidth: '100%' }} resizeMode="contain" />
+            </View>
+          </Modal>
+        </View>
+      );
     }
   }
 

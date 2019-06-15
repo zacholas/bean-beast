@@ -110,6 +110,7 @@ class ImageUploadComponent extends Component {
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
+      this.props.input.onChange(result.uri);
     }
   }
 }
