@@ -107,7 +107,6 @@ class EditBeanForm extends Component {
           headlineText="Add New Cafe / Roastery"
         >
           <EditCafeForm
-
             // type="create"
             type="beanCreateModal"
             navigation={this.props.navigation}
