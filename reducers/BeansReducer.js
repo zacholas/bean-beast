@@ -16,9 +16,6 @@ Bean Fields:
 ✓ - Roast Date
 - Picture of bean bag
 ✓ - Roast Level
-- Process -- natural, semi washed, fully washed, honey, allow custom
-- Varietal -- maybe just open text
-- Altitude -- slider or open text
 ✓ - Tasting Notes
 ✓ - Buy again
 ✓ - Comments

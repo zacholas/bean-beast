@@ -15,10 +15,10 @@ Origin Fields:
 - Origin Country -- picker with add custom, e.g. Ethiopia
 - Origin Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
 - Origin Details (farm/estate/plantation/whatever)
-- Processing method
 - Species *TODO -- have this as a radio/selector of (arabica, robusta, other)
-- Variety *TODO
-- Elevation / altitude *todo
+- Process -- natural, semi washed, fully washed, honey, allow custom *todo
+- Varietal -- maybe just open text *todo
+- Altitude -- slider or open text *todo
 - Maybe Google place id if linked to google place (IDK about api cost tho)
  */
 
