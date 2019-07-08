@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
   currentlyEditingBean: null,
-  beans: null,
+  beans: {},
   modalData: {},
 };
 
@@ -16,9 +16,6 @@ Bean Fields:
 ✓ - Roast Date
 - Picture of bean bag
 ✓ - Roast Level
-- Origin Country -- picker with add custom, e.g. Ethiopia
-- Origin Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
-- Origin Details (farm/estate/plantation/whatever)
 - Process -- natural, semi washed, fully washed, honey, allow custom
 - Varietal -- maybe just open text
 - Altitude -- slider or open text
@@ -54,7 +51,8 @@ export default (state = INITIAL_STATE, action) => {
             roast_level: action.payload.data.roast_level,
             tasting_notes: action.payload.data.tasting_notes,
             comments: action.payload.data.comments,
-            bean_image: action.payload.data.bean_image
+            bean_image: action.payload.data.bean_image,
+            origin: action.payload.data.origin
           },
         },
       };
@@ -73,7 +71,8 @@ export default (state = INITIAL_STATE, action) => {
             roast_level: action.payload.data.roast_level,
             tasting_notes: action.payload.data.tasting_notes,
             comments: action.payload.data.comments,
-            bean_image: action.payload.data.bean_image
+            bean_image: action.payload.data.bean_image,
+            origin: action.payload.data.origin,
           }
         }
       };
@@ -96,6 +95,16 @@ export default (state = INITIAL_STATE, action) => {
         modalData: {
          cafe: action.payload.id
         }
+      };
+    case types.ORIGIN_CREATING_BEAN_MODAL:
+      return { ...state,
+        modalData: {
+          origin: action.payload.id
+        }
+      };
+    case types.BEAN_CLEAR_MODAL_DATA:
+      return { ...state,
+        modalData: {}
       };
     case types.BEAN_CREATE_SUCCESS:
     case types.BEAN_UPDATE_SUCCESS:

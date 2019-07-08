@@ -30,7 +30,7 @@ class BeanList extends Component {
     // const beans = _.values(this.props.beans.beans);
     const beans = _.values(orderedBeans);
 
-    console.log(beans);
+    // console.log(beans);
     return (
       <FlatList
         data={beans}

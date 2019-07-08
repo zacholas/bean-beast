@@ -33,9 +33,13 @@ const SelectComponent = ({
 };
 
 const PickerField = (props) => {
+  let label = props.label;
+  if(typeof(props.label) === 'string'){
+    label = <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>;
+  }
   return (
     <View style={{ alignItems: 'stretch' }}>
-      <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
+      {label}
       <Field
         name={props.name}
         validate={props.validate}

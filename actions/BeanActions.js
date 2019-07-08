@@ -151,6 +151,14 @@ const _deletingBean = (dispatch, id) => new Promise((resolve, reject) => {
   resolve();
 });
 
+export const clearBeanModalData = () => {
+  return (dispatch) => {
+    dispatch({
+      type: types.BEAN_CLEAR_MODAL_DATA
+    });
+  };
+};
+
 
 /* Bean Rating
 ----------------------------------------------------------------------------------------------------------------------*/

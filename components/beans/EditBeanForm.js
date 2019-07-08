@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { View, TouchableOpacity } from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
@@ -9,14 +9,19 @@ import { BodyText } from "../common";
 import { TextField, PickerField, DatePickerField, SliderField, LabeledSliderField, SwitchField, ImageUploadField } from "../common/reduxForm";
 import { Button } from "../common";
 import { required, futureDate, alwaysError } from "../../helpers";
-import { saveBean } from "../../actions";
+import { saveBean, clearBeanModalData } from "../../actions";
 import Modal from '../common/Modal';
 import EditCafeForm from '../cafes/EditCafeForm';
+import {bodyText, textLink} from "../../constants/Styles";
+import * as styles from "../common/reduxForm/Styles";
+import EditOriginForm from "../origins/EditOriginForm";
+import {roastLevelDisplay} from "../../helpers/labels";
 
 class EditBeanForm extends Component {
   constructor(props){
     super(props);
     this.addCafeModal = null;
+    this.addOriginModal = null;
   }
 
   componentWillMount(): void {
@@ -32,26 +37,85 @@ class EditBeanForm extends Component {
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
     if(nextProps.modalData.cafe){
       this.props.change('cafe', nextProps.modalData.cafe);
+      this.props.clearBeanModalData();
+    }
+
+    if(nextProps.modalData.origin){
+      this.props.change('origin', nextProps.modalData.origin);
+      this.props.clearBeanModalData();
     }
   }
 
+  beanNamePlaceholder(){
+    if(this.props.formValues.EditBeanForm !== undefined && this.props.formValues.EditBeanForm.values !== undefined){
+      const { roast_level } = this.props.formValues.EditBeanForm.values;
+      const originID = this.props.formValues.EditBeanForm.values.origin;
+      const origin = originID ? this.props.origins[originID] : null;
+
+      let output = '';
+      output = origin && origin.country ? output.concat(origin.country + ' ') : output;
+      output = origin && origin.region ? output.concat(origin.region + ' ') : output;
+      output = roast_level ? output.concat(roastLevelDisplay(roast_level)) : output;
+
+      return output;
+    }
+
+    return null;
+  }
+
   render() {
-    // console.log(this.props);
+    const cafeFieldLabel = (
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roastery:</Text>
+        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
+          <BodyText style={textLink}>+ Add New Roastery</BodyText>
+        </TouchableOpacity>
+      </View>
+    );
+
+    const originFieldLabel = (
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Origin:</Text>
+        <TouchableOpacity onPress={() => this.addOriginModal.show()}>
+          <BodyText style={textLink}>+ Add New Origin</BodyText>
+        </TouchableOpacity>
+      </View>
+    );
+
     const { handleSubmit, loading } = this.props;
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
+    const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
+    const origins = _.map(orderedOrigins, (origin) => {
+      let output = '';
+      output = origin.country ? output.concat(origin.country) : output;
+      output = origin.country && origin.region ? output.concat(' — ') : output;
+      output = origin.region ? output.concat(origin.region) : output;
+
+      return {
+        id: origin.id,
+        name: output
+      };
+    });
+
     return (
       <View>
         <ImageUploadField
           name="bean_image"
           label="Bean Image"
         />
+        <PickerField
+          name="origin"
+          label={originFieldLabel}
+          options={origins}
+          validate={[required]}
+        />
         <LabeledSliderField
           name="roast_level"
           label="Roast Level"
           step={1}
-          minimumValue={0}
-          maximumValue={4}
-          tallNotches={[0, 2, 4]}
+          minimumValue={1}
+          maximumValue={5}
+          tallNotches={[1, 3, 5]}
           bottomLabels={[
             { content: 'Light' },
             { content: 'Medium' },
@@ -73,14 +137,12 @@ class EditBeanForm extends Component {
         <TextField
           name="name"
           label="Bean Name"
-          validate={[required]}
+          placeholder={this.beanNamePlaceholder()}
         />
-        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
-          <BodyText>Add New Roastery</BodyText>
-        </TouchableOpacity>
+
         <PickerField
           name="cafe"
-          label="Roastery"
+          label={cafeFieldLabel}
           options={cafes}
           validate={[required]}
         />
@@ -102,15 +164,19 @@ class EditBeanForm extends Component {
           spinner={loading}
         />
 
-        <Modal
-          ref={(ref) => { this.addCafeModal = ref; }}
-          headlineText="Add New Cafe / Roastery"
-        >
+        <Modal ref={(ref) => { this.addCafeModal = ref; }} headlineText="Add New Cafe / Roastery">
           <EditCafeForm
-            // type="create"
             type="beanCreateModal"
             navigation={this.props.navigation}
             modal={this.addCafeModal}
+          />
+        </Modal>
+
+        <Modal ref={(ref) => { this.addOriginModal = ref; }} headlineText="Add New Origin">
+          <EditOriginForm
+            type="beanCreateModal"
+            navigation={this.props.navigation}
+            modal={this.addOriginModal}
           />
         </Modal>
       </View>
@@ -119,19 +185,20 @@ class EditBeanForm extends Component {
 }
 
 const initializedValues = {
-  roast_level: 2,
-  rating: 5,
+  roast_level: 3,
 };
 
 const mapStateToProps = (state) => {
   return {
     cafes: state.cafes.cafes,
+    origins: state.origins.origins,
     initialValues: {
       ...initializedValues,
       ...state.beans.currentlyEditingBean,
     },
     loading: state.beans.loading,
     modalData: state.beans.modalData,
+    formValues: state.form
   }
 };
 
@@ -140,7 +207,7 @@ EditBeanForm = reduxForm({
   enableReinitialize: true,
 })(EditBeanForm);
 
-EditBeanForm = connect(mapStateToProps, { saveBean })(EditBeanForm);
+EditBeanForm = connect(mapStateToProps, { saveBean, clearBeanModalData })(EditBeanForm);
 
 export default EditBeanForm;
 

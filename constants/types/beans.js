@@ -11,3 +11,4 @@ export const BEAN_DELETE_SUCCESS = 'bean_delete_success';
 export const BEAN_DELETE_FAIL    = 'bean_delete_fail';
 
 export const BEAN_RATE = 'bean_rate';
+export const BEAN_CLEAR_MODAL_DATA = 'bean_clear_modal_data';
