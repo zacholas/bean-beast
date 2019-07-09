@@ -21,7 +21,8 @@ class BeanList extends Component {
     <BeanListItem
       id={item.id}
       onPressItem={this._onPressItem}
-      title={item.name ? item.name : 'Unnamed Bean'}
+      bean={item}
+      cafe={item.cafe ? this.props.cafes.cafes[item.cafe] : null}
     />
   );
 
@@ -42,7 +43,9 @@ class BeanList extends Component {
 }
 
 const mapStateToProps = state => ({
-  beans: state.beans
+  beans: state.beans,
+  cafes: state.cafes,
+  origins: state.origins
 });
 
 const mapDispatchToProps = dispatch => ({});

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-// import { View } from 'react-native';
+import { View } from 'react-native';
 import {Container, BodyText, Headline} from "../../components/common";
 import EditBeanForm from "../../components/beans/EditBeanForm";
 
@@ -18,10 +18,13 @@ export default class EditBeanScreen extends Component {
   }
 
   render() {
+    // <Container scroll={true}></Container>
     return (
-      <Container scroll={true}>
-        {this._pageTitle()}
-        <EditBeanForm type={this.type} navigation={this.props.navigation} />
+      <Container scroll={false} style={{ flex: 1 }}>
+        <View>{this._pageTitle()}</View>
+        <View style={{ flex: 1 }}>
+          <EditBeanForm type={this.type} navigation={this.props.navigation} />
+        </View>
       </Container>
     );
   }

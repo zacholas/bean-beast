@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { TextField, DatePickerField } from "../common/reduxForm";
-import { Button } from "../common";
+import { Button, ScrollContainer } from "../common";
 import { saveBean, clearBeanModalData } from "../../actions";
 import BeanPhoto from "./EditBeanFormSteps/BeanPhoto";
 import Origin from "./EditBeanFormSteps/Origin";
@@ -12,24 +12,44 @@ import RoastLevel from "./EditBeanFormSteps/RoastLevel";
 import BeanName from "./EditBeanFormSteps/BeanName";
 import Cafe from "./EditBeanFormSteps/Cafe";
 import * as navRoutes from "../../constants/NavRoutes";
+import ProgressBar from "../common/ProgressBar";
+import { defaultMarginAmount, defaultPaddingAmount } from "../../constants/Styles";
 
 class EditBeanForm extends Component {
   constructor(props){
     super(props);
     this.state = {
       formStep: this.props.navigation.getParam('formStep', 1),
-      totalFormSteps: 5 // TODO dont have this hard-coded
+      formSteps: [
+        this.formStepOne(),
+        this.formStepTwo(),
+        this.formStepThree(),
+        this.formStepFour(),
+        this.formStepFive(),
+        this.formStepSix()
+      ]
     }
   }
 
   componentWillMount(): void {
-    this.props.change('navigation', this.props.navigation);
-    this.props.change('type', this.props.type);
+    // console.log('this props is ', this.props.initialValues);
+    // console.log('this type is', this.props.type);
+    // console.log('initial vals: ', this.props.initialValues);
 
-    //* If this is in "create" mode, and there are no initial values already, set them.
-    if(!this.props.initialValues && this.props.type === 'create'){
-      this.props.change('roast_date', new Date());
+
+
+    if(this.state.formStep === 1){
+      this.props.change('type', this.props.type);
+      this.props.change('navigation', this.props.navigation);
     }
+    // else {
+    //   this.props.change('type', this.props.navigation.getParam('type', 'create'));
+    // }
+
+    //* If this is in "create" mode, and there are no initial values already, set them. -- commented out to have in the initialize function
+    // if(!this.props.initialValues && this.props.type === 'create'){
+    //   this.props.change('roast_date', new Date());
+    // }
   }
 
   //* If the user adds a new cafe, origin, etc. in a modal, we then want to select that option on the form
@@ -49,12 +69,13 @@ class EditBeanForm extends Component {
   submitButton(){
     const { handleSubmit, loading } = this.props;
 
-    if(this.state.formStep < this.state.totalFormSteps) {
+    if(this.state.formStep < this.state.formSteps.length) {
       return (
         <Button
           title="Next Step"
           onPress={handleSubmit((values) => {
             this.props.navigation.push(navRoutes.EDIT_BEAN, {
+              ...this.props.navigation.state.params,
               formStep: this.state.formStep + 1,
             });
             // console.log('next step with ', values);
@@ -73,7 +94,7 @@ class EditBeanForm extends Component {
             // this.props.navigation.navigate({
             //   routeName: navRoutes.EDIT_BEAN_PHOTO_STEP
             // });
-            this.props.saveBean(values)
+            this.props.saveBean(values);
             this.props.destroy();
             // console.log('save bean with ', values);
           })}
@@ -118,6 +139,13 @@ class EditBeanForm extends Component {
           mode="date"
         />
         <Cafe navigation={this.props.navigation} cafes={this.props.cafes}/>
+      </View>
+    );
+  }
+
+  formStepSix(){
+    return (
+      <View>
         <TextField
           name="tasting_notes"
           label="Tasting Notes"
@@ -133,31 +161,19 @@ class EditBeanForm extends Component {
   }
 
   getFormStep(){
-    switch (this.state.formStep) {
-      case 1:
-        return this.formStepOne();
-      case 2:
-        return this.formStepTwo();
-      case 3:
-        return this.formStepThree();
-      case 4:
-        return this.formStepFour();
-      case 5:
-        return this.formStepFive();
-      default:
-        console.log('error in EditBeanForm.js @ getFormStep() -- hitting switch statement default');
-        return this.formStepOne();
-    }
+    return this.state.formSteps[this.state.formStep - 1];
   }
 
   render() {
-    const { handleSubmit, loading } = this.props;
-    // this.setState('formStep', this.props.navigation.getParam('formStep', 1));
-
     return (
-      <View>
-        {this.getFormStep()}
-        {this.submitButton()}
+      <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>
+        <ScrollView style={{ flex: 1 }}>
+          {this.getFormStep()}
+        </ScrollView>
+        <View style={{ marginTop: defaultPaddingAmount }}>
+          {this.submitButton()}
+          <ProgressBar currentStep={this.state.formStep} totalSteps={this.state.formSteps.length}/>
+        </View>
       </View>
     );
   }
@@ -165,6 +181,7 @@ class EditBeanForm extends Component {
 
 const initializedValues = {
   roast_level: 3,
+  roast_date: new Date()
 };
 
 const mapStateToProps = (state) => {
@@ -185,6 +202,7 @@ EditBeanForm = reduxForm({
   form: 'EditBeanForm',
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,
+  // enableReinitialize: true,
 })(EditBeanForm);
 
 EditBeanForm = connect(mapStateToProps, { saveBean, clearBeanModalData })(EditBeanForm);

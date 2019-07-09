@@ -14,14 +14,13 @@ class BeansListScreen extends Component {
   render() {
     return (
       <ScrollContainer>
+        <View style={{marginBottom: 15}}>
+          <Button onPress={() => { this._addNewBean() }} title="Add a new Bean" />
+        </View>
         <View>
           <ScrollView>
             <BeansList navigation={this.props.navigation} />
           </ScrollView>
-        </View>
-
-        <View style={{marginTop: 15}}>
-          <Button onPress={() => { this._addNewBean() }} title="Add a new Bean" />
         </View>
       </ScrollContainer>
     );

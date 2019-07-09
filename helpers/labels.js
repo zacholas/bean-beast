@@ -12,3 +12,16 @@ export const roastLevelDisplay = (roast_level) => {
       return 'Dark Roast';
   }
 };
+
+// export const beanTitleDisplay = (origin, roast_level) => {
+//   if(origin || roast_level){
+//     let output = '';
+//     output = origin && origin.country ? output.concat(origin.country + ' ') : output;
+//     output = origin && origin.region ? output.concat(origin.region + ' ') : output;
+//     output = roast_level ? output.concat(roastLevelDisplay(roast_level)) : output;
+//
+//     return output;
+//   }
+//
+//   return 'Unnamed Bean';
+// };

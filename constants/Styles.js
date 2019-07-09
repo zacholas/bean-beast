@@ -65,6 +65,10 @@ export const container = {
   paddingLeft: defaultPaddingAmount,
 };
 
+export const contentContainer = {
+  flex: 1,
+};
+
 export const centeredContainer = {
   ...defaultPadding,
   flex: 1,

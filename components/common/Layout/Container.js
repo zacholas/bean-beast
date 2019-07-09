@@ -12,7 +12,7 @@ const Container = (props) => {
         <ScrollView style={StyleSheet.flatten([container, props.style])}>
           <View style={{ height: defaultPaddingAmount }} />
           {props.children}
-          <View style={{ height: 5 }} />
+          <View style={{ height: defaultPaddingAmount }} />
         </ScrollView>
       </View>
     );
