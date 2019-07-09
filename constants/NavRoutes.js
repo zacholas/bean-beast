@@ -16,3 +16,7 @@ export const BEANS_LIST = 'beansList';
 export const EDIT_BEAN = 'editBean';
 export const VIEW_BEAN = 'viewBean';
 export const RATE_BEAN = 'rate_bean';
+
+//* Beans Wizard
+export const EDIT_BEAN_PHOTO_STEP = 'editBeanPhotoStep';
+export const EDIT_BEAN_ROAST_LEVEL_STEP = 'editBeanRoastLevelStep';

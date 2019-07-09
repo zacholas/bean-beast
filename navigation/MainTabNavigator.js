@@ -23,6 +23,10 @@ import EditBeanScreen from '../screens/beans/EditBeanScreen';
 import ViewBeanScreen from '../screens/beans/ViewBeanScreen';
 import RateBeanScreen from '../screens/beans/RateBeanScreen';
 
+//* Beans Wizard
+// import BeanPhotoStepScreen from '../components/beans/EditBeanFormSteps/BeanPhotoStepScreen';
+// import BeanRoastLevelStepScreen from '../components/beans/EditBeanFormSteps/BeanRoastLevelStepScreen';
+
 const HomeStack = createStackNavigator({
   [navRoutes.HOME]: HomeScreen,
 });
@@ -70,6 +74,15 @@ CafeStack.navigationOptions = {
     />
   ),
 };
+
+// const EditBeanStack = createStackNavigator({
+//   [navRoutes.EDIT_BEAN_ROAST_LEVEL_STEP]: BeanRoastLevelStepScreen,
+//   [navRoutes.EDIT_BEAN_PHOTO_STEP]: BeanPhotoStepScreen,
+// },
+// {
+//   // mode: 'modal',
+//   headerMode: 'none',
+// });
 
 
 const BeansStack = createStackNavigator({

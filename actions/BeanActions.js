@@ -17,7 +17,7 @@ export const editBean = (beanData) => {
 };
 
 export const saveBean = (values) => {
-  console.log('saving bean with ', values);
+  // console.log('saving bean with ', values);
   if(values.type === 'create'){
     return _createBean(values);
   }
@@ -38,7 +38,10 @@ const _createBean = (values) => {
         //* Todo probably take them to this bean's page instead of back, since they'll presumably want to create a taste
         // from it. Although if they're creating it from within a taste, they'd want to go back so we'll have to consider
         // the source path when routing here I think.
-        values.navigation.goBack();
+        // values.navigation.goBack();
+        values.navigation.navigate({
+          routeName: navRoutes.BEANS_LIST
+        });
       })
       .catch(error => {
         dispatch({
@@ -46,7 +49,10 @@ const _createBean = (values) => {
           payload: error,
         });
         throwError(error, '/actions/BeanActions.js', '_createBean');
-        values.navigation.goBack();
+        // values.navigation.goBack();
+        values.navigation.navigate({
+          routeName: navRoutes.BEANS_LIST
+        });
         showMessage({
           message: "Error",
           description: "There was an error creating the bean.",
@@ -78,7 +84,10 @@ const _updateBean = (values) => {
         dispatch({
           type: types.BEAN_UPDATE_SUCCESS,
         });
-        values.navigation.goBack();
+        // values.navigation.goBack();
+        values.navigation.navigate({
+          routeName: navRoutes.BEANS_LIST
+        });
       })
       .catch(error => {
         dispatch({
@@ -86,7 +95,10 @@ const _updateBean = (values) => {
           payload: error,
         });
         throwError(error, '/actions/BeanActions.js', '_updateBean');
-        values.navigation.goBack();
+        // values.navigation.goBack();
+        values.navigation.navigate({
+          routeName: navRoutes.BEANS_LIST
+        });
         showMessage({
           message: "Error",
           description: "There was an error updating the bean.",
@@ -117,10 +129,10 @@ export const deleteBean = (id, navigation) => {
         dispatch({
           type: types.BEAN_DELETE_SUCCESS,
         });
-        // navigation.goBack();
-        navigation.navigate({
-          routeName: navRoutes.BEANS_LIST
-        });
+        navigation.goBack();
+        // navigation.navigate({
+        //   routeName: navRoutes.BEANS_LIST
+        // });
       })
       .catch(error => {
         dispatch({

@@ -21,7 +21,7 @@ class BeanList extends Component {
     <BeanListItem
       id={item.id}
       onPressItem={this._onPressItem}
-      title={item.name}
+      title={item.name ? item.name : 'Unnamed Bean'}
     />
   );
 

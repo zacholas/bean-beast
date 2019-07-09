@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import _ from 'lodash';
-import { BodyText } from "../common";
-import { TextField, PickerField, DatePickerField, SliderField, LabeledSliderField, SwitchField, ImageUploadField } from "../common/reduxForm";
+import { TextField, DatePickerField } from "../common/reduxForm";
 import { Button } from "../common";
-import { required, futureDate, alwaysError } from "../../helpers";
 import { saveBean, clearBeanModalData } from "../../actions";
-import Modal from '../common/Modal';
-import EditCafeForm from '../cafes/EditCafeForm';
-import {bodyText, textLink} from "../../constants/Styles";
-import * as styles from "../common/reduxForm/Styles";
-import EditOriginForm from "../origins/EditOriginForm";
-import {roastLevelDisplay} from "../../helpers/labels";
+import BeanPhoto from "./EditBeanFormSteps/BeanPhoto";
+import Origin from "./EditBeanFormSteps/Origin";
+import RoastLevel from "./EditBeanFormSteps/RoastLevel";
+import BeanName from "./EditBeanFormSteps/BeanName";
+import Cafe from "./EditBeanFormSteps/Cafe";
+import * as navRoutes from "../../constants/NavRoutes";
 
 class EditBeanForm extends Component {
   constructor(props){
     super(props);
-    this.addCafeModal = null;
-    this.addOriginModal = null;
+    this.state = {
+      formStep: this.props.navigation.getParam('formStep', 1),
+      totalFormSteps: 5 // TODO dont have this hard-coded
+    }
   }
 
   componentWillMount(): void {
@@ -34,118 +32,92 @@ class EditBeanForm extends Component {
     }
   }
 
+  //* If the user adds a new cafe, origin, etc. in a modal, we then want to select that option on the form
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    if(nextProps.modalData.cafe){
+    if(nextProps.modalData && nextProps.modalData.cafe){
       this.props.change('cafe', nextProps.modalData.cafe);
-      this.props.clearBeanModalData();
+      this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
     }
 
-    if(nextProps.modalData.origin){
+    if(nextProps.modalData && nextProps.modalData.origin){
       this.props.change('origin', nextProps.modalData.origin);
-      this.props.clearBeanModalData();
+      this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
     }
   }
 
-  beanNamePlaceholder(){
-    if(this.props.formValues.EditBeanForm !== undefined && this.props.formValues.EditBeanForm.values !== undefined){
-      const { roast_level } = this.props.formValues.EditBeanForm.values;
-      const originID = this.props.formValues.EditBeanForm.values.origin;
-      const origin = originID ? this.props.origins[originID] : null;
-
-      let output = '';
-      output = origin && origin.country ? output.concat(origin.country + ' ') : output;
-      output = origin && origin.region ? output.concat(origin.region + ' ') : output;
-      output = roast_level ? output.concat(roastLevelDisplay(roast_level)) : output;
-
-      return output;
-    }
-
-    return null;
-  }
-
-  render() {
-    const cafeFieldLabel = (
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roastery:</Text>
-        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
-          <BodyText style={textLink}>+ Add New Roastery</BodyText>
-        </TouchableOpacity>
-      </View>
-    );
-
-    const originFieldLabel = (
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Origin:</Text>
-        <TouchableOpacity onPress={() => this.addOriginModal.show()}>
-          <BodyText style={textLink}>+ Add New Origin</BodyText>
-        </TouchableOpacity>
-      </View>
-    );
-
+  //* Output "Submit" button on last step and "Next Step" for all others
+  submitButton(){
     const { handleSubmit, loading } = this.props;
-    const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
-    const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
-    const origins = _.map(orderedOrigins, (origin) => {
-      let output = '';
-      output = origin.country ? output.concat(origin.country) : output;
-      output = origin.country && origin.region ? output.concat(' — ') : output;
-      output = origin.region ? output.concat(origin.region) : output;
 
-      return {
-        id: origin.id,
-        name: output
-      };
-    });
+    if(this.state.formStep < this.state.totalFormSteps) {
+      return (
+        <Button
+          title="Next Step"
+          onPress={handleSubmit((values) => {
+            this.props.navigation.push(navRoutes.EDIT_BEAN, {
+              formStep: this.state.formStep + 1,
+            });
+            // console.log('next step with ', values);
+          })}
+          iconName="arrow-right"
+          backgroundColor="gray"
+          spinner={loading}
+        />
+      );
+    }
+    else {
+      return (
+        <Button
+          title="Save Bean"
+          onPress={handleSubmit((values) => {
+            // this.props.navigation.navigate({
+            //   routeName: navRoutes.EDIT_BEAN_PHOTO_STEP
+            // });
+            this.props.saveBean(values)
+            this.props.destroy();
+            // console.log('save bean with ', values);
+          })}
+          iconName="check"
+          backgroundColor="green"
+          spinner={loading}
+        />
+      );
+    }
+  }
 
+  formStepOne(){
+    return (
+      <BeanPhoto />
+    );
+  }
+
+  formStepTwo(){
+    return (
+      <RoastLevel />
+    );
+  }
+
+  formStepThree(){
+    return (
+      <Origin origins={this.props.origins} navigation={this.props.navigation} />
+    );
+  }
+
+  formStepFour(){
+    return (
+      <BeanName formValues={this.props.formValues} origins={this.props.origins} />
+    );
+  }
+
+  formStepFive(){
     return (
       <View>
-        <ImageUploadField
-          name="bean_image"
-          label="Bean Image"
-        />
-        <PickerField
-          name="origin"
-          label={originFieldLabel}
-          options={origins}
-          validate={[required]}
-        />
-        <LabeledSliderField
-          name="roast_level"
-          label="Roast Level"
-          step={1}
-          minimumValue={1}
-          maximumValue={5}
-          tallNotches={[1, 3, 5]}
-          bottomLabels={[
-            { content: 'Light' },
-            { content: 'Medium' },
-            { content: 'Dark' },
-          ]}
-        />
-        {/*<SliderField*/}
-          {/*name="roast_levelz"*/}
-          {/*label="Roast Level"*/}
-          {/*step={0.01}*/}
-          {/*textLabelEnabled={true}*/}
-          {/*textLabelPosition="right"*/}
-        {/*/>*/}
         <DatePickerField
           name="roast_date"
           label="Roast Date"
           mode="date"
         />
-        <TextField
-          name="name"
-          label="Bean Name"
-          placeholder={this.beanNamePlaceholder()}
-        />
-
-        <PickerField
-          name="cafe"
-          label={cafeFieldLabel}
-          options={cafes}
-          validate={[required]}
-        />
+        <Cafe navigation={this.props.navigation} cafes={this.props.cafes}/>
         <TextField
           name="tasting_notes"
           label="Tasting Notes"
@@ -156,29 +128,36 @@ class EditBeanForm extends Component {
           label="Comments / Misc. Notes"
           multiline
         />
-        <Button
-          title="Save Bean"
-          onPress={handleSubmit((values) => this.props.saveBean(values))}
-          iconName="check"
-          backgroundColor="green"
-          spinner={loading}
-        />
+      </View>
+    );
+  }
 
-        <Modal ref={(ref) => { this.addCafeModal = ref; }} headlineText="Add New Cafe / Roastery">
-          <EditCafeForm
-            type="beanCreateModal"
-            navigation={this.props.navigation}
-            modal={this.addCafeModal}
-          />
-        </Modal>
+  getFormStep(){
+    switch (this.state.formStep) {
+      case 1:
+        return this.formStepOne();
+      case 2:
+        return this.formStepTwo();
+      case 3:
+        return this.formStepThree();
+      case 4:
+        return this.formStepFour();
+      case 5:
+        return this.formStepFive();
+      default:
+        console.log('error in EditBeanForm.js @ getFormStep() -- hitting switch statement default');
+        return this.formStepOne();
+    }
+  }
 
-        <Modal ref={(ref) => { this.addOriginModal = ref; }} headlineText="Add New Origin">
-          <EditOriginForm
-            type="beanCreateModal"
-            navigation={this.props.navigation}
-            modal={this.addOriginModal}
-          />
-        </Modal>
+  render() {
+    const { handleSubmit, loading } = this.props;
+    // this.setState('formStep', this.props.navigation.getParam('formStep', 1));
+
+    return (
+      <View>
+        {this.getFormStep()}
+        {this.submitButton()}
       </View>
     );
   }
@@ -204,7 +183,8 @@ const mapStateToProps = (state) => {
 
 EditBeanForm = reduxForm({
   form: 'EditBeanForm',
-  enableReinitialize: true,
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true,
 })(EditBeanForm);
 
 EditBeanForm = connect(mapStateToProps, { saveBean, clearBeanModalData })(EditBeanForm);
