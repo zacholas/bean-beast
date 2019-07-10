@@ -28,18 +28,9 @@ class EditBeanForm extends Component {
       formStep: this.props.navigation.getParam('formStep', 1),
       formSteps: 6
     };
-
-    this.addCafeModal = null;
-    this.addOriginModal = null;
   }
 
   componentWillMount(): void {
-    // console.log('this props is ', this.props);
-    // console.log('this type is', this.props.type);
-    // console.log('initial vals: ', this.props.initialValues);
-
-
-
     if(this.state.formStep === 1){
       this.props.change('type', this.props.type);
       this.props.change('navigation', this.props.navigation);
@@ -130,8 +121,6 @@ class EditBeanForm extends Component {
   formStepOne(){
     return (
       <View>
-        {/*{this._cafePickerField()}*/}
-
         <BeanPhoto />
       </View>
     );
@@ -144,10 +133,9 @@ class EditBeanForm extends Component {
   }
 
   formStepThree(){
-    return this._originPickerField();
-    // return (
-    //   <Origin origins={this.props.origins} navigation={this.props.navigation} />
-    // );
+    return (
+      <Origin origins={this.props.origins} navigation={this.props.navigation} />
+    );
   }
 
   formStepFour(){
@@ -204,84 +192,7 @@ class EditBeanForm extends Component {
     }
   }
 
-  _cafePickerField(){
-    console.log('cafes');
-    const cafeFieldLabel = (
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{...bodyText, ...styles.label, flex: 1}}>Roastery:</Text>
-        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
-          <BodyText style={textLink}>+ Add New Roastery</BodyText>
-        </TouchableOpacity>
-      </View>
-    );
-    const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
-
-    return (
-      <PickerField
-        name="cafe"
-        label={cafeFieldLabel}
-        options={cafes}
-        validate={[required]}
-      />
-    );
-  }
-
-  _originPickerField(){
-    const originFieldLabel = (
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Origin:</Text>
-        <TouchableOpacity onPress={() => this.addOriginModal.show()}>
-          <BodyText style={textLink}>+ Add New Origin</BodyText>
-        </TouchableOpacity>
-      </View>
-    );
-
-    const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
-    const origins = _.map(orderedOrigins, (origin) => {
-      let output = '';
-      output = origin.country ? output.concat(origin.country) : output;
-      output = origin.country && origin.region ? output.concat(' — ') : output;
-      output = origin.region ? output.concat(origin.region) : output;
-
-      return {
-        id: origin.id,
-        name: output
-      };
-    });
-
-    return (
-      <PickerField
-        name="origin"
-        label={originFieldLabel}
-        options={origins}
-        // validate={[required]}
-      />
-    )
-  }
-
-  modals(){
-    return (
-      <View>
-        <Modal ref={(ref) => { this.addCafeModal = ref; }} headlineText="Add New Cafe / Roastery">
-          <EditCafeForm
-            type="beanCreateModal"
-            navigation={this.props.navigation}
-            modal={this.addCafeModal}
-          />
-        </Modal>
-        <Modal ref={(ref) => { this.addOriginModal = ref; }} headlineText="Add New Origin">
-          <EditOriginForm
-            type="beanCreateModal"
-            navigation={this.props.navigation}
-            modal={this.addOriginModal}
-          />
-        </Modal>
-      </View>
-    )
-  }
-
   render() {
-    // console.log('edit bean form modal ref parent', this.addCafeModal);
     return (
       <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>
         <ScrollView style={{ flex: 1 }}>
@@ -291,7 +202,6 @@ class EditBeanForm extends Component {
           {this.submitButton()}
           <ProgressBar currentStep={this.state.formStep} totalSteps={this.state.formSteps}/>
         </View>
-        {/*{this.modals()}*/}
       </View>
     );
   }
