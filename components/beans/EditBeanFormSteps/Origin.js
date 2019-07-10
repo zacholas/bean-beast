@@ -47,7 +47,7 @@ export default class Origin extends Component {
           name="origin"
           label={originFieldLabel}
           options={origins}
-          validate={[required]}
+          // validate={[required]}
         />
 
         <Modal ref={(ref) => { this.addOriginModal = ref; }} headlineText="Add New Origin">

@@ -15,35 +15,51 @@ import Modal from '../../common/Modal';
 export default class Cafe extends Component {
   constructor(props){
     super(props);
-    this.addCafeModal = null;
+    this.state = {
+      modalVisible: false,
+    };
+
+    this.hideModal = this.hideModal.bind(this);
   }
 
-  render() {
-    const cafeFieldLabel = (
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roastery:</Text>
-        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
+  cafeFieldLabel() {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <Text style={{...bodyText, ...styles.label, flex: 1}}>Roastery:</Text>
+        <TouchableOpacity onPress={() => this.showModal()}>
           <BodyText style={textLink}>+ Add New Roastery</BodyText>
         </TouchableOpacity>
       </View>
     );
+  };
+
+  showModal(){
+    this.setState({ modalVisible: true });
+  }
+
+  hideModal(){
+    this.setState({ modalVisible: false });
+  }
+
+  render() {
+
+
 
     const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
-
+    console.log(this.hideModal);
     return (
       <View>
         <PickerField
           name="cafe"
-          label={cafeFieldLabel}
+          label={this.cafeFieldLabel()}
           options={cafes}
           validate={[required]}
         />
-
-        <Modal ref={(ref) => { this.addCafeModal = ref; }} headlineText="Add New Cafe / Roastery">
+        <Modal visible={this.state.modalVisible} headlineText="Add New Cafe / Roastery">
           <EditCafeForm
             type="beanCreateModal"
             navigation={this.props.navigation}
-            modal={this.addCafeModal}
+            hideModal={() => this.hideModal}
           />
         </Modal>
       </View>
@@ -54,4 +70,5 @@ export default class Cafe extends Component {
 Cafe.propTypes = {
   navigation: PropTypes.object.isRequired,
   cafes: PropTypes.object.isRequired,
+  addCafeModal: PropTypes.node
 };
