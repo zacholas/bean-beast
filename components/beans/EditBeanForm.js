@@ -8,10 +8,10 @@ import { TextField, DatePickerField, PickerField } from "../common/reduxForm";
 import { BodyText, Button, ScrollContainer } from "../common";
 import { saveBean, clearBeanModalData } from "../../actions";
 import BeanPhoto from "./EditBeanFormSteps/BeanPhoto";
-// import Origin from "./EditBeanFormSteps/Origin";
+import Origin from "./EditBeanFormSteps/Origin";
 import RoastLevel from "./EditBeanFormSteps/RoastLevel";
 import BeanName from "./EditBeanFormSteps/BeanName";
-// import Cafe from "./EditBeanFormSteps/Cafe";
+import Cafe from "./EditBeanFormSteps/Cafe";
 import * as navRoutes from "../../constants/NavRoutes";
 import ProgressBar from "../common/ProgressBar";
 import { bodyText, defaultMarginAmount, defaultPaddingAmount, textLink } from "../../constants/Styles";
@@ -130,8 +130,8 @@ class EditBeanForm extends Component {
   formStepOne(){
     return (
       <View>
-        {this._cafePickerField()}
-        {/*<Cafe navigation={this.props.navigation} cafes={this.props.cafes} addCafeModal={this.addCafeModal} />*/}
+        {/*{this._cafePickerField()}*/}
+
         <BeanPhoto />
       </View>
     );
@@ -164,7 +164,7 @@ class EditBeanForm extends Component {
           label="Roast Date"
           mode="date"
         />
-
+        <Cafe navigation={this.props.navigation} cafes={this.props.cafes} />
       </View>
     );
   }
@@ -291,7 +291,7 @@ class EditBeanForm extends Component {
           {this.submitButton()}
           <ProgressBar currentStep={this.state.formStep} totalSteps={this.state.formSteps}/>
         </View>
-        {this.modals()}
+        {/*{this.modals()}*/}
       </View>
     );
   }

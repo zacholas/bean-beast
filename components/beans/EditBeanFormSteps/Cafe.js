@@ -20,7 +20,7 @@ export default class Cafe extends Component {
     const cafeFieldLabel = (
       <View style={{flexDirection: 'row'}}>
         <Text style={{...bodyText, ...styles.label, flex: 1}}>Roastery:</Text>
-        <TouchableOpacity onPress={() => this.props.addCafeModal.show()}>
+        <TouchableOpacity onPress={() => this.addCafeModal.show()}>
           <BodyText style={textLink}>+ Add New Roastery</BodyText>
         </TouchableOpacity>
       </View>
@@ -32,7 +32,7 @@ export default class Cafe extends Component {
       <View>
         <PickerField
           name="cafe"
-          label={cafeFieldLabel.bind(this)}
+          label={cafeFieldLabel}
           options={cafes}
           validate={[required]}
         />
