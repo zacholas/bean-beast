@@ -200,7 +200,7 @@ class EditBeanForm extends Component {
         </ScrollView>
         <View style={{ marginTop: defaultPaddingAmount }}>
           {this.submitButton()}
-          <ProgressBar currentStep={this.state.formStep} totalSteps={this.state.formSteps}/>
+          <ProgressBar currentStep={this.state.formStep} totalSteps={this.state.formSteps} textDisplay={true} />
         </View>
       </View>
     );
