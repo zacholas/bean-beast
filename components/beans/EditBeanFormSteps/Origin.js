@@ -9,6 +9,7 @@ import * as styles from "../../common/reduxForm/Styles";
 import {BodyText} from "../../common";
 import Modal from '../../common/Modal';
 import EditOriginForm from "../../origins/EditOriginForm";
+import { RadioField } from "../../common/reduxForm/RadioField";
 // import { View } from 'react-native';
 // import { Container, BodyText } from "/components/common";
 
@@ -41,8 +42,15 @@ export default class Origin extends Component {
       };
     });
 
+    const radioOptions = [
+      { label: 'Skip', value: false },
+      { label: 'Single Origin', value: 'single_origin' },
+      { label: 'Blend', value: 'blend' },
+    ];
+
     return (
       <View>
+        <RadioField name="origin_type" label="Origin Type" options={radioOptions} />
         <PickerField
           name="origin"
           label={originFieldLabel}

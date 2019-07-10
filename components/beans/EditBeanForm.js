@@ -209,7 +209,8 @@ class EditBeanForm extends Component {
 
 const initializedValues = {
   roast_level: 3,
-  roast_date: new Date()
+  roast_date: new Date(),
+  origin_type: false
 };
 
 const mapStateToProps = (state) => {
