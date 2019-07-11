@@ -10,11 +10,11 @@ const INITIAL_STATE = {
 };
 
 /*
-Origin Fields:
+BeanDetails Fields:
 - ID
-- Origin Country -- picker with add custom, e.g. Ethiopia
-- Origin Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
-- Origin Details (farm/estate/plantation/whatever)
+- BeanDetails Country -- picker with add custom, e.g. Ethiopia
+- BeanDetails Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
+- BeanDetails Details (farm/estate/plantation/whatever)
 - Species *TODO -- have this as a radio/selector of (arabica, robusta, other)
 - Process -- natural, semi washed, fully washed, honey, allow custom *todo
 - Varietal -- maybe just open text *todo

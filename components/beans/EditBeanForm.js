@@ -8,7 +8,7 @@ import { TextField, DatePickerField, PickerField } from "../common/reduxForm";
 import { BodyText, Button, ScrollContainer } from "../common";
 import { saveBean, clearBeanModalData } from "../../actions";
 import BeanPhoto from "./EditBeanFormSteps/BeanPhoto";
-import Origin from "./EditBeanFormSteps/Origin";
+import BeanDetails from "./EditBeanFormSteps/BeanDetails";
 import RoastLevel from "./EditBeanFormSteps/RoastLevel";
 import BeanName from "./EditBeanFormSteps/BeanName";
 import Cafe from "./EditBeanFormSteps/Cafe";
@@ -134,7 +134,7 @@ class EditBeanForm extends Component {
 
   formStepThree(){
     return (
-      <Origin origins={this.props.origins} navigation={this.props.navigation} />
+      <BeanDetails origins={this.props.origins} navigation={this.props.navigation} />
     );
   }
 

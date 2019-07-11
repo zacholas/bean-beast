@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
+import { Text, TouchableOpacity, View } from 'react-native';
 import _ from "lodash";
-import {required} from "../../../helpers";
-import {PickerField} from "../../common/reduxForm";
-import {Text, TouchableOpacity, View} from "react-native";
-import {bodyText, textLink} from "../../../constants/Styles";
-import * as styles from "../../common/reduxForm/Styles";
-import {BodyText} from "../../common";
-import Modal from '../../common/Modal';
-import EditOriginForm from "../../origins/EditOriginForm";
-import { RadioField } from "../../common/reduxForm/RadioField";
-// import { View } from 'react-native';
+import { PickerField } from "../common/reduxForm";
+import Modal from "../common/Modal";
+import { bodyText, textLink } from "../../constants/Styles";
+import * as styles from "../common/reduxForm/Styles";
+import { BodyText } from "../common";
+import EditOriginForm from "../origins/EditOriginForm";
 // import { Container, BodyText } from "/components/common";
 
-export default class Origin extends Component {
+export default class BeanDetailsFormFields extends Component {
   constructor(props){
     super(props);
     this.addOriginModal = null;
@@ -42,15 +39,8 @@ export default class Origin extends Component {
       };
     });
 
-    const radioOptions = [
-      { label: 'Skip', value: false },
-      { label: 'Single Origin', value: 'single_origin' },
-      { label: 'Blend', value: 'blend' },
-    ];
-
     return (
       <View>
-        <RadioField name="origin_type" label="Origin Type" options={radioOptions} />
         <PickerField
           name="origin"
           label={originFieldLabel}
@@ -70,10 +60,4 @@ export default class Origin extends Component {
   }
 }
 
-Origin.propTypes = {
-  origins: PropTypes.object
-};
-
-Origin.defaultProps = {
-  origins: {}
-};
+BeanDetailsFormFields.propTypes = {};
