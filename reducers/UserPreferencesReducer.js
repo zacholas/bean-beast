@@ -7,6 +7,8 @@ const INITIAL_STATE = {
   temperatureMeasurement: 'c'
 };
 
+//* Other things to perhaps add here: roast level style (custom input vs
+
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     default:

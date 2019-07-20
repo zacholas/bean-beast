@@ -33,7 +33,7 @@ export default class BeanDetails extends Component {
 
     return (
       <View>
-        <RadioField name="origin_type" label="Bean Type" options={radioOptions} />
+        <RadioField name="bean_type" label="Bean Type" options={radioOptions} />
         {this.beanDetailsForm()}
       </View>
     );

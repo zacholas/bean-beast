@@ -9,6 +9,31 @@ const INITIAL_STATE = {
   modalData: {},
 };
 
+const sampleBeanStructure = {
+  name: 'Breakfast Blend',
+  cafe: 'cafe-234nb3b292923j3j',
+  roast_date: '1/2/3',
+  roast_level: 4,
+  tasting_notes: 'Mixed bellyy nakha',
+  comments: 'Yommm',
+  bean_image: 'imgsrc',
+  bean_type: 'single_origin', // false, 'single_origin', 'blend',
+  bean_details: [
+    {
+      blend_ratio: 100, // percentage 0-100 (perhaps store as float 0 - 1; idk)
+      country: 'Ethiopia',
+      region: 'Yirga Chefe',
+      details: 'Zachs Estate',
+      species: 'arabica', // 'arabica', 'robusta', 'other'
+      species_other: 'weird ass species',
+      processing_method: 'fully washed', // natural, semi washed, fully washed, honey, other
+      processing_method_other: 'only like a third washed',
+      varietal: 'idk',
+      altitude: 12435 // or maybe it'd be '12345 masl', idk yet. the 7g is listed as '1300 - 1600 masl' so probably open text is best
+    }
+  ]
+};
+
 /*
 Bean Fields:
 *** @todo need some way to account for blend components --- maybe allow someone to select single origin or blend and show certain fields based on that.
