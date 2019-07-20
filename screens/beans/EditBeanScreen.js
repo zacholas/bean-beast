@@ -21,7 +21,7 @@ export default class EditBeanScreen extends Component {
     // <Container scroll={true}></Container>
     return (
       <Container scroll={false} style={{ flex: 1 }}>
-        <View>{this._pageTitle()}</View>
+        {/*<View>{this._pageTitle()}</View>*/}
         <View style={{ flex: 1 }}>
           <EditBeanForm type={this.type} navigation={this.props.navigation} />
         </View>

@@ -5,7 +5,7 @@ import {View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { TextField, DatePickerField, PickerField } from "../common/reduxForm";
-import { BodyText, Button, ScrollContainer } from "../common";
+import { BodyText, Button, Headline, ScrollContainer } from "../common";
 import { saveBean, clearBeanModalData } from "../../actions";
 import BeanPhoto from "./EditBeanFormSteps/BeanPhoto";
 import BeanDetails from "./EditBeanFormSteps/BeanDetails";
@@ -121,6 +121,7 @@ class EditBeanForm extends Component {
   formStepOne(){
     return (
       <View>
+        {this._pageTitle()}
         <BeanPhoto />
       </View>
     );
@@ -204,6 +205,15 @@ class EditBeanForm extends Component {
         </View>
       </View>
     );
+  }
+
+  _pageTitle(){
+    if(this.props.type === 'create'){
+      return <Headline>Create New Bean</Headline>
+    }
+    else if(this.props.type === 'edit'){
+      return <Headline>Edit Bean</Headline>
+    }
   }
 }
 
