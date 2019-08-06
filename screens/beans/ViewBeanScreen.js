@@ -24,27 +24,36 @@ class ViewBeanScreen extends Component {
     const bean = this.props.bean;
     return (
       <Container>
-        <View style={{ flexDirection: 'row' }}>
-        {this._beanImage()}
-          <View style={{ flex: 1 }}>
-            {this._beanName()}
-            {this._roasterName()}
-          </View>
-        </View>
-        <Hr />
-        {this._ratingInfo()}
-        <Hr />
-        <BodyText>Details:</BodyText>
-        <BodyText>{JSON.stringify(bean)}</BodyText>
-        {/*<BodyText>Roasted on: {Date.parse(this.props.bean.roast_date)}</BodyText>*/}
-        <Hr />
-        <BodyText>Delete, edit, clone (maybe)</BodyText>
         <Button
           onPress={() => this._editBeanButtonPress()}
           title="Edit Bean"
           iconName="pencil"
           backgroundColor="gray"
         />
+        <Hr />
+        <View style={{ flexDirection: 'row' }}>
+        {this._beanImage()}
+          <View style={{ flex: 1 }}>
+            {this._beanName()}
+            {this._roasterName()}
+            <BodyText>Roasted on: {new Date(Date.parse(this.props.bean.roast_date)).toLocaleDateString("en-US")} </BodyText>
+          </View>
+        </View>
+        <Hr />
+        {this._ratingInfo()}
+        <Hr />
+        {this._originInfo()}
+        <Hr />
+        <Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline>
+        <BodyText>{this.props.bean.tasting_notes}</BodyText>
+        <Headline h5 style={marginBottomHalf}>Comments:</Headline>
+        <BodyText>{this.props.bean.comments}</BodyText>
+        {/*<BodyText>Details:</BodyText>*/}
+        {/*<BodyText>{JSON.stringify(bean)}</BodyText>*/}
+
+        <Hr />
+        <BodyText>Delete, edit, clone (maybe)</BodyText>
+
         <Button
           onPress={() => this.deleteConfirmModal.show()}
           title="Delete Bean"
@@ -141,8 +150,9 @@ class ViewBeanScreen extends Component {
 
   _ratingInfo(){
     if(typeof this.props.bean.rating !== 'undefined'){
+      // <View style={{ paddingBottom: 10 }}>
       return (
-        <View style={{ paddingBottom: 10 }}>
+        <View>
           <View style={{ ...marginBottomHalf, flexDirection: 'row', alignItems: 'center' }}>
             <View>
               <Headline h5 style={{ marginBottom: 0 }}>Rating Information</Headline>
@@ -177,9 +187,22 @@ class ViewBeanScreen extends Component {
     }
   }
 
+  _originInfo(){
+    return (
+      <View style={{ paddingBottom: 10 }}>
+        <Headline h5 style={marginBottomHalf}>Origin Information</Headline>
+        <View style={{ ...marginBottomHalf, flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={bodyText}>Rating: {this.props.bean.rating}/10</Text>
+          <Text style={{ ...bodyText, marginLeft: 15, marginRight: 15 }}>|</Text>
+          <Text style={bodyText}>Buy Again? {this.props.bean.buy_again && this.props.bean.buy_again === true ? 'Yes' : 'No'}</Text>
+        </View>
+      </View>
+    )
+  }
+
   _roasterName(){
     if(this.props.roaster && this.props.roaster.name !== undefined){
-      return <BodyText>Roaster: {this.props.roaster.name}</BodyText>;
+      return <BodyText style={marginBottomHalf}>Roaster: {this.props.roaster.name}</BodyText>;
     }
   }
 }

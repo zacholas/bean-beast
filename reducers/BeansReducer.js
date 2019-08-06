@@ -13,10 +13,11 @@ const sampleBeanStructure = {
   name: 'Breakfast Blend',
   cafe: 'cafe-234nb3b292923j3j',
   roast_date: '1/2/3',
+  roast_level_advanced_mode: false, // true, false
   roast_level: 4,
   tasting_notes: 'Mixed bellyy nakha',
   comments: 'Yommm',
-  bean_image: 'imgsrc',
+  bean_image: 'img src',
   bean_type: 'single_origin', // false, 'single_origin', 'blend',
   bean_details: [
     {
@@ -74,7 +75,8 @@ export default (state = INITIAL_STATE, action) => {
             tasting_notes: action.payload.data.tasting_notes,
             comments: action.payload.data.comments,
             bean_image: action.payload.data.bean_image,
-            origin: action.payload.data.origin
+            origin: action.payload.data.origin,
+            bean_type: action.payload.data.bean_type
           },
         },
       };
@@ -95,6 +97,7 @@ export default (state = INITIAL_STATE, action) => {
             comments: action.payload.data.comments,
             bean_image: action.payload.data.bean_image,
             origin: action.payload.data.origin,
+            bean_type: action.payload.data.bean_type
           }
         }
       };

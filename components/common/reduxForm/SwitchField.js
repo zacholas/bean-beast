@@ -92,7 +92,7 @@ const valueLabelDisplayOutput = (switchValue, trueText, falseText) => {
 
 const SwitchField = (props) => {
   return (
-    <View style={{ alignItems: 'stretch' }}>
+    <View style={{ alignItems: 'stretch', ...props.containerStyle }}>
       <Text style={StyleSheet.flatten([bodyText, styles.label])}>{props.label}:</Text>
       <Field
         name={props.name}
@@ -116,7 +116,8 @@ SwitchField.propTypes = {
   valueLabelDisplay: PropTypes.bool,
   valueLabelPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   valueLabelTrue: PropTypes.string,
-  valueLabelFalse: PropTypes.string
+  valueLabelFalse: PropTypes.string,
+  containerStyle: PropTypes.object,
 };
 
 SwitchField.defaultProps = {
@@ -124,4 +125,5 @@ SwitchField.defaultProps = {
   valueLabelPosition: 'right', // left, right, top, bottom,
   valueLabelTrue: 'Yes',
   valueLabelFalse: 'No',
+  containerStyle: null
 };

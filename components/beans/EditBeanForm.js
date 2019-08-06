@@ -135,7 +135,12 @@ class EditBeanForm extends Component {
 
   formStepThree(){
     return (
-      <BeanDetails origins={this.props.origins} navigation={this.props.navigation} />
+      <BeanDetails
+        origins={this.props.origins}
+        roastLevels={this.props.roastLevels}
+        navigation={this.props.navigation}
+        formValues={this.props.formValues}
+      />
     );
   }
 
@@ -220,13 +225,15 @@ class EditBeanForm extends Component {
 const initializedValues = {
   roast_level: 3,
   roast_date: new Date(),
-  origin_type: false
+  bean_type: false,
+  roast_level_advanced_mode: false
 };
 
 const mapStateToProps = (state) => {
   return {
     cafes: state.cafes.cafes,
     origins: state.origins.origins,
+    roastLevels: state.roastLevels.roastLevels,
     initialValues: {
       ...initializedValues,
       ...state.beans.currentlyEditingBean,

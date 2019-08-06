@@ -169,7 +169,7 @@ const LabeledSliderComponent = ({
 const LabeledSliderField = (props) => {
   return (
     <View style={{ alignItems: 'stretch' }}>
-      <Text style={StyleSheet.flatten([bodyText, label])}>{props.label}:</Text>
+      { props.label && <Text style={StyleSheet.flatten([bodyText, label])}>{props.label}:</Text> }
       <View>
         <Field
           name={props.name}
