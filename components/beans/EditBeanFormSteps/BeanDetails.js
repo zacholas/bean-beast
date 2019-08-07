@@ -17,15 +17,6 @@ import RoastLevelFormField from "./RoastLevelFormField";
 // import { Container, BodyText } from "/components/common";
 
 export default class BeanDetails extends Component {
-  beanDetailsForm(){
-    return (
-      <BeanDetailsFormFields
-        origins={this.props.origins}
-        navigation={this.props.navigation}
-      />
-    )
-  }
-
   _beanDetailsDisplay(){
     // console.log(this.props.formValues.EditBeanForm.values.bean_type);
     let beanType = false;
@@ -39,9 +30,10 @@ export default class BeanDetails extends Component {
     }
     if(beanType === 'single_origin'){
       return (
-        <RoastLevelFormField
+        <BeanDetailsFormFields
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
+          beanProcesses={this.props.beanProcesses}
           navigation={this.props.navigation}
           formValues={this.props.formValues}
         />
@@ -65,8 +57,6 @@ export default class BeanDetails extends Component {
       <View>
         <RadioField name="bean_type" label="Bean Type" options={radioOptions} />
         {this._beanDetailsDisplay()}
-        <Hr />
-        {this.beanDetailsForm()}
       </View>
     );
   }

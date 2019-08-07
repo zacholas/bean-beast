@@ -27,8 +27,7 @@ const sampleBeanStructure = {
       details: 'Zachs Estate',
       species: 'arabica', // 'arabica', 'robusta', 'other'
       species_other: 'weird ass species',
-      processing_method: 'fully washed', // natural, semi washed, fully washed, honey, other
-      processing_method_other: 'only like a third washed',
+      bean_process: 'fully washed', // natural, semi washed, fully washed, honey, etc
       varietal: 'idk',
       altitude: 12435 // or maybe it'd be '12345 masl', idk yet. the 7g is listed as '1300 - 1600 masl' so probably open text is best
     }
@@ -125,6 +124,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,
         modalData: {
           roastLevel: action.payload.id
+        }
+      };
+    case types.BEAN_PROCESS_CREATING_BEAN_MODAL:
+      return { ...state,
+        modalData: {
+          beanProcess: action.payload.id
         }
       };
     case types.ORIGIN_CREATING_BEAN_MODAL:

@@ -149,6 +149,7 @@ class EditBeanForm extends Component {
       <BeanDetails
         origins={this.props.origins}
         roastLevels={this.props.roastLevels}
+        beanProcesses={this.props.beanProcesses}
         navigation={this.props.navigation}
         formValues={this.props.formValues}
       />
@@ -248,6 +249,7 @@ const mapStateToProps = (state) => {
     cafes: state.cafes.cafes,
     origins: state.origins.origins,
     roastLevels: state.roastLevels.roastLevels,
+    beanProcesses: state.beanProcesses.beanProcesses,
     initialValues: {
       ...initializedValues,
       ...state.beans.currentlyEditingBean,

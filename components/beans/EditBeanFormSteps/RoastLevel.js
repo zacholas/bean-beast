@@ -4,6 +4,8 @@ import { LabeledSliderField } from "../../common/reduxForm";
 // import { View } from 'react-native';
 // import { Container, BodyText } from "/components/common";
 
+// TODO delete this whole file I believe since I am pretty sure it is not needed once the new setup is rolled out.
+
 export default class RoastLevel extends Component {
   render() {
     return (

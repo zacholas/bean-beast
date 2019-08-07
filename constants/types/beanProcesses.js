@@ -1,0 +1,12 @@
+export const BEAN_PROCESS_CREATE         = 'bean_process_create';
+export const BEAN_PROCESS_CREATING       = 'bean_process_creating';
+export const BEAN_PROCESS_CREATING_BEAN_MODAL = 'bean_process_creating_bean_modal';
+export const BEAN_PROCESS_CREATE_SUCCESS = 'bean_process_create_success';
+export const BEAN_PROCESS_CREATE_FAIL    = 'bean_process_create_fail';
+export const BEAN_PROCESS_EDIT           = 'bean_process_edit';
+export const BEAN_PROCESS_UPDATING       = 'bean_process_updating';
+export const BEAN_PROCESS_UPDATE_SUCCESS = 'bean_process_update_success';
+export const BEAN_PROCESS_UPDATE_FAIL    = 'bean_process_update_fail';
+export const BEAN_PROCESS_DELETING       = 'bean_process_deleting';
+export const BEAN_PROCESS_DELETE_SUCCESS = 'bean_process_delete_success';
+export const BEAN_PROCESS_DELETE_FAIL    = 'bean_process_delete_fail';
