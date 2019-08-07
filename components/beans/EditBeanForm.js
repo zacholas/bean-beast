@@ -47,13 +47,24 @@ class EditBeanForm extends Component {
 
   //* If the user adds a new cafe, origin, etc. in a modal, we then want to select that option on the form
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
-    if(nextProps.modalData && nextProps.modalData.cafe){
+    if(_.size(nextProps.modalData)){
+      console.log('EditBeanForm.js — incoming modal data: ', nextProps.modalData);
+    }
+
+    if(_.size(nextProps.modalData) && nextProps.modalData.cafe){
       console.log('New cafe was set', nextProps.modalData);
       this.props.change('cafe', nextProps.modalData.cafe);
       this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
     }
 
-    if(nextProps.modalData && nextProps.modalData.origin){
+    if(_.size(nextProps.modalData) && nextProps.modalData.roastLevel){
+      console.log('New roast level was set. Not gonna update the field yet tho because IDK how I will do the blends yet.', nextProps.modalData.roastLevel);
+      // TODO do dees
+      // this.props.change('cafe', nextProps.modalData.cafe);
+      // this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
+    }
+
+    if(_.size(nextProps.modalData) && nextProps.modalData.origin){
       this.props.change('origin', nextProps.modalData.origin);
       this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
     }
@@ -225,8 +236,11 @@ class EditBeanForm extends Component {
 const initializedValues = {
   roast_level: 3,
   roast_date: new Date(),
-  bean_type: false,
-  roast_level_advanced_mode: false
+  // bean_type: false,
+  // roast_level_advanced_mode: false
+
+  bean_type: 'single_origin',
+  roast_level_advanced_mode: true
 };
 
 const mapStateToProps = (state) => {

@@ -11,6 +11,11 @@ export const EDIT_CAFE = 'editCafe';
 export const VIEW_CAFE = 'viewCafe';
 // export const DELETE_CAFE_MODAL = 'deleteCafeModal';
 
+//* Roast Levels
+export const ROAST_LEVEL_LIST = 'roastLevelList';
+// export const EDIT_ROAST_LEVEL = 'editRoastLevel';
+// export const VIEW_ROAST_LEVEL = 'viewRoastLevel';
+
 //* Beans
 export const BEANS_LIST = 'beansList';
 export const EDIT_BEAN = 'editBean';

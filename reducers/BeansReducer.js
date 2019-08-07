@@ -121,6 +121,12 @@ export default (state = INITIAL_STATE, action) => {
          cafe: action.payload.id
         }
       };
+    case types.ROAST_LEVEL_CREATING_BEAN_MODAL:
+      return { ...state,
+        modalData: {
+          roastLevel: action.payload.id
+        }
+      };
     case types.ORIGIN_CREATING_BEAN_MODAL:
       return { ...state,
         modalData: {

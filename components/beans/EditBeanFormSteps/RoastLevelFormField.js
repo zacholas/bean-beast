@@ -7,13 +7,14 @@ import Modal from "../../common/Modal";
 import { bodyText, textLink } from "../../../constants/Styles";
 import * as styles from "../../common/reduxForm/Styles";
 import { BodyText } from "../../common";
+import EditRoastLevelForm from "../../roastLevels/EditRoastLevelForm";
 // import EditRoastLevelForm from "../../roastLevels/EditRoastLevelForm";
 // import { Container, BodyText } from "/components/common";
 
 export default class RoastLevelFormField extends Component {
   constructor(props){
     super(props);
-    this.addroastLevelModal = null;
+    this.addRoastLevelModal = null;
   }
 
   roastLevelOutput() {
@@ -47,7 +48,7 @@ export default class RoastLevelFormField extends Component {
       const roastLevelFieldLabel = (
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roast Level:</Text>
-          <TouchableOpacity onPress={() => this.addroastLevelModal.show()}>
+          <TouchableOpacity onPress={() => this.addRoastLevelModal.show()}>
             <BodyText style={textLink}>+ Add New Roast Level</BodyText>
           </TouchableOpacity>
         </View>
@@ -92,18 +93,18 @@ export default class RoastLevelFormField extends Component {
             valueLabelTrue="On"
             valueLabelFalse="Off"
           />
-          {/*<TouchableOpacity onPress={() => this.addroastLevelModal.show()}>*/}
+          {/*<TouchableOpacity onPress={() => this.addRoastLevelModal.show()}>*/}
             {/*<BodyText style={textLink}>+ Add New roastLevel</BodyText>*/}
           {/*</TouchableOpacity>*/}
         </View>
         {this.roastLevelOutput()}
 
-        <Modal ref={(ref) => { this.addroastLevelModal = ref; }} headlineText="Add New Roast Level">
-          {/*<EditRoastLevelForm*/}
-            {/*type="beanCreateModal"*/}
-            {/*navigation={this.props.navigation}*/}
-            {/*modal={this.addroastLevelModal}*/}
-          {/*/>*/}
+        <Modal ref={(ref) => { this.addRoastLevelModal = ref; }} headlineText="Add New Roast Level">
+          <EditRoastLevelForm
+            type="beanCreateModal"
+            navigation={this.props.navigation}
+            modal={this.addRoastLevelModal}
+          />
         </Modal>
       </View>
     );
