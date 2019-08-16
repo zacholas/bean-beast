@@ -1,0 +1,12 @@
+export const COFFEE_SPECIES_CREATE         = 'bean_process_create';
+export const COFFEE_SPECIES_CREATING       = 'bean_process_creating';
+export const COFFEE_SPECIES_CREATING_BEAN_MODAL = 'bean_process_creating_bean_modal';
+export const COFFEE_SPECIES_CREATE_SUCCESS = 'bean_process_create_success';
+export const COFFEE_SPECIES_CREATE_FAIL    = 'bean_process_create_fail';
+export const COFFEE_SPECIES_EDIT           = 'bean_process_edit';
+export const COFFEE_SPECIES_UPDATING       = 'bean_process_updating';
+export const COFFEE_SPECIES_UPDATE_SUCCESS = 'bean_process_update_success';
+export const COFFEE_SPECIES_UPDATE_FAIL    = 'bean_process_update_fail';
+export const COFFEE_SPECIES_DELETING       = 'bean_process_deleting';
+export const COFFEE_SPECIES_DELETE_SUCCESS = 'bean_process_delete_success';
+export const COFFEE_SPECIES_DELETE_FAIL    = 'bean_process_delete_fail';

@@ -17,7 +17,7 @@ export const editBean = (beanData) => {
 };
 
 export const saveBean = (values) => {
-  // console.log('saving bean with ', values);
+  console.log('saving bean with ', values);
   if(values.type === 'create'){
     return _createBean(values);
   }

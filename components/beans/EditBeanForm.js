@@ -150,6 +150,7 @@ class EditBeanForm extends Component {
         origins={this.props.origins}
         roastLevels={this.props.roastLevels}
         beanProcesses={this.props.beanProcesses}
+        coffeeSpecies={this.props.coffeeSpecies}
         navigation={this.props.navigation}
         formValues={this.props.formValues}
       />
@@ -211,6 +212,7 @@ class EditBeanForm extends Component {
   }
 
   render() {
+    console.log('form', this.props.formValues);
     return (
       <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>
         <ScrollView style={{ flex: 1 }}>
@@ -250,6 +252,7 @@ const mapStateToProps = (state) => {
     origins: state.origins.origins,
     roastLevels: state.roastLevels.roastLevels,
     beanProcesses: state.beanProcesses.beanProcesses,
+    coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
     initialValues: {
       ...initializedValues,
       ...state.beans.currentlyEditingBean,

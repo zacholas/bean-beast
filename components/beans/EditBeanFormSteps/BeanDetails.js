@@ -34,6 +34,7 @@ export default class BeanDetails extends Component {
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
           beanProcesses={this.props.beanProcesses}
+          coffeeSpecies={this.props.coffeeSpecies}
           navigation={this.props.navigation}
           formValues={this.props.formValues}
         />

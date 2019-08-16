@@ -11,6 +11,7 @@ import EditOriginForm from "../origins/EditOriginForm";
 import RoastLevelFormField from "./EditBeanFormSteps/RoastLevelFormField";
 import EditBeanProcessForm from "../beanProcesses/EditBeanProcessForm";
 import { required } from "../../helpers";
+import EditCoffeeSpeciesForm from "../coffeeSpecies/EditCoffeeSpeciesForm";
 // import { Container, BodyText } from "/components/common";
 
 export default class BeanDetailsFormFields extends Component {
@@ -18,6 +19,7 @@ export default class BeanDetailsFormFields extends Component {
     super(props);
     this.addOriginModal = null;
     this.addBeanProcessModal = null;
+    this.addCoffeeSpeciesModal = null;
   }
 
   countryLabel(){
@@ -66,6 +68,15 @@ export default class BeanDetailsFormFields extends Component {
       </View>
     );
 
+    const coffeeSpeciesFieldLabel = (
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Coffee Species:</Text>
+        <TouchableOpacity onPress={() => this.addCoffeeSpeciesModal.show()}>
+          <BodyText style={textLink}>+ Add New Coffee Species</BodyText>
+        </TouchableOpacity>
+      </View>
+    );
+
     const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
     const origins = _.map(orderedOrigins, (origin) => {
       let output = '';
@@ -90,6 +101,17 @@ export default class BeanDetailsFormFields extends Component {
       };
     });
 
+    const orderedCoffeeSpecies = _.orderBy(this.props.coffeeSpecies, ['order'], ['asc']);
+    const coffeeSpecies = _.map(orderedCoffeeSpecies, (coffeeSpecies) => {
+      let output = '';
+      output = coffeeSpecies.name ? output.concat(coffeeSpecies.name) : output;
+
+      return {
+        id: coffeeSpecies.id,
+        name: output
+      };
+    });
+
     return (
       <View>
         <RoastLevelFormField
@@ -105,22 +127,21 @@ export default class BeanDetailsFormFields extends Component {
           name="bean_process"
           label={beanProcessFieldLabel}
           options={beanProcesses}
-          // validate={[required]}
         />
 
         <Hr />
 
-        <TextField
-          name="origin_country"
-          label={this.countryLabel()}
-          validate={[required]}
-        />
+        {/*<TextField*/}
+          {/*name="origin_country"*/}
+          {/*label={this.countryLabel()}*/}
+          {/*validate={[required]}*/}
+        {/*/>*/}
 
         <PickerField
           name="origin"
           label={originFieldLabel}
           options={origins}
-          // validate={[required]}
+          validate={[required]}
         />
 
         <TextField
@@ -133,13 +154,26 @@ export default class BeanDetailsFormFields extends Component {
           label={this.originDetailsLabel()}
         />
 
+        <Hr />
 
+        <PickerField
+          name="coffee_species"
+          label={coffeeSpeciesFieldLabel}
+          options={coffeeSpecies}
+        />
 
         <Modal ref={(ref) => { this.addBeanProcessModal = ref; }} headlineText="Add New Bean Process">
           <EditBeanProcessForm
             type="beanCreateModal"
             navigation={this.props.navigation}
             modal={this.addBeanProcessModal}
+          />
+        </Modal>
+        <Modal ref={(ref) => { this.addCoffeeSpeciesModal = ref; }} headlineText="Add New Coffee Species">
+          <EditCoffeeSpeciesForm
+            type="beanCreateModal"
+            navigation={this.props.navigation}
+            modal={this.addCoffeeSpeciesModal}
           />
         </Modal>
         <Modal ref={(ref) => { this.addOriginModal = ref; }} headlineText="Add New Origin">

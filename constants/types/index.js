@@ -3,3 +3,4 @@ export * from './cafes';
 export * from './origins';
 export * from './roastLevels';
 export * from './beanProcesses';
+export * from './coffeeSpecies';
