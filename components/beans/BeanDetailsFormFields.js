@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Text, TouchableOpacity, View } from 'react-native';
 import _ from "lodash";
-import { PickerField, TextField } from "../common/reduxForm";
+import { PickerField, SwitchField, TextField } from "../common/reduxForm";
 import Modal from "../common/Modal";
 import { bodyText, textLink } from "../../constants/Styles";
 import * as styles from "../common/reduxForm/Styles";
@@ -124,7 +124,8 @@ export default class BeanDetailsFormFields extends Component {
         <Hr />
 
         <PickerField
-          name="bean_process"
+          name={`${this.props.fieldPrefix}.bean_process`}
+          // name="bean_process"
           label={beanProcessFieldLabel}
           options={beanProcesses}
         />
@@ -189,3 +190,7 @@ export default class BeanDetailsFormFields extends Component {
 }
 
 BeanDetailsFormFields.propTypes = {};
+
+BeanDetailsFormFields.defaultProps = {
+  fieldPrefix: 'default',
+};

@@ -5,6 +5,8 @@ import { Spinner } from './Spinner';
 import {
   bodyText,
 } from './Styles';
+import PropTypes from "prop-types";
+// import { TextField } from "./reduxForm";
 
 const styles = StyleSheet.create({
   overallContainer: {
@@ -134,3 +136,8 @@ const Button = (props) => {
 
 // export default Button;
 export { Button };
+
+Button.propTypes = {
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired
+};

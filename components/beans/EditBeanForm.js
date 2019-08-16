@@ -15,11 +15,11 @@ import Cafe from "./EditBeanFormSteps/Cafe";
 import * as navRoutes from "../../constants/NavRoutes";
 import ProgressBar from "../common/ProgressBar";
 import { bodyText, defaultMarginAmount, defaultPaddingAmount, textLink } from "../../constants/Styles";
-import EditCafeForm from "../cafes/EditCafeForm";
-import Modal from "../common/Modal";
-import EditOriginForm from "../origins/EditOriginForm";
-import * as styles from "../common/reduxForm/Styles";
-import { required } from "../../helpers";
+// import EditCafeForm from "../cafes/EditCafeForm";
+// import Modal from "../common/Modal";
+// import EditOriginForm from "../origins/EditOriginForm";
+// import * as styles from "../common/reduxForm/Styles";
+// import { required } from "../../helpers";
 
 class EditBeanForm extends Component {
   constructor(props){
@@ -212,7 +212,7 @@ class EditBeanForm extends Component {
   }
 
   render() {
-    console.log('form', this.props.formValues);
+    // console.log('form', this.props.formValues);
     return (
       <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>
         <ScrollView style={{ flex: 1 }}>
