@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Text, TouchableOpacity, View } from 'react-native';
 import _ from "lodash";
-import { LabeledSliderField, PickerField, SwitchField } from "../../common/reduxForm";
+import { ImageUploadField, LabeledSliderField, PickerField, SwitchField } from "../../common/reduxForm";
 import Modal from "../../common/Modal";
 import { bodyText, textLink } from "../../../constants/Styles";
 import * as styles from "../../common/reduxForm/Styles";
@@ -18,19 +18,45 @@ export default class RoastLevelFormField extends Component {
   }
 
   roastLevelOutput() {
+    console.log('hi');
+    console.log(this.props.formValues.EditBeanForm.values);
     let roastLevelAdvancedMode = false;
     if(
       this.props.formValues &&
       this.props.formValues.EditBeanForm &&
       this.props.formValues.EditBeanForm.values &&
-      this.props.formValues.EditBeanForm.values.roast_level_advanced_mode
+      this.props.formValues.EditBeanForm.values.beans
     ){
-      roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.roast_level_advanced_mode;
+
+      if(this.props.fieldPrefix){
+        const regex = /\[(.*?)\]/;
+        const prefixKey = regex.exec(this.props.fieldPrefix.toString())[1];
+        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beans[prefixKey].roast_level_advanced_mode;
+      }
+      else if(
+        _.size(this.props.formValues.EditBeanForm.values.beans) &&
+        this.props.formValues.EditBeanForm.values.beans[0] &&
+        this.props.formValues.EditBeanForm.values.beans[0].roast_level_advanced_mode
+      ) {
+        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beans[0].roast_level_advanced_mode;
+      }
     }
+    // if( roastLevelAdvancedMode === undefined ){
+    //   console.log('it is undefined');
+    //   if(this.props.fieldPrefix){
+    //     console.log('there is a field prefix', this.props.fieldPrefix);
+    //     console.log(this.props.change);
+    //     this.props.change(`${this.props.fieldPrefix}.roast_level_advanced_mode`, true);
+    //   }
+    //   else {
+    //     this.props.change('roast_level_advanced_mode', true);
+    //   }
+    // }
     if( roastLevelAdvancedMode === false ){
       return (
         <LabeledSliderField
-          name="roast_level"
+          // name="roast_level"
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level` : 'roast_level'}
           label={false}
           step={1}
           minimumValue={1}
@@ -71,7 +97,8 @@ export default class RoastLevelFormField extends Component {
       // TODO decide whether I want to require the roast level or not below.
       return (
         <PickerField
-          name="roast_level"
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level` : 'roast_level'}
+          // name="roast_level"
           label={roastLevelFieldLabel}
           options={roastLevels}
           // validate={[required]}
@@ -86,7 +113,8 @@ export default class RoastLevelFormField extends Component {
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roast Level:</Text>
           <SwitchField
-            name="roast_level_advanced_mode"
+            // name="roast_level_advanced_mode"
+            name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level_advanced_mode` : 'roast_level_advanced_mode'}
             label="Advanced Mode"
             valueLabelPosition="right"
             containerStyle={{ flexDirection: 'row' }}

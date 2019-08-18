@@ -243,7 +243,9 @@ const initializedValues = {
   // roast_level_advanced_mode: false
 
   bean_type: 'single_origin',
-  roast_level_advanced_mode: true
+  beans: [{
+    roast_level_advanced_mode: false
+  }]
 };
 
 const mapStateToProps = (state) => {

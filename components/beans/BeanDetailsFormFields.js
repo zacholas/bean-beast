@@ -115,6 +115,7 @@ export default class BeanDetailsFormFields extends Component {
     return (
       <View>
         <RoastLevelFormField
+          fieldPrefix={this.props.fieldPrefix}
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
           navigation={this.props.navigation}
@@ -124,7 +125,7 @@ export default class BeanDetailsFormFields extends Component {
         <Hr />
 
         <PickerField
-          name={`${this.props.fieldPrefix}.bean_process`}
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.bean_process` : 'bean_process'}
           // name="bean_process"
           label={beanProcessFieldLabel}
           options={beanProcesses}
@@ -191,6 +192,6 @@ export default class BeanDetailsFormFields extends Component {
 
 BeanDetailsFormFields.propTypes = {};
 
-BeanDetailsFormFields.defaultProps = {
-  fieldPrefix: 'default',
-};
+// BeanDetailsFormFields.defaultProps = {
+//   // fieldPrefix: 'default',
+// };
