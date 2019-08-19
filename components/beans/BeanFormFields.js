@@ -19,31 +19,34 @@ const renderBeans = ({ fields, meta: { touched, error, submitFailed }, parentPro
       (warning && <Text style={styles.warningText}>{warning}</Text>))}
     {!parentProps.singleOrigin && <Button title="Add New" onPress={() => fields.push({})} />}
 
-    {fields.map((bean, index) => (
-      <View key={index}>
-        {!parentProps.singleOrigin && <Button title="Remove this one" onPress={() => fields.remove(index)} />}
-        <Text>Bean #{index + 1}</Text>
+    {fields.map((bean, index) => {
+      console.log('bean', bean);
+      return (
+        <View key={index}>
+          {!parentProps.singleOrigin && <Button title="Remove this one" onPress={() => fields.remove(index)} />}
+          <Text>Bean #{index + 1}</Text>
 
-        <BeanDetailsFormFields
-          fieldPrefix={bean}
-          origins={parentProps.origins}
-          roastLevels={parentProps.roastLevels}
-          beanProcesses={parentProps.beanProcesses}
-          coffeeSpecies={parentProps.coffeeSpecies}
-          navigation={parentProps.navigation}
-          formValues={parentProps.formValues}
-        />
-      </View>
-    ))}
+          <BeanDetailsFormFields
+            fieldPrefix={bean}
+            origins={parentProps.origins}
+            roastLevels={parentProps.roastLevels}
+            beanProcesses={parentProps.beanProcesses}
+            coffeeSpecies={parentProps.coffeeSpecies}
+            navigation={parentProps.navigation}
+            formValues={parentProps.formValues}
+          />
+        </View>
+      );
+    })}
   </View>
   );
 };
 
-const BeanArraysForm = props => {
+const BeanFormFields = props => {
   // const { handleSubmit, pristine, reset, submitting } = props;
   return (
     <FieldArray name="beans" component={renderBeans} parentProps={props} />
   );
 };
 
-export { BeanArraysForm };
+export { BeanFormFields };

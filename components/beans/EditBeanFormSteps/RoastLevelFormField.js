@@ -18,8 +18,7 @@ export default class RoastLevelFormField extends Component {
   }
 
   roastLevelOutput() {
-    console.log('hi');
-    console.log(this.props.formValues.EditBeanForm.values);
+    // console.log(this.props.formValues.EditBeanForm.values);
     let roastLevelAdvancedMode = false;
     if(
       this.props.formValues &&

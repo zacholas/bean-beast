@@ -11,9 +11,11 @@ import {Text, TouchableOpacity, View} from "react-native";
 // import Modal from '../../common/Modal';
 // import EditOriginForm from "../../origins/EditOriginForm";
 import { RadioField } from "../../common/reduxForm/RadioField";
+import Modal from "../../common/Modal";
 import BeanDetailsFormFields from "../BeanDetailsFormFields";
 // import BeanBlendFormFields from "../BeanBlendFormFields";
-import { BeanArraysForm } from "../BeanBlendFormFields";
+import { BeanFormFields } from "../BeanFormFields";
+import BeanBlendFormLayout from '../BeanBlendFormLayout';
 // import RoastLevelFormField from "./RoastLevelFormField";
 // import { View } from 'react-native';
 // import { Container, BodyText } from "/components/common";
@@ -32,9 +34,9 @@ export default class BeanDetails extends Component {
     ){
       beanType = this.props.formValues.EditBeanForm.values.bean_type;
     }
-    if(beanType === 'single_origin' || beanType === 'blend'){
+    if(beanType === 'single_origin'){
       return (
-        <BeanArraysForm
+        <BeanFormFields
           singleOrigin={beanType === 'single_origin'}
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
@@ -45,6 +47,20 @@ export default class BeanDetails extends Component {
         />
       );
     }
+    else if(beanType === 'blend'){
+      return (
+        <BeanBlendFormLayout
+          origins={this.props.origins}
+          roastLevels={this.props.roastLevels}
+          beanProcesses={this.props.beanProcesses}
+          coffeeSpecies={this.props.coffeeSpecies}
+          navigation={this.props.navigation}
+          formValues={this.props.formValues}
+          array={this.props.array}
+        />
+      );
+    }
+
 
     // if(beanType === 'single_origin'){
     //   return (
@@ -60,7 +76,7 @@ export default class BeanDetails extends Component {
     // }
     // else if(beanType === 'blend'){
     //   return (
-    //     <BeanArraysForm
+    //     <BeanFormFields
     //       origins={this.props.origins}
     //       roastLevels={this.props.roastLevels}
     //       beanProcesses={this.props.beanProcesses}

@@ -153,6 +153,7 @@ class EditBeanForm extends Component {
         coffeeSpecies={this.props.coffeeSpecies}
         navigation={this.props.navigation}
         formValues={this.props.formValues}
+        array={this.props.array}
       />
     );
   }
@@ -197,7 +198,8 @@ class EditBeanForm extends Component {
     switch (this.state.formStep){
       case 1:
       default:
-        return this.formStepOne();
+        // return this.formStepOne();
+        return this.formStepThree(); // Debug show it first
       case 2:
         return this.formStepTwo();
       case 3:
@@ -212,7 +214,7 @@ class EditBeanForm extends Component {
   }
 
   render() {
-    // console.log('form', this.props.formValues);
+    // console.log('form', this.props);
     return (
       <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>
         <ScrollView style={{ flex: 1 }}>
@@ -239,10 +241,10 @@ class EditBeanForm extends Component {
 const initializedValues = {
   roast_level: 3,
   roast_date: new Date(),
-  // bean_type: false,
+  bean_type: 'blend',
   // roast_level_advanced_mode: false
 
-  bean_type: 'single_origin',
+  // bean_type: 'single_origin',
   beans: [{
     roast_level_advanced_mode: false
   }]
