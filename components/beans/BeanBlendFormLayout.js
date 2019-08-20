@@ -22,11 +22,9 @@ export default class BeanBlendFormLayout extends Component {
     return `list-item-${index}`;
   };
 
-  _onPressItem = (id) => {
-    // this.props.navigation.navigate(navRoutes.VIEW_BEAN, {
-    //   id
-    // })
-  };
+  _editItem() {
+    this.editBeanBlendComponent.show();
+  }
 
   _renderItem = (item, index) => {
     console.log('item', item);
@@ -35,12 +33,12 @@ export default class BeanBlendFormLayout extends Component {
       <View key={index} style={{ ...marginBottom, padding: 10, backgroundColor: '#eee'  }}>
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
-            <Text>Bean 1</Text>
+            <Text>Bean {item.index}</Text>
           </View>
-          <TouchableOpacity style={{ padding: 5, marginRight: 10 }}>
+          <TouchableOpacity style={{ padding: 5, marginRight: 10 }} onPress={() => this._editItem()}>
             <Text style={textLink}><Icon name="pencil" size={16}  /> Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ padding: 5, paddingRight: 10 }}>
+          <TouchableOpacity style={{ padding: 5, paddingRight: 10 }} onPress={() => this.props.array.remove('beans', null, 0 )}>
             <Icon name="close" size={18} style={{ color: colors.colorDanger }} />
           </TouchableOpacity>
         </View>
@@ -69,20 +67,21 @@ export default class BeanBlendFormLayout extends Component {
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
         />
-        {/*<Modal ref={(ref) => { this.editBeanBlendComponent = ref; }} headlineText="Edit Bean Blend Component">*/}
-          {/*<BeanFormFields*/}
-            {/*singleOrigin={false}*/}
-            {/*origins={this.props.origins}*/}
-            {/*roastLevels={this.props.roastLevels}*/}
-            {/*beanProcesses={this.props.beanProcesses}*/}
-            {/*coffeeSpecies={this.props.coffeeSpecies}*/}
-            {/*navigation={this.props.navigation}*/}
-            {/*formValues={this.props.formValues}*/}
-          {/*/>*/}
-        {/*</Modal>*/}
+        <Modal ref={(ref) => { this.editBeanBlendComponent = ref; }} headlineText="Edit Bean Blend Component">
+          <BeanFormFields
+            singleOrigin={false}
+            origins={this.props.origins}
+            roastLevels={this.props.roastLevels}
+            beanProcesses={this.props.beanProcesses}
+            coffeeSpecies={this.props.coffeeSpecies}
+            navigation={this.props.navigation}
+            formValues={this.props.formValues}
+          />
+        </Modal>
         <Button title="Add New" onPress={() => this.props.array.push('beans', {
           roast_level_advanced_mode: true
         } )}/>
+
       </View>
     );
   }
