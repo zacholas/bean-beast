@@ -54,7 +54,7 @@ export default class RoastLevelFormField extends Component {
       return (
         <LabeledSliderField
           // name="roast_level"
-          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level` : 'roast_level'}
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.basic_roast_level` : 'basic_roast_level'}
           label={false}
           step={1}
           minimumValue={1}

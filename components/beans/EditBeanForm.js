@@ -15,7 +15,7 @@ import Cafe from "./EditBeanFormSteps/Cafe";
 import * as navRoutes from "../../constants/NavRoutes";
 import ProgressBar from "../common/ProgressBar";
 import { bodyText, defaultMarginAmount, defaultPaddingAmount, textLink } from "../../constants/Styles";
-import {getFirstCoffeeSpecies} from "../../helpers";
+import {getDefaultRoastLevel, getFirstCoffeeSpecies} from "../../helpers";
 // import EditCafeForm from "../cafes/EditCafeForm";
 // import Modal from "../common/Modal";
 // import EditOriginForm from "../origins/EditOriginForm";
@@ -27,7 +27,7 @@ class EditBeanForm extends Component {
     super(props);
     this.state = {
       formStep: this.props.navigation.getParam('formStep', 1),
-      formSteps: 6
+      formSteps: 5
     };
   }
 
@@ -141,12 +141,6 @@ class EditBeanForm extends Component {
 
   formStepTwo(){
     return (
-      <RoastLevel />
-    );
-  }
-
-  formStepThree(){
-    return (
       <BeanDetails
         origins={this.props.origins}
         roastLevels={this.props.roastLevels}
@@ -160,13 +154,13 @@ class EditBeanForm extends Component {
     );
   }
 
-  formStepFour(){
+  formStepThree(){
     return (
       <BeanName formValues={this.props.formValues} origins={this.props.origins} />
     );
   }
 
-  formStepFive(){
+  formStepFour(){
     return (
       <View>
         <DatePickerField
@@ -179,7 +173,7 @@ class EditBeanForm extends Component {
     );
   }
 
-  formStepSix(){
+  formStepFive(){
     return (
       <View>
         <TextField
@@ -200,8 +194,7 @@ class EditBeanForm extends Component {
     switch (this.state.formStep){
       case 1:
       default:
-        // return this.formStepOne();
-        return this.formStepThree(); // Debug show it first
+        return this.formStepOne();
       case 2:
         return this.formStepTwo();
       case 3:
@@ -210,8 +203,6 @@ class EditBeanForm extends Component {
         return this.formStepFour();
       case 5:
         return this.formStepFive();
-      case 6:
-        return this.formStepSix();
     }
   }
 
@@ -248,13 +239,8 @@ class EditBeanForm extends Component {
 }
 
 const initializedValues = {
-  roast_level: 3,
   roast_date: new Date(),
-  bean_type: 'blend',
-  // roast_level_advanced_mode: false
-
-  // bean_type: 'single_origin',
-
+  bean_type: 'single_origin',
 };
 
 const mapStateToProps = (state) => {
@@ -267,9 +253,10 @@ const mapStateToProps = (state) => {
     initialValues: {
       ...initializedValues,
       beans: [{
-        //* NOTE: When updating the initial bean values here, be sure to update them in \components\beans\BeanBlendFormLayout.js @ ~line 67
+        //* NOTE: When updating the initial bean values here, be sure to update them in \components\beans\BeanBlendFormLayout.js @ ~line 101
         coffee_species: getFirstCoffeeSpecies(state.coffeeSpecies.coffeeSpecies),
-        roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode
+        roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode,
+        basic_roast_level: 3
       }],
       ...state.beans.currentlyEditingBean,
     },

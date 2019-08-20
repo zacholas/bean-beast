@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PropTypes from "prop-types";
-import { BeanFormFields } from "./BeanFormFields";
 import Modal from "../common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { SliderField } from "../common/reduxForm";
-import { textLink, marginBottom } from '../common/Styles';
+import {textLink, marginBottom} from '../common/Styles';
 import colors from '../../constants/Colors';
-import { Button } from "../common";
+import { Button, Headline } from "../common";
 import {FieldArray} from "redux-form";
 import * as styles from "../common/reduxForm/Styles";
 import BeanDetailsFormFields from "./BeanDetailsFormFields";
@@ -26,53 +25,7 @@ export default class BeanBlendFormLayout extends Component {
     };
   }
 
-  renderBeans = ({ fields, meta: { touched, error, submitFailed }, parentProps }) => {
-    //* For Single Origins, just add one and don't allow the adding/removal of em.
-    if(parentProps.singleOrigin){
-      if(fields.length === 0){
-        fields.push({});
-      }
-    }
-    return (
-      <View>
-        {touched &&
-        ((error && <Text style={styles.errorText}>{error}</Text>) ||
-          (warning && <Text style={styles.warningText}>{warning}</Text>))}
 
-        {fields.map((bean, index) => {
-          // console.log('bean', bean);
-          // console.log('parent props', this.props.formValues);
-          // console.log('bean', bean);
-          const thisBeanValues = this.props.formValues.EditBeanForm.values.beans[index];
-          // console.log('these values', thisBeanValues);
-          return (
-            <View key={index}>
-              {/*{!parentProps.singleOrigin && <Button title="Remove this one" onPress={() => fields.remove(index)} />}*/}
-
-
-              {this._renderItem(bean, index, fields, thisBeanValues)}
-
-              {/*<BeanDetailsFormFields*/}
-                {/*fieldPrefix={bean}*/}
-                {/*origins={parentProps.origins}*/}
-                {/*roastLevels={parentProps.roastLevels}*/}
-                {/*beanProcesses={parentProps.beanProcesses}*/}
-                {/*coffeeSpecies={parentProps.coffeeSpecies}*/}
-                {/*navigation={parentProps.navigation}*/}
-                {/*formValues={parentProps.formValues}*/}
-              {/*/>*/}
-            </View>
-          );
-        })}
-
-        {!parentProps.singleOrigin && <Button title="Add New" onPress={() => fields.push({
-          //* Default props when adding a new empty item. Should more or less match what's defined in EditBeanForm.js
-          coffee_species: getFirstCoffeeSpecies(this.props.coffeeSpecies),
-          roast_level_advanced_mode: this.props.userPreferences.beanEntry.roastLevelAdvancedMode
-        })} />}
-      </View>
-    );
-  };
 
   _keyExtractor = (item, index) => {
     return `list-item-${index}`;
@@ -93,6 +46,18 @@ export default class BeanBlendFormLayout extends Component {
     return <Text>Bean #{index + 1}</Text>
   }
 
+  _beanSubtitle(bean){
+    if(bean.bean_process || bean.coffee_species){
+      return (
+        <Headline h6>
+          {(bean.bean_process && this.props.beanProcesses) && this.props.beanProcesses[bean.bean_process].name}
+          {(bean.coffee_species && bean.bean_process) && ` | `}
+          {(bean.coffee_species && this.props.coffeeSpecies) && this.props.coffeeSpecies[bean.coffee_species].name}
+        </Headline>
+      );
+    }
+  }
+
   _renderItem = (item, index, fields, itemValues) => {
     // console.log('item', item);
     // console.log(this.props.array.remove);
@@ -101,6 +66,7 @@ export default class BeanBlendFormLayout extends Component {
         <View style={{ flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
             {this._beanName(itemValues, index)}
+            {this._beanSubtitle(itemValues)}
           </View>
           <TouchableOpacity style={{ padding: 5, marginRight: 10 }} onPress={() => this._editItem(item, index)}>
             <Text style={textLink}><Icon name="pencil" size={16}  /> Edit</Text>
@@ -112,7 +78,7 @@ export default class BeanBlendFormLayout extends Component {
         </View>
         <View>
           <SliderField
-            name={`${item}.blendPercent`}
+            name={`${item}.blend_percent`}
             label="Blend Percent"
             textLabelEnabled={true}
             textLabelPosition={"left"}
@@ -126,49 +92,55 @@ export default class BeanBlendFormLayout extends Component {
     );
   };
 
+  renderBeans = ({ fields, meta: { touched, error, submitFailed }, parentProps }) => {
+    //* For Single Origins, just add one and don't allow the adding/removal of em.
+    if(parentProps.singleOrigin){
+      if(fields.length === 0){
+        fields.push({});
+      }
+    }
+    return (
+      <View>
+        {touched &&
+        ((error && <Text style={styles.errorText}>{error}</Text>) ||
+          (warning && <Text style={styles.warningText}>{warning}</Text>))}
+
+        {fields.map((bean, index) => {
+          const thisBeanValues = this.props.formValues.EditBeanForm.values.beans[index];
+          return this._renderItem(bean, index, fields, thisBeanValues);
+        })}
+
+        {!parentProps.singleOrigin && <Button title="Add New" onPress={() => fields.push({
+          //* Default props when adding a new empty item. Should more or less match what's defined in EditBeanForm.js
+          coffee_species: getFirstCoffeeSpecies(this.props.coffeeSpecies),
+          roast_level_advanced_mode: this.props.userPreferences.beanEntry.roastLevelAdvancedMode,
+          basic_roast_level: 3
+        })} />}
+      </View>
+    );
+  };
+
   render() {
     return (
       <View>
-        {/*<Text>hii</Text>*/}
-        {/*<FlatList*/}
-          {/*data={this.props.formValues.EditBeanForm.values.beans}*/}
-          {/*keyExtractor={this._keyExtractor}*/}
-          {/*renderItem={this._renderItem}*/}
-        {/*/>*/}
         <FieldArray name="beans" component={this.renderBeans} parentProps={this.props} />
         <Modal
           ref={(ref) => { this.editBeanBlendComponent = ref; }}
-          // headlineText={null}
           showHeadline={false}
+          dismissButtonText="Save & Continue"
           // headlineText="Edit Bean Blend Component"
         >
-          <View>
-            <Text>Index is {this.state.editingBeanBlendComponentIndex}</Text>
-            <BeanDetailsFormFields
-              fieldIndex={this.state.editingBeanBlendComponentIndex}
-              fieldPrefix={this.state.editingBeanBlendComponentPrefix}
-              origins={this.props.origins}
-              roastLevels={this.props.roastLevels}
-              beanProcesses={this.props.beanProcesses}
-              coffeeSpecies={this.props.coffeeSpecies}
-              navigation={this.props.navigation}
-              formValues={this.props.formValues}
-            />
-          </View>
-          {/*<BeanFormFields*/}
-            {/*singleOrigin={false}*/}
-            {/*origins={this.props.origins}*/}
-            {/*roastLevels={this.props.roastLevels}*/}
-            {/*beanProcesses={this.props.beanProcesses}*/}
-            {/*coffeeSpecies={this.props.coffeeSpecies}*/}
-            {/*navigation={this.props.navigation}*/}
-            {/*formValues={this.props.formValues}*/}
-          {/*/>*/}
+          <BeanDetailsFormFields
+            fieldIndex={this.state.editingBeanBlendComponentIndex}
+            fieldPrefix={this.state.editingBeanBlendComponentPrefix}
+            origins={this.props.origins}
+            roastLevels={this.props.roastLevels}
+            beanProcesses={this.props.beanProcesses}
+            coffeeSpecies={this.props.coffeeSpecies}
+            navigation={this.props.navigation}
+            formValues={this.props.formValues}
+          />
         </Modal>
-        {/*<Button title="Add New" onPress={() => this.props.array.push('beans', {*/}
-          {/*roast_level_advanced_mode: true*/}
-        {/*} )}/>*/}
-
       </View>
     );
   }

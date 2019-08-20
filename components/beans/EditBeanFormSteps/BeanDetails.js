@@ -1,26 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-// import _ from "lodash";
-// import {required} from "../../../helpers";
-// import {PickerField} from "../../common/reduxForm";
-// import { Hr } from "../../common";
 import {Text, TouchableOpacity, View} from "react-native";
-// import {bodyText, textLink} from "../../../constants/Styles";
-// import * as styles from "../../common/reduxForm/Styles";
-// import {BodyText} from "../../common";
-// import Modal from '../../common/Modal';
-// import EditOriginForm from "../../origins/EditOriginForm";
 import { RadioField } from "../../common/reduxForm/RadioField";
-import Modal from "../../common/Modal";
 import BeanDetailsFormFields from "../BeanDetailsFormFields";
-// import BeanBlendFormFields from "../BeanBlendFormFields";
-import { BeanFormFields } from "../BeanFormFields";
 import BeanBlendFormLayout from '../BeanBlendFormLayout';
-// import RoastLevelFormField from "./RoastLevelFormField";
-// import { View } from 'react-native';
-// import { Container, BodyText } from "/components/common";
-
-
 
 export default class BeanDetails extends Component {
   _beanDetailsDisplay(){
@@ -36,8 +19,9 @@ export default class BeanDetails extends Component {
     }
     if(beanType === 'single_origin'){
       return (
-        <BeanFormFields
-          singleOrigin={beanType === 'single_origin'}
+        <BeanDetailsFormFields
+          fieldIndex={0}
+          fieldPrefix='beans[0]'
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
           beanProcesses={this.props.beanProcesses}
@@ -61,32 +45,6 @@ export default class BeanDetails extends Component {
         />
       );
     }
-
-
-    // if(beanType === 'single_origin'){
-    //   return (
-    //     <BeanDetailsFormFields
-    //       origins={this.props.origins}
-    //       roastLevels={this.props.roastLevels}
-    //       beanProcesses={this.props.beanProcesses}
-    //       coffeeSpecies={this.props.coffeeSpecies}
-    //       navigation={this.props.navigation}
-    //       formValues={this.props.formValues}
-    //     />
-    //   );
-    // }
-    // else if(beanType === 'blend'){
-    //   return (
-    //     <BeanFormFields
-    //       origins={this.props.origins}
-    //       roastLevels={this.props.roastLevels}
-    //       beanProcesses={this.props.beanProcesses}
-    //       coffeeSpecies={this.props.coffeeSpecies}
-    //       navigation={this.props.navigation}
-    //       formValues={this.props.formValues}
-    //     />
-    //   );
-    // }
   }
 
   render() {
