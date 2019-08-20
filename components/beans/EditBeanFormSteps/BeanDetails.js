@@ -57,6 +57,7 @@ export default class BeanDetails extends Component {
           navigation={this.props.navigation}
           formValues={this.props.formValues}
           array={this.props.array}
+          userPreferences={this.props.userPreferences}
         />
       );
     }

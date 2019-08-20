@@ -6,7 +6,73 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
   currentlyEditingOrigin: null,
-  origins: {}
+  origins: {
+    default_brazil: {
+      id: 'default_brazil',
+      name: 'Brazil',
+      order: 10,
+    },
+    default_burundi: {
+      id: 'default_burundi',
+      name: 'Burundi',
+      order: 20,
+    },
+    default_colombia: {
+      id: 'default_colombia',
+      name: 'Colombia',
+      order: 30,
+    },
+    default_el_salvador: {
+      id: 'default_el_salvador',
+      name: 'El Salvador',
+      order: 40,
+    },
+    default_ethiopia: {
+      id: 'default_ethiopia',
+      name: 'Ethiopia',
+      order: 50,
+    },
+    default_guatemala: {
+      id: 'default_guatemala',
+      name: 'Guatemala',
+      order: 60,
+    },
+    default_honduras: {
+      id: 'default_honduras',
+      name: 'Honduras',
+      order: 70,
+    },
+    default_indonesia: {
+      id: 'default_indonesia',
+      name: 'Indonesia',
+      order: 80,
+    },
+    default_kenya: {
+      id: 'default_kenya',
+      name: 'Kenya',
+      order: 90,
+    },
+    default_mexico: {
+      id: 'default_mexico',
+      name: 'Mexico',
+      order: 100,
+    },
+    default_nicaragua: {
+      id: 'default_nicaragua',
+      name: 'Nicaragua',
+      order: 110,
+    },
+    default_peru: {
+      id: 'default_peru',
+      name: 'Peru',
+      order: 120,
+    },
+    default_rwanda: {
+      id: 'default_rwanda',
+      name: 'Rwanda',
+      order: 130,
+    },
+  }
 };
 
 /*

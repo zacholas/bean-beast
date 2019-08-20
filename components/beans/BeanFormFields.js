@@ -20,7 +20,9 @@ const renderBeans = ({ fields, meta: { touched, error, submitFailed }, parentPro
     {!parentProps.singleOrigin && <Button title="Add New" onPress={() => fields.push({})} />}
 
     {fields.map((bean, index) => {
-      console.log('bean', bean);
+      // console.log('parent props', parentProps.formValues);
+      // console.log('bean', bean);
+      // const thisBeanValues = '';
       return (
         <View key={index}>
           {!parentProps.singleOrigin && <Button title="Remove this one" onPress={() => fields.remove(index)} />}

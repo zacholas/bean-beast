@@ -3,8 +3,14 @@ import * as types from '../constants/types';
 const INITIAL_STATE = {
   loading: false,
   error: '',
-  brewTimerCountdown: 3,
-  temperatureMeasurement: 'c'
+  global: {
+    temperatureMeasurement: 'c',
+  },
+  beanEntry: {
+    roastLevelAdvancedMode: false
+  },
+
+  // brewTimerCountdown: 3,
 };
 
 //* Other things to perhaps add here: roast level style (custom input vs

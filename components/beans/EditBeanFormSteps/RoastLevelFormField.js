@@ -8,6 +8,7 @@ import { bodyText, textLink } from "../../../constants/Styles";
 import * as styles from "../../common/reduxForm/Styles";
 import { BodyText } from "../../common";
 import EditRoastLevelForm from "../../roastLevels/EditRoastLevelForm";
+// import BeanDetailsFormFields from "../BeanDetailsFormFields";
 // import EditRoastLevelForm from "../../roastLevels/EditRoastLevelForm";
 // import { Container, BodyText } from "/components/common";
 
@@ -27,10 +28,8 @@ export default class RoastLevelFormField extends Component {
       this.props.formValues.EditBeanForm.values.beans
     ){
 
-      if(this.props.fieldPrefix){
-        const regex = /\[(.*?)\]/;
-        const prefixKey = regex.exec(this.props.fieldPrefix.toString())[1];
-        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beans[prefixKey].roast_level_advanced_mode;
+      if(this.props.fieldIndex){
+        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beans[this.props.fieldIndex].roast_level_advanced_mode;
       }
       else if(
         _.size(this.props.formValues.EditBeanForm.values.beans) &&
@@ -138,4 +137,11 @@ export default class RoastLevelFormField extends Component {
   }
 }
 
-RoastLevelFormField.propTypes = {};
+RoastLevelFormField.propTypes = {
+  fieldIndex: PropTypes.number
+};
+
+RoastLevelFormField.defaultProps = {
+  fieldIndex: 0
+};
+

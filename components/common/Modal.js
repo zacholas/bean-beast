@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Text, TouchableOpacity, View, Alert, SafeAreaView, StyleSheet} from 'react-native';
+import {Modal, Text, TouchableOpacity, View, Alert, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import { BlurView } from 'expo';
 import {
   bodyText,
@@ -13,10 +13,11 @@ import PropTypes from "prop-types";
 
 const styles = StyleSheet.create({
   backdrop: {
-    padding: 25,
+    padding: 20,
+    paddingBottom: 40,
     backgroundColor: 'rgba(0,0,0,.9)',
     flex: 1,
-    paddingTop: 100,
+    // paddingTop: 50,
     // justifyContent: 'center'
   },
   modalContainer: {
@@ -26,6 +27,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.8,
     shadowRadius: 5,
+    // position: 'absolute',
+    // top: 15,
+    // right: 15,
+    // bottom: 15,
+    // left: 15,
   },
   modalHeaderContainer: {
     flexDirection: 'row',
@@ -80,23 +86,24 @@ class zModal extends Component {
           onRequestClose={() => {
             this.hide()
           }}>
+
           <BlurView tint="dark" intensity={90} style={styles.backdrop}>
             <TouchableOpacity style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, }} onPress={() => this.hide()} />
             <View style={styles.modalContainer}>
               <View style={styles.modalHeaderContainer}>
                 <View style={styles.modalHeader}>
-                  {this._modalTitle()}
+                  {this.props.showHeadline && this._modalTitle()}
                 </View>
                 {this._closeIcon()}
               </View>
 
-              <View>
+              <ScrollView>
                 {this._modalContent()}
                 {this.props.children}
                 <View>
                   {this._dismissButton()}
                 </View>
-              </View>
+              </ScrollView>
             </View>
           </BlurView>
         </Modal>
@@ -145,6 +152,7 @@ export default zModal;
 
 
 zModal.propTypes = {
+  showHeadline: PropTypes.bool,
   headlineText: PropTypes.string,
   showCloseIcon: PropTypes.bool,
   showDismissButton: PropTypes.bool,
@@ -152,6 +160,7 @@ zModal.propTypes = {
 };
 
 zModal.defaultProps = {
+  showHeadline: true,
   headlineText: 'Are you sure?',
   showCloseIcon: true,
   showDismissButton: true,

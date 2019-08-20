@@ -112,9 +112,12 @@ export default class BeanDetailsFormFields extends Component {
       };
     });
 
+    // console.log('field prefix: ', this.props.fieldPrefix);
+
     return (
       <View>
         <RoastLevelFormField
+          fieldIndex={this.props.fieldIndex}
           fieldPrefix={this.props.fieldPrefix}
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
@@ -140,26 +143,30 @@ export default class BeanDetailsFormFields extends Component {
         {/*/>*/}
 
         <PickerField
-          name="origin"
+          // name="origin"
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin` : 'origin'}
           label={originFieldLabel}
           options={origins}
           validate={[required]}
         />
 
         <TextField
-          name="origin_region"
+          // name="origin_region"
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin_region` : 'origin_region'}
           label={this.regionLabel()}
         />
 
         <TextField
-          name="origin_details"
+          // name="origin_details"
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin_details` : 'origin_details'}
           label={this.originDetailsLabel()}
         />
 
         <Hr />
 
         <PickerField
-          name="coffee_species"
+          // name="coffee_species"
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.coffee_species` : 'coffee_species'}
           label={coffeeSpeciesFieldLabel}
           options={coffeeSpecies}
         />
@@ -190,8 +197,10 @@ export default class BeanDetailsFormFields extends Component {
   }
 }
 
-BeanDetailsFormFields.propTypes = {};
+BeanDetailsFormFields.propTypes = {
+  fieldIndex: PropTypes.number
+};
 
-// BeanDetailsFormFields.defaultProps = {
-//   // fieldPrefix: 'default',
-// };
+BeanDetailsFormFields.defaultProps = {
+  fieldIndex: 0
+};

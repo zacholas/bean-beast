@@ -154,6 +154,7 @@ class EditBeanForm extends Component {
         navigation={this.props.navigation}
         formValues={this.props.formValues}
         array={this.props.array}
+        userPreferences={this.props.userPreferences}
       />
     );
   }
@@ -245,9 +246,7 @@ const initializedValues = {
   // roast_level_advanced_mode: false
 
   // bean_type: 'single_origin',
-  beans: [{
-    roast_level_advanced_mode: false
-  }]
+
 };
 
 const mapStateToProps = (state) => {
@@ -259,11 +258,15 @@ const mapStateToProps = (state) => {
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
     initialValues: {
       ...initializedValues,
+      beans: [{
+        roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode
+      }],
       ...state.beans.currentlyEditingBean,
     },
     loading: state.beans.loading,
     modalData: state.beans.modalData,
-    formValues: state.form
+    formValues: state.form,
+    userPreferences: state.userPreferences
   }
 };
 
