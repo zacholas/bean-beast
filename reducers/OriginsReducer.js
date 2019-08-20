@@ -79,10 +79,16 @@ const INITIAL_STATE = {
 BeanDetails Fields:
 - ID
 - BeanDetails Country -- picker with add custom, e.g. Ethiopia
+
+
+Things I have moved:
 - BeanDetails Region -- e.g. Yirgacheffe -- Not sure on this one. Perhaps an associative picker, where if they've picked ethiopia, they'd see the ethiopian regions. But IDK, that seems tricky.
 - BeanDetails Details (farm/estate/plantation/whatever)
 - Species *TODO -- have this as a radio/selector of (arabica, robusta, other)
 - Process -- natural, semi washed, fully washed, honey, allow custom *todo
+
+
+Things I haven't done yet:
 - Varietal -- maybe just open text *todo
 - Altitude -- slider or open text *todo
 - Maybe Google place id if linked to google place (IDK about api cost tho)
@@ -107,10 +113,7 @@ export default (state = INITIAL_STATE, action) => {
             created: action.payload.created,
             modified: action.payload.modified,
             id: action.payload.id,
-            country: action.payload.data.country,
-            region: action.payload.data.region,
-            details: action.payload.data.details,
-            processing_method: action.payload.data.processing_method
+            name: action.payload.data.name,
           },
         },
       };
@@ -123,10 +126,7 @@ export default (state = INITIAL_STATE, action) => {
           [action.payload.data.id]: {
             ...state.origins[action.payload.data.id],
             modified: action.payload.modified,
-            country: action.payload.data.country,
-            region: action.payload.data.region,
-            details: action.payload.data.details,
-            processing_method: action.payload.data.processing_method
+            name: action.payload.data.name,
           }
         }
       };

@@ -73,7 +73,8 @@ export default class RoastLevelFormField extends Component {
         <View style={{ flexDirection: 'row' }}>
           <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roast Level:</Text>
           <TouchableOpacity onPress={() => this.addRoastLevelModal.show()}>
-            <BodyText style={textLink}>+ Add New Roast Level</BodyText>
+            {/*<BodyText style={textLink}>+ Add New Roast Level</BodyText>*/}
+            <BodyText style={textLink}>+ Add New</BodyText>
           </TouchableOpacity>
         </View>
       );

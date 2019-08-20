@@ -52,9 +52,10 @@ export default class BeanDetailsFormFields extends Component {
   render() {
     const originFieldLabel = (
       <View style={{ flexDirection: 'row' }}>
-        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Origin:</Text>
+        <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Origin Country:</Text>
         <TouchableOpacity onPress={() => this.addOriginModal.show()}>
-          <BodyText style={textLink}>+ Add New Origin</BodyText>
+          {/*<BodyText style={textLink}>+ Add New Origin</BodyText>*/}
+          <BodyText style={textLink}>+ Add New</BodyText>
         </TouchableOpacity>
       </View>
     );
@@ -63,7 +64,8 @@ export default class BeanDetailsFormFields extends Component {
       <View style={{ flexDirection: 'row' }}>
         <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Bean Process:</Text>
         <TouchableOpacity onPress={() => this.addBeanProcessModal.show()}>
-          <BodyText style={textLink}>+ Add New Bean Process</BodyText>
+          {/*<BodyText style={textLink}>+ Add New Bean Process</BodyText>*/}
+          <BodyText style={textLink}>+ Add New</BodyText>
         </TouchableOpacity>
       </View>
     );
@@ -72,21 +74,19 @@ export default class BeanDetailsFormFields extends Component {
       <View style={{ flexDirection: 'row' }}>
         <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Coffee Species:</Text>
         <TouchableOpacity onPress={() => this.addCoffeeSpeciesModal.show()}>
-          <BodyText style={textLink}>+ Add New Coffee Species</BodyText>
+          {/*<BodyText style={textLink}>+ Add New Coffee Species</BodyText>*/}
+          <BodyText style={textLink}>+ Add New</BodyText>
         </TouchableOpacity>
       </View>
     );
 
-    const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
+    //* TODO probably have them ordered by number at some point
+    // const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
+    const orderedOrigins = _.orderBy(this.props.origins, ['name'], ['asc']);
     const origins = _.map(orderedOrigins, (origin) => {
-      let output = '';
-      output = origin.country ? output.concat(origin.country) : output;
-      output = origin.country && origin.region ? output.concat(' — ') : output;
-      output = origin.region ? output.concat(origin.region) : output;
-
       return {
         id: origin.id,
-        name: output
+        name: origin.name
       };
     });
 

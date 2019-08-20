@@ -12,6 +12,7 @@ import { Button } from "../common";
 import {FieldArray} from "redux-form";
 import * as styles from "../common/reduxForm/Styles";
 import BeanDetailsFormFields from "./BeanDetailsFormFields";
+import {getFirstCoffeeSpecies} from "../../helpers";
 // import { Container, BodyText } from "/components/common";
 
 
@@ -65,6 +66,8 @@ export default class BeanBlendFormLayout extends Component {
         })}
 
         {!parentProps.singleOrigin && <Button title="Add New" onPress={() => fields.push({
+          //* Default props when adding a new empty item. Should more or less match what's defined in EditBeanForm.js
+          coffee_species: getFirstCoffeeSpecies(this.props.coffeeSpecies),
           roast_level_advanced_mode: this.props.userPreferences.beanEntry.roastLevelAdvancedMode
         })} />}
       </View>
@@ -84,8 +87,8 @@ export default class BeanBlendFormLayout extends Component {
   }
 
   _beanName(bean, index){
-    if(bean && bean.origin){
-      return <Text>Bean #{index + 1}: {bean.origin} {bean.origin_region && `(${bean.origin_region})`}</Text>
+    if(bean && bean.origin && this.props.origins){
+      return <Text>{this.props.origins[bean.origin].name} {bean.origin_region && `(${bean.origin_region})`}</Text>
     }
     return <Text>Bean #{index + 1}</Text>
   }
@@ -109,14 +112,14 @@ export default class BeanBlendFormLayout extends Component {
         </View>
         <View>
           <SliderField
-            name="blendPercent"
+            name={`${item}.blendPercent`}
             label="Blend Percent"
             textLabelEnabled={true}
             textLabelPosition={"left"}
             // textLabelInputEnabled={true} //* TODO build this
             minimumValue={0}
             maximumValue={100}
-            step={1}
+            step={5}
           />
         </View>
       </View>

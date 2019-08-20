@@ -22,7 +22,7 @@ class EditOriginForm extends Component {
     return (
       <View>
         <Text style={bodyText}>Origin Country, e.g. "Ethiopia":</Text>
-        <Text style={{ ...bodyText, ...styles.label, fontSize: 13, fontStyle: 'italic', marginTop: 3 }}>(Note: For blends, I recommend just writing "Blend")</Text>
+        {/*<Text style={{ ...bodyText, ...styles.label, fontSize: 13, fontStyle: 'italic', marginTop: 3 }}>(Note: For blends, I recommend just writing "Blend")</Text>*/}
       </View>
     );
   }
@@ -41,22 +41,22 @@ class EditOriginForm extends Component {
     return (
       <View>
         <TextField
-          name="country"
+          name="name"
           label={this.countryLabel()}
           validate={[required]}
         />
-        <TextField
-          name="region"
-          label={this.regionLabel()}
-        />
-        <TextField
-          name="processing_method"
-          label="Processing Method (Natural, washed, etc.)"
-        />
-        <TextField
-          name="details"
-          label="Additional Origin Details (Farm / estate name, etc.)"
-        />
+        {/*<TextField*/}
+          {/*name="region"*/}
+          {/*label={this.regionLabel()}*/}
+        {/*/>*/}
+        {/*<TextField*/}
+          {/*name="processing_method"*/}
+          {/*label="Processing Method (Natural, washed, etc.)"*/}
+        {/*/>*/}
+        {/*<TextField*/}
+          {/*name="details"*/}
+          {/*label="Additional Origin Details (Farm / estate name, etc.)"*/}
+        {/*/>*/}
         <Button
           title="Save Origin"
           onPress={handleSubmit((values) => this.props.saveOrigin(values))}
