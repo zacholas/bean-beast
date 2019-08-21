@@ -2,15 +2,18 @@
 
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer, createMigrate } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
-
+import { migrations } from "./redux/migrations";
 import rootReducer from './reducers';
 
 const persistConfig = {
   key: 'root',
+  version: 11,
   storage,
-  blacklist: ['form']
+  debug: true,
+  blacklist: ['form'],
+  migrate: createMigrate(migrations, { debug: true }),
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

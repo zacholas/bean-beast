@@ -9,8 +9,6 @@ const INITIAL_STATE = {
   beanEntry: {
     roastLevelAdvancedMode: false
   },
-
-  // brewTimerCountdown: 3,
 };
 
 //* Other things to perhaps add here: roast level style (custom input vs

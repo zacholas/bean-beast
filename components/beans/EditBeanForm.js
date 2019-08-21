@@ -244,7 +244,7 @@ const initializedValues = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state.userPreferences);
+  // console.log('user preferences state', state.userPreferences);
   return {
     cafes: state.cafes.cafes,
     origins: state.origins.origins,
