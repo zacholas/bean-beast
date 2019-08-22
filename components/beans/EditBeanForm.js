@@ -46,29 +46,30 @@ class EditBeanForm extends Component {
     // }
   }
 
+  _changeFieldOnPropsReceived(nextProps, modalDataFieldName, formFieldName){
+    // console.log('~~~~~~~~~~ New style: ~~~~~~~~~~~~~~');
+    // console.log('nextProps.modalData[modalDataFieldName]: ', nextProps.modalData[modalDataFieldName]);
+    // console.log('`${nextProps.modalData.fieldPrefix}[${formFieldName}]`', `${nextProps.modalData.fieldPrefix}[${formFieldName}]`);
+    if(_.size(nextProps.modalData) && nextProps.modalData[modalDataFieldName]){
+      if(nextProps.modalData.fieldPrefix){
+        this.props.change(`${nextProps.modalData.fieldPrefix}[${formFieldName}]`, nextProps.modalData[modalDataFieldName]);
+      }
+      this.props.change(formFieldName, nextProps.modalData[modalDataFieldName]);
+      this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
+    }
+  }
+
   //* If the user adds a new cafe, origin, etc. in a modal, we then want to select that option on the form
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
     if(_.size(nextProps.modalData)){
       console.log('EditBeanForm.js — incoming modal data: ', nextProps.modalData);
     }
 
-    if(_.size(nextProps.modalData) && nextProps.modalData.cafe){
-      console.log('New cafe was set', nextProps.modalData);
-      this.props.change('cafe', nextProps.modalData.cafe);
-      this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
-    }
-
-    if(_.size(nextProps.modalData) && nextProps.modalData.roastLevel){
-      console.log('New roast level was set. Not gonna update the field yet tho because IDK how I will do the blends yet.', nextProps.modalData.roastLevel);
-      // TODO do dees
-      // this.props.change('cafe', nextProps.modalData.cafe);
-      // this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
-    }
-
-    if(_.size(nextProps.modalData) && nextProps.modalData.origin){
-      this.props.change('origin', nextProps.modalData.origin);
-      this.props.clearBeanModalData(); // Necessary in order for the field to be changeable afterwards
-    }
+    this._changeFieldOnPropsReceived(nextProps, 'beanProcess', 'bean_process');
+    this._changeFieldOnPropsReceived(nextProps, 'origin', 'origin');
+    this._changeFieldOnPropsReceived(nextProps, 'roastLevel', 'roast_level');
+    this._changeFieldOnPropsReceived(nextProps, 'cafe', 'cafe');
+    this._changeFieldOnPropsReceived(nextProps, 'coffeeSpecies', 'coffee_species');
   }
 
   //* Output "Submit" button on last step and "Next Step" for all others
@@ -213,7 +214,7 @@ class EditBeanForm extends Component {
       this.props.formValues.EditBeanForm.values &&
       this.props.formValues.EditBeanForm.values.beans
     ){
-      console.log('form values for all beans', this.props.formValues.EditBeanForm.values.beans);
+      // console.log('form values for all beans', this.props.formValues.EditBeanForm.values.beans);
     }
     return (
       <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>

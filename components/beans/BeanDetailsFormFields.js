@@ -176,6 +176,7 @@ export default class BeanDetailsFormFields extends Component {
             type="beanCreateModal"
             navigation={this.props.navigation}
             modal={this.addBeanProcessModal}
+            fieldPrefix={this.props.fieldPrefix ? this.props.fieldPrefix : false}
           />
         </Modal>
         <Modal ref={(ref) => { this.addCoffeeSpeciesModal = ref; }} headlineText="Add New Coffee Species">
@@ -183,6 +184,7 @@ export default class BeanDetailsFormFields extends Component {
             type="beanCreateModal"
             navigation={this.props.navigation}
             modal={this.addCoffeeSpeciesModal}
+            fieldPrefix={this.props.fieldPrefix ? this.props.fieldPrefix : false}
           />
         </Modal>
         <Modal ref={(ref) => { this.addOriginModal = ref; }} headlineText="Add New Origin">
@@ -190,6 +192,7 @@ export default class BeanDetailsFormFields extends Component {
             type="beanCreateModal"
             navigation={this.props.navigation}
             modal={this.addOriginModal}
+            fieldPrefix={this.props.fieldPrefix ? this.props.fieldPrefix : false}
           />
         </Modal>
       </View>

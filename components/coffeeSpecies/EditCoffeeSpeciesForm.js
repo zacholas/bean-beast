@@ -16,6 +16,7 @@ class EditCoffeeSpeciesForm extends Component {
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
+    this.props.change('fieldPrefix', this.props.fieldPrefix);
     this.props.change('modal', this.props.modal);
     this.props.change('order', this.props.coffeeSpeciesOrder);
   }

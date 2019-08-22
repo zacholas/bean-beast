@@ -123,19 +123,29 @@ export default (state = INITIAL_STATE, action) => {
     case types.ROAST_LEVEL_CREATING_BEAN_MODAL:
       return { ...state,
         modalData: {
-          roastLevel: action.payload.id
+          roastLevel: action.payload.id,
+          fieldPrefix: action.payload.data.fieldPrefix ? action.payload.data.fieldPrefix : false
         }
       };
     case types.BEAN_PROCESS_CREATING_BEAN_MODAL:
       return { ...state,
         modalData: {
-          beanProcess: action.payload.id
+          beanProcess: action.payload.id,
+          fieldPrefix: action.payload.data.fieldPrefix ? action.payload.data.fieldPrefix : false
         }
       };
     case types.ORIGIN_CREATING_BEAN_MODAL:
       return { ...state,
         modalData: {
-          origin: action.payload.id
+          origin: action.payload.id,
+          fieldPrefix: action.payload.data.fieldPrefix ? action.payload.data.fieldPrefix : false
+        }
+      };
+    case types.COFFEE_SPECIES_CREATING_BEAN_MODAL:
+      return { ...state,
+        modalData: {
+          coffeeSpecies: action.payload.id,
+          fieldPrefix: action.payload.data.fieldPrefix ? action.payload.data.fieldPrefix : false
         }
       };
     case types.BEAN_CLEAR_MODAL_DATA:

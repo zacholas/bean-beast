@@ -16,6 +16,7 @@ class EditOriginForm extends Component {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
+    this.props.change('fieldPrefix', this.props.fieldPrefix);
   }
 
   countryLabel(){
