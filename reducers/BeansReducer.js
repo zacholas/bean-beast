@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as types from '../constants/types';
+import { Picker } from "react-native";
 
 const INITIAL_STATE = {
   loading: false,
@@ -58,6 +59,15 @@ export default (state = INITIAL_STATE, action) => {
         modalData: {},
       };
     case types.BEAN_CREATING:
+      const beanBlendComponents = _.map(action.payload.data.beans, (option, i ) => {
+        if(option.roast_level_advanced_mode === true && option.basic_roast_level){
+          return _.omit(option, 'basic_roast_level');
+        }
+        else if(option.roast_level_advanced_mode === false && option.roast_level){
+          return _.omit(option, 'roast_level');
+        }
+        return option;
+      });
       return { ...state,
         loading: true,
         error: '',
@@ -67,15 +77,14 @@ export default (state = INITIAL_STATE, action) => {
             created: action.payload.created,
             modified: action.payload.modified,
             id: action.payload.id,
+            bean_image: action.payload.data.bean_image,
+            bean_type: action.payload.data.bean_type,
+            beanBlendComponents: action.payload.data.bean_type === 'blend' ? beanBlendComponents : beanBlendComponents[0],
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
             roast_date: action.payload.data.roast_date,
-            roast_level: action.payload.data.roast_level,
             tasting_notes: action.payload.data.tasting_notes,
             comments: action.payload.data.comments,
-            bean_image: action.payload.data.bean_image,
-            origin: action.payload.data.origin,
-            bean_type: action.payload.data.bean_type
           },
         },
       };
@@ -88,15 +97,15 @@ export default (state = INITIAL_STATE, action) => {
           [action.payload.data.id]: {
             ...state.beans[action.payload.data.id],
             modified: action.payload.modified,
+            id: action.payload.id,
+            bean_image: action.payload.data.bean_image,
+            bean_type: action.payload.data.bean_type,
+            beanBlendComponents: action.payload.data.bean_type === 'blend' ? action.payload.data.beans : action.payload.data.beans[0],
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
             roast_date: action.payload.data.roast_date,
-            roast_level: action.payload.data.roast_level,
             tasting_notes: action.payload.data.tasting_notes,
             comments: action.payload.data.comments,
-            bean_image: action.payload.data.bean_image,
-            origin: action.payload.data.origin,
-            bean_type: action.payload.data.bean_type
           }
         }
       };

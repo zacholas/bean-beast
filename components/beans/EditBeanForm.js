@@ -121,7 +121,7 @@ class EditBeanForm extends Component {
             // });
             this.props.saveBean(values);
             this.props.destroy();
-            // console.log('save bean with ', values);
+            console.log('save bean with ', values);
           })}
           iconName="check"
           backgroundColor="green"
