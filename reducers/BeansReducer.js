@@ -37,7 +37,6 @@ const sampleBeanStructure = {
 
 /*
 Bean Fields:
-*** @todo need some way to account for blend components --- maybe allow someone to select single origin or blend and show certain fields based on that.
 ✓ - Roaster / Cafe
 ✓ - Roast Date
 - Picture of bean bag
@@ -59,7 +58,7 @@ export default (state = INITIAL_STATE, action) => {
         modalData: {},
       };
     case types.BEAN_CREATING:
-      const beanBlendComponents = _.map(action.payload.data.beans, (option, i ) => {
+      const beanBlendComponentsCreate = _.map(action.payload.data.beanBlendComponents, (option, i ) => {
         if(option.roast_level_advanced_mode === true && option.basic_roast_level){
           return _.omit(option, 'basic_roast_level');
         }
@@ -79,7 +78,7 @@ export default (state = INITIAL_STATE, action) => {
             id: action.payload.id,
             bean_image: action.payload.data.bean_image,
             bean_type: action.payload.data.bean_type,
-            beanBlendComponents: action.payload.data.bean_type === 'blend' ? beanBlendComponents : beanBlendComponents[0],
+            beanBlendComponents: action.payload.data.bean_type === 'blend' ? beanBlendComponentsCreate : [beanBlendComponentsCreate[0]],
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
             roast_date: action.payload.data.roast_date,
@@ -89,6 +88,15 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
     case types.BEAN_UPDATING:
+      const beanBlendComponentsUpdate = _.map(action.payload.data.beanBlendComponents, (option, i ) => {
+        if(option.roast_level_advanced_mode === true && option.basic_roast_level){
+          return _.omit(option, 'basic_roast_level');
+        }
+        else if(option.roast_level_advanced_mode === false && option.roast_level){
+          return _.omit(option, 'roast_level');
+        }
+        return option;
+      });
       return { ...state,
         loading: true,
         error: '',
@@ -97,10 +105,9 @@ export default (state = INITIAL_STATE, action) => {
           [action.payload.data.id]: {
             ...state.beans[action.payload.data.id],
             modified: action.payload.modified,
-            id: action.payload.id,
             bean_image: action.payload.data.bean_image,
             bean_type: action.payload.data.bean_type,
-            beanBlendComponents: action.payload.data.bean_type === 'blend' ? action.payload.data.beans : action.payload.data.beans[0],
+            beanBlendComponents: action.payload.data.bean_type === 'blend' ? beanBlendComponentsUpdate : [beanBlendComponentsUpdate[0]],
             name: action.payload.data.name,
             cafe: action.payload.data.cafe,
             roast_date: action.payload.data.roast_date,

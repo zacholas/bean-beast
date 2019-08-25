@@ -21,7 +21,7 @@ export default class BeanDetails extends Component {
       return (
         <BeanDetailsFormFields
           fieldIndex={0}
-          fieldPrefix='beans[0]'
+          fieldPrefix='beanBlendComponents[0]'
           origins={this.props.origins}
           roastLevels={this.props.roastLevels}
           beanProcesses={this.props.beanProcesses}

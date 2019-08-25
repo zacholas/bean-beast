@@ -25,18 +25,18 @@ export default class RoastLevelFormField extends Component {
       this.props.formValues &&
       this.props.formValues.EditBeanForm &&
       this.props.formValues.EditBeanForm.values &&
-      this.props.formValues.EditBeanForm.values.beans
+      this.props.formValues.EditBeanForm.values.beanBlendComponents
     ){
 
       if(this.props.fieldIndex){
-        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beans[this.props.fieldIndex].roast_level_advanced_mode;
+        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beanBlendComponents[this.props.fieldIndex].roast_level_advanced_mode;
       }
       else if(
-        _.size(this.props.formValues.EditBeanForm.values.beans) &&
-        this.props.formValues.EditBeanForm.values.beans[0] &&
-        this.props.formValues.EditBeanForm.values.beans[0].roast_level_advanced_mode
+        _.size(this.props.formValues.EditBeanForm.values.beanBlendComponents) &&
+        this.props.formValues.EditBeanForm.values.beanBlendComponents[0] &&
+        this.props.formValues.EditBeanForm.values.beanBlendComponents[0].roast_level_advanced_mode
       ) {
-        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beans[0].roast_level_advanced_mode;
+        roastLevelAdvancedMode = this.props.formValues.EditBeanForm.values.beanBlendComponents[0].roast_level_advanced_mode;
       }
     }
     // if( roastLevelAdvancedMode === undefined ){

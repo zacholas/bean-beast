@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { TouchableOpacity, View, Text, Image } from 'react-native';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
@@ -9,6 +10,12 @@ import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
 import {textLink, bodyText, marginBottomHalf, defaultMarginAmount} from "../../constants/Styles";
 import EditCafeForm from "../../components/beans/EditBeanForm";
+import { roastLevelDisplay } from "../../helpers/labels";
+import OriginsReducer from "../../reducers/OriginsReducer";
+import RoastLevelsReducer from "../../reducers/RoastLevelsReducer";
+import BeanProcessesReducer from "../../reducers/BeanProcessesReducer";
+import CoffeeSpeciesReducer from "../../reducers/CoffeeSpeciesReducer";
+import UserPreferencesReducer from "../../reducers/UserPreferencesReducer";
 
 class ViewBeanScreen extends Component {
   constructor(props){
@@ -18,56 +25,6 @@ class ViewBeanScreen extends Component {
     this.beanRatingCommentsFullModal = null;
     this.beanImageModal = null;
     // this._beanImage = this._beanImage.bind(this);
-  }
-
-  render() {
-    const bean = this.props.bean;
-    return (
-      <Container>
-        <Button
-          onPress={() => this._editBeanButtonPress()}
-          title="Edit Bean"
-          iconName="pencil"
-          backgroundColor="gray"
-        />
-        <Hr />
-        <View style={{ flexDirection: 'row' }}>
-        {this._beanImage()}
-          <View style={{ flex: 1 }}>
-            {this._beanName()}
-            {this._roasterName()}
-            <BodyText>Roasted on: {new Date(Date.parse(this.props.bean.roast_date)).toLocaleDateString("en-US")} </BodyText>
-          </View>
-        </View>
-        <Hr />
-        {this._ratingInfo()}
-        <Hr />
-        {this._originInfo()}
-        <Hr />
-        <Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline>
-        <BodyText>{this.props.bean.tasting_notes}</BodyText>
-        <Headline h5 style={marginBottomHalf}>Comments:</Headline>
-        <BodyText>{this.props.bean.comments}</BodyText>
-        {/*<BodyText>Details:</BodyText>*/}
-        {/*<BodyText>{JSON.stringify(bean)}</BodyText>*/}
-
-        <Hr />
-        <BodyText>Delete, edit, clone (maybe)</BodyText>
-
-        <Button
-          onPress={() => this.deleteConfirmModal.show()}
-          title="Delete Bean"
-          iconName="trash"
-        />
-        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
-          <Button
-            onPress={() => {this._deleteBean()}}
-            title='Yes, delete'
-            iconName='trash'
-          />
-        </Modal>
-      </Container>
-    );
   }
 
   _rateBeanButtonPress(){
@@ -187,17 +144,48 @@ class ViewBeanScreen extends Component {
     }
   }
 
-  _originInfo(){
+  _beanBlendComponentOutput(blendComponent){
+    const { origins, roastLevels, beanProcesses, coffeeSpecies } = this.props;
+    const {
+      bean_process, coffee_species, basic_roast_level, roast_level, origin,
+      origin_details, origin_region, roast_level_advanced_mode
+    } = blendComponent;
+
+    const advancedRoastLevelOutput = (roast_level_advanced_mode === true && roast_level && _.size(roastLevels) && roastLevels[roast_level] !== undefined) ? roastLevels[roast_level] : false;
+    const originOutput = (origin !== undefined && origin && _.size(origins) && origins[origin] !== undefined) ? origins[origin] : false;
+    const beanProcessOutput = (bean_process !== undefined && bean_process && _.size(beanProcesses) && beanProcesses[bean_process] !== undefined) ? beanProcesses[bean_process] : false;
+    const coffeeSpeciesOutput = (coffee_species !== undefined && coffee_species && _.size(coffeeSpecies) && coffeeSpecies[coffee_species] !== undefined) ? coffeeSpecies[coffee_species] : false;
+
     return (
-      <View style={{ paddingBottom: 10 }}>
-        <Headline h5 style={marginBottomHalf}>Origin Information</Headline>
-        <View style={{ ...marginBottomHalf, flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={bodyText}>Rating: {this.props.bean.rating}/10</Text>
-          <Text style={{ ...bodyText, marginLeft: 15, marginRight: 15 }}>|</Text>
-          <Text style={bodyText}>Buy Again? {this.props.bean.buy_again && this.props.bean.buy_again === true ? 'Yes' : 'No'}</Text>
-        </View>
-      </View>
+      <Text>
+        {originOutput && originOutput.name}
+        {(origin_region && originOutput) && `, ${origin_region}`}
+        {(origin_region && !originOutput) && origin_region}
+        {origin_details && `(${origin_details})`}
+        {beanProcessOutput && ` — ${beanProcessOutput.name}`}
+        {roast_level_advanced_mode === false && basic_roast_level && ' — ' + roastLevelDisplay(basic_roast_level)}
+        {advancedRoastLevelOutput && ` — ${advancedRoastLevelOutput.name}`}
+        {coffeeSpeciesOutput && ` — ${coffeeSpeciesOutput.name}`}
+      </Text>
     )
+  }
+
+  _originInfo(){
+    const { beanBlendComponents, bean_type } = this.props.bean;
+    if(bean_type === 'single_origin' && _.size(beanBlendComponents)){
+      return (
+        <View style={{ paddingBottom: 10 }}>
+          <Headline h5 style={marginBottomHalf}>Bean & Origin Information</Headline>
+          <View>
+            {this._beanBlendComponentOutput(beanBlendComponents[0])}
+          </View>
+        </View>
+      )
+    }
+    else if(bean_type === 'blend' && _.size(beanBlendComponents)){
+
+    }
+
   }
 
   _roasterName(){
@@ -205,11 +193,67 @@ class ViewBeanScreen extends Component {
       return <BodyText style={marginBottomHalf}>Roaster: {this.props.roaster.name}</BodyText>;
     }
   }
+
+  render() {
+    const bean = this.props.bean;
+    console.log(bean);
+    return (
+      <Container>
+        <Button
+          onPress={() => this._editBeanButtonPress()}
+          title="Edit Bean"
+          iconName="pencil"
+          backgroundColor="gray"
+        />
+        <Hr />
+        {/*<Text>ID: {this.props.bean.id}</Text>*/}
+        <View style={{ flexDirection: 'row' }}>
+          {this._beanImage()}
+          <View style={{ flex: 1 }}>
+            {this._beanName()}
+            {this._roasterName()}
+            <BodyText>Roasted on: {new Date(Date.parse(this.props.bean.roast_date)).toLocaleDateString("en-US")} </BodyText>
+          </View>
+        </View>
+        <Hr />
+        {this._ratingInfo()}
+        <Hr />
+        {this._originInfo()}
+        <Hr />
+        <Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline>
+        <BodyText>{this.props.bean.tasting_notes}</BodyText>
+        <Headline h5 style={marginBottomHalf}>Comments:</Headline>
+        <BodyText>{this.props.bean.comments}</BodyText>
+        {/*<BodyText>Details:</BodyText>*/}
+        {/*<BodyText>{JSON.stringify(bean)}</BodyText>*/}
+
+        <Hr />
+        <BodyText>Delete, edit, clone (maybe)</BodyText>
+
+        <Button
+          onPress={() => this.deleteConfirmModal.show()}
+          title="Delete Bean"
+          iconName="trash"
+        />
+        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
+          <Button
+            onPress={() => {this._deleteBean()}}
+            title='Yes, delete'
+            iconName='trash'
+          />
+        </Modal>
+      </Container>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => ({
   bean: state.beans.beans[props.navigation.getParam('id')],
-  roaster: state.beans.beans[props.navigation.getParam('id')] ? state.cafes.cafes[state.beans.beans[props.navigation.getParam('id')].cafe] : null
+  roaster: state.beans.beans[props.navigation.getParam('id')] ? state.cafes.cafes[state.beans.beans[props.navigation.getParam('id')].cafe] : null,
+  origins: state.origins.origins,
+  roastLevels: state.roastLevels.roastLevels,
+  beanProcesses: state.beanProcesses.beanProcesses,
+  coffeeSpecies: state.coffeeSpecies.coffeeSpecies
 });
 
 export default connect(mapStateToProps, { deleteBean, editBean })(ViewBeanScreen);

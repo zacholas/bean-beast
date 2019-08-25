@@ -157,7 +157,11 @@ class EditBeanForm extends Component {
 
   formStepThree(){
     return (
-      <BeanName formValues={this.props.formValues} origins={this.props.origins} />
+      <BeanName
+        formValues={this.props.formValues}
+        origins={this.props.origins}
+        beanProcesses={this.props.beanProcesses}
+      />
     );
   }
 
@@ -208,13 +212,13 @@ class EditBeanForm extends Component {
   }
 
   render() {
-    // console.log('form', this.props);
+    // console.log('Edit Bean Form', this.props.initialValues);
     if(
       this.props.formValues.EditBeanForm &&
       this.props.formValues.EditBeanForm.values &&
-      this.props.formValues.EditBeanForm.values.beans
+      this.props.formValues.EditBeanForm.values.beanBlendComponents
     ){
-      // console.log('form values for all beans', this.props.formValues.EditBeanForm.values.beans);
+      // console.log('form values for all beans', this.props.formValues.EditBeanForm.values.beanBlendComponents);
     }
     return (
       <View style={{ flex: 1, paddingBottom: defaultPaddingAmount }}>
@@ -245,7 +249,7 @@ const initializedValues = {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('user preferences state', state.userPreferences);
+  // console.log('user preferences state', state.beans.currentlyEditingBean);
   return {
     cafes: state.cafes.cafes,
     origins: state.origins.origins,
@@ -254,7 +258,7 @@ const mapStateToProps = (state) => {
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
     initialValues: {
       ...initializedValues,
-      beans: [{
+      beanBlendComponents: [{
         //* NOTE: When updating the initial bean values here, be sure to update them in \components\beans\BeanBlendFormLayout.js @ ~line 101
         coffee_species: getFirstCoffeeSpecies(state.coffeeSpecies.coffeeSpecies),
         roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode,

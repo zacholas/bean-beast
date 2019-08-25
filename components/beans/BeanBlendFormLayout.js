@@ -106,7 +106,7 @@ export default class BeanBlendFormLayout extends Component {
           (warning && <Text style={styles.warningText}>{warning}</Text>))}
 
         {fields.map((bean, index) => {
-          const thisBeanValues = this.props.formValues.EditBeanForm.values.beans[index];
+          const thisBeanValues = this.props.formValues.EditBeanForm.values.beanBlendComponents[index];
           return this._renderItem(bean, index, fields, thisBeanValues);
         })}
 
@@ -123,7 +123,7 @@ export default class BeanBlendFormLayout extends Component {
   render() {
     return (
       <View>
-        <FieldArray name="beans" component={this.renderBeans} parentProps={this.props} />
+        <FieldArray name="beanBlendComponents" component={this.renderBeans} parentProps={this.props} />
         <Modal
           ref={(ref) => { this.editBeanBlendComponent = ref; }}
           showHeadline={false}

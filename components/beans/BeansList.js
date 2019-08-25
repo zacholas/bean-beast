@@ -23,6 +23,8 @@ class BeanList extends Component {
       onPressItem={this._onPressItem}
       bean={item}
       cafe={item.cafe ? this.props.cafes.cafes[item.cafe] : null}
+      origins={this.props.origins}
+      beanProcesses={this.props.beanProcesses}
     />
   );
 
@@ -45,7 +47,8 @@ class BeanList extends Component {
 const mapStateToProps = state => ({
   beans: state.beans,
   cafes: state.cafes,
-  origins: state.origins
+  origins: state.origins,
+  beanProcesses: state.beanProcesses
 });
 
 const mapDispatchToProps = dispatch => ({});
