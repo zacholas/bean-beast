@@ -111,7 +111,7 @@ const _updateBean = (values) => {
 };
 
 const _updatingBean = (dispatch, values) => new Promise((resolve, reject) => {
-  console.log('updating bean with values: ', values);
+  // console.log('updating bean with values: ', values);
   dispatch({
     type: types.BEAN_UPDATING,
     payload: {

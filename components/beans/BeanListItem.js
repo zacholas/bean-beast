@@ -16,7 +16,7 @@ export default class BeanListItem extends Component {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => this.props.onPressItem(this.props.id)}
+          onPress={() => this.props.onPressItem(this.props.id, this.props.bean, this.props.editBeanAction)}
           style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: defaultMarginAmount / 2 }}
         >
           {this._beanImage()}
@@ -33,29 +33,10 @@ export default class BeanListItem extends Component {
 
   _beanTitle(){
     const output = beanTitleDisplay(this.props.bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
-    console.log(output);
 
     if(output){
       return <Text>{output}</Text>;
     }
-    // const { name, roast_level } = this.props.bean;
-    // const cafeName = this.props.cafe && this.props.cafe.name ? this.props.cafe.name : null;
-    //
-    // let output = null;
-    //
-    // if( name ){
-    //   output = name;
-    // }
-    // else if ( roast_level ){
-    //   output = roastLevelDisplay(roast_level);
-    // }
-    // // else if ( roast_level && cafeName ){
-    // //   output = '' + roastLevelDisplay(roast_level) + ' by ' + cafeName;
-    // // }
-    // else {
-    //   output = 'Unnamed Bean';
-    // }
-    // return <Text>{output}</Text>;
   }
 
   _roasterName(){

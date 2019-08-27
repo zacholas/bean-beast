@@ -4,6 +4,7 @@ import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import BeanListItem from './BeanListItem';
 import * as navRoutes from '../../constants/NavRoutes';
+import { editBean } from "../../actions";
 
 class BeanList extends Component {
 
@@ -11,9 +12,11 @@ class BeanList extends Component {
     return item.id;
   };
 
-  _onPressItem = (id) => {
+  _onPressItem = (id, bean, editBeanAction) => {
     this.props.navigation.navigate(navRoutes.VIEW_BEAN, {
-      id
+      id,
+      bean,
+      editBeanAction
     })
   };
 
@@ -25,6 +28,7 @@ class BeanList extends Component {
       cafe={item.cafe ? this.props.cafes.cafes[item.cafe] : null}
       origins={this.props.origins}
       beanProcesses={this.props.beanProcesses}
+      editBeanAction={this.props.editBean}
     />
   );
 
@@ -51,6 +55,5 @@ const mapStateToProps = state => ({
   beanProcesses: state.beanProcesses
 });
 
-const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(BeanList);
+export default connect(mapStateToProps, { editBean })(BeanList);

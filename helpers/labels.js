@@ -16,8 +16,11 @@ export const  roastLevelDisplay = (roast_level) => {
 };
 
 export const beanTitleDisplay = (bean, origins, beanProcesses) => {
-  const { bean_type, beanBlendComponents } = bean;
+  const { bean_type, beanBlendComponents, name } = bean;
 
+  if( name ){
+    return name;
+  }
   if(bean_type === 'single_origin'){
     const originID = beanBlendComponents[0].origin;
     const origin = originID ? origins[originID] : false;
@@ -28,9 +31,6 @@ export const beanTitleDisplay = (bean, origins, beanProcesses) => {
     output = origin && origin.name !== undefined ? output.concat(origin.name + ' ') : output;
     output = region ? output.concat(region + ' ') : output;
     output = process ? output.concat(`(${process})`) : output;
-
-    console.log(output);
-
 
     return output;
   }
@@ -43,8 +43,6 @@ export const beanTitleDisplay = (bean, origins, beanProcesses) => {
       // return output ? `${prefix} ${output}` : false;
       name = output ? name.concat(`${prefix}${output}`) : name;
     });
-
-    console.log('name', name);
 
     return `${name} Blend`;
   }

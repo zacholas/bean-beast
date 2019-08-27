@@ -8,16 +8,31 @@ import { Headline, Hr, BodyText, Container, Button } from "../../components/comm
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
-import {textLink, bodyText, marginBottomHalf, defaultMarginAmount} from "../../constants/Styles";
-import EditCafeForm from "../../components/beans/EditBeanForm";
+import { textLink, bodyText, marginBottomHalf, defaultMarginAmount, headerNavTextLink } from "../../constants/Styles";
 import { roastLevelDisplay } from "../../helpers/labels";
-import OriginsReducer from "../../reducers/OriginsReducer";
-import RoastLevelsReducer from "../../reducers/RoastLevelsReducer";
-import BeanProcessesReducer from "../../reducers/BeanProcessesReducer";
-import CoffeeSpeciesReducer from "../../reducers/CoffeeSpeciesReducer";
-import UserPreferencesReducer from "../../reducers/UserPreferencesReducer";
 
 class ViewBeanScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const bean = navigation.getParam('bean', false);
+    const editBeanAction = navigation.getParam('editBeanAction', false);
+    // console.log(bean);
+    const headerRightContent = bean && editBeanAction ? (
+      <TouchableOpacity onPress={() => {
+        editBeanAction(bean);
+        navigation.navigate(navRoutes.EDIT_BEAN, {
+          type: 'edit',
+          bean
+        })
+      }}>
+        <Text style={headerNavTextLink}><Icon name="pencil" size={16} style={textLink} /> Edit Bean</Text>
+      </TouchableOpacity>
+    ) : null;
+
+    return {
+      headerRight: headerRightContent
+    }
+  };
+
   constructor(props){
     super(props);
     this.beanID = props.navigation.getParam('id');
@@ -35,6 +50,7 @@ class ViewBeanScreen extends Component {
   }
 
   _editBeanButtonPress(){
+    // console.log(this.props.bean);
     this.props.editBean(this.props.bean);
     this.props.navigation.navigate(navRoutes.EDIT_BEAN, {
       type: 'edit',
@@ -196,7 +212,7 @@ class ViewBeanScreen extends Component {
 
   render() {
     const bean = this.props.bean;
-    console.log(bean);
+    // console.log('viewing bean: ' + bean.name);
     return (
       <Container>
         <Button
@@ -220,14 +236,12 @@ class ViewBeanScreen extends Component {
         <Hr />
         {this._originInfo()}
         <Hr />
-        <Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline>
-        <BodyText>{this.props.bean.tasting_notes}</BodyText>
-        <Headline h5 style={marginBottomHalf}>Comments:</Headline>
-        <BodyText>{this.props.bean.comments}</BodyText>
+        {this.props.bean.tasting_notes && `<Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline><BodyText>${this.props.bean.tasting_notes}</BodyText>`}
+        {this.props.bean.comments && `<Headline h5 style={marginBottomHalf}>Comments:</Headline><BodyText>{this.props.bean.comments}</BodyText>`}
+        {(this.props.bean.tasting_notes || this.props.bean.comments) && <Hr /> }
         {/*<BodyText>Details:</BodyText>*/}
         {/*<BodyText>{JSON.stringify(bean)}</BodyText>*/}
 
-        <Hr />
         <BodyText>Delete, edit, clone (maybe)</BodyText>
 
         <Button

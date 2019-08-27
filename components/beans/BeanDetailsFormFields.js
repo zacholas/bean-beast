@@ -49,6 +49,15 @@ export default class BeanDetailsFormFields extends Component {
     );
   }
 
+  elevationLabel(){
+    return (
+      <View>
+        <Text style={bodyText}>Elevation:</Text>
+        <Text style={{ ...bodyText, ...styles.label, fontSize: 13, fontStyle: 'italic', marginTop: 3 }}>Generally expressed in Meters Above Sea Level. (MASL)</Text>
+      </View>
+    );
+  }
+
   render() {
     const originFieldLabel = (
       <View style={{ flexDirection: 'row' }}>
@@ -160,6 +169,12 @@ export default class BeanDetailsFormFields extends Component {
           // name="origin_details"
           name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin_details` : 'origin_details'}
           label={this.originDetailsLabel()}
+        />
+
+        <TextField
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.elevation` : 'elevation'}
+          label={this.elevationLabel()}
+          // validate={[required]}
         />
 
         <Hr />

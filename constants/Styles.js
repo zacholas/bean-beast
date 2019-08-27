@@ -1,3 +1,7 @@
+// import colorWhite from './Colors';
+// import tintColor from './Colors';
+import colors from './Colors';
+
 export const fontWeightLight = '300';
 export const fontWeightNormal = '400';
 export const fontWeightBold = '700';
@@ -77,9 +81,16 @@ export const centeredContainer = {
 };
 
 export const textLink = {
-  color: '#07a0c0',
+  color: colors.tintColor,
 };
 
 export const whiteText = {
-  color: '#fff',
+  color: colors.colorWhite,
+};
+
+export const headerNavTextLink = {
+  ...bodyText,
+  ...textLink,
+  padding: 10,
+  paddingRight: 14
 };

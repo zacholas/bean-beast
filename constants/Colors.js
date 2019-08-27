@@ -20,4 +20,6 @@ export default {
   colorDanger: '#dc3545',
   colorWarning: '#ffc107',
   colorInfo: '#17a2b8',
+
+  colorWhite: '#fff'
 };

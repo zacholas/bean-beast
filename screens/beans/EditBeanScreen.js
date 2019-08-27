@@ -1,13 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import {Container, BodyText, Headline} from "../../components/common";
 import EditBeanForm from "../../components/beans/EditBeanForm";
+import { headerNavTextLink, textLink } from "../../constants/Styles";
+import * as navRoutes from "../../constants/NavRoutes";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class EditBeanScreen extends Component {
   static navigationOptions = ({ navigation }) => {
+    const bean = navigation.getParam('bean', false);
+    const headerRightContent = navigation.getParam('type', 'create') === 'edit' && bean && bean.id ? (
+      <TouchableOpacity onPress={() => {
+        navigation.navigate(navRoutes.VIEW_BEAN, {
+          id: bean.id,
+          bean: bean
+        })
+      }}>
+        <Text style={headerNavTextLink}><Icon name="close" size={16} style={textLink} /> Cancel</Text>
+      </TouchableOpacity>
+    ) : null;
+
     return {
       title: navigation.getParam('type', 'create') === 'create' ? 'Add New Bean' : 'Edit Bean',
+      headerRight: headerRightContent
     }
   };
 
