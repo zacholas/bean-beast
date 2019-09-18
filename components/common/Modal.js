@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 const styles = StyleSheet.create({
   backdrop: {
     padding: 20,
+    paddingTop: 50,
     paddingBottom: 40,
     backgroundColor: 'rgba(0,0,0,.9)',
     flex: 1,

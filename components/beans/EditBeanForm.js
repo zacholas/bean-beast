@@ -199,8 +199,7 @@ class EditBeanForm extends Component {
     switch (this.state.formStep){
       case 1:
       default:
-        return this.formStepTwo();
-        // return this.formStepOne();
+        return this.formStepOne();
       case 2:
         return this.formStepTwo();
       case 3:
@@ -213,7 +212,7 @@ class EditBeanForm extends Component {
   }
 
   render() {
-    console.log('Edit Bean Form', this.props.initialValues.beanBlendComponents);
+    // console.log('Edit Bean Form', this.props.initialValues.beanBlendComponents);
     if(
       this.props.formValues.EditBeanForm &&
       this.props.formValues.EditBeanForm.values &&
@@ -250,7 +249,6 @@ const initializedValues = {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('user preferences state', state.beans.currentlyEditingBean);
   return {
     cafes: state.cafes.cafes,
     origins: state.origins.origins,
@@ -258,7 +256,13 @@ const mapStateToProps = (state) => {
     beanProcesses: state.beanProcesses.beanProcesses,
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
     initialValues: {
-
+      ...initializedValues,
+      beanBlendComponents: [{
+        //* NOTE: When updating the initial bean values here, be sure to update them in \components\beans\BeanBlendFormLayout.js @ ~line 101
+        coffee_species: getFirstCoffeeSpecies(state.coffeeSpecies.coffeeSpecies),
+        roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode,
+        basic_roast_level: 3
+      }],
       ...state.beans.currentlyEditingBean,
     },
     loading: state.beans.loading,
@@ -270,7 +274,7 @@ const mapStateToProps = (state) => {
 
 EditBeanForm = reduxForm({
   form: 'EditBeanForm',
-  destroyOnUnmount: false,
+  destroyOnUnmount: true,
   forceUnregisterOnUnmount: true,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true

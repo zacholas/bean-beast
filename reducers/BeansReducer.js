@@ -22,7 +22,7 @@ const sampleBeanStructure = {
   bean_type: 'single_origin', // false, 'single_origin', 'blend',
   bean_details: [
     {
-      blend_ratio: 100, // percentage 0-100 (perhaps store as float 0 - 1; idk)
+      blend_percent: 100, // percentage 0-100 (perhaps store as float 0 - 1; idk)
       country: 'Ethiopia',
       region: 'Yirga Chefe',
       details: 'Zachs Estate',
