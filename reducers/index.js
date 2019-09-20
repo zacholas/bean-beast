@@ -9,6 +9,7 @@ import BeanProcessesReducer from './BeanProcessesReducer';
 import CoffeeSpeciesReducer from './CoffeeSpeciesReducer';
 import RecipesReducer from './RecipesReducer';
 import BrewMethodsReducer from './BrewMethodsReducer';
+import RepeatableRecipeFieldsReducer from './RepeatableRecipeFieldsReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
   coffeeSpecies: CoffeeSpeciesReducer,
   recipes: RecipesReducer,
   brewMethods: BrewMethodsReducer,
+  repeatableRecipeFields: RepeatableRecipeFieldsReducer,
   userPreferences: UserPreferencesReducer,
 });
