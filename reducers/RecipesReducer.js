@@ -130,9 +130,17 @@ export default (state = INITIAL_STATE, action) => {
         recipes: {
           ...state.recipes,
           [action.payload.data.id]: {
-            // ...state.recipes[action.payload.data.id],
-            // modified: action.payload.modified,
-            // name: action.payload.data.name,
+            ...state.recipes[action.payload.data.id],
+            modified: action.payload.modified,
+            brew_method: action.payload.data.brew_method, // brew method ID
+            brew_method_equipment: action.payload.data.brew_method_equipment, // ID of the piece of equipment
+            grind: action.payload.data.grind, // String
+            grinder: action.payload.data.grinder, // ID of the piece of equipment
+            dose: action.payload.data.dose, // Grams to hundredths
+            temperature: action.payload.data.temperature, // Store in deg C to hundredths
+            notes_for_next_time: action.payload.data.notes_for_next_time,
+            favorite_information: action.payload.data.favorite_information,
+            repeatable_fields: action.payload.data.repeatable_fields
           }
         }
       };
@@ -147,7 +155,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,
         loading: false,
         error: null,
-        currentlyEditingRecipe: action.payload
+        currentlyEditingRecipe: action.payload,
       };
     case types.RECIPE_CREATE_SUCCESS:
     case types.RECIPE_UPDATE_SUCCESS:

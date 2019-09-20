@@ -1,6 +1,6 @@
 // import colorWhite from './Colors';
 // import tintColor from './Colors';
-import colors from './Colors';
+import colors, {grayCardBG} from './Colors';
 
 export const fontWeightLight = '300';
 export const fontWeightNormal = '400';
@@ -64,6 +64,12 @@ export const centerText = {
   textAlign: 'center',
 };
 
+export const centerEverything = {
+  textAlign: 'center',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 export const container = {
   paddingRight: defaultPaddingAmount,
   paddingLeft: defaultPaddingAmount,
@@ -80,6 +86,22 @@ export const centeredContainer = {
   justifyContent: 'center',
 };
 
+
+//* Cards
+export const card = {
+  ...defaultPadding,
+  ...marginBottom,
+  backgroundColor: colors.colorWhite,
+};
+
+export const cardGray = {
+  ...defaultPadding,
+  ...marginBottom,
+  backgroundColor: grayCardBG,
+};
+
+
+//* Text Styles
 export const textLink = {
   color: colors.tintColor,
 };

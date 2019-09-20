@@ -240,6 +240,6 @@ export const migrations = {
         origins: newOrigins
       }
     }
-  }
+  },
 };
 
