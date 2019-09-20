@@ -8,6 +8,7 @@ import RoastLevelsReducer from './RoastLevelsReducer';
 import BeanProcessesReducer from './BeanProcessesReducer';
 import CoffeeSpeciesReducer from './CoffeeSpeciesReducer';
 import RecipesReducer from './RecipesReducer';
+import BrewMethodsReducer from './BrewMethodsReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   beanProcesses: BeanProcessesReducer,
   coffeeSpecies: CoffeeSpeciesReducer,
   recipes: RecipesReducer,
+  brewMethods: BrewMethodsReducer,
   userPreferences: UserPreferencesReducer,
 });

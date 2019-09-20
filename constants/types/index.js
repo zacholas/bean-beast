@@ -5,3 +5,4 @@ export * from './roastLevels';
 export * from './beanProcesses';
 export * from './coffeeSpecies';
 export * from './recipes';
+export * from './brewMethods';

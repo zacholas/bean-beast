@@ -9,7 +9,7 @@ const INITIAL_STATE = {
   // modalData: {},
 };
 
-/*nav
+/*
 const sampleRecipesStructure = {
   recipes: {
     'recipe-234nb3b292923j3j': {

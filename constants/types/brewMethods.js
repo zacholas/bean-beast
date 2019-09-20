@@ -1,0 +1,12 @@
+export const BREW_METHOD_CREATE               = 'brew_method_create';
+export const BREW_METHOD_CREATING             = 'brew_method_creating';
+export const BREW_METHOD_CREATING_BEAN_MODAL  = 'brew_method_creating_bean_modal';
+export const BREW_METHOD_CREATE_SUCCESS       = 'brew_method_create_success';
+export const BREW_METHOD_CREATE_FAIL          = 'brew_method_create_fail';
+export const BREW_METHOD_EDIT                 = 'brew_method_edit';
+export const BREW_METHOD_UPDATING             = 'brew_method_updating';
+export const BREW_METHOD_UPDATE_SUCCESS       = 'brew_method_update_success';
+export const BREW_METHOD_UPDATE_FAIL          = 'brew_method_update_fail';
+export const BREW_METHOD_DELETING             = 'brew_method_deleting';
+export const BREW_METHOD_DELETE_SUCCESS       = 'brew_method_delete_success';
+export const BREW_METHOD_DELETE_FAIL          = 'brew_method_delete_fail';
