@@ -23,6 +23,11 @@ import EditBeanScreen from '../screens/beans/EditBeanScreen';
 import ViewBeanScreen from '../screens/beans/ViewBeanScreen';
 import RateBeanScreen from '../screens/beans/RateBeanScreen';
 
+//* Recipes
+import RecipeListScreen from '../screens/recipes/RecipeListScreen';
+import EditRecipeScreen from '../screens/recipes/EditRecipeScreen';
+import ViewRecipeScreen from '../screens/recipes/ViewRecipeScreen';
+
 //* Beans Wizard
 // import BeanPhotoStepScreen from '../components/beans/EditBeanFormSteps/BeanPhotoStepScreen';
 // import BeanRoastLevelStepScreen from '../components/beans/EditBeanFormSteps/BeanRoastLevelStepScreen';
@@ -59,6 +64,8 @@ EquipmentStack.navigationOptions = {
   ),
 };
 
+
+//* Cafes
 const CafeStack = createStackNavigator({
   [navRoutes.CAFE_LIST]: CafeListScreen,
   [navRoutes.EDIT_CAFE]: EditCafeScreen,
@@ -67,6 +74,24 @@ const CafeStack = createStackNavigator({
 
 CafeStack.navigationOptions = {
   tabBarLabel: 'Cafes / Roasters',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    />
+  ),
+};
+
+
+//* Recipes
+const RecipeStack = createStackNavigator({
+  [navRoutes.RECIPE_LIST]: RecipeListScreen,
+  [navRoutes.EDIT_RECIPE]: EditRecipeScreen,
+  [navRoutes.VIEW_RECIPE]: ViewRecipeScreen,
+});
+
+RecipeStack.navigationOptions = {
+  tabBarLabel: 'Recipes',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -155,7 +180,8 @@ export default createBottomTabNavigator({
   HomeStack,
   CafeStack,
   BeansStack,
-  EquipmentStack,
+  RecipeStack,
+  // EquipmentStack,
   // SettingsStack,
   MoreStack
 });

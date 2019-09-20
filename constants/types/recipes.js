@@ -1,0 +1,11 @@
+export const RECIPE_CREATE          = 'recipe_create';
+export const RECIPE_CREATING        = 'recipe_creating';
+export const RECIPE_CREATE_SUCCESS  = 'recipe_create_success';
+export const RECIPE_CREATE_FAIL     = 'recipe_create_fail';
+export const RECIPE_EDIT            = 'recipe_edit';
+export const RECIPE_UPDATING        = 'recipe_updating';
+export const RECIPE_UPDATE_SUCCESS  = 'recipe_update_success';
+export const RECIPE_UPDATE_FAIL     = 'recipe_update_fail';
+export const RECIPE_DELETING        = 'recipe_deleting';
+export const RECIPE_DELETE_SUCCESS  = 'recipe_delete_success';
+export const RECIPE_DELETE_FAIL     = 'recipe_delete_fail';

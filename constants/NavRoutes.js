@@ -28,3 +28,8 @@ export const BEAN_PROCESSES_LIST = 'beanProcessesList';
 //* Beans Wizard
 export const EDIT_BEAN_PHOTO_STEP = 'editBeanPhotoStep';
 export const EDIT_BEAN_ROAST_LEVEL_STEP = 'editBeanRoastLevelStep';
+
+//* Recipes
+export const RECIPE_LIST = 'recipeList';
+export const EDIT_RECIPE = 'editRecipe';
+export const VIEW_RECIPE = 'viewRecipe';
