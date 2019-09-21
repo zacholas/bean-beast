@@ -109,6 +109,7 @@ export default (state = INITIAL_STATE, action) => {
             created: action.payload.created,
             modified: action.payload.modified,
             id: action.payload.id,
+            bean_id: action.payload.bean_id,
             brew_method: action.payload.data.brew_method, // brew method ID
             brew_method_equipment: action.payload.data.brew_method_equipment, // ID of the piece of equipment
             grind: action.payload.data.grind, // String
@@ -132,6 +133,7 @@ export default (state = INITIAL_STATE, action) => {
           [action.payload.data.id]: {
             ...state.recipes[action.payload.data.id],
             modified: action.payload.modified,
+            bean_id: action.payload.bean_id,
             brew_method: action.payload.data.brew_method, // brew method ID
             brew_method_equipment: action.payload.data.brew_method_equipment, // ID of the piece of equipment
             grind: action.payload.data.grind, // String

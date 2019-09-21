@@ -93,7 +93,7 @@ class zModal extends Component {
             <View style={styles.modalContainer}>
               <View style={styles.modalHeaderContainer}>
                 <View style={styles.modalHeader}>
-                  {this.props.showHeadline && this._modalTitle()}
+                  {this._modalTitle()}
                 </View>
                 {this._closeIcon()}
               </View>
@@ -113,8 +113,13 @@ class zModal extends Component {
   }
 
   _modalTitle(){
-    if(this.props.headlineText){
-      return <Headline>{this.props.headlineText}</Headline>;
+    if(this.props.showHeadline) {
+      if (this.props.headlineJSX) {
+        return this.props.headlineJSX;
+      }
+      if (this.props.headlineText) {
+        return <Headline>{this.props.headlineText}</Headline>;
+      }
     }
   }
 
@@ -155,6 +160,7 @@ export default zModal;
 zModal.propTypes = {
   showHeadline: PropTypes.bool,
   headlineText: PropTypes.string,
+  headlineJSX: PropTypes.node,
   showCloseIcon: PropTypes.bool,
   showDismissButton: PropTypes.bool,
   dismissButtonText: PropTypes.string

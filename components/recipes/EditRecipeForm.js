@@ -78,7 +78,7 @@ class EditRecipeForm extends Component {
         <Hr />
 
         <View>
-          <BodyText>Non-sortable recipe options</BodyText>
+          {this._notesArea()}
         </View>
         <Hr />
 
@@ -95,6 +95,7 @@ class EditRecipeForm extends Component {
           <RecipeSteps
             recipeSteps={this.props.recipeSteps}
             formValues={this.props.formValues}
+            editNotes={() => this._editNotes()}
           />
 
           <Button
@@ -130,8 +131,13 @@ class EditRecipeForm extends Component {
   }
 
   _editFormFieldModal(fieldName){
+    console.log('_editFormFieldModal func hit');
     this.setState({ editingRecipeFieldName: fieldName });
     this.editRecipeFieldModal.show();
+  }
+
+  _editNotes(){
+    this._editFormFieldModal('notes_for_next_time');
   }
 
   //* Return True if values are set.
@@ -180,7 +186,7 @@ class EditRecipeForm extends Component {
       return (
         <View>
           <Headline h3>Notes for next time</Headline>
-          <BodyText>this.props.formValues.EditRecipeForm.values.notes_for_next_time</BodyText>
+          <BodyText>{this.props.formValues.EditRecipeForm.values.notes_for_next_time}</BodyText>
           <TouchableOpacity onPress={() => { this._editFormFieldModal('notes_for_next_time') }}>
             <Icon name="plus" size={16} />
             <Text>Edit</Text>
