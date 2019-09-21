@@ -11,12 +11,13 @@ class EditRecipeScreen extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        {this._pageTitle()}
-        <EditRecipeForm type={this.type} navigation={this.props.navigation} />
-      </Container>
-    );
+    return <EditRecipeForm type={this.type} navigation={this.props.navigation} />;
+    // return (
+    //   <Container>
+    //     {this._pageTitle()}
+    //     <EditRecipeForm type={this.type} navigation={this.props.navigation} />
+    //   </Container>
+    // );
   }
 
   _pageTitle(){

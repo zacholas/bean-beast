@@ -55,7 +55,7 @@ const sampleRecipesStructure = {
         notes: 'This one is really good for americanos',
         nickname: 'Not yet sure if I want a nickname AND notes...',
       },
-      repeatable_fields: [
+      recipe_steps: [
         {
           field_id: 'default_pre_infusion',
           order: 10,
@@ -117,7 +117,7 @@ export default (state = INITIAL_STATE, action) => {
             temperature: action.payload.data.temperature, // Store in deg C to hundredths
             notes_for_next_time: action.payload.data.notes_for_next_time,
             favorite_information: action.payload.data.favorite_information,
-            repeatable_fields: action.payload.data.repeatable_fields
+            recipe_steps: action.payload.data.recipe_steps
           },
         },
       };
@@ -140,7 +140,7 @@ export default (state = INITIAL_STATE, action) => {
             temperature: action.payload.data.temperature, // Store in deg C to hundredths
             notes_for_next_time: action.payload.data.notes_for_next_time,
             favorite_information: action.payload.data.favorite_information,
-            repeatable_fields: action.payload.data.repeatable_fields
+            recipe_steps: action.payload.data.recipe_steps
           }
         }
       };

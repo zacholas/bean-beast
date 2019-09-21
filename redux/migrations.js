@@ -241,5 +241,12 @@ export const migrations = {
       }
     }
   },
+  12: (state) => {
+    return {
+      ...state,
+      recipeSteps: state.repeatableRecipeFields,
+      repeatableRecipeFields: undefined
+    }
+  },
 };
 

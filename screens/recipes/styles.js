@@ -10,6 +10,9 @@ export default StyleSheet.create({
     minHeight: 200,
     position: 'relative',
   },
+  brewMethodInnerContainer: {
+    ...centerEverything,
+  },
 
   //* Primary Info (grind, dose, temp)
   recipePrimaryInfoBar: {

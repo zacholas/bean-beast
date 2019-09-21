@@ -3,8 +3,8 @@ import * as types from '../constants/types';
 
 //* Repeatable Recipe Fields Reducer (Previously called Recipe Criteria Reducer)
 /*
-const sampleRepeatableRecipeFieldsStructure = {
-  repeatableRecipeFields: {
+const sampleRecipeStepsStructure = {
+  recipeSteps: {
     //* Fields that are applicable for all brew methods
     default_wait: {
       id: 'default_wait',
@@ -16,7 +16,7 @@ const sampleRepeatableRecipeFieldsStructure = {
     },
     default_taint: {
       id: 'default_taint',
-      name: 'Taint the Coffee',
+      name: 'Taint the Coffee',re
       order: 100,
       applicableForAllBrewMethods: true,
       applicableBrewMethodsDefault: [],
@@ -93,11 +93,12 @@ const INITIAL_STATE = {
   error: null,
   currentlyEditingBrewMethod: null,
   modalData: {},
-  repeatableRecipeFields: {
+  recipeSteps: {
     default_wait: {
       id: 'default_wait',
       name: 'Wait',
       order: 20,
+      repeatable: true,
       applicableForAllBrewMethods: true,
       applicableBrewMethodsDefault: [],
       // applicableBrewMethodsUser: [],
@@ -106,6 +107,7 @@ const INITIAL_STATE = {
       id: 'default_taint',
       name: 'Taint the Coffee',
       order: 100,
+      repeatable: true,
       applicableForAllBrewMethods: true,
       applicableBrewMethodsDefault: [],
       // applicableBrewMethodsUser: [],
@@ -116,6 +118,7 @@ const INITIAL_STATE = {
       id: 'default_pre_infusion',
       name: 'Pre-Infusion',
       order: 10,
+      repeatable: true,
       applicableForAllBrewMethods: false,
       applicableBrewMethodsDefault: [
         'default_espresso'
@@ -126,6 +129,7 @@ const INITIAL_STATE = {
       id: 'default_primary_infusion',
       name: 'Primary Infusion / Shot Time',
       order: 11,
+      repeatable: true,
       applicableForAllBrewMethods: false,
       applicableBrewMethodsDefault: [
         'default_espresso'
@@ -138,6 +142,7 @@ const INITIAL_STATE = {
       id: 'default_bloom',
       name: 'Bloom',
       order: 40,
+      repeatable: false,
       applicableForAllBrewMethods: false,
       applicableBrewMethodsDefault: [
         'default_pour_over',
@@ -149,6 +154,7 @@ const INITIAL_STATE = {
       id: 'default_pour',
       name: 'Pour',
       order: 50,
+      repeatable: true,
       applicableForAllBrewMethods: false,
       applicableBrewMethodsDefault: [
         'default_pour_over',

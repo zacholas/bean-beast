@@ -86,12 +86,12 @@ class ViewRecipeScreen extends Component {
         <Hr />
 
         <View>
-          <BodyText>Non-repeatable recipe options</BodyText>
+          <BodyText>Non-sortable recipe options</BodyText>
         </View>
         <Hr />
 
         <View>
-          <BodyText>Repeatable recipe options</BodyText>
+          <BodyText>sortable recipe steps</BodyText>
         </View>
         <Hr />
 

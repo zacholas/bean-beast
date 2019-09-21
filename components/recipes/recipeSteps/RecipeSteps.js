@@ -14,14 +14,14 @@ import * as styles from "../../common/reduxForm/Styles";
 // import { Container, BodyText } from "/components/common";
 
 
-export default class RepeatableRecipeFields extends Component {
+export default class RecipeSteps extends Component {
   constructor(props){
     super(props);
     this.editRecipeFieldModal = null;
-    this.addRepeatableRecipeFieldModal = null;
+    this.addRecipeStepFieldModal = null;
     // this.state = {
-    //   editingRepeatableRecipeFieldIndex: null,
-    //   editingRepeatableRecipeFieldPrefix: null
+    //   editingRecipeStepFieldIndex: null,
+    //   editingRecipeStepFieldPrefix: null
     // };
   }
   
@@ -31,8 +31,8 @@ export default class RepeatableRecipeFields extends Component {
 
   _editItem(item, index) {
     // this.setState({
-    //   editingRepeatableRecipeFieldIndex: index,
-    //   editingRepeatableRecipeFieldPrefix: item
+    //   editingRecipeStepFieldIndex: index,
+    //   editingRecipeStepFieldPrefix: item
     // });
     this.editRecipeFieldModal.show();
   }
@@ -61,12 +61,12 @@ export default class RepeatableRecipeFields extends Component {
     // console.log('itemValues', itemValues);
     // console.log(this.props.array.remove);
     const id = itemValues.field_id;
-    // console.log(parentProps.repeatableRecipeFields);
+    // console.log(parentProps.recipeSteps);
     console.log(id);
-    console.log(parentProps.repeatableRecipeFields.repeatableRecipeFields[id]);
-    const { repeatableRecipeFields } = parentProps.repeatableRecipeFields
-    const thisRepeatableRecipeField = _.size(repeatableRecipeFields) && repeatableRecipeFields[id] ? repeatableRecipeFields[id] : null;
-    if(thisRepeatableRecipeField) {
+    console.log(parentProps.recipeSteps.recipeSteps[id]);
+    const { recipeSteps } = parentProps.recipeSteps
+    const thisRecipeStepField = _.size(recipeSteps) && recipeSteps[id] ? recipeSteps[id] : null;
+    if(thisRecipeStepField) {
       return (
         <View key={index} style={{...marginBottom, padding: 10, backgroundColor: '#eee'}}>
           <View style={{flexDirection: 'row'}}>
@@ -75,7 +75,7 @@ export default class RepeatableRecipeFields extends Component {
               <Icon name="arrows" size={16}/>
             </TouchableOpacity>
             <View style={{flex: 1}}>
-              <Text>{thisRepeatableRecipeField.name}</Text>
+              <Text>{thisRecipeStepField.name}</Text>
               {/*{this._beanName(itemValues, index)}*/}
               {/*{this._beanSubtitle(itemValues)}*/}
             </View>
@@ -94,10 +94,10 @@ export default class RepeatableRecipeFields extends Component {
   };
 
   renderRecipes = ({ fields, meta: { touched, error, submitFailed }, parentProps }) => {
-    // console.log(parentProps.repeatableRecipeFields.repeatableRecipeFields.default_bloom);
-    const { repeatableRecipeFields } = parentProps.repeatableRecipeFields;
-    const repeatableRecipeFieldsArray = _.toArray(repeatableRecipeFields);
-    // console.log(repeatableRecipeFieldsArray);
+    // console.log(parentProps.recipeSteps.recipeSteps.default_bloom);
+    const { recipeSteps } = parentProps.recipeSteps;
+    const recipeStepsArray = _.toArray(recipeSteps);
+    // console.log(recipeStepsArray);
     return (
       <View>
         {touched &&
@@ -106,27 +106,27 @@ export default class RepeatableRecipeFields extends Component {
 
         {fields.map((recipe, index) => {
           // console.log(recipe);
-          // console.log(parentProps.formValues.EditRecipeForm.values.repeatable_fields[index]);
-          const thisRecipeValues = parentProps.formValues.EditRecipeForm.values.repeatable_fields[index];
+          // console.log(parentProps.formValues.EditRecipeForm.values.recipe_steps[index]);
+          const thisRecipeValues = parentProps.formValues.EditRecipeForm.values.recipe_steps[index];
           return this._renderItem(recipe, index, fields, thisRecipeValues, parentProps);
         })}
 
         {/*<Button title="Add New" onPress={() => fields.push({*/}
           {/*//* Default props when adding a new empty item. Should more or less match what's defined in EditRecipeForm.js*/}
           {/*// var item = items[Math.floor(Math.random()*items.length)];*/}
-          {/*field_id: repeatableRecipeFieldsArray[Math.floor(Math.random() * repeatableRecipeFieldsArray.length)].id*/}
+          {/*field_id: recipeStepsArray[Math.floor(Math.random() * recipeStepsArray.length)].id*/}
           {/*// field_id: 'default_wait',*/}
           {/*// zzzz: 'kkkkkkk'*/}
         {/*})} />*/}
 
         <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => this.addRepeatableRecipeFieldModal.show()} style={{ backgroundColor: colors.colorPrimary, borderRadius: 300, padding: 10, width: 70, height: 70, alignItems: 'center', justifyContent: 'center' }}>
+          <TouchableOpacity onPress={() => this.addRecipeStepFieldModal.show()} style={{ backgroundColor: colors.colorPrimary, borderRadius: 300, padding: 10, width: 70, height: 70, alignItems: 'center', justifyContent: 'center' }}>
             <Icon name="plus" size={40} style={{ color: colors.colorWhite }}/>
           </TouchableOpacity>
         </View>
 
         <Modal
-          ref={(ref) => { this.addRepeatableRecipeFieldModal = ref; }}
+          ref={(ref) => { this.addRecipeStepFieldModal = ref; }}
           showHeadline={false}
           // dismissButtonText="Save & Continue"
           // headlineText="Edit Bean Blend Component"
@@ -140,8 +140,8 @@ export default class RepeatableRecipeFields extends Component {
   render() {
     return (
       <View style={cardGray}>
-        <Text style={{ marginBottom: 15 }}>Repeatable Fields:</Text>
-        <FieldArray name="repeatable_fields" component={this.renderRecipes} parentProps={this.props} />
+        <Text style={{ marginBottom: 15 }}>Recipe Steps:</Text>
+        <FieldArray name="recipe_steps" component={this.renderRecipes} parentProps={this.props} />
         {/*<Modal*/}
           {/*ref={(ref) => { this.editRecipeFieldModal = ref; }}*/}
           {/*showHeadline={false}*/}
@@ -149,8 +149,8 @@ export default class RepeatableRecipeFields extends Component {
           {/*// headlineText="Edit Bean Blend Component"*/}
         {/*>*/}
           {/*<BeanDetailsFormFields*/}
-            {/*fieldIndex={this.state.editingRepeatableRecipeFieldIndex}*/}
-            {/*fieldPrefix={this.state.editingRepeatableRecipeFieldPrefix}*/}
+            {/*fieldIndex={this.state.editingRecipeStepFieldIndex}*/}
+            {/*fieldPrefix={this.state.editingRecipeStepFieldPrefix}*/}
             {/*origins={this.props.origins}*/}
             {/*roastLevels={this.props.roastLevels}*/}
             {/*beanProcesses={this.props.beanProcesses}*/}
@@ -164,4 +164,4 @@ export default class RepeatableRecipeFields extends Component {
   }
 }
 
-RepeatableRecipeFields.propTypes = {};
+RecipeSteps.propTypes = {};
