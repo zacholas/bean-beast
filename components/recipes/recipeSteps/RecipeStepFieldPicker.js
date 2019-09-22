@@ -24,14 +24,6 @@ class RecipeStepFieldPicker extends Component {
     return item.id;
   };
 
-  _onAttributePress(item){
-    // this.props.editNotes();
-  }
-
-  _onStepPress(item){
-    console.log('step pressed', item);
-  }
-
   _renderItem = ({item}) => {
     const onPressFunction = item.type && item.type === 'attribute' ? () => this.props.onAttributePress(item) : () => this.props.onStepPress(item);
     return (
@@ -74,8 +66,8 @@ RecipeStepFieldPicker.propTypes = {
 };
 
 RecipeStepFieldPicker.defaultProps = {
-  onAttributePress: () => { console.log('hi')},
-  onStepPress: () => { console.log('step')},
+  onAttributePress: () => {},
+  onStepPress: () => {},
 };
 
 // const mapStateToProps = (state) => {

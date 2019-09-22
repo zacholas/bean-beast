@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, arrayPush } from 'redux-form';
 import PropTypes from "prop-types";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
@@ -10,6 +10,7 @@ import {BodyText, Button, Container, Headline, Hr} from "../common";
 import { required } from "../../helpers";
 import _ from "lodash";
 import RecipeFormField from './formFields/RecipeFormField';
+import RecipeStepFormField from './formFields/RecipeStepFormField';
 import RecipeSteps from './recipeSteps/RecipeSteps';
 import Modal from "../common/Modal";
 import styles from "../../screens/recipes/styles";
@@ -25,7 +26,8 @@ class EditRecipeForm extends Component {
     this.state = {
       editRecipeFieldModalAction: null,
       editingRecipeFieldName: null,
-      showModalBackToFieldListButton: false
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: null
     };
   }
 
@@ -100,7 +102,7 @@ class EditRecipeForm extends Component {
           <RecipeSteps
             recipeSteps={this.props.recipeSteps}
             formValues={this.props.formValues}
-            editNotes={() => this._editNotes()}
+            editStep={(step, index) => this._showEditStepModal(step, index)}
           />
 
           <View style={{ alignItems: 'center' }}>
@@ -148,7 +150,8 @@ class EditRecipeForm extends Component {
     this.setState({
       editRecipeFieldModalAction: 'recipeStepsMenu',
       editingRecipeFieldName: null,
-      showModalBackToFieldListButton: false
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: null
     });
   }
 
@@ -156,7 +159,8 @@ class EditRecipeForm extends Component {
     this.setState({
       editRecipeFieldModalAction: 'recipeStepsMenu',
       editingRecipeFieldName: null,
-      showModalBackToFieldListButton: false
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: null
     });
     this.editRecipeFieldModal.show();
   }
@@ -165,7 +169,19 @@ class EditRecipeForm extends Component {
     this.setState({
       editRecipeFieldModalAction: 'editField',
       editingRecipeFieldName: fieldName,
-      showModalBackToFieldListButton: false
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: null
+    });
+    this.editRecipeFieldModal.show();
+  }
+
+  _showEditStepModal(step, index){
+    // console.log(step, index);
+    this.setState({
+      editRecipeFieldModalAction: 'editStep',
+      editingRecipeFieldName: step.id,
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: index
     });
     this.editRecipeFieldModal.show();
   }
@@ -194,20 +210,41 @@ class EditRecipeForm extends Component {
         <RecipeFormField name={this.state.editingRecipeFieldName} />
       );
     }
+    else if(this.state.editRecipeFieldModalAction === 'editStep'){
+      // console.log('edit step', this.state, this.props.formValues.EditRecipeForm.values.recipe_steps[this.state.stepFieldIndex]);
+      return (
+        <RecipeStepFormField
+          name={this.state.editingRecipeFieldName}
+          stepFieldIndex={this.state.stepFieldIndex}
+        />
+      );
+    }
   }
 
   _modalSelectAttribute(attribute){
     this.setState({
       editRecipeFieldModalAction: 'editField',
       editingRecipeFieldName: attribute.id,
-      showModalBackToFieldListButton: true
+      showModalBackToFieldListButton: true,
+      stepFieldIndex: null
     });
     this.editRecipeFieldModal.show();
   }
 
   _modalSelectStep(step){
-    console.log('step was selected', step);
+    this.props.dispatch(arrayPush('EditRecipeForm', 'recipe_steps', {
+      field_id: step.id
+    }));
+    const stepFieldIndex = _.size(this.props.formValues.EditRecipeForm.values) && _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) ? _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) : 0;
+    this.setState({
+      editRecipeFieldModalAction: 'editStep',
+      editingRecipeFieldName: step.id, // prob gonna have to grab its index instead
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: stepFieldIndex
+    });
   }
+
+
 
   //* Return True if values are set.
   _editRecipeFormValues(){

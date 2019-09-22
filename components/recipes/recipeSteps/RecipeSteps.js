@@ -36,9 +36,12 @@ export default class RecipeSteps extends Component {
     );
   }
 
+
+
   renderRecipes = ({ fields, meta: { touched, error, submitFailed }, parentProps }) => {
     const { recipeSteps } = parentProps.recipeSteps;
     const recipeStepsArray = _.toArray(recipeSteps);
+    // console.log('rendering recipes with', fields);
     return (
       <View>
         {touched &&
@@ -78,16 +81,16 @@ export default class RecipeSteps extends Component {
   //   this.editRecipeFieldModal.show();
   // }
 
-  _editItem(item) {
-    console.log(this.state);
-    this.setState({ editingRecipeAttributeName: item.id });
-    console.log('hit edit item', item);
-    // this.setState({
-    //   editingRecipeStepFieldIndex: index,
-    //   editingRecipeStepFieldPrefix: item
-    // });
-    // this.editRecipeFieldModal.show();
-  }
+  // _editItem(item, index) {
+  //   // console.log(this.state);
+  //   // this.setState({ editingRecipeAttributeName: item.id });
+  //   console.log('hit edit item at index ' + index + ': ', item);
+  //   // this.setState({
+  //   //   editingRecipeStepFieldIndex: index,
+  //   //   editingRecipeStepFieldPrefix: item
+  //   // });
+  //   // this.editRecipeFieldModal.show();
+  // }
 
   _renderItem = (item, index, fields, itemValues, parentProps) => {
     // console.log('item', item);
@@ -95,9 +98,9 @@ export default class RecipeSteps extends Component {
     // console.log(this.props.array.remove);
     const id = itemValues.field_id;
     // console.log(parentProps.recipeSteps);
-    console.log(id);
-    console.log(parentProps.recipeSteps.recipeSteps[id]);
-    const { recipeSteps } = parentProps.recipeSteps
+    // console.log(id);
+    // console.log(parentProps.recipeSteps.recipeSteps[id]);
+    const { recipeSteps } = parentProps.recipeSteps;
     const thisRecipeStepField = _.size(recipeSteps) && recipeSteps[id] ? recipeSteps[id] : null;
     if(thisRecipeStepField) {
       return (
@@ -112,7 +115,7 @@ export default class RecipeSteps extends Component {
               {/*{this._beanName(itemValues, index)}*/}
               {/*{this._beanSubtitle(itemValues)}*/}
             </View>
-            <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => this._editItem(item, index)}>
+            <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => this.props.editStep(thisRecipeStepField, index)}>
               <Text style={textLink}><Icon name="pencil" size={16}/> Edit</Text>
             </TouchableOpacity>
             {/*<TouchableOpacity style={{ padding: 5, paddingRight: 10 }} onPress={() => this.props.array.remove('beans', null, 0 )}>*/}
@@ -127,4 +130,6 @@ export default class RecipeSteps extends Component {
   };
 }
 
-RecipeSteps.propTypes = {};
+RecipeSteps.propTypes = {
+  editStep: PropTypes.func.isRequired
+};

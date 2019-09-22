@@ -5,6 +5,7 @@ import GrindField from './fields/GrindField';
 import TemperatureField from './fields/TemperatureField';
 import BrewMethodField from './fields/BrewMethodField';
 import NotesForNextTime from './fields/NotesForNextTime';
+import PreInfusion from './stepFields/PreInfusion';
 
 class RecipeFormField extends Component {
   render() {
@@ -19,6 +20,8 @@ class RecipeFormField extends Component {
         return <TemperatureField />;
       case 'notes_for_next_time':
         return  <NotesForNextTime />;
+      case 'pre_infusion':
+        return  <PreInfusion />;
       default:
         return null;
     }
