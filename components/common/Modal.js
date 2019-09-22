@@ -77,6 +77,11 @@ class zModal extends Component {
     });
   }
 
+  onHide(){
+    this.props.onHide();
+    this.hide();
+  }
+
   render() {
     return (
       <SafeAreaView>
@@ -85,7 +90,7 @@ class zModal extends Component {
           transparent={true}
           visible={this.state.visible}
           onRequestClose={() => {
-            this.hide()
+            this.onHide();
           }}>
 
           <BlurView tint="dark" intensity={90} style={styles.backdrop}>
@@ -163,7 +168,8 @@ zModal.propTypes = {
   headlineJSX: PropTypes.node,
   showCloseIcon: PropTypes.bool,
   showDismissButton: PropTypes.bool,
-  dismissButtonText: PropTypes.string
+  dismissButtonText: PropTypes.string,
+  onHide: PropTypes.func,
 };
 
 zModal.defaultProps = {
@@ -171,5 +177,6 @@ zModal.defaultProps = {
   headlineText: 'Are you sure?',
   showCloseIcon: true,
   showDismissButton: true,
-  dismissButtonText: 'Cancel'
+  dismissButtonText: 'Cancel',
+  onHide: () => {},
 };

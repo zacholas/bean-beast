@@ -2,63 +2,22 @@ import React, {Component} from 'react';
 import {FlatList, View, Text, TouchableOpacity} from "react-native";
 import _ from 'lodash';
 import { marginBottom } from "../../../constants/Styles";
-import RecipeFormField from "../formFields/RecipeFormField";
-import Modal from "../../common/Modal";
-// import * as navRoutes from "../../../constants/NavRoutes";
-// import CafeListItem from "../../cafes/CafeList";
+import {reduxForm} from "redux-form";
+import {connect} from "react-redux";
+import {saveRecipe} from "../../../actions";
+import PropTypes from "prop-types";
+import zModal from "../../common/Modal";
 
 class RecipeStepFieldPicker extends Component {
-  constructor(props){
-    super(props);
-    this.editRecipeAttributeModal = null;
-    this.state = {
-      editingRecipeAttributeName: null,
-    };
-  }
-
   render() {
-    if(this.state.editingRecipeAttributeName){
-      return (
-        <RecipeFormField name={this.state.editingRecipeAttributeName} />
-      );
-    }
     return (
-      <View>
         <FlatList
           data={this._getRecipeStepFields()}
           keyExtractor={this._keyExtractor}
           renderItem={this._renderItem}
           style={marginBottom}
         />
-        {/*<Modal*/}
-          {/*ref={(ref) => { this.editRecipeAttributeModal = ref; }}*/}
-          {/*// showHeadline={!!this.state.editingRecipeAttributeName}*/}
-          {/*// showHeadline=true*/}
-          {/*dismissButtonText="Save & Continuze"*/}
-          {/*headlineJSX={(<TouchableOpacity onPress={() => console.log('hi')}><Text>back</Text></TouchableOpacity>)}*/}
-        {/*>*/}
-          {/*<RecipeFormField name={this.state.editingRecipeAttributeName} />*/}
-        {/*</Modal>*/}
-      </View>
     );
-  }
-
-  _editFormFieldModal(fieldName){
-    this.props.editItem();
-    this.setState({ editingRecipeAttributeName: fieldName });
-    // this.editRecipeAttributeModal.show();
-    // console.log('_editFormFieldModal func hit');
-    this.props.addRecipeStepFieldModal.hide();
-
-    // console.log('_editFormFieldModal func hit', this.editRecipeAttributeModal);
-    // const editRecipeAttributeModal = this.editRecipeAttributeModal;
-    //
-    // this.setState({ editingRecipeAttributeName: fieldName });
-    // setTimeout(function(editRecipeAttributeModal){ console.log(this.editRecipeAttributeModal, editRecipeAttributeModal); this.editRecipeAttributeModal.show() }.bind(this), 1000);
-
-    // if (this.options.destroyOnHide) {
-    //   setTimeout(function(){ this.tip.destroy() }.bind(this), 1000);
-    // }
   }
 
   _keyExtractor = (item, index) => {
@@ -66,11 +25,7 @@ class RecipeStepFieldPicker extends Component {
   };
 
   _onAttributePress(item){
-    //* Open the form field editor
-    this.props.editNotes();
-    // this.props.editItem(item);
-    // this._editFormFieldModal(item.id);
-    // console.log('attribute pressed', item);
+    // this.props.editNotes();
   }
 
   _onStepPress(item){
@@ -78,7 +33,7 @@ class RecipeStepFieldPicker extends Component {
   }
 
   _renderItem = ({item}) => {
-    const onPressFunction = item.type && item.type === 'attribute' ? () => this._onAttributePress(item) : () => this._onStepPress(item);
+    const onPressFunction = item.type && item.type === 'attribute' ? () => this.props.onAttributePress(item) : () => this.props.onStepPress(item);
     return (
       <TouchableOpacity onPress={onPressFunction}>
         <Text>{item.name}</Text>
@@ -112,3 +67,21 @@ class RecipeStepFieldPicker extends Component {
 }
 
 export default RecipeStepFieldPicker;
+
+RecipeStepFieldPicker.propTypes = {
+  onAttributePress: PropTypes.func,
+  onStepPress: PropTypes.func,
+};
+
+RecipeStepFieldPicker.defaultProps = {
+  onAttributePress: () => { console.log('hi')},
+  onStepPress: () => { console.log('step')},
+};
+
+// const mapStateToProps = (state) => {
+//   return {
+//     recipeSteps: state.recipeSteps.recipeSteps,
+//   }
+// };
+//
+// export default connect(mapStateToProps)(RecipeStepFieldPicker);

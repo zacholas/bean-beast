@@ -60,21 +60,6 @@ export default class RecipeSteps extends Component {
         {/*// zzzz: 'kkkkkkk'*/}
         {/*})} />*/}
 
-        <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => this.addRecipeStepFieldModal.show()} style={{ backgroundColor: colors.colorPrimary, borderRadius: 300, padding: 10, width: 70, height: 70, alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name="plus" size={40} style={{ color: colors.colorWhite }}/>
-          </TouchableOpacity>
-        </View>
-
-        <Modal
-          ref={(ref) => { this.addRecipeStepFieldModal = ref; }}
-          showHeadline={true}
-          headlineJSX={(<TouchableOpacity onPress={() => console.log('hi')}><Text>back</Text></TouchableOpacity>)}
-          // dismissButtonText="Save & Continue"
-          // headlineText="Edit Bean Blend Component"
-        >
-          {this._plusSignMenuModalContent()}
-        </Modal>
       </View>
     );
   };
@@ -140,26 +125,6 @@ export default class RecipeSteps extends Component {
     }
     return null;
   };
-
-
-  _plusSignMenuModalContent() {
-    console.log('modal content', this.state);
-    if(this.state.editingRecipeAttributeName){
-      return (
-        <RecipeFormField name={this.state.editingRecipeAttributeName} />
-      );
-    }
-
-    return (
-      <RecipeStepFieldPicker
-        recipeSteps={this.props.recipeSteps}
-        formValues={this.props.formValues}
-        addRecipeStepFieldModal={this.addRecipeStepFieldModal}
-        editItem={(this._editItem).bind(this)}
-        editNotes={() => this.props.editNotes()}
-      />
-    );
-  }
 }
 
 RecipeSteps.propTypes = {};

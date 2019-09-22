@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import PropTypes from "prop-types";
@@ -14,13 +14,18 @@ import RecipeSteps from './recipeSteps/RecipeSteps';
 import Modal from "../common/Modal";
 import styles from "../../screens/recipes/styles";
 import {colorGray800} from "../../constants/Colors";
+import colors from "../../constants/Colors";
+import {marginBottom} from "../../constants/Styles";
+import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 
 class EditRecipeForm extends Component {
   constructor(props){
     super(props);
     this.editRecipeFieldModal = null;
     this.state = {
+      editRecipeFieldModalAction: null,
       editingRecipeFieldName: null,
+      showModalBackToFieldListButton: false
     };
   }
 
@@ -41,15 +46,15 @@ class EditRecipeForm extends Component {
         {this._brewMethodArea()}
 
         <View style={styles.recipePrimaryInfoBar}>
-          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._editFormFieldModal('grind') }}>
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Text>Grind</Text>
             <Text>{_.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.grind ? this.props.formValues.EditRecipeForm.values.grind : '+ Add'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._editFormFieldModal('dose') }}>
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
             <Text>Dose</Text>
             <Text>{_.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.dose ? this.props.formValues.EditRecipeForm.values.dose : '+ Add'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._editFormFieldModal('temperature') }}>
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('temperature') }}>
             <Text>Temp</Text>
             <Text>{_.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.temperature ? this.props.formValues.EditRecipeForm.values.temperature : '+ Add'}</Text>
           </TouchableOpacity>
@@ -98,6 +103,12 @@ class EditRecipeForm extends Component {
             editNotes={() => this._editNotes()}
           />
 
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this._showModalStepsMenu()} style={{ backgroundColor: colors.colorPrimary, borderRadius: 300, padding: 10, width: 70, height: 70, alignItems: 'center', justifyContent: 'center' }}>
+              <Icon name="plus" size={40} style={{ color: colors.colorWhite }}/>
+            </TouchableOpacity>
+          </View>
+
           <Button
             title="Save Recipe"
             onPress={handleSubmit((values) => this.props.saveRecipe(values))}
@@ -108,21 +119,13 @@ class EditRecipeForm extends Component {
 
           <Modal
             ref={(ref) => { this.editRecipeFieldModal = ref; }}
-            showHeadline={false}
+            showHeadline={!!this.state.showModalBackToFieldListButton}
             dismissButtonText="Save & Continue"
+            onHide={() => { console.log('hidden')}}
+            headlineJSX={this._modalBackButton()}
             // headlineText="Edit Bean Blend Component"
           >
-            <RecipeFormField name={this.state.editingRecipeFieldName} />
-            {/*<BeanDetailsFormFields*/}
-            {/*fieldIndex={this.state.editingRepeatableRecipeFieldIndex}*/}
-            {/*fieldPrefix={this.state.editingRepeatableRecipeFieldPrefix}*/}
-            {/*origins={this.props.origins}*/}
-            {/*roastLevels={this.props.roastLevels}*/}
-            {/*beanProcesses={this.props.beanProcesses}*/}
-            {/*coffeeSpecies={this.props.coffeeSpecies}*/}
-            {/*navigation={this.props.navigation}*/}
-            {/*formValues={this.props.formValues}*/}
-            {/*/>*/}
+            {this._getModalContent()}
           </Modal>
         </View>
       </Container>
@@ -130,14 +133,80 @@ class EditRecipeForm extends Component {
     );
   }
 
-  _editFormFieldModal(fieldName){
-    console.log('_editFormFieldModal func hit');
-    this.setState({ editingRecipeFieldName: fieldName });
+  _modalBackButton(){
+    if(this.state.showModalBackToFieldListButton === true){
+      return (
+        <TouchableOpacity onPress={() => this._modalGoBackToStepsList()} style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon name="chevron-left" size={16} style={{ marginRight: 7 }} />
+          <Text>Back</Text>
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  _modalGoBackToStepsList(){
+    this.setState({
+      editRecipeFieldModalAction: 'recipeStepsMenu',
+      editingRecipeFieldName: null,
+      showModalBackToFieldListButton: false
+    });
+  }
+
+  _showModalStepsMenu(){
+    this.setState({
+      editRecipeFieldModalAction: 'recipeStepsMenu',
+      editingRecipeFieldName: null,
+      showModalBackToFieldListButton: false
+    });
     this.editRecipeFieldModal.show();
   }
 
-  _editNotes(){
-    this._editFormFieldModal('notes_for_next_time');
+  _showEditFormFieldModal(fieldName){
+    this.setState({
+      editRecipeFieldModalAction: 'editField',
+      editingRecipeFieldName: fieldName,
+      showModalBackToFieldListButton: false
+    });
+    this.editRecipeFieldModal.show();
+  }
+
+  _onModalHide(){
+
+  }
+
+  _getRecipeStepFields(){
+
+  }
+
+  _getModalContent(){
+    if(this.state.editRecipeFieldModalAction === 'recipeStepsMenu'){
+      return (
+        <RecipeStepFieldPicker
+          recipeSteps={this.props.recipeSteps}
+          formValues={this.props.formValues}
+          onAttributePress={(attribute) => this._modalSelectAttribute(attribute)}
+          onStepPress={(step) => this._modalSelectStep(step)}
+        />
+      )
+    }
+    else if(this.state.editRecipeFieldModalAction === 'editField'){
+      return (
+        <RecipeFormField name={this.state.editingRecipeFieldName} />
+      );
+    }
+  }
+
+  _modalSelectAttribute(attribute){
+    this.setState({
+      editRecipeFieldModalAction: 'editField',
+      editingRecipeFieldName: attribute.id,
+      showModalBackToFieldListButton: true
+    });
+    this.editRecipeFieldModal.show();
+  }
+
+  _modalSelectStep(step){
+    console.log('step was selected', step);
   }
 
   //* Return True if values are set.
@@ -153,7 +222,7 @@ class EditRecipeForm extends Component {
       const thisBrewMethodID = this.props.formValues.EditRecipeForm.values.brew_method;
       const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
       brewMethodOutput = (
-        <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._editFormFieldModal('brew_method') }}>
+        <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>
           <Icon name="coffee" size={56} />
           {thisBrewMethod && thisBrewMethod.name && <Headline style={{ marginBottom: 0 }}>{thisBrewMethod.name}</Headline>}
           <BodyText>Probably should say something here about which bean it belongs to</BodyText>
@@ -162,7 +231,7 @@ class EditRecipeForm extends Component {
     }
     else {
       brewMethodOutput = (
-        <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._editFormFieldModal('brew_method') }}>
+        <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>
           <Icon name="plus" size={56} />
           <Headline style={{ marginBottom: 0 }}>Select Brew Method</Headline>
           <BodyText>Probably should say something here about which bean it belongs to</BodyText>
@@ -187,8 +256,8 @@ class EditRecipeForm extends Component {
         <View>
           <Headline h3>Notes for next time</Headline>
           <BodyText>{this.props.formValues.EditRecipeForm.values.notes_for_next_time}</BodyText>
-          <TouchableOpacity onPress={() => { this._editFormFieldModal('notes_for_next_time') }}>
-            <Icon name="plus" size={16} />
+          <TouchableOpacity onPress={() => { this._showEditFormFieldModal('notes_for_next_time') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
             <Text>Edit</Text>
           </TouchableOpacity>
         </View>
