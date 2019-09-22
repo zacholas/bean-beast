@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import {FlatList, View, Text, TouchableOpacity} from "react-native";
 import _ from 'lodash';
-import { marginBottom } from "../../../constants/Styles";
-import {reduxForm} from "redux-form";
-import {connect} from "react-redux";
-import {saveRecipe} from "../../../actions";
 import PropTypes from "prop-types";
-import zModal from "../../common/Modal";
+import { marginBottom } from "../../../constants/Styles";
 
 class RecipeStepFieldPicker extends Component {
   render() {
     return (
-        <FlatList
-          data={this._getRecipeStepFields()}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem}
-          style={marginBottom}
-        />
+      <FlatList
+        data={this._getRecipeStepFields()}
+        keyExtractor={this._keyExtractor}
+        renderItem={this._renderItem}
+        style={marginBottom}
+      />
     );
   }
 
@@ -69,11 +65,3 @@ RecipeStepFieldPicker.defaultProps = {
   onAttributePress: () => {},
   onStepPress: () => {},
 };
-
-// const mapStateToProps = (state) => {
-//   return {
-//     recipeSteps: state.recipeSteps.recipeSteps,
-//   }
-// };
-//
-// export default connect(mapStateToProps)(RecipeStepFieldPicker);

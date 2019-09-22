@@ -37,6 +37,7 @@ class ViewRecipeScreen extends Component {
 
   render() {
     const recipe = this.props.recipe;
+    console.log(recipe);
     return (
       <Container>
         <View style={styles.brewMethodContainer}>

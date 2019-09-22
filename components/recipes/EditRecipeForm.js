@@ -18,6 +18,7 @@ import {colorGray800} from "../../constants/Colors";
 import colors from "../../constants/Colors";
 import {marginBottom} from "../../constants/Styles";
 import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
+import { generateRandomID } from "../../helpers";
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -232,10 +233,12 @@ class EditRecipeForm extends Component {
   }
 
   _modalSelectStep(step){
-    this.props.dispatch(arrayPush('EditRecipeForm', 'recipe_steps', {
-      field_id: step.id
-    }));
     const stepFieldIndex = _.size(this.props.formValues.EditRecipeForm.values) && _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) ? _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) : 0;
+    this.props.dispatch(arrayPush('EditRecipeForm', 'recipe_steps', {
+      id: generateRandomID('step'),
+      field_id: step.id,
+      order: stepFieldIndex * 10 + 10,
+    }));
     this.setState({
       editRecipeFieldModalAction: 'editStep',
       editingRecipeFieldName: step.id, // prob gonna have to grab its index instead
