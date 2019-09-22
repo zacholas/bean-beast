@@ -16,16 +16,16 @@ import RecipeStepFieldPicker from './RecipeStepFieldPicker';
 
 
 export default class RecipeSteps extends Component {
-  constructor(props){
-    super(props);
-    this.editRecipeFieldModal = null;
-    this.addRecipeStepFieldModal = null;
-    this.state = {
-      editingRecipeAttributeName: null,
-      // editingRecipeStepFieldIndex: null,
-      // editingRecipeStepFieldPrefix: null
-    };
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.editRecipeFieldModal = null;
+  //   this.addRecipeStepFieldModal = null;
+  //   this.state = {
+  //     editingRecipeAttributeName: null,
+  //     // editingRecipeStepFieldIndex: null,
+  //     // editingRecipeStepFieldPrefix: null
+  //   };
+  // }
 
   render() {
     return (
