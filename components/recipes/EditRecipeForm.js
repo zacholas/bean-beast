@@ -39,15 +39,10 @@ class EditRecipeForm extends Component {
   }
 
   render() {
-    // console.log(Object.keys(this.props.modal).length ? 'yes!': 'no');
-
-
     const { handleSubmit, loading } = this.props;
-
     return (
       <Container>
         {this._brewMethodArea()}
-
         <View style={styles.recipePrimaryInfoBar}>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Text>Grind</Text>
@@ -124,7 +119,8 @@ class EditRecipeForm extends Component {
             ref={(ref) => { this.editRecipeFieldModal = ref; }}
             showHeadline={!!this.state.showModalBackToFieldListButton}
             dismissButtonText="Save & Continue"
-            onHide={() => { console.log('hidden')}}
+            // onShow={() => { console.log('onshow')}}
+            // onDismiss={() => { console.log('hidden')}}
             headlineJSX={this._modalBackButton()}
             // headlineText="Edit Bean Blend Component"
           >
@@ -177,7 +173,6 @@ class EditRecipeForm extends Component {
   }
 
   _showEditStepModal(step, index){
-    // console.log(step, index);
     this.setState({
       editRecipeFieldModalAction: 'editStep',
       editingRecipeFieldName: step.id,
@@ -187,38 +182,30 @@ class EditRecipeForm extends Component {
     this.editRecipeFieldModal.show();
   }
 
-  _onModalHide(){
-
-  }
-
-  _getRecipeStepFields(){
-
-  }
-
   _getModalContent(){
-    if(this.state.editRecipeFieldModalAction === 'recipeStepsMenu'){
-      return (
-        <RecipeStepFieldPicker
-          recipeSteps={this.props.recipeSteps}
-          formValues={this.props.formValues}
-          onAttributePress={(attribute) => this._modalSelectAttribute(attribute)}
-          onStepPress={(step) => this._modalSelectStep(step)}
-        />
-      )
-    }
-    else if(this.state.editRecipeFieldModalAction === 'editField'){
-      return (
-        <RecipeFormField name={this.state.editingRecipeFieldName} />
-      );
-    }
-    else if(this.state.editRecipeFieldModalAction === 'editStep'){
-      // console.log('edit step', this.state, this.props.formValues.EditRecipeForm.values.recipe_steps[this.state.stepFieldIndex]);
-      return (
-        <RecipeStepFormField
-          name={this.state.editingRecipeFieldName}
-          stepFieldIndex={this.state.stepFieldIndex}
-        />
-      );
+    switch (this.state.editRecipeFieldModalAction){
+      case 'recipeStepsMenu':
+        return (
+          <RecipeStepFieldPicker
+            recipeSteps={this.props.recipeSteps}
+            formValues={this.props.formValues}
+            onAttributePress={(attribute) => this._modalSelectAttribute(attribute)}
+            onStepPress={(step) => this._modalSelectStep(step)}
+          />
+        );
+
+      case 'editField':
+        return (
+          <RecipeFormField name={this.state.editingRecipeFieldName} />
+        );
+
+      case 'editStep':
+        return (
+          <RecipeStepFormField
+            name={this.state.editingRecipeFieldName}
+            stepFieldIndex={this.state.stepFieldIndex}
+          />
+        );
     }
   }
 
@@ -246,8 +233,6 @@ class EditRecipeForm extends Component {
       stepFieldIndex: stepFieldIndex
     });
   }
-
-
 
   //* Return True if values are set.
   _editRecipeFormValues(){

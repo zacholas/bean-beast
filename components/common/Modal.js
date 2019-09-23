@@ -69,17 +69,14 @@ class zModal extends Component {
     this.setState({
       visible: true
     });
+    // this.props.onShow(); //* Doesn't appear to be necessary to have here.
   }
 
   hide(){
     this.setState({
       visible: false
     });
-  }
-
-  onHide(){
-    this.props.onHide();
-    this.hide();
+    this.props.onDismiss();
   }
 
   render() {
@@ -89,9 +86,13 @@ class zModal extends Component {
           animationType="slide"
           transparent={true}
           visible={this.state.visible}
+          onDismiss={() => { this.props.onDismiss() }}
+          onShow={() => { this.props.onShow() }}
           onRequestClose={() => {
-            this.onHide();
-          }}>
+            this.hide();
+          }}
+        >
+
 
           <BlurView tint="dark" intensity={90} style={styles.backdrop}>
             <TouchableOpacity style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, }} onPress={() => this.hide()} />
@@ -169,7 +170,8 @@ zModal.propTypes = {
   showCloseIcon: PropTypes.bool,
   showDismissButton: PropTypes.bool,
   dismissButtonText: PropTypes.string,
-  onHide: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onShow: PropTypes.func
 };
 
 zModal.defaultProps = {
@@ -178,5 +180,6 @@ zModal.defaultProps = {
   showCloseIcon: true,
   showDismissButton: true,
   dismissButtonText: 'Cancel',
-  onHide: () => {},
+  onDismiss: () => {},
+  onShow: () => {},
 };

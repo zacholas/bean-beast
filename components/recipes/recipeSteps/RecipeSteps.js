@@ -7,6 +7,7 @@ import { textLink, marginBottom, cardGray } from '../../common/Styles';
 import colors from '../../../constants/Colors';
 import {FieldArray} from "redux-form";
 import * as styles from "../../common/reduxForm/Styles";
+import { throwError } from "../../../helpers";
 
 export default class RecipeSteps extends Component {
   render() {
@@ -19,8 +20,6 @@ export default class RecipeSteps extends Component {
   }
 
   renderRecipes = ({ fields, meta: { touched, error, submitFailed }, parentProps }) => {
-    // const { recipeSteps } = parentProps.recipeSteps;
-    // const recipeStepsArray = _.toArray(recipeSteps);
     return (
       <View>
         {touched &&
@@ -28,8 +27,13 @@ export default class RecipeSteps extends Component {
           (warning && <Text style={styles.warningText}>{warning}</Text>))}
 
         {fields.map((recipe, index) => {
-          const thisRecipeValues = parentProps.formValues.EditRecipeForm.values.recipe_steps[index];
-          return this._renderItem(recipe, index, fields, thisRecipeValues, parentProps);
+          const thisRecipeValues = _.size(parentProps.formValues.EditRecipeForm) && _.size(parentProps.formValues.EditRecipeForm.values) && _.size(parentProps.formValues.EditRecipeForm.values.recipe_steps) && parentProps.formValues.EditRecipeForm.values.recipe_steps[index] ? parentProps.formValues.EditRecipeForm.values.recipe_steps[index] : null;
+          if(thisRecipeValues){
+            return this._renderItem(recipe, index, fields, thisRecipeValues, parentProps);
+          }
+          else {
+            throwError(error, 'components/recipes/recipeSteps/RecipeSteps.js', 'renderRecipes');
+          }
         })}
       </View>
     );

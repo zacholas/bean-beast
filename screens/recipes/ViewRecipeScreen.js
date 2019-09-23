@@ -13,24 +13,12 @@ import styles from './styles';
 import {colorGray400, colorGray800} from "../../constants/Colors";
 
 class ViewRecipeScreen extends Component {
-  // static navigationOptions = {
-  //   title: 'Links',
-  // };
-
-  componentWillMount(): void {
-    // const recipeID = this.props.navigation.getParam('id');
-    //* TODO not working.
-    // this.props.navigation.setParams({
-    //   navigationOptions: {
-    //     title: 'hi'
-    //   }
-    // })
-
-  }
+  static navigationOptions = {
+    title: 'View Recipe',
+  };
 
   constructor(props){
     super(props);
-
     this.recipeID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
   }
