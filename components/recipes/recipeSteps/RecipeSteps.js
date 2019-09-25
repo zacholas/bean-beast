@@ -30,7 +30,7 @@ export default class RecipeSteps extends Component {
         {fields.map((recipe, index) => {
           const thisRecipeValues = _.size(parentProps.formValues.EditRecipeForm) && _.size(parentProps.formValues.EditRecipeForm.values) && _.size(parentProps.formValues.EditRecipeForm.values.recipe_steps) && parentProps.formValues.EditRecipeForm.values.recipe_steps[index] ? parentProps.formValues.EditRecipeForm.values.recipe_steps[index] : null;
           if(thisRecipeValues){
-            return this._renderItem(recipe, index, fields, thisRecipeValues, parentProps);
+            return this._renderItem(recipe, index, fields, thisRecipeValues, parentProps, parentProps.formValues.EditRecipeForm.values.recipe_steps);
           }
           else {
             throwError(error, 'components/recipes/recipeSteps/RecipeSteps.js', 'renderRecipes');
@@ -40,21 +40,44 @@ export default class RecipeSteps extends Component {
     );
   };
 
-  _renderItem = (item, index, fields, itemValues, parentProps) => {
+  _moveItemUpArrow(thisRecipeStepField, index, recipeStepsSize){
+    if(index > 0) {
+      return (
+        <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => {
+          this.props.moveStepUp(thisRecipeStepField, index)
+        }}>
+          <Icon name="chevron-up" size={22}/>
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  _moveItemDownArrow(thisRecipeStepField, index, recipeStepsSize){
+    if(index < (recipeStepsSize - 1) && recipeStepsSize > 1){
+      return (
+        <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => { this.props.moveStepDown( thisRecipeStepField, index ) }}>
+          <Icon name="chevron-down" size={22}/>
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  _renderItem = (item, index, fields, itemValues, parentProps, recipeStepsValues) => {
     const id = itemValues.field_id;
     const { recipeSteps } = parentProps.recipeSteps;
     const thisRecipeStepField = _.size(recipeSteps) && recipeSteps[id] ? recipeSteps[id] : null;
+    const recipeStepsSize = _.size(recipeStepsValues);
     if(thisRecipeStepField) {
       return (
         <View key={index} style={{...marginBottom, padding: 10, backgroundColor: '#eee'}}>
           <View style={{flexDirection: 'row'}}>
             <View>
-              <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => { this.props.moveStepUp( thisRecipeStepField, index )}}>
-                <Icon name="chevron-up" size={22}/>
-              </TouchableOpacity>
-              <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => { this.props.moveStepUp( thisRecipeStepField, index ) }}>
-                <Icon name="chevron-down" size={22}/>
-              </TouchableOpacity>
+              <View style={{ flex: 1, height: '50%', backgroundColor: '#f00' }}>
+                {this._moveItemUpArrow(thisRecipeStepField, index, recipeStepsSize)}
+              </View>
+              <View style={{ flex: 1, height: '50%', backgroundColor: '#C0f' }}>
+                {this._moveItemDownArrow(thisRecipeStepField, index, recipeStepsSize)}
+              </View>
             </View>
             <View style={{flex: 1}}>
               <View style={{flexDirection: 'row'}}>

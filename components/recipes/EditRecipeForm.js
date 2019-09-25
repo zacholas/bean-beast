@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField } from "../common/reduxForm";
 import {BodyText, Button, Container, Headline, Hr} from "../common";
-import { required } from "../../helpers";
+import {required, throwError} from "../../helpers";
 import _ from "lodash";
 import RecipeFormField from './formFields/RecipeFormField';
 import RecipeStepFormField from './formFields/RecipeStepFormField';
@@ -36,6 +36,23 @@ class EditRecipeForm extends Component {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
+    this.props.change('recipe_steps', [
+      {
+        id: 'abc123',
+        field_id: 'default_pre_infusion',
+        order: 0
+      },
+      {
+        id: 'hij789',
+        field_id: 'default_bloom',
+        order: 10
+      },
+      {
+        id: 'def456',
+        field_id: 'default_pre_infusion',
+        order: 20
+      }
+    ]);
   }
 
   render() {
@@ -175,12 +192,49 @@ class EditRecipeForm extends Component {
     this.editRecipeFieldModal.show();
   }
 
-  _moveStepUp(step, index){
+  _orderStepsByOrderAttribute(stepsArray){
+    return _.orderBy(stepsArray, ['order'], ['asc']);
+  }
 
+  _moveStepUp(step, index){
+    if(index > 0) {
+      const recipeStepsValues = _.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) ? this.props.formValues.EditRecipeForm.values.recipe_steps : null;
+      let newRecipeStepsValues = recipeStepsValues;
+      if(newRecipeStepsValues){
+        const thisStep = recipeStepsValues[index];
+        const prevStep = recipeStepsValues[index - 1];
+        if(typeof thisStep.order !== 'undefined' && typeof prevStep.order !== 'undefined'){
+          newRecipeStepsValues[index].order -= 10;
+          newRecipeStepsValues[index - 1].order += 10;
+          newRecipeStepsValues = this._orderStepsByOrderAttribute(newRecipeStepsValues);
+          this.props.change('recipe_steps', newRecipeStepsValues);
+        }
+      }
+    }
+    else {
+      throwError('move step up function being called for item with index 0.', 'components/recipes/EditRecipeForm.js', '_moveStepUp');
+    }
   }
 
   _moveStepDown(step, index){
-
+    const recipeStepsValues = _.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) ? this.props.formValues.EditRecipeForm.values.recipe_steps : null;
+    const recipeStepsSize = _.size(recipeStepsValues);
+    if(index < (recipeStepsSize - 1) && recipeStepsSize > 1) {
+      let newRecipeStepsValues = recipeStepsValues;
+      if(newRecipeStepsValues){
+        const thisStep = recipeStepsValues[index];
+        const nextStep = recipeStepsValues[index + 1];
+        if(typeof thisStep.order !== 'undefined' && typeof nextStep.order !== 'undefined'){
+          newRecipeStepsValues[index].order += 10;
+          newRecipeStepsValues[index + 1].order -= 10;
+          newRecipeStepsValues = this._orderStepsByOrderAttribute(newRecipeStepsValues);
+          this.props.change('recipe_steps', newRecipeStepsValues);
+        }
+      }
+    }
+    else {
+      throwError('move step down function being called for item with last index in array.', 'components/recipes/EditRecipeForm.js', '_moveStepDown');
+    }
   }
 
   _getModalContent(){
