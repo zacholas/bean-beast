@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Text, TouchableOpacity, View, Alert, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 import {
   bodyText,
   defaultPadding

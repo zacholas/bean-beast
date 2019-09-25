@@ -1,7 +1,10 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
-import Sentry from 'sentry-expo';
+import { AppLoading } from 'expo';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+import { Asset } from 'expo-asset';
+import * as Sentry from 'sentry-expo';
 // import { SentrySeverity, SentryLog } from 'react-native-sentry';
 import { PersistGate } from 'redux-persist/integration/react'
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -13,8 +16,11 @@ import * as configuredStore from './configureStore';
 // import * as types from './constants/types';
 // import reducers from './reducers';
 
-// Sentry.enableInExpoDevelopment = true;
-Sentry.config('https://6f35c3cf2cc44de3af3a3622a1637054@sentry.io/1443579').install();
+Sentry.init({
+  dsn: 'https://6f35c3cf2cc44de3af3a3622a1637054@sentry.io/1443579',
+  // enableInExpoDevelopment: true,
+  debug: true
+});
 
 const { store, persistor } = configuredStore.default();
 // persistor.purge();
@@ -60,7 +66,7 @@ export default class App extends React.Component {
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
-        ...Icon.Ionicons.font,
+        ...Ionicons.font,
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),

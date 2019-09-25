@@ -3,7 +3,7 @@
     "name": "Best Beast v2",
     "slug": "bean-beast-v2",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android"
@@ -41,6 +41,6 @@
           }
         }
       ]
-    },
+    }
   }
 }

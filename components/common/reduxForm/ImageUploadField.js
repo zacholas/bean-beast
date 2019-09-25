@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { TextInput, StyleSheet, Text, View, Image } from 'react-native';
 // import * as ImagePicker from 'expo-image-picker';
-import {ImagePicker, Permissions, Constants, Camera} from 'expo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+// import Constants from 'expo-constants';
+// import { Camera } from 'expo-camera';
 import { Button } from '../Button';
 import { Field } from 'redux-form';
 import {
