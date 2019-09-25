@@ -28,7 +28,7 @@ const Headline = (props) => {
   }
   return (
     <View>
-      <Text style={StyleSheet.flatten([specialHeadingStyle, marginBottom, props.style])}>
+      <Text style={StyleSheet.flatten([specialHeadingStyle, !props.noMargin && marginBottom, props.style])}>
         {output}
       </Text>
     </View>
@@ -45,6 +45,7 @@ Headline.propTypes = {
   h4: PropTypes.bool,
   h5: PropTypes.bool,
   h6: PropTypes.bool,
+  noMargin: PropTypes.bool
 };
 
 Headline.defaultProps = {

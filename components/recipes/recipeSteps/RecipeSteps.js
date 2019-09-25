@@ -8,6 +8,7 @@ import colors from '../../../constants/Colors';
 import {FieldArray} from "redux-form";
 import * as styles from "../../common/reduxForm/Styles";
 import { throwError } from "../../../helpers";
+import {Headline} from "../../common";
 
 export default class RecipeSteps extends Component {
   render() {
@@ -47,22 +48,34 @@ export default class RecipeSteps extends Component {
       return (
         <View key={index} style={{...marginBottom, padding: 10, backgroundColor: '#eee'}}>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => {
-            }}>
-              <Icon name="arrows" size={16}/>
-            </TouchableOpacity>
-            <View style={{flex: 1}}>
-              <Text>{thisRecipeStepField.name}</Text>
-              {/*{this._beanName(itemValues, index)}*/}
-              {/*{this._beanSubtitle(itemValues)}*/}
+            <View>
+              <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => { this.props.moveStepUp( thisRecipeStepField, index )}}>
+                <Icon name="chevron-up" size={22}/>
+              </TouchableOpacity>
+              <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => { this.props.moveStepUp( thisRecipeStepField, index ) }}>
+                <Icon name="chevron-down" size={22}/>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => this.props.editStep(thisRecipeStepField, index)}>
-              <Text style={textLink}><Icon name="pencil" size={16}/> Edit</Text>
-            </TouchableOpacity>
-            {/*<TouchableOpacity style={{ padding: 5, paddingRight: 10 }} onPress={() => this.props.array.remove('beans', null, 0 )}>*/}
-            <TouchableOpacity style={{padding: 5, paddingRight: 10}} onPress={() => fields.remove(index)}>
-              <Icon name="close" size={18} style={{color: colors.colorDanger}}/>
-            </TouchableOpacity>
+            <View style={{flex: 1}}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                  <Headline h5 noMargin>{thisRecipeStepField.name}</Headline>
+                  {/*{this._beanName(itemValues, index)}*/}
+                  {/*{this._beanSubtitle(itemValues)}*/}
+                </View>
+                <TouchableOpacity style={{padding: 5, marginRight: 10}} onPress={() => this.props.editStep(thisRecipeStepField, index)}>
+                  <Text style={textLink}><Icon name="pencil" size={16}/> Edit</Text>
+                </TouchableOpacity>
+                {/*<TouchableOpacity style={{ padding: 5, paddingRight: 10 }} onPress={() => this.props.array.remove('beans', null, 0 )}>*/}
+                <TouchableOpacity style={{padding: 5, paddingRight: 10}} onPress={() => fields.remove(index)}>
+                  <Icon name="close" size={18} style={{color: colors.colorDanger}}/>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <Text>Details Row</Text>
+              </View>
+            </View>
+
           </View>
         </View>
       );
@@ -72,5 +85,7 @@ export default class RecipeSteps extends Component {
 }
 
 RecipeSteps.propTypes = {
-  editStep: PropTypes.func.isRequired
+  editStep: PropTypes.func.isRequired,
+  moveStepUp: PropTypes.func.isRequired,
+  moveStepDown: PropTypes.func.isRequired,
 };

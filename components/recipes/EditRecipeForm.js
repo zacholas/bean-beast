@@ -86,19 +86,12 @@ class EditRecipeForm extends Component {
         <Hr />
 
         <View>
-          <BodyText>sortable recipe steps</BodyText>
-        </View>
-        <Hr />
-
-        <View>
-          <BodyText>+ circle to add new</BodyText>
-        </View>
-
-        <View>
           <RecipeSteps
             recipeSteps={this.props.recipeSteps}
             formValues={this.props.formValues}
             editStep={(step, index) => this._showEditStepModal(step, index)}
+            moveStepUp={(step, index) => this._moveStepUp(step, index)}
+            moveStepDown={(step, index) => this._moveStepDown(step, index)}
           />
 
           <View style={{ alignItems: 'center' }}>
@@ -180,6 +173,14 @@ class EditRecipeForm extends Component {
       stepFieldIndex: index
     });
     this.editRecipeFieldModal.show();
+  }
+
+  _moveStepUp(step, index){
+
+  }
+
+  _moveStepDown(step, index){
+
   }
 
   _getModalContent(){
