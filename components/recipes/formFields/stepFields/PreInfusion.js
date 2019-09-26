@@ -3,6 +3,10 @@ import { View, Text } from 'react-native';
 import { TextField } from "../../../common/reduxForm";
 import PropTypes from "prop-types";
 
+export const fieldDataDisplay = () => {
+
+};
+
 class PreInfusionField extends Component {
   render() {
     return (

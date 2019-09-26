@@ -7,12 +7,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {marginBottom, textLink} from "../../../constants/Styles";
 import {Headline} from "../../common";
 import colors from "../../../constants/Colors";
+import { isDefined } from "../../../helpers";
 
-const containerBackgroundColor = colors.colorGray200;
+const containerBackgroundColor = colors.colorWhite;
 const styles = StyleSheet.create({
   container: {
     ...marginBottom,
     backgroundColor: containerBackgroundColor,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    flex: 1,
   },
   moveButtonsContainer: {
     // marginRight: 7,
@@ -24,7 +29,7 @@ const styles = StyleSheet.create({
   },
   moveButtonContainer: {
     flex: 1,
-    height: 10,
+    height: 40,
   },
   moveButton: {
     padding: 10,
@@ -56,6 +61,7 @@ export default class RecipeStepItem extends Component {
     const { recipeSteps } = props.parentProps.recipeSteps;
     const thisRecipeStepField = _.size(recipeSteps) && recipeSteps[id] ? recipeSteps[id] : null;
 
+
     this.state = {
       thisRecipeStepField: thisRecipeStepField,
       index: props.index,
@@ -69,7 +75,7 @@ export default class RecipeStepItem extends Component {
 
   animateItemUp = () => {
     this.setState({ zIndex: 999 });
-    this.view.slideOutUp(300).then(endState => {
+    this.view.slideOutUp(200).then(endState => {
       this.props.moveStepUp(this.state.thisRecipeStepField, this.state.index);
       this.setState({ zIndex: 1 });
       this.view.bounceIn(300);
@@ -78,7 +84,7 @@ export default class RecipeStepItem extends Component {
 
   animateItemDown = () => {
     this.setState({ zIndex: 999 });
-    this.view.slideOutDown(300).then(endState => {
+    this.view.slideOutDown(200).then(endState => {
       this.props.moveStepDown(this.state.thisRecipeStepField, this.state.index);
       this.setState({ zIndex: 1 });
       this.view.bounceIn(300);
@@ -89,7 +95,6 @@ export default class RecipeStepItem extends Component {
     const id = this.props.itemValues.field_id;
     const { recipeSteps } = this.props.parentProps.recipeSteps;
     const thisRecipeStepField = _.size(recipeSteps) && recipeSteps[id] ? recipeSteps[id] : null;
-    console.log(thisRecipeStepField);
     const recipeStepsSize = _.size(this.props.recipeStepsValues);
     if(thisRecipeStepField) {
       return (
@@ -125,7 +130,7 @@ export default class RecipeStepItem extends Component {
                 </TouchableOpacity>
               </View>
               <View>
-                <Text>Details Row</Text>
+                {this.getFieldDisplay()}
               </View>
             </View>
           </View>
@@ -139,6 +144,7 @@ export default class RecipeStepItem extends Component {
     if(index > 0) {
       return (
         <TouchableOpacity style={styles.moveButton} onPress={this.animateItemUp}>
+        {/*<TouchableOpacity style={styles.moveButton} onPress={() => this.props.moveStepUp(this.state.thisRecipeStepField, this.state.index)}>*/}
           <Icon name="chevron-up" size={22}/>
         </TouchableOpacity>
       );
@@ -149,9 +155,36 @@ export default class RecipeStepItem extends Component {
     if(index < (recipeStepsSize - 1) && recipeStepsSize > 1){
       return (
         <TouchableOpacity style={{ ...styles.moveButton, ...styles.moveButtonDown }} onPress={this.animateItemDown}>
+        {/*<TouchableOpacity style={{ ...styles.moveButton, ...styles.moveButtonDown }} onPress={() => this.props.moveStepDown(this.state.thisRecipeStepField, this.state.index)}>*/}
           <Icon name="chevron-down" size={22}/>
         </TouchableOpacity>
       );
+    }
+  }
+
+  getFieldDisplay(){
+    const thisStep = _.size(this.props.recipeStepsValues) && this.props.recipeStepsValues[this.props.index] ? this.props.recipeStepsValues[this.props.index] : null;
+    console.log(thisStep);
+    if(thisStep){
+      const { field_id, id, order, values } = thisStep;
+      const valuesSize = _.size(values);
+      if(field_id){
+        switch (field_id){
+          case 'default_pre_infusion':
+            return this._preinfusionFieldDisplay(values, valuesSize);
+        }
+      }
+    }
+  }
+
+  _preinfusionFieldDisplay(values, valuesSize){
+    if(valuesSize){
+      return (
+        <View>
+          {isDefined(values.length) && <Text>Length {values.length}</Text>}
+          {isDefined(values.pressure) && <Text>Pressure {values.pressure}</Text>}
+        </View>
+      )
     }
   }
 }
@@ -160,5 +193,11 @@ RecipeStepItem.propTypes = {
   editStep: PropTypes.func.isRequired,
   moveStepUp: PropTypes.func.isRequired,
   moveStepDown: PropTypes.func.isRequired,
-  itemValues: PropTypes.object.isRequired
+  itemValues: PropTypes.object.isRequired,
+  recipeStepsValues: PropTypes.array,
+  index: PropTypes.number.isRequired
+};
+
+RecipeStepItem.defaultProps = {
+  recipeStepsValues: []
 };

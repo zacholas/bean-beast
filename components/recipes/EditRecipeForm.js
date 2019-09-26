@@ -40,17 +40,21 @@ class EditRecipeForm extends Component {
       {
         id: 'abc123',
         field_id: 'default_pre_infusion',
-        order: 0
+        order: 10,
+        values: {
+          length: 213,
+          pressure: 9
+        }
       },
       {
         id: 'hij789',
         field_id: 'default_bloom',
-        order: 10
+        order: 20
       },
       {
         id: 'def456',
         field_id: 'default_pre_infusion',
-        order: 20
+        order: 30
       }
     ]);
   }
@@ -276,10 +280,12 @@ class EditRecipeForm extends Component {
 
   _modalSelectStep(step){
     const stepFieldIndex = _.size(this.props.formValues.EditRecipeForm.values) && _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) ? _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) : 0;
+    const newItemOrder = stepFieldIndex * 10 + 10;
+    console.log('newItemOrder', newItemOrder);
     this.props.dispatch(arrayPush('EditRecipeForm', 'recipe_steps', {
       id: generateRandomID('step'),
       field_id: step.id,
-      order: stepFieldIndex * 10 + 10,
+      order: newItemOrder,
     }));
     this.setState({
       editRecipeFieldModalAction: 'editStep',

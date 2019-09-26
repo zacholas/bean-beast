@@ -35,6 +35,8 @@ export default class RecipeSteps extends Component {
 
         {fields.map((recipe, index) => {
           const thisRecipeValues = _.size(parentProps.formValues.EditRecipeForm) && _.size(parentProps.formValues.EditRecipeForm.values) && _.size(parentProps.formValues.EditRecipeForm.values.recipe_steps) && parentProps.formValues.EditRecipeForm.values.recipe_steps[index] ? parentProps.formValues.EditRecipeForm.values.recipe_steps[index] : null;
+          // const formValues = _.size(parentProps.formValues.EditRecipeForm) && _.size(parentProps.formValues.EditRecipeForm.values) && _.size(parentProps.formValues.EditRecipeForm.values.recipe_steps) ? parentProps.formValues.EditRecipeForm.values.recipe_steps : null;
+          // console.log('formValues', formValues);
           if(thisRecipeValues){
             return this._renderItem(recipe, index, fields, thisRecipeValues, parentProps, parentProps.formValues.EditRecipeForm.values.recipe_steps);
           }
