@@ -63,6 +63,7 @@ export default class RecipeSteps extends Component {
         editStep={this.props.editStep}
         moveStepUp={this.props.moveStepUp}
         moveStepDown={this.props.moveStepDown}
+        removeStep={this.props.removeStep}
       />
     );
   };
@@ -72,4 +73,5 @@ RecipeSteps.propTypes = {
   editStep: PropTypes.func.isRequired,
   moveStepUp: PropTypes.func.isRequired,
   moveStepDown: PropTypes.func.isRequired,
+  removeStep: PropTypes.func.isRequired
 };

@@ -3,16 +3,28 @@ import {FlatList, View, Text, TouchableOpacity} from "react-native";
 import _ from 'lodash';
 import PropTypes from "prop-types";
 import { marginBottom } from "../../../constants/Styles";
+import {Headline} from "../../common";
 
 class RecipeStepFieldPicker extends Component {
   render() {
     return (
-      <FlatList
-        data={this._getRecipeStepFields()}
-        keyExtractor={this._keyExtractor}
-        renderItem={this._renderItem}
-        style={marginBottom}
-      />
+      <View>
+        <Headline noMargin h5>Recipe Attributes:</Headline>
+        <FlatList
+          data={this._getRecipeAttributes()}
+          keyExtractor={this._keyExtractor}
+          renderItem={this._renderItem}
+          style={marginBottom}
+        />
+
+        <Headline noMargin h5>Recipe Steps:</Headline>
+        <FlatList
+          data={this._getRecipeStepFields()}
+          keyExtractor={this._keyExtractor}
+          renderItem={this._renderItem}
+          style={marginBottom}
+        />
+      </View>
     );
   }
 
@@ -23,30 +35,73 @@ class RecipeStepFieldPicker extends Component {
   _renderItem = ({item}) => {
     const onPressFunction = item.type && item.type === 'attribute' ? () => this.props.onAttributePress(item) : () => this.props.onStepPress(item);
     return (
-      <TouchableOpacity onPress={onPressFunction}>
+      <TouchableOpacity onPress={onPressFunction} style={{ paddingVertical: 6 }}>
         <Text>{item.name}</Text>
+        {item.description && <Text style={{ fontSize: 9 }}>{item.description}</Text>}
       </TouchableOpacity>
     );
   };
 
-  _getRecipeStepFields(){
-    const recipeAttributes = {
-      notes_for_next_time: {
+  _getRecipeAttributes(){
+    const recipeAttributes = [
+      {
         type: 'attribute',
-        id: 'notes_for_next_time',
-        name: 'Notes For Next Time',
+        id: 'recipe_notes',
+        name: 'Misc Recipe Notes',
+        description: 'Any misc notes you have about this recipe.',
         order: 2,
         repeatable: false,
         applicableForAllBrewMethods: true,
         applicableBrewMethodsDefault: [],
         // applicableBrewMethodsUser: [],
       },
-    };
+      {
+        type: 'attribute',
+        id: 'recipe_objectives',
+        name: 'Recipe Objectives',
+        description: 'Recipe objectives are your "measuring stick" for you to know if a recipe is a success.',
+        order: 3,
+        repeatable: false,
+        applicableForAllBrewMethods: true,
+        applicableBrewMethodsDefault: [],
+        // applicableBrewMethodsUser: [],
+      },
+      {
+        type: 'attribute',
+        id: 'notes_for_next_time',
+        name: 'Notes For Next Time',
+        description: 'Things for you to keep in mind for the next time you use this brew method with this bean.',
+        order: 4,
+        repeatable: false,
+        applicableForAllBrewMethods: true,
+        applicableBrewMethodsDefault: [],
+        // applicableBrewMethodsUser: [],
+      },
+    ];
 
-    let recipeStepsChoices = recipeAttributes;
+    return recipeAttributes;
+  }
+
+  _getRecipeStepFields(){
+    // const recipeAttributes = {
+    //   notes_for_next_time: {
+    //     type: 'attribute',
+    //     id: 'notes_for_next_time',
+    //     name: 'Notes For Next Time',
+    //     order: 2,
+    //     repeatable: false,
+    //     applicableForAllBrewMethods: true,
+    //     applicableBrewMethodsDefault: [],
+    //     // applicableBrewMethodsUser: [],
+    //   },
+    // };
+    //
+    // let recipeStepsChoices = recipeAttributes;
+    let recipeStepsChoices;
 
     if(_.size(this.props.recipeSteps) && _.size(this.props.recipeSteps.recipeSteps)){
-      const recipeSteps = _.merge(recipeAttributes, this.props.recipeSteps.recipeSteps);
+      // const recipeSteps = _.merge(recipeAttributes, this.props.recipeSteps.recipeSteps);
+      const recipeSteps = this.props.recipeSteps.recipeSteps;
       recipeStepsChoices = _.orderBy(recipeSteps, ['order'], ['asc']);
     }
 

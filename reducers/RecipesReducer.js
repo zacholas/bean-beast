@@ -117,6 +117,8 @@ export default (state = INITIAL_STATE, action) => {
             dose: action.payload.data.dose, // Grams to hundredths
             temperature: action.payload.data.temperature, // Store in deg C to hundredths
             notes_for_next_time: action.payload.data.notes_for_next_time,
+            recipe_notes: action.payload.data.recipe_notes,
+            recipe_objectives: action.payload.data.recipe_objectives,
             favorite_information: action.payload.data.favorite_information,
             recipe_steps: action.payload.data.recipe_steps
           },
@@ -141,6 +143,8 @@ export default (state = INITIAL_STATE, action) => {
             dose: action.payload.data.dose, // Grams to hundredths
             temperature: action.payload.data.temperature, // Store in deg C to hundredths
             notes_for_next_time: action.payload.data.notes_for_next_time,
+            recipe_notes: action.payload.data.recipe_notes,
+            recipe_objectives: action.payload.data.recipe_objectives,
             favorite_information: action.payload.data.favorite_information,
             recipe_steps: action.payload.data.recipe_steps
           }

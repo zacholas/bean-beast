@@ -21,5 +21,6 @@ export { BodyText };
 
 BodyText.propTypes = {
   style: PropTypes.object,
-  noMargin: PropTypes.bool
+  noMargin: PropTypes.bool,
+  // smallText: PropTypes.bool
 };

@@ -125,7 +125,7 @@ export default class RecipeStepItem extends Component {
                   <Text style={textLink}><Icon name="pencil" size={16}/> Edit</Text>
                 </TouchableOpacity>
                 {/*<TouchableOpacity style={{ padding: 5, paddingRight: 10 }} onPress={() => this.props.array.remove('beans', null, 0 )}>*/}
-                <TouchableOpacity style={{padding: 5, paddingRight: 10}} onPress={() => this.props.fields.remove(this.props.index)}>
+                <TouchableOpacity style={{padding: 5, paddingRight: 10}} onPress={() => this._removeField()}>
                   <Icon name="close" size={18} style={{color: colors.colorDanger}}/>
                 </TouchableOpacity>
               </View>
@@ -138,6 +138,13 @@ export default class RecipeStepItem extends Component {
       );
     }
     return null;
+  }
+
+  _removeField(){
+    this.props.removeStep(this.props.index);
+    // this.props.fields.remove(this.props.index).then(() => {
+    //   this.props.recalculateStepOrders();
+    // });
   }
 
   _moveItemUpArrow(thisRecipeStepField, index, recipeStepsSize){
@@ -164,7 +171,7 @@ export default class RecipeStepItem extends Component {
 
   getFieldDisplay(){
     const thisStep = _.size(this.props.recipeStepsValues) && this.props.recipeStepsValues[this.props.index] ? this.props.recipeStepsValues[this.props.index] : null;
-    console.log(thisStep);
+    // console.log(thisStep);
     if(thisStep){
       const { field_id, id, order, values } = thisStep;
       const valuesSize = _.size(values);
@@ -195,7 +202,8 @@ RecipeStepItem.propTypes = {
   moveStepDown: PropTypes.func.isRequired,
   itemValues: PropTypes.object.isRequired,
   recipeStepsValues: PropTypes.array,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  removeStep: PropTypes.func.isRequired
 };
 
 RecipeStepItem.defaultProps = {
