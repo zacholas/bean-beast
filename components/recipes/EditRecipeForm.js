@@ -264,6 +264,7 @@ class EditRecipeForm extends Component {
             formValues={this.props.formValues}
             onAttributePress={(attribute) => this._modalSelectAttribute(attribute)}
             onStepPress={(step) => this._modalSelectStep(step)}
+            brewMethods={this.props.brewMethods}
           />
         );
 
@@ -319,7 +320,7 @@ class EditRecipeForm extends Component {
 
     //* Brew Method is set
     if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.brew_method) {
-      const thisBrewMethodID = this.props.formValues.EditRecipeForm.values.brew_method;
+      const thisBrewMethodID = _.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.brew_method ? this.props.formValues.EditRecipeForm.values.brew_method : null;
       const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
       brewMethodOutput = (
         <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>

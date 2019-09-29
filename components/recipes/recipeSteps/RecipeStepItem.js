@@ -78,7 +78,7 @@ export default class RecipeStepItem extends Component {
     this.view.slideOutUp(200).then(endState => {
       this.props.moveStepUp(this.state.thisRecipeStepField, this.state.index);
       this.setState({ zIndex: 1 });
-      this.view.bounceIn(300);
+      this.view.fadeIn(300);
     })
   };
 
@@ -87,7 +87,7 @@ export default class RecipeStepItem extends Component {
     this.view.slideOutDown(200).then(endState => {
       this.props.moveStepDown(this.state.thisRecipeStepField, this.state.index);
       this.setState({ zIndex: 1 });
-      this.view.bounceIn(300);
+      this.view.fadeIn(300);
     })
   };
 

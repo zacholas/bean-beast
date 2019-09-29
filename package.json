@@ -16,6 +16,7 @@
     "expo-asset": "~7.0.0",
     "expo-blur": "~7.0.0",
     "expo-camera": "~7.0.0",
+    "expo-cli": "^3.1.2",
     "expo-constants": "~7.0.0",
     "expo-font": "~7.0.0",
     "expo-image-picker": "~7.0.0",

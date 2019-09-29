@@ -43,6 +43,10 @@ class RecipeStepFieldPicker extends Component {
   };
 
   _getRecipeAttributes(){
+    console.log(this.props.formValues.EditRecipeForm.values);
+    const thisBrewMethodID = _.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.brew_method ? this.props.formValues.EditRecipeForm.values.brew_method : null;;
+    const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
+    const brewMethodLabel = thisBrewMethod ? `for ${thisBrewMethod.name}` : 'for this brew method';
     const recipeAttributes = [
       {
         type: 'attribute',
@@ -70,7 +74,7 @@ class RecipeStepFieldPicker extends Component {
         type: 'attribute',
         id: 'notes_for_next_time',
         name: 'Notes For Next Time',
-        description: 'Things for you to keep in mind for the next time you use this brew method with this bean.',
+        description: `Things for you to keep in mind for the next time you use this bean ${brewMethodLabel}.`,
         order: 4,
         repeatable: false,
         applicableForAllBrewMethods: true,
