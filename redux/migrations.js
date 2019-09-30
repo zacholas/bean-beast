@@ -244,8 +244,38 @@ export const migrations = {
   12: (state) => {
     return {
       ...state,
-      recipeSteps: state.repeatableRecipeFields,
-      repeatableRecipeFields: undefined
+      recipeSteps: {
+        ...state.recipeSteps,
+        recipeSteps: {
+          ...state.recipeSteps.recipeSteps,
+          default_wait: {
+            ...state.recipeSteps.recipeSteps.default_wait,
+            description: 'wait dawg',
+          }
+        }
+      }
+    }
+  },
+  13: (state) => {
+    return state;
+  },
+  14: (state) => {
+    return {
+      ...state,
+      recipeSteps: {
+        ...state.recipeSteps,
+        recipeSteps: {
+          ...state.recipeSteps.recipeSteps,
+          default_wait: {
+            ...state.recipeSteps.recipeSteps.default_wait,
+            description: null,
+          },
+          default_taint: {
+            ...state.recipeSteps.recipeSteps.default_taint,
+            description: 'Add travesties like milk, sugar, etc. (#nojudgement)',
+          }
+        }
+      }
     }
   },
 };

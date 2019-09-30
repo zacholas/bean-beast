@@ -18,6 +18,7 @@ import {colorGray800} from "../../constants/Colors";
 import colors from "../../constants/Colors";
 import {marginBottom} from "../../constants/Styles";
 import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
+import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID } from "../../helpers";
 
 class EditRecipeForm extends Component {
@@ -79,6 +80,16 @@ class EditRecipeForm extends Component {
           </TouchableOpacity>
         </View>
 
+        <BodyText>Recipe Attributes</BodyText>
+
+        <View>
+          {this._recipeNotesArea()}
+          {this._recipeObjectivesArea()}
+          {this._notesForNextTimeArea()}
+        </View>
+
+        <TouchableOpacity onPress={() => this._showModalAttributesMenu()}><BodyText>+ Add New</BodyText></TouchableOpacity>
+
         <Hr />
 
         <View style={styles.recipeRatingContainer}>
@@ -101,12 +112,7 @@ class EditRecipeForm extends Component {
         </View>
         <Hr />
 
-        <View>
-          {this._recipeNotesArea()}
-          {this._recipeObjectivesArea()}
-          {this._notesForNextTimeArea()}
-        </View>
-        <Hr />
+
 
         <View>
           <RecipeSteps
@@ -152,7 +158,7 @@ class EditRecipeForm extends Component {
   _modalBackButton(){
     if(this.state.showModalBackToFieldListButton === true){
       return (
-        <TouchableOpacity onPress={() => this._modalGoBackToStepsList()} style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <TouchableOpacity onPress={() => this._modalGoBackToAttributesList()} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Icon name="chevron-left" size={16} style={{ marginRight: 7 }} />
           <Text>Back</Text>
         </TouchableOpacity>
@@ -160,18 +166,28 @@ class EditRecipeForm extends Component {
     }
   }
 
-  _modalGoBackToStepsList(){
+  _showModalStepsMenu(){
     this.setState({
       editRecipeFieldModalAction: 'recipeStepsMenu',
       editingRecipeFieldName: null,
       showModalBackToFieldListButton: false,
       stepFieldIndex: null
     });
+    this.editRecipeFieldModal.show();
   }
 
-  _showModalStepsMenu(){
+  _modalGoBackToAttributesList(){
     this.setState({
-      editRecipeFieldModalAction: 'recipeStepsMenu',
+      editRecipeFieldModalAction: 'recipeAttributesMenu',
+      editingRecipeFieldName: null,
+      showModalBackToFieldListButton: false,
+      stepFieldIndex: null
+    });
+  }
+
+  _showModalAttributesMenu(){
+    this.setState({
+      editRecipeFieldModalAction: 'recipeAttributesMenu',
       editingRecipeFieldName: null,
       showModalBackToFieldListButton: false,
       stepFieldIndex: null
@@ -262,8 +278,16 @@ class EditRecipeForm extends Component {
           <RecipeStepFieldPicker
             recipeSteps={this.props.recipeSteps}
             formValues={this.props.formValues}
-            onAttributePress={(attribute) => this._modalSelectAttribute(attribute)}
             onStepPress={(step) => this._modalSelectStep(step)}
+            brewMethods={this.props.brewMethods}
+          />
+        );
+
+      case 'recipeAttributesMenu':
+        return (
+          <RecipeAttributesFieldPicker
+            formValues={this.props.formValues}
+            onAttributePress={(attribute) => this._modalSelectAttribute(attribute)}
             brewMethods={this.props.brewMethods}
           />
         );

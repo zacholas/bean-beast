@@ -106,6 +106,7 @@ const INITIAL_STATE = {
     default_taint: {
       id: 'default_taint',
       name: 'Taint the Coffee',
+      description: 'Add travesties like milk, sugar, etc. (#nojudgement)',
       order: 100,
       repeatable: true,
       applicableForAllBrewMethods: true,
