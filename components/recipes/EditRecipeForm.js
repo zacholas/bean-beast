@@ -19,7 +19,7 @@ import colors from "../../constants/Colors";
 import {marginBottom} from "../../constants/Styles";
 import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
-import { generateRandomID } from "../../helpers";
+import { generateRandomID, recipeStepFieldDefaultValues } from "../../helpers";
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -39,6 +39,11 @@ class EditRecipeForm extends Component {
     this.props.change('modal', this.props.modal);
     this.props.change('recipe_steps', [
       {
+        id: 'defdddd456',
+        field_id: 'default_primary_infusion',
+        order: 7,
+      },
+      {
         id: 'abc123',
         field_id: 'default_pre_infusion',
         order: 10,
@@ -56,7 +61,7 @@ class EditRecipeForm extends Component {
         id: 'def456',
         field_id: 'default_pre_infusion',
         order: 30
-      }
+      },
     ]);
   }
 
@@ -141,7 +146,7 @@ class EditRecipeForm extends Component {
           <Modal
             ref={(ref) => { this.editRecipeFieldModal = ref; }}
             showHeadline={!!this.state.showModalBackToFieldListButton}
-            dismissButtonText="Save & Continue"
+            dismissButtonText={this._getModalCloseButtonText()}
             // onShow={() => { console.log('onshow')}}
             // onDismiss={() => { console.log('hidden')}}
             headlineJSX={this._modalBackButton()}
@@ -271,6 +276,16 @@ class EditRecipeForm extends Component {
     }
   }
 
+  _getModalCloseButtonText(){
+    switch (this.state.editRecipeFieldModalAction){
+      case 'recipeStepsMenu':
+      case 'recipeAttributesMenu':
+        return 'Cancel';
+      default:
+        return 'Save & Continue';
+    }
+  }
+
   _getModalContent(){
     switch (this.state.editRecipeFieldModalAction){
       case 'recipeStepsMenu':
@@ -320,11 +335,12 @@ class EditRecipeForm extends Component {
   _modalSelectStep(step){
     const stepFieldIndex = _.size(this.props.formValues.EditRecipeForm.values) && _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) ? _.size(this.props.formValues.EditRecipeForm.values.recipe_steps) : 0;
     const newItemOrder = stepFieldIndex * 10 + 10;
-    console.log('newItemOrder', newItemOrder);
+    // console.log('newItemOrder', newItemOrder);
     this.props.dispatch(arrayPush('EditRecipeForm', 'recipe_steps', {
       id: generateRandomID('step'),
       field_id: step.id,
       order: newItemOrder,
+      values: recipeStepFieldDefaultValues(step.id)
     }));
     this.setState({
       editRecipeFieldModalAction: 'editStep',

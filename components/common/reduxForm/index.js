@@ -5,3 +5,4 @@ export * from './SwitchField';
 export * from './SliderField';
 export * from './LabeledSliderField';
 export * from './ImageUploadField';
+export * from './TimeLengthPickerField';

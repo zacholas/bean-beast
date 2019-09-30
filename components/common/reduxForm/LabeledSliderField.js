@@ -197,7 +197,7 @@ LabeledSliderField.propTypes = {
   maximumValue: PropTypes.number,
   step: PropTypes.number,
   showNotches: PropTypes.bool,
-  tallNotches: PropTypes.arrayOf(PropTypes.number),
+  tallNotches: PropTypes.arrayOf(PropTypes.number).isRequired,
   topLabels: PropTypes.arrayOf(PropTypes.shape({
     content: PropTypes.node,
     containerStyle: PropTypes.object
