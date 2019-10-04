@@ -42,6 +42,10 @@ class EditRecipeForm extends Component {
         id: 'defdddd456',
         field_id: 'default_primary_infusion',
         order: 7,
+        values: {
+          length: 130,
+          pressure: 9
+        }
       },
       {
         id: 'abc123',

@@ -14,6 +14,7 @@ class PreInfusionField extends Component {
         <TimeLengthPickerField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
           label="Primary Infusion Length"
+          hours
         />
         {/*<TextField*/}
           {/*name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}*/}

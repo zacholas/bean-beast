@@ -1,63 +1,79 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, DatePickerAndroid, DatePickerIOS, Platform, Picker, TextInput} from 'react-native';
+import _ from "lodash";
 import { Field } from 'redux-form';
 import {
   bodyText,
 } from '../Styles';
 import * as styles from "./Styles";
 import PropTypes from "prop-types";
-import _ from "lodash";
+import { colorGray400 } from "../Styles";
+
 import { Headline } from "..";
+import { isNumber } from "../../../helpers";
 
 const thisStyles = StyleSheet.create({
   timeRow: {
     flexDirection: 'row'
   },
   timeBlockContainer: {
+    flexDirection: 'row'
+  },
+  timeBlockContainerInner: {
     textAlign: 'center',
     alignItems: 'center',
-    padding: 5
+    padding: 5,
   },
   number: {
     fontSize: 16,
-    marginBottom: 4
+    marginBottom: 4,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: colorGray400,
+    textAlign: 'center',
+    paddingHorizontal: 3,
+    paddingVertical: 3
   },
   numberLabel: {
     fontSize: 12
+  },
+  colonContainer: {
+    marginTop: 9,
+    paddingHorizontal: 3
+  },
+  colonText: {
+    fontSize: 16,
+    fontWeight: 'bold'
   }
 });
 
 
 class TimeLengthPickerComponent extends Component {
-  // render() {
-  //   const { input: { value, onChange } } = this.props;
-  //   return (
-  //     <div>
-  //       <span>The current value is {value}.</span>
-  //       <button type="button" onClick={() => onChange(value + 1)}>Inc</button>
-  //       <button type="button" onClick={() => onChange(value - 1)}>Dec</button>
-  //     </div>
-  //   )
-  // }
-
   constructor(props){
     super(props);
 
-    this.state = {
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    };
+    //* Set initial field values based on input value
+    if(props.input && props.input.value && typeof props.input.value == "number" && props.input.value > 0){
+      this.state = this._setStateFromSeconds(props.input.value, true);
+    }
+    else {
+      this.state = {
+        hours: this._formatDoubleDigitNumberString(0),
+        minutes: this._formatDoubleDigitNumberString(0),
+        seconds: this._formatDoubleDigitNumberString(0)
+      };
+    }
   }
 
-  // componentWillUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void {
-  //   if(_.isEqual(nextState, this.state)){
-  //     this.props.input.onChange(this._getSecondsFromState(nextState));
-  //   }
-  // }
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    if(nextProps.input && nextProps.input.value){
+      if(this.props.input.value !== nextProps.input.value){
+        this._setStateFromSeconds(nextProps.input.value);
+      }
+    }
+  }
 
   render(){
-    console.log('value', this.props.input.value);
     const { input: { value, onChange } } = this.props;
     return (
       <View>
@@ -73,94 +89,88 @@ class TimeLengthPickerComponent extends Component {
     );
   }
 
-  // render() {
-  //   const { input: { value, onChange } } = this.props;
-  //   return (
-  //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-  //       {this._galleryPickerButton()}
-  //       {this._cameraButton()}
-  //       {this._imageOutput()}
-  //     </View>
-  //   )
-  // }
-
-  _parseNumberIntoHrsMinsSecs(seconds) {
+  _setStateFromSeconds(seconds, returnData = false){
     const d = Number(seconds);
     const h = Math.floor(d / 3600);
     const m = Math.floor(d % 3600 / 60);
     const s = Math.floor(d % 3600 % 60);
 
-    return {
-      hours: Number(h),
-      minutes: Number(m),
-      seconds: Number(s)
+    if(returnData === true){
+      return {
+        hours: this._formatDoubleDigitNumberString(h),
+        minutes: this._formatDoubleDigitNumberString(m),
+        seconds: this._formatDoubleDigitNumberString(s)
+      }
     }
-  };
-
-
-
-  _setStateFromSeconds(seconds){
-    const d = Number(seconds);
-    const h = Math.floor(d / 3600);
-    const m = Math.floor(d % 3600 / 60);
-    const s = Math.floor(d % 3600 % 60);
-
-    this.setState({
-      hours: h,
-      minutes: m,
-      seconds: s
-    })
-
-    // return {
-    //   hours: h,
-    //   minutes: m,
-    //   seconds: s
-    // }
+    else {
+      this.setState({
+        hours: this._formatDoubleDigitNumberString(h),
+        minutes: this._formatDoubleDigitNumberString(m),
+        seconds: this._formatDoubleDigitNumberString(s)
+      })
+    }
   }
 
-  _getSecondsFromState(nextState){
-    const state = nextState ? nextState : this.state;
-    const hourSeconds = state.hours * 60 * 60;
-    const minuteSeconds = state.minutes * 60;
-    const seconds = state.seconds;
-
-    return hourSeconds + minuteSeconds + seconds;
+  _colonDivider(){
+    return (
+      <View style={thisStyles.colonContainer}>
+        <Text style={thisStyles.colonText}>:</Text>
+      </View>
+    )
   }
 
-  // _onChange(){
-  //   // console.log(this.props);
-  //   this.props.input.onChange(this._getSecondsFromState())
-  // }
+  _onBlur(item){
+    //* Do validation for this field here before moving on. --- maybe not necessary since I am converting non-numbers to 0s
+    const values = {
+      hours: !isNaN(Number(this.state.hours)) ? Number(this.state.hours) : 0,
+      minutes: !isNaN(Number(this.state.minutes)) ? Number(this.state.minutes) : 0,
+      seconds: !isNaN(Number(this.state.seconds)) ? Number(this.state.seconds) : 0,
+    };
+    const { hours, minutes, seconds } = values;
+    const totalSeconds = (parseFloat(hours) * 60 * 60) + (parseFloat(minutes) * 60) + parseFloat(seconds);
+    this._setStateFromSeconds(totalSeconds);
+    this.props.input.onChange(totalSeconds);
+
+  }
+
+  _formatDoubleDigitNumberString(number){
+    return ("0" + number).slice(-2);
+  }
 
   _hoursOutput(){
     if(this.props.parentProps.hours === true){
       return (
-        <View style={thisStyles.timeBlockContainer}>
-          <Text style={thisStyles.number}>00</Text>
-          <Headline h5 style={thisStyles.numberLabel}>Hours</Headline>
+        <View style={thisStyles.timeBlockContainerInner}>
+          <TextInput
+            style={thisStyles.number}
+            onBlur={(item) => this._onBlur(item)}
+            onChangeText={(itemValue) => this.setState({hours: itemValue})}
+            validate={[isNumber]}
+            number
+            placeholder={'00'}
+            value={this.state.hours.toString()}
+          />
+          <Headline h5 style={thisStyles.numberLabel}>Hrs</Headline>
         </View>
       )
     }
   }
 
-  _minutesOnChange(itemValue){
-    const totalSeconds = (Number(this.state.hours) * 60 * 60) + (Number(itemValue) * 60) + Number(this.state.seconds);
-    this.props.input.onChange(totalSeconds);
-    this.setState({
-      minutes: Number(itemValue)
-    });
-  }
-
   _minutesOutput(){
     if(this.props.parentProps.minutes === true){
       return (
-        <View style={styles.inputContainer}>
-          {this.props.parentProps.hours === true && colonDivider()}
-          <View style={thisStyles.timeBlockContainer}>
+        <View style={thisStyles.timeBlockContainer}>
+          {this.props.parentProps.hours === true && this._colonDivider()}
+          <View style={thisStyles.timeBlockContainerInner}>
             <TextInput
-              onChangeText={(itemValue) => this._minutesOnChange(itemValue)}
+              style={thisStyles.number}
+              onBlur={(item) => this._onBlur(item)}
+              onChangeText={(itemValue) => this.setState({minutes: itemValue})}
+              validate={[isNumber]}
+              number
+              placeholder={'00'}
+              value={this.state.minutes.toString()}
             />
-            <Text style={thisStyles.number}>00</Text>
             <Headline h5 style={thisStyles.numberLabel}>Min</Headline>
           </View>
         </View>
@@ -168,105 +178,29 @@ class TimeLengthPickerComponent extends Component {
     }
   }
 
-  _secondsOnChange(itemValue){
-    const totalSeconds = (parseFloat(this.state.hours) * 60 * 60) + (parseFloat(this.state.minutes) * 60) + parseFloat(itemValue);
-    console.log('totalSeconds', totalSeconds);
-    this.props.input.onChange(totalSeconds);
-    // this._onChange();
-    this.setState({
-      seconds: Number(itemValue)
-    });
-  }
-
   _secondsOutput(){
-    // const secondsNumbers = [...Array(60+1).keys()].slice(1);
-    // let secondsPickerOptions = _.map(secondsNumbers, (option, i ) => {
-    //   return <Picker.Item key={option} value={option} label={option} />
-    // });
-
     const { input: { value, onChange } } = this.props;
 
     if(this.props.parentProps.seconds === true){
       return (
         <View style={thisStyles.timeBlockContainer}>
-          {/*<Picker selectedValue={restInput.value.toString()} onValueChange={onChange} {...restInput}>*/}
-          {/*<Picker*/}
-            {/*selectedValue={language}*/}
-            {/*style={{height: 50, width: 100}}*/}
-            {/*onValueChange={(itemValue, itemIndex) =>*/}
-              {/*language = itemValue*/}
-            {/*}>*/}
-            {/*<Picker.Item label="Java" value="java" />*/}
-            {/*<Picker.Item label="JavaScript" value="js" />*/}
-          {/*</Picker>*/}
-          {/*onValueChange={(val) => onChange(_.round(val, getDecimalLength(step)))}*/}
-          {/*<Picker selectedValue='20' onValueChange={(itemValue, itemIndex) => this._secondsOnChange(itemValue, itemIndex)} >*/}
-            {/*<Picker.Item key='default' value='' label='–  Select an Option  –' />*/}
-            {/*<Picker.Item key='20' value='20' label="20" />*/}
-            {/*<Picker.Item key='60' value='60' label="60" />*/}
-            {/*/!*{secondsPickerOptions}*!/*/}
-          {/*</Picker>*/}
-          <TextInput
-            onChangeText={(itemValue) => this._secondsOnChange(itemValue)}
-          />
-          <Text style={thisStyles.number}>00</Text>
-          <Headline h5 style={thisStyles.numberLabel}>Sec</Headline>
+          {this.props.parentProps.minutes === true && this._colonDivider()}
+          <View style={thisStyles.timeBlockContainerInner}>
+            <TextInput
+              style={thisStyles.number}
+              onBlur={(item) => this._onBlur(item)}
+              onChangeText={(itemValue) => this.setState({seconds: itemValue})}
+              validate={[isNumber]}
+              number
+              placeholder={'00'}
+              value={this.state.seconds.toString()}
+            />
+            <Headline h5 style={thisStyles.numberLabel}>Sec</Headline>
+          </View>
         </View>
       )
     }
   }
-
-
-  // _cameraButton(){
-  //   if(this.state.hasCameraPermission === true){
-  //     return <Button
-  //       title="Take a picture"
-  //       onPress={this._takePicture}
-  //     />;
-  //   }
-  // }
-  //
-  // _galleryPickerButton() {
-  //   if(this.state.hasCameraPermission === true){
-  //     return <Button
-  //       title="Pick an image from camera roll"
-  //       onPress={this._pickImage}
-  //     />;
-  //   }
-  // }
-  //
-  // _imageOutput(){
-  //   if(this.props.input.value){
-  //     return <Image source={{ uri: this.props.input.value }} style={{ width: 150, height: 200 }} />;
-  //   }
-  // }
-  //
-  // _pickImage = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [3, 4],
-  //   });
-  //
-  //   if (!result.cancelled) {
-  //     this.setState({ image: result.uri });
-  //     this.props.input.onChange(result.uri);
-  //     // this.hiddenTextField.setNativeProps({value: result.uri})
-  //     // this.props.change('bean_image', result.uri);
-  //   }
-  // };
-  //
-  // _takePicture = async() => {
-  //   let result = await ImagePicker.launchCameraAsync({
-  //     allowsEditing: true,
-  //     aspect: [3, 4],
-  //   });
-  //
-  //   if (!result.cancelled) {
-  //     this.setState({ image: result.uri });
-  //     this.props.input.onChange(result.uri);
-  //   }
-  // }
 }
 
 
