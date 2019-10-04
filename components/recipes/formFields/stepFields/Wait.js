@@ -7,7 +7,7 @@ export const fieldDataDisplay = () => {
 
 };
 
-class PrimaryInfusionField extends Component {
+class WaitField extends Component {
   render() {
     return (
       <View>
@@ -33,8 +33,8 @@ class PrimaryInfusionField extends Component {
   }
 }
 
-export default PrimaryInfusionField;
+export default WaitField;
 
-PrimaryInfusionField.propTypes = {
+WaitField.propTypes = {
   stepFieldIndex: PropTypes.number.isRequired
 };
