@@ -17,7 +17,7 @@ class BloomField extends Component {
           label="Bloom Length"
         />
         <TextField
-          name={`recipe_steps[${this.props.stepFieldIndex}].values.pressure`}
+          name={`recipe_steps[${this.props.stepFieldIndex}].values.water_amount`}
           label="How much water? (in grams/ml)*"
           keyboardType={'decimal-pad'}
           validate={[required, isNumber]}

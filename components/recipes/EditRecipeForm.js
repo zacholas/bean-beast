@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux';
-import { reduxForm, arrayPush } from 'redux-form';
 import PropTypes from "prop-types";
+import { reduxForm, arrayPush, getFormSyncErrors } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField } from "../common/reduxForm";
@@ -150,13 +150,14 @@ class EditRecipeForm extends Component {
           <Modal
             ref={(ref) => { this.editRecipeFieldModal = ref; }}
             showHeadline={!!this.state.showModalBackToFieldListButton}
-            dismissButtonText={this._getModalCloseButtonText()}
             // onShow={() => { console.log('onshow')}}
             // onDismiss={() => { console.log('hidden')}}
             headlineJSX={this._modalBackButton()}
+            showDismissButton={false}
             // headlineText="Edit Bean Blend Component"
           >
             {this._getModalContent()}
+            {this._modalCloseButton()}
           </Modal>
         </View>
       </Container>
@@ -280,14 +281,66 @@ class EditRecipeForm extends Component {
     }
   }
 
-  _getModalCloseButtonText(){
+  _modalCloseButton(){
+    let buttonText;
+    let buttonColor = 'gray';
+
     switch (this.state.editRecipeFieldModalAction){
       case 'recipeStepsMenu':
       case 'recipeAttributesMenu':
-        return 'Cancel';
+        buttonText = 'Cancel';
+        break;
       default:
-        return 'Save & Continue';
+        buttonText = 'Save & Continue';
+        buttonColor = 'green';
+        break;
     }
+    return (
+      <Button
+        title={buttonText}
+        onPress={() => this._modalSubmit()}
+        backgroundColor={buttonColor}
+      />
+    )
+  }
+
+  _submit(values) {
+    console.log(values);
+    throw new SubmissionError('hi');
+    return sleep(1000).then(() => {
+      // simulate server latency
+      if (!['john', 'paul', 'george', 'ringo'].includes(values.username)) {
+        throw new SubmissionError({
+          username: 'User does not exist',
+          _error: 'Login failed!'
+        })
+      } else if (values.password !== 'redux-form') {
+        throw new SubmissionError({
+          password: 'Wrong password',
+          _error: 'Login failed!'
+        })
+      } else {
+        window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
+      }
+    })
+  }
+
+  _modalSubmit(){
+    //* Validate the fields that are currently showing in the modal
+    // console.log('this props', this.props);
+    console.log('valid', this.props.valid);
+    // console.log('submit pressed', this.props);
+    if(!this.props.valid){
+      this.props.asyncValidate();
+      console.log('form is not valid. ', this.props.formValues.EditRecipeForm.syncErrors);
+      this.props.touch(...Object.keys( this.props.formValues.EditRecipeForm.syncErrors));
+      // console.log(this.props.formErrors);
+      // this.props.touch(...Object.keys(this.props.formErrors))
+    }
+    // this.props.touch();
+
+    // this.props.handleSubmit(this._submit);
+    // this.editRecipeFieldModal.hide();
   }
 
   _getModalContent(){
@@ -442,12 +495,14 @@ class EditRecipeForm extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('in map state to props', getFormSyncErrors('EditRecipeForm')(state));
   return {
     initialValues: state.recipes.currentlyEditingRecipe,
     loading: state.recipes.loading,
     brewMethods: state.brewMethods,
     recipeSteps: state.recipeSteps,
     formValues: state.form,
+    formErrors: getFormSyncErrors('EditRecipeForm')(state)
   }
 };
 

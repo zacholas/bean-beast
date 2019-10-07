@@ -82,6 +82,7 @@ const buttonBackgroundColor = (props) => {
       case 'green':
         backgroundColor = '#98c919';
         break;
+      case 'red':
       default:
         backgroundColor = '#e93639';
         break;
@@ -139,5 +140,6 @@ export { Button };
 
 Button.propTypes = {
   title: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  backgroundColor: PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red'])
 };

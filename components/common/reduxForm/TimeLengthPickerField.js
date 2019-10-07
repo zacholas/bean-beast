@@ -96,7 +96,7 @@ class TimeLengthPickerComponent extends Component {
     const h = this.props.parentProps.hours === false ? 0 : Math.floor(d / 3600);
     const m = this.props.parentProps.hours === false ? Math.floor(d / 60) : Math.floor(d % 3600 / 60);
     const s = Math.floor(d % 3600 % 60);
-    console.log('parsed hms: ', h, m, s);
+    // console.log('parsed hms: ', h, m, s);
 
     if(returnData === true){
       return {
