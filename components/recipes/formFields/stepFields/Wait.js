@@ -13,20 +13,14 @@ class WaitField extends Component {
       <View>
         <TimeLengthPickerField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
-          label="Primary Infusion Length"
-          hours
-        />
-        <TextField
-          name={`recipe_steps[${this.props.stepFieldIndex}].values.pressure`}
-          label="Pressure (in bar)"
-          keyboardType={'decimal-pad'}
+          label="Wait Time"
+          hours={this.props.values.brew_method === 'default_cold_brew'}
           // validate={[required]}
         />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
-          label='Notes, e.g. "Slowly ramp up the pressure over the course of 10 seconds after pre-infusion."'
+          label='Notes, e.g. "Wait for the water to drain completely."'
           multiline
-          // validate={[required]}
         />
       </View>
     );

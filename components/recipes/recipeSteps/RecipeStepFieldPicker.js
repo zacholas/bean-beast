@@ -25,7 +25,7 @@ class RecipeStepFieldPicker extends Component {
   };
 
   _renderItem = ({item}) => {
-    console.log(item);
+    // console.log(item);
     return (
       <TouchableOpacity onPress={() => this.props.onStepPress(item)} style={{ paddingVertical: 10 }}>
         <Text>{item.name}</Text>

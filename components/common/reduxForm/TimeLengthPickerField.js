@@ -89,11 +89,14 @@ class TimeLengthPickerComponent extends Component {
     );
   }
 
+  //*  Note / @todo -- Currently, you have to have a minimum of minutes and seconds in order for this field to work properly. You can disable hours but not minutes.
   _setStateFromSeconds(seconds, returnData = false){
+    console.log('setting state from ' + seconds + ' seconds (with hours enabled: [' + this.props.parentProps.hours + '])');
     const d = Number(seconds);
-    const h = Math.floor(d / 3600);
-    const m = Math.floor(d % 3600 / 60);
+    const h = this.props.parentProps.hours === false ? 0 : Math.floor(d / 3600);
+    const m = this.props.parentProps.hours === false ? Math.floor(d / 60) : Math.floor(d % 3600 / 60);
     const s = Math.floor(d % 3600 % 60);
+    console.log('parsed hms: ', h, m, s);
 
     if(returnData === true){
       return {
@@ -134,7 +137,15 @@ class TimeLengthPickerComponent extends Component {
   }
 
   _formatDoubleDigitNumberString(number){
-    return ("0" + number).slice(-2);
+    if(this.props.parentProps.hours){
+      return ("0" + number).slice(-2);
+    }
+    else {
+      if(number.toString().length >= 2){
+        return number;
+      }
+      return ("0" + number);
+    }
   }
 
   _hoursOutput(){

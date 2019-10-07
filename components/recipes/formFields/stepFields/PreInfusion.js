@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
-import { TextField } from "../../../common/reduxForm";
+import { TextField, TimeLengthPickerField } from "../../../common/reduxForm";
 import PropTypes from "prop-types";
 
 export const fieldDataDisplay = () => {
@@ -11,7 +11,7 @@ class PreInfusionField extends Component {
   render() {
     return (
       <View>
-        <TextField
+        <TimeLengthPickerField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
           label="Pre-Infusion Length"
           // validate={[required]}
@@ -19,6 +19,12 @@ class PreInfusionField extends Component {
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.pressure`}
           label="Pressure (in bar)"
+          // validate={[required]}
+        />
+        <TextField
+          name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
+          label='Notes, e.g. "Slowly ramp up to 3 bars and hold."'
+          multiline
           // validate={[required]}
         />
       </View>

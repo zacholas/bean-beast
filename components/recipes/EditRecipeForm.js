@@ -37,36 +37,36 @@ class EditRecipeForm extends Component {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
-    this.props.change('recipe_steps', [
-      {
-        id: 'defdddd456',
-        field_id: 'default_primary_infusion',
-        order: 7,
-        values: {
-          length: 130,
-          pressure: 9
-        }
-      },
-      {
-        id: 'abc123',
-        field_id: 'default_pre_infusion',
-        order: 10,
-        values: {
-          length: 213,
-          pressure: 9
-        }
-      },
-      {
-        id: 'hij789',
-        field_id: 'default_bloom',
-        order: 20
-      },
-      {
-        id: 'def456',
-        field_id: 'default_pre_infusion',
-        order: 30
-      },
-    ]);
+    // this.props.change('recipe_steps', [
+    //   {
+    //     id: 'defdddd456',
+    //     field_id: 'default_primary_infusion',
+    //     order: 7,
+    //     values: {
+    //       length: 130,
+    //       pressure: 9
+    //     }
+    //   },
+    //   {
+    //     id: 'abc123',
+    //     field_id: 'default_pre_infusion',
+    //     order: 10,
+    //     values: {
+    //       length: 213,
+    //       pressure: 9
+    //     }
+    //   },
+    //   {
+    //     id: 'hij789',
+    //     field_id: 'default_bloom',
+    //     order: 20
+    //   },
+    //   {
+    //     id: 'def456',
+    //     field_id: 'default_pre_infusion',
+    //     order: 30
+    //   },
+    // ]);
   }
 
   render() {
