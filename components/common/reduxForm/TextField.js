@@ -14,7 +14,8 @@ const TextFieldComponent = ({
   meta: { touched, error, warning },
   multiline,
   placeholder,
-  keyboardType
+  keyboardType,
+  number
 }) => {
   const multiLineHeight = multiline ? { height: 100 } : null;
   return (
@@ -28,6 +29,7 @@ const TextFieldComponent = ({
         multiline={multiline}
         placeholder={placeholder}
         keyboardType={keyboardType}
+        number={number}
       />
       {touched &&
       ((error && <Text style={styles.errorText}>{error}</Text>) ||
@@ -51,6 +53,7 @@ const TextField = (props) => {
         multiline={props.multiline}
         placeholder={props.placeholder}
         keyboardType={props.keyboardType}
+        number={props.number}
       />
     </View>
   );
@@ -61,10 +64,12 @@ export { TextField };
 TextField.propTypes = {
   multiline: PropTypes.bool,
   placeholder: PropTypes.string,
-  keyboardType: PropTypes.string
+  keyboardType: PropTypes.string,
+  number: PropTypes.bool,
 };
 
 TextField.defaultProps = {
   multiline: false,
-  keyboardType: 'default'
+  keyboardType: 'default',
+  number: false,
 };

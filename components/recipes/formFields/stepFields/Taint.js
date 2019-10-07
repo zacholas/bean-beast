@@ -7,19 +7,13 @@ export const fieldDataDisplay = () => {
 
 };
 
-class WaitField extends Component {
+class TaintField extends Component {
   render() {
     return (
       <View>
-        <TimeLengthPickerField
-          name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
-          label="Wait Time"
-          hours={this.props.values && this.props.values.brew_method && this.props.values.brew_method === 'default_cold_brew'}
-          // validate={[required]}
-        />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
-          label='Notes, e.g. "Wait for the water to drain completely."'
+          label='What should they do? e.g. "Add steamed milk & sugar"'
           multiline
         />
       </View>
@@ -27,8 +21,8 @@ class WaitField extends Component {
   }
 }
 
-export default WaitField;
+export default TaintField;
 
-WaitField.propTypes = {
+TaintField.propTypes = {
   stepFieldIndex: PropTypes.number.isRequired
 };

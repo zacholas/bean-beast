@@ -2,29 +2,29 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { TextField, LabeledSliderField, TimeLengthPickerField } from "../../../common/reduxForm";
 import PropTypes from "prop-types";
+import { required, isNumber } from "../../../../helpers";
 
 export const fieldDataDisplay = () => {
 
 };
 
-class PrimaryInfusionField extends Component {
+class PourField extends Component {
   render() {
     return (
       <View>
-        <TimeLengthPickerField
-          name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
-          label="Primary Infusion Length"
-          hours={this.props.values && this.props.values.brew_method && this.props.values.brew_method === 'default_cold_brew'}
-        />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.pressure`}
-          label="Pressure (in bar)"
+          label="How much water? (in grams/ml)*"
           keyboardType={'decimal-pad'}
-          // validate={[required]}
+          validate={[required, isNumber]}
+        />
+        <TimeLengthPickerField
+          name={`recipe_steps[${this.props.stepFieldIndex}].values.duration`}
+          label="Pour over the course of how long? (optional)"
         />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
-          label='Notes, e.g. "Slowly ramp up the pressure over the course of 10 seconds after pre-infusion."'
+          label='Notes, e.g. "Pour straight down, NOT in the usual spiral."'
           multiline
           // validate={[required]}
         />
@@ -33,8 +33,8 @@ class PrimaryInfusionField extends Component {
   }
 }
 
-export default PrimaryInfusionField;
+export default PourField;
 
-PrimaryInfusionField.propTypes = {
+PourField.propTypes = {
   stepFieldIndex: PropTypes.number.isRequired
 };

@@ -2,4 +2,4 @@ export const required     = value => (value || typeof value === 'number' ? undef
 export const futureDate   = value => (value > new Date ? undefined : 'The date must be in the future.');
 export const pastDate     = value => (value < new Date ? undefined : 'The date must be in the past.');
 export const alwaysError  = value => ('there was an error because there always is with this one.');
-export const isNumber     = value => (typeof value === 'number' ? undefined : 'This field needs to be a number.');
+export const isNumber     = value => (!isNaN(value) ? undefined : 'This field needs to be a number.');

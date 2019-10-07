@@ -2,33 +2,40 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { TextField, LabeledSliderField, TimeLengthPickerField } from "../../../common/reduxForm";
 import PropTypes from "prop-types";
+import { isNumber, required } from "../../../../helpers";
 
 export const fieldDataDisplay = () => {
 
 };
 
-class WaitField extends Component {
+class BloomField extends Component {
   render() {
     return (
       <View>
         <TimeLengthPickerField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
-          label="Wait Time"
-          hours={this.props.values && this.props.values.brew_method && this.props.values.brew_method === 'default_cold_brew'}
+          label="Bloom Length"
+        />
+        <TextField
+          name={`recipe_steps[${this.props.stepFieldIndex}].values.pressure`}
+          label="How much water? (in grams/ml)*"
+          keyboardType={'decimal-pad'}
+          validate={[required, isNumber]}
           // validate={[required]}
         />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
-          label='Notes, e.g. "Wait for the water to drain completely."'
+          label='Notes, e.g. "Be sure not to pour too quickly."'
           multiline
+          // validate={[required]}
         />
       </View>
     );
   }
 }
 
-export default WaitField;
+export default BloomField;
 
-WaitField.propTypes = {
+BloomField.propTypes = {
   stepFieldIndex: PropTypes.number.isRequired
 };

@@ -8,6 +8,9 @@ import RecipeSteps from "../recipeSteps/RecipeSteps";
 import PreInfusion from './stepFields/PreInfusion';
 import PrimaryInfusion from './stepFields/PrimaryInfusion';
 import Wait from './stepFields/Wait';
+import Pour from './stepFields/Pour';
+import Bloom from './stepFields/Bloom';
+import Taint from './stepFields/Taint';
 
 
 class RecipeFormField extends Component {
@@ -20,7 +23,7 @@ class RecipeFormField extends Component {
       case 'default_wait':
         return  <Wait stepFieldIndex={this.props.stepFieldIndex} values={values} />;
       case 'default_taint':
-        return;
+        return  <Taint stepFieldIndex={this.props.stepFieldIndex} values={values} />;
 
       //* Espresso Only
       case 'default_pre_infusion':
@@ -30,9 +33,9 @@ class RecipeFormField extends Component {
 
       //* Everything Else
       case 'default_bloom':
-        return;
+        return  <Bloom stepFieldIndex={this.props.stepFieldIndex} values={values} />;
       case 'default_pour':
-        return;
+        return  <Pour stepFieldIndex={this.props.stepFieldIndex} values={values} />;
       default:
         return null;
     }
