@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { TextField } from "../../../common/reduxForm";
+import { required } from "../../../../helpers";
 
 class GrindField extends Component {
   render() {
@@ -10,7 +11,7 @@ class GrindField extends Component {
         <TextField
           name="grind"
           label="Grind"
-          // validate={[required]}
+          validate={[required]}
         />
       </View>
     );

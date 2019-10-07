@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { reduxForm, arrayPush, getFormSyncErrors } from 'redux-form';
+import { reduxForm, arrayPush } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField } from "../common/reduxForm";
@@ -330,12 +330,32 @@ class EditRecipeForm extends Component {
     // console.log('this props', this.props);
     console.log('valid', this.props.valid);
     // console.log('submit pressed', this.props);
-    if(!this.props.valid){
-      this.props.asyncValidate();
-      console.log('form is not valid. ', this.props.formValues.EditRecipeForm.syncErrors);
-      this.props.touch(...Object.keys( this.props.formValues.EditRecipeForm.syncErrors));
+
+
+    const {
+      formValues: {EditRecipeForm: { syncErrors }},
+      submitFailed,
+      touch,
+      valid
+    } = this.props;
+
+    if(!valid){
+      console.log('form is not valid. ', syncErrors);
+      // this.props.touch()
+      // this.props.touch(...Object.keys( this.props.formValues.EditRecipeForm.syncErrors));
+
+      const toTouch = [];
+
+      for (const key in syncErrors) {
+        syncErrors.hasOwnProperty(key) && toTouch.push(key)
+      }
+      touch(...toTouch)
+
       // console.log(this.props.formErrors);
       // this.props.touch(...Object.keys(this.props.formErrors))
+    }
+    else {
+      this.editRecipeFieldModal.hide();
     }
     // this.props.touch();
 
@@ -495,14 +515,12 @@ class EditRecipeForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('in map state to props', getFormSyncErrors('EditRecipeForm')(state));
   return {
     initialValues: state.recipes.currentlyEditingRecipe,
     loading: state.recipes.loading,
     brewMethods: state.brewMethods,
     recipeSteps: state.recipeSteps,
     formValues: state.form,
-    formErrors: getFormSyncErrors('EditRecipeForm')(state)
   }
 };
 
