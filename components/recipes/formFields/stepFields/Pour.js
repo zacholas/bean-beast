@@ -10,6 +10,7 @@ export const fieldDataDisplay = () => {
 
 class PourField extends Component {
   render() {
+    console.log(this.props);
     return (
       <View>
         <TextField

@@ -10,9 +10,6 @@ import NotesForNextTime from './fields/NotesForNextTime';
 import RecipeNotes from './fields/RecipeNotes';
 import RecipeObjectives from './fields/RecipeObjectives';
 
-//* Recipe Steps
-import PreInfusion from './stepFields/PreInfusion';
-
 class RecipeFormField extends Component {
   render() {
     switch (this.props.name) {
@@ -34,8 +31,6 @@ class RecipeFormField extends Component {
         return  <RecipeObjectives />;
 
 
-      case 'pre_infusion':
-        return  <PreInfusion />;
       default:
         return null;
     }

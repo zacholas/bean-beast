@@ -339,6 +339,7 @@ class EditRecipeForm extends Component {
       valid
     } = this.props;
 
+    //* TODO get this all working
     if(!valid){
       console.log('form is not valid. ', syncErrors);
       // this.props.touch()
