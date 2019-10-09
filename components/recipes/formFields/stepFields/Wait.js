@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { TextField, LabeledSliderField, TimeLengthPickerField } from "../../../common/reduxForm";
 import PropTypes from "prop-types";
+import { recipe_steps_validation } from "../../recipeSteps/RecipeStepsFormValidation";
 
 export const fieldDataDisplay = () => {
 
@@ -15,11 +16,12 @@ class WaitField extends Component {
           name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
           label="Wait Time"
           hours={this.props.values && this.props.values.brew_method && this.props.values.brew_method === 'default_cold_brew'}
-          // validate={[required]}
+          validate={[recipe_steps_validation.default_wait.length]}
         />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
           label='Notes, e.g. "Wait for the water to drain completely."'
+          validate={[recipe_steps_validation.default_wait.notes]}
           multiline
         />
       </View>
@@ -30,5 +32,8 @@ class WaitField extends Component {
 export default WaitField;
 
 WaitField.propTypes = {
-  stepFieldIndex: PropTypes.number.isRequired
+  stepFieldIndex: PropTypes.number.isRequired,
+};
+
+WaitField.defaultProps = {
 };

@@ -1,5 +1,6 @@
 // import _ from 'lodash';
 import * as types from '../constants/types';
+import { required } from "../helpers";
 
 //* Repeatable Recipe Fields Reducer (Previously called Recipe Criteria Reducer)
 /*
@@ -101,6 +102,9 @@ const INITIAL_STATE = {
       repeatable: true,
       applicableForAllBrewMethods: true,
       applicableBrewMethodsDefault: [],
+      // validation: {
+      //   length: [ required ]
+      // }
       // applicableBrewMethodsUser: [],
     },
     default_taint: {

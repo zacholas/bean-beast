@@ -6,6 +6,7 @@
  */
 
 import _ from 'lodash';
+import { required } from "../helpers";
 
 export const migrations = {
   0: (state) => {
@@ -278,5 +279,37 @@ export const migrations = {
       }
     }
   },
+  15: (state) => {
+    return {
+      ...state,
+      recipeSteps: {
+        ...state.recipeSteps,
+        recipeSteps: {
+          ...state.recipeSteps.recipeSteps,
+          default_wait: {
+            ...state.recipeSteps.recipeSteps.default_wait,
+            validation: {
+              length: [ required ]
+            }
+          },
+        }
+      }
+    }
+  },
+  16: (state) => {
+    return {
+      ...state,
+      recipeSteps: {
+        ...state.recipeSteps,
+        recipeSteps: {
+          ...state.recipeSteps.recipeSteps,
+          default_wait: {
+            ...state.recipeSteps.recipeSteps.default_wait,
+            validation: undefined
+          },
+        }
+      }
+    }
+  }
 };
 

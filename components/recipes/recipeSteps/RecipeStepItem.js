@@ -8,6 +8,7 @@ import {marginBottom, textLink} from "../../../constants/Styles";
 import {Headline} from "../../common";
 import colors from "../../../constants/Colors";
 import { isDefined } from "../../../helpers";
+import {TimeLengthPickerField} from "../../common/reduxForm";
 
 const containerBackgroundColor = colors.colorWhite;
 const styles = StyleSheet.create({
@@ -132,6 +133,7 @@ export default class RecipeStepItem extends Component {
               <View>
                 {this.getFieldDisplay()}
               </View>
+              {this.props.submitError && <Text style={{ color: '#f00' }}>{this.props.submitError}</Text>}
             </View>
           </View>
         </Animatable.View>
@@ -203,9 +205,11 @@ RecipeStepItem.propTypes = {
   itemValues: PropTypes.object.isRequired,
   recipeStepsValues: PropTypes.array,
   index: PropTypes.number.isRequired,
-  removeStep: PropTypes.func.isRequired
+  removeStep: PropTypes.func.isRequired,
+  submitError: PropTypes.string
 };
 
 RecipeStepItem.defaultProps = {
-  recipeStepsValues: []
+  recipeStepsValues: [],
+  submitError: null
 };

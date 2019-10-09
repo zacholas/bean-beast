@@ -48,7 +48,12 @@ export default class RecipeSteps extends Component {
     );
   };
 
-
+  _getErrorForThisStep(index){
+    if(_.size(this.props.submitErrors) && _.size(this.props.submitErrors.recipeSteps) && _.size(this.props.submitErrors.recipeSteps[index])){
+      return this.props.submitErrors.recipeSteps[index];
+    }
+    return null;
+  }
 
   _renderItem = (item, index, fields, itemValues, parentProps, recipeStepsValues) => {
     return (
@@ -64,6 +69,7 @@ export default class RecipeSteps extends Component {
         moveStepUp={this.props.moveStepUp}
         moveStepDown={this.props.moveStepDown}
         removeStep={this.props.removeStep}
+        submitError={this._getErrorForThisStep(index)}
       />
     );
   };
@@ -73,5 +79,10 @@ RecipeSteps.propTypes = {
   editStep: PropTypes.func.isRequired,
   moveStepUp: PropTypes.func.isRequired,
   moveStepDown: PropTypes.func.isRequired,
-  removeStep: PropTypes.func.isRequired
+  removeStep: PropTypes.func.isRequired,
+  submitErrors: PropTypes.object,
+};
+
+RecipeSteps.defaultProps = {
+  submitErrors: {}
 };
