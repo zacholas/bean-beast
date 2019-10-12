@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { reduxForm, arrayPush, SubmissionError } from 'redux-form';
+import { reduxForm, arrayPush, SubmissionError, getFormMeta } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField } from "../common/reduxForm";
@@ -34,64 +34,64 @@ class EditRecipeForm extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { handleSubmit, loading } = this.props;
-    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
-    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
-    const { submitErrors } = thisForm;
-    // console.log('receive props; old form: ', thisForm);
-
-    const newForm = _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) ? nextProps.formValues.EditRecipeForm : false;
-    const newValues = newForm && _.size(newForm.values) ? newForm.values : false;
-    const formSubmitFailed = newForm && newForm.submitFailed ? newForm.submitFailed : false;
-    // console.log('new form: ', newForm);
-    console.log('submit failed?', formSubmitFailed);
-    // If they've already failed to submit the form, validate the it so that we can remove errors that are no longer relevant.
-    if(formSubmitFailed === true && newValues){
-      console.log('newValues', newValues);
-      // this._validateForm(newValues);
-    };
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { handleSubmit, loading } = this.props;
+  //   const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+  //   const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+  //   const { submitErrors } = thisForm;
+  //   // console.log('receive props; old form: ', thisForm);
+  //
+  //   const newForm = _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) ? nextProps.formValues.EditRecipeForm : false;
+  //   const newValues = newForm && _.size(newForm.values) ? newForm.values : false;
+  //   const formSubmitFailed = newForm && newForm.submitFailed ? newForm.submitFailed : false;
+  //   // console.log('new form: ', newForm);
+  //   console.log('submit failed?', formSubmitFailed);
+  //   // If they've already failed to submit the form, validate the it so that we can remove errors that are no longer relevant.
+  //   if(formSubmitFailed === true && newValues){
+  //     console.log('newValues', newValues);
+  //     // this._validateForm(newValues);
+  //   };
+  // }
 
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
-    this.props.change('recipe_steps', [
-      {
-        id: 'hdddij789',
-        field_id: 'default_wait',
-        order: 7
-      },
-      {
-        id: 'defdddd456',
-        field_id: 'default_primary_infusion',
-        order: 7,
-        values: {
-          length: 130,
-          pressure: 9
-        }
-      },
-      {
-        id: 'abc123',
-        field_id: 'default_pre_infusion',
-        order: 10,
-        values: {
-          length: 213,
-          pressure: 9
-        }
-      },
-      {
-        id: 'hij789',
-        field_id: 'default_bloom',
-        order: 20
-      },
-      {
-        id: 'def456',
-        field_id: 'default_pre_infusion',
-        order: 30
-      },
-    ]);
+    // this.props.change('recipe_steps', [
+    //   {
+    //     id: 'hdddij789',
+    //     field_id: 'default_wait',
+    //     order: 7
+    //   },
+    //   {
+    //     id: 'defdddd456',
+    //     field_id: 'default_primary_infusion',
+    //     order: 7,
+    //     values: {
+    //       length: 130,
+    //       pressure: 9
+    //     }
+    //   },
+    //   {
+    //     id: 'abc123',
+    //     field_id: 'default_pre_infusion',
+    //     order: 10,
+    //     values: {
+    //       length: 213,
+    //       pressure: 9
+    //     }
+    //   },
+    //   {
+    //     id: 'hij789',
+    //     field_id: 'default_bloom',
+    //     order: 20
+    //   },
+    //   {
+    //     id: 'def456',
+    //     field_id: 'default_pre_infusion',
+    //     order: 30
+    //   },
+    // ]);
   }
 
   render() {
@@ -99,9 +99,11 @@ class EditRecipeForm extends Component {
     const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
     const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
     const { submitErrors } = thisForm;
+    const formMeta = this.props.fields;
     if(submitErrors){
       console.log('submit errors: ', submitErrors);
     }
+    // console.log('form meta ', this.props.fields);
 
     // console.log(thisForm);
 
@@ -112,7 +114,8 @@ class EditRecipeForm extends Component {
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Text>Grind</Text>
             <Text>{_.size(values) && values.grind ? values.grind : '+ Add'}</Text>
-            {submitErrors && submitErrors.grind && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}
+            {this._fieldErrorDisplay('grind')}
+            {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
           </TouchableOpacity>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
             <Text>Dose</Text>
@@ -123,6 +126,12 @@ class EditRecipeForm extends Component {
             <Text>{_.size(values) && values.temperature ? values.temperature : '+ Add'}</Text>
           </TouchableOpacity>
         </View>
+
+        {/*<TextField*/}
+          {/*name="grind2"*/}
+          {/*label="Grind2"*/}
+          {/*validate={[required]}*/}
+        {/*/>*/}
 
         <BodyText>Recipe Attributes</BodyText>
 
@@ -177,8 +186,8 @@ class EditRecipeForm extends Component {
 
           <Button
             title="Save Recipe"
-            onPress={handleSubmit((values) => this._submit(values))}
-            // onPress={handleSubmit((values) => this.props.saveRecipe(values))}
+            // onPress={handleSubmit((values) => this._submit(values))}
+            onPress={handleSubmit((values) => this.props.saveRecipe(values))}
             iconName="check"
             backgroundColor="green"
             spinner={loading}
@@ -200,6 +209,18 @@ class EditRecipeForm extends Component {
       </Container>
 
     );
+  }
+
+  _fieldErrorDisplay(fieldName){
+    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+    const { submitErrors } = thisForm;
+    const formMeta = this.props.fields;
+    if(submitErrors && submitErrors[fieldName] && _.size(formMeta) && _.size(formMeta[fieldName]) && formMeta[fieldName].touched) {
+      return (
+        <Text style={{ color: '#f00' }}>{submitErrors[fieldName]}</Text>
+      )
+    }
+    {/*submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
   }
 
   _modalBackButton(){
@@ -443,42 +464,47 @@ class EditRecipeForm extends Component {
 
 
   _modalSubmit(){
-    //* Validate the fields that are currently showing in the modal
-    // console.log('this props', this.props);
-    console.log('valid', this.props.valid);
-    // console.log('submit pressed', this.props);
+    //* Note: I am tabling validation for now, so not worrying about all this bulllllshit
+    this.editRecipeFieldModal.hide();
 
 
-    const {
-      formValues: {EditRecipeForm: { syncErrors }},
-      submitFailed,
-      touch,
-      valid
-    } = this.props;
 
-    //* TODO get this all working
-    if(!valid){
-      console.log('form is not valid. ', syncErrors);
-      // this.props.touch()
-      // this.props.touch(...Object.keys( this.props.formValues.EditRecipeForm.syncErrors));
-
-      const toTouch = [];
-
-      for (const key in syncErrors) {
-        syncErrors.hasOwnProperty(key) && toTouch.push(key)
-      }
-      touch(...toTouch)
-
-      // console.log(this.props.formErrors);
-      // this.props.touch(...Object.keys(this.props.formErrors))
-    }
-    else {
-      this.editRecipeFieldModal.hide();
-    }
-    // this.props.touch();
-
-    // this.props.handleSubmit(this._submit);
-    // this.editRecipeFieldModal.hide();
+    // //* Validate the fields that are currently showing in the modal
+    // // console.log('this props', this.props);
+    // console.log('valid', this.props.valid);
+    // // console.log('submit pressed', this.props);
+    //
+    //
+    // const {
+    //   formValues: {EditRecipeForm: { syncErrors }},
+    //   submitFailed,
+    //   touch,
+    //   valid
+    // } = this.props;
+    //
+    // //* TODO get this all working
+    // if(!valid){
+    //   console.log('form is not valid. ', syncErrors);
+    //   // this.props.touch()
+    //   // this.props.touch(...Object.keys( this.props.formValues.EditRecipeForm.syncErrors));
+    //
+    //   const toTouch = [];
+    //
+    //   for (const key in syncErrors) {
+    //     syncErrors.hasOwnProperty(key) && toTouch.push(key)
+    //   }
+    //   touch(...toTouch)
+    //
+    //   // console.log(this.props.formErrors);
+    //   // this.props.touch(...Object.keys(this.props.formErrors))
+    // }
+    // else {
+    //   this.editRecipeFieldModal.hide();
+    // }
+    // // this.props.touch();
+    //
+    // // this.props.handleSubmit(this._submit);
+    // // this.editRecipeFieldModal.hide();
   }
 
   _getModalContent(){
@@ -639,6 +665,7 @@ const mapStateToProps = (state) => {
     brewMethods: state.brewMethods,
     recipeSteps: state.recipeSteps,
     formValues: state.form,
+    fields: getFormMeta('EditRecipeForm')(state),
   }
 };
 
