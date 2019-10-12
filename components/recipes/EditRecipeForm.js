@@ -34,6 +34,25 @@ class EditRecipeForm extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { handleSubmit, loading } = this.props;
+    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+    const { submitErrors } = thisForm;
+    // console.log('receive props; old form: ', thisForm);
+
+    const newForm = _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) ? nextProps.formValues.EditRecipeForm : false;
+    const newValues = newForm && _.size(newForm.values) ? newForm.values : false;
+    const formSubmitFailed = newForm && newForm.submitFailed ? newForm.submitFailed : false;
+    // console.log('new form: ', newForm);
+    console.log('submit failed?', formSubmitFailed);
+    // If they've already failed to submit the form, validate the it so that we can remove errors that are no longer relevant.
+    if(formSubmitFailed === true && newValues){
+      console.log('newValues', newValues);
+      // this._validateForm(newValues);
+    };
+  }
+
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
@@ -352,15 +371,15 @@ class EditRecipeForm extends Component {
     return error;
   }
 
-  _submit(values) {
-    // console.log('form submitted with', values);
-    // console.log('props on form submit', this.props);
+  _validateForm(values){
     let errorsToThrow = {};
     let recipeStepErrors = [];
     if (!values.grind) {
       errorsToThrow.grind = 'You need to specify a grind setting.';
     }
-    this._recipeFieldToValidate('grind', values, errorsToThrow);
+    //* Not sure if I want to wrap this in a function or just do it here.
+    // this._recipeFieldToValidate('grind', values, errorsToThrow);
+
     //* Validate each recipe step
     if(values.recipe_steps){
       values.recipe_steps.forEach((recipe_step, index) => {
@@ -404,7 +423,17 @@ class EditRecipeForm extends Component {
     if(_.size(errorsToThrow)){
       throw new SubmissionError(errorsToThrow);
     }
+  }
 
+  _submit(values) {
+    // console.log('form submitted with', values);
+    // console.log('props on form submit', this.props);
+    const errors = this._validateForm(values);
+    console.log('ezzrrors', errors);
+
+    if(_.size(errors)){
+      // throw new SubmissionError(errorsToThrow);
+    }
     //* No errors; submit the form.
     else {
       this.props.saveRecipe(values);
