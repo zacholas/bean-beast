@@ -4,10 +4,6 @@ import { TextField, LabeledSliderField, TimeLengthPickerField } from "../../../c
 import PropTypes from "prop-types";
 import { recipe_steps_validation } from "../../recipeSteps/RecipeStepsFormValidation";
 
-export const fieldDataDisplay = () => {
-
-};
-
 class WaitField extends Component {
   render() {
     return (

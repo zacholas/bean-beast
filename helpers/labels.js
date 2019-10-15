@@ -49,3 +49,31 @@ export const beanTitleDisplay = (bean, origins, beanProcesses) => {
 
   return 'Unnamed Bean';
 };
+
+
+
+export const secondsToTimeStringDisplay = seconds => {
+  if(isNaN(seconds) || typeof seconds == 'undefined') {
+    return false;
+  }
+
+  const d = Number(seconds);
+  const h = Math.floor(d / 3600);
+  const m = Math.floor(d % 3600 / 60);
+  const s = Math.floor(d % 3600 % 60);
+
+  let output = '';
+  output += h && h === 1 ? h + ' Hr' : '';
+  output += h && h !== 1 ? h + ' Hrs' : '';
+
+  output += h && (m || s) ? ', ' : '';
+
+  output += m && m === 1 ? m + ' Min' : '';
+  output += m && m !== 1 ? m + ' Mins' : '';
+
+  output += (h && m && s) || (!h && m && s) ? ', ' : '';
+
+  output += s ? s + ' Sec' : '';
+
+  return output;
+};

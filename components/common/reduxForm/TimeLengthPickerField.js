@@ -74,7 +74,7 @@ class TimeLengthPickerComponent extends Component {
   }
 
   render(){
-    console.log('timelengthpicker errors', this.props.error);
+    // console.log('timelengthpicker errors', this.props.error);
     const { input: { value, onChange } } = this.props;
     return (
       <View>

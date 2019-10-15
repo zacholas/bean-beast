@@ -9,6 +9,8 @@ import {Headline} from "../../common";
 import colors from "../../../constants/Colors";
 import { isDefined } from "../../../helpers";
 import {TimeLengthPickerField} from "../../common/reduxForm";
+import WaitDisplay from "../formFields/stepFields/WaitDisplay";
+import PreInfusionDisplay from "../formFields/stepFields/PreInfusionDisplay";
 
 const containerBackgroundColor = colors.colorWhite;
 const styles = StyleSheet.create({
@@ -178,22 +180,28 @@ export default class RecipeStepItem extends Component {
       const { field_id, id, order, values } = thisStep;
       const valuesSize = _.size(values);
       if(field_id){
-        switch (field_id){
+        switch (field_id) {
+          //* Universal
+          case 'default_wait':
+            return  <WaitDisplay values={values} />;
+          case 'default_taint':
+            // return  <TaintDisplay values={values} />;
+
+          //* Espresso Only
           case 'default_pre_infusion':
-            return this._preinfusionFieldDisplay(values, valuesSize);
+            return  <PreInfusionDisplay values={values} />;
+          case 'default_primary_infusion':
+            // return  <PrimaryInfusionDisplay values={values} />;
+
+          //* Everything Else
+          case 'default_bloom':
+            // return  <BloomDisplay values={values} />;
+          case 'default_pour':
+            // return  <PourDisplay values={values} />;
+          default:
+            return null;
         }
       }
-    }
-  }
-
-  _preinfusionFieldDisplay(values, valuesSize){
-    if(valuesSize){
-      return (
-        <View>
-          {isDefined(values.length) && <Text>Length {values.length}</Text>}
-          {isDefined(values.pressure) && <Text>Pressure {values.pressure}</Text>}
-        </View>
-      )
     }
   }
 }
