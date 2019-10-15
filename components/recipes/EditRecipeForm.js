@@ -57,45 +57,65 @@ class EditRecipeForm extends Component {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
-    this.props.change('recipe_steps', [
-      {
-        id: 'hdddij789',
-        field_id: 'default_wait',
-        order: 7,
-        values: {
-          length: 70,
-          notes: 'Wait for it to dra in'
-        }
-      },
-      {
-        id: 'defdddd456',
-        field_id: 'default_primary_infusion',
-        order: 7,
-        values: {
-          length: 130,
-          pressure: 9
-        }
-      },
-      {
-        id: 'abc123',
-        field_id: 'default_pre_infusion',
-        order: 10,
-        values: {
-          length: 213,
-          pressure: 9
-        }
-      },
-      {
-        id: 'hij789',
-        field_id: 'default_bloom',
-        order: 20
-      },
-      {
-        id: 'def456',
-        field_id: 'default_pre_infusion',
-        order: 30
-      },
-    ]);
+    // this.props.change('recipe_steps', [
+    //   {
+    //     id: 'hij789',
+    //     field_id: 'default_bloom',
+    //     order: 10,
+    //     values: {
+    //       length: 70,
+    //       water_amount: 30,
+    //       notes: 'Stir after pouring'
+    //     }
+    //   },
+    //   {
+    //     id: 'def456',
+    //     field_id: 'default_pour',
+    //     order: 20,
+    //     values: {
+    //       water_amount: 100,
+    //       duration: 30,
+    //       notes: 'dont pour too fast'
+    //     }
+    //   },
+    //   {
+    //     id: 'abc123',
+    //     field_id: 'default_pre_infusion',
+    //     order: 30,
+    //     values: {
+    //       length: 213,
+    //       pressure: 9,
+    //       notes: 'slow ramp up'
+    //     }
+    //   },
+    //   {
+    //     id: 'defdddd456',
+    //     field_id: 'default_primary_infusion',
+    //     order: 40,
+    //     values: {
+    //       length: 130,
+    //       pressure: 9,
+    //       notes: 'fast ramp up'
+    //     }
+    //   },
+    //   {
+    //     id: 'defdddd456sdsdssd',
+    //     field_id: 'default_taint',
+    //     order: 50,
+    //     values: {
+    //       notes: 'add lotsa sugar and shit'
+    //     }
+    //   },
+    //   {
+    //     id: 'hdddij789',
+    //     field_id: 'default_wait',
+    //     order: 60,
+    //     values: {
+    //       length: 70,
+    //       notes: 'Wait for it to drain'
+    //     }
+    //   },
+    // ]);
   }
 
   render() {

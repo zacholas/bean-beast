@@ -14,9 +14,9 @@ class TaintField extends Component {
       <View>
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
-          label='What should they do? e.g. "Add steamed milk & sugar"'
+          label='What should they do? e.g. "Add steamed milk & 10g sugar"'
           multiline
-          validate={[recipe_steps_validation.default_taint.notes]}
+          // validate={[recipe_steps_validation.default_taint.notes]}
         />
       </View>
     );

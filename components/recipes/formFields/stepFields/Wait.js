@@ -12,13 +12,13 @@ class WaitField extends Component {
           name={`recipe_steps[${this.props.stepFieldIndex}].values.length`}
           label="Wait Time"
           hours={this.props.values && this.props.values.brew_method && this.props.values.brew_method === 'default_cold_brew'}
-          validate={[recipe_steps_validation.default_wait.length]}
+          // validate={[recipe_steps_validation.default_wait.length]}
         />
         <TextField
           name={`recipe_steps[${this.props.stepFieldIndex}].values.notes`}
           label='Notes, e.g. "Wait for the water to drain completely."'
-          validate={[recipe_steps_validation.default_wait.notes]}
           multiline
+          // validate={[recipe_steps_validation.default_wait.notes]}
         />
       </View>
     );

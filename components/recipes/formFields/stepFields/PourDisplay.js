@@ -9,15 +9,19 @@ import {
   recipeStepListItemSubTextNotesTitle
 } from "../../../../constants/styles/RecipeSteps";
 
-class PreInfusionDisplay extends Component {
-  _preinfusion(values){
-    const { length, pressure } = values;
-    if(length || pressure){
+class PourDisplay extends Component {
+  _pour(values){
+    const { duration, water_amount } = values;
+    if(duration){
+      console.log('duration is true as ', duration);
+    }
+    if(duration || water_amount){
       return (
         <Text style={recipeStepListItemSubText}>
-          Pre-Infuse
-          {pressure ? ` at ${pressure} Bar Pressure` : ''}
-          {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
+          {`Pour `}
+          {water_amount ? `${water_amount}g of Water` : ''}
+          {(water_amount && duration) ? ' ' : ''}
+          {duration ? `over the course of ${secondsToTimeStringDisplay(duration)}` : ''}
         </Text>
       );
     }
@@ -27,23 +31,23 @@ class PreInfusionDisplay extends Component {
     const { values } = this.props;
     return (
       <View style={recipeStepListItemInnerTextContainer}>
-        {this._preinfusion(values)}
+        {this._pour(values)}
         {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
       </View>
     );
   }
 }
 
-PreInfusionDisplay.propTypes = {
+PourDisplay.propTypes = {
   values: PropTypes.object,
 };
 
-PreInfusionDisplay.defaultProps = {
+PourDisplay.defaultProps = {
   values: {
-    length: null,
-    pressure: null,
+    duration: null,
+    water_amount: null,
     notes: null
   }
 };
 
-export default PreInfusionDisplay;
+export default PourDisplay;

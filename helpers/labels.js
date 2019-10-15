@@ -53,8 +53,9 @@ export const beanTitleDisplay = (bean, origins, beanProcesses) => {
 
 
 export const secondsToTimeStringDisplay = seconds => {
-  if(isNaN(seconds) || typeof seconds == 'undefined') {
-    return false;
+  seconds = Number(seconds);
+  if(isNaN(seconds) || typeof seconds == 'undefined' || seconds == 0 || seconds === 0) {
+    return '';
   }
 
   const d = Number(seconds);

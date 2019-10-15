@@ -1,3 +1,5 @@
+export * from './styles/RecipeSteps';
+
 // import colorWhite from './Colors';
 // import tintColor from './Colors';
 import colors, {grayCardBG} from './Colors';

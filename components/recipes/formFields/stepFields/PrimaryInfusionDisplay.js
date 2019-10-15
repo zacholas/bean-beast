@@ -1,19 +1,25 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from "prop-types";
-import { isDefined } from "../../../../helpers";
 import { secondsToTimeStringDisplay } from "../../../../helpers/labels";
 import {
+  recipeStepListItemInnerTextContainer,
   recipeStepListItemSubText,
   recipeStepListItemSubTextNotesText,
-  recipeStepListItemSubTextNotesTitle,
-  recipeStepListItemInnerTextContainer
+  recipeStepListItemSubTextNotesTitle
 } from "../../../../constants/styles/RecipeSteps";
 
-class WaitDisplay extends Component {
-  _waitTime(length){
-    if(!isNaN(length) && length){
-      return <Text style={recipeStepListItemSubText}>Wait for {secondsToTimeStringDisplay(length)}</Text>;
+class PrimaryInfusionDisplay extends Component {
+  _primaryInfusion(values){
+    const { length, pressure } = values;
+    if(length || pressure){
+      return (
+        <Text style={recipeStepListItemSubText}>
+          Extract
+          {pressure ? ` at ${pressure} Bar Pressure` : ''}
+          {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
+        </Text>
+      );
     }
   }
 
@@ -21,22 +27,23 @@ class WaitDisplay extends Component {
     const { values } = this.props;
     return (
       <View style={recipeStepListItemInnerTextContainer}>
-        {this._waitTime(values.length)}
+        {this._primaryInfusion(values)}
         {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
       </View>
     );
   }
 }
 
-WaitDisplay.propTypes = {
+PrimaryInfusionDisplay.propTypes = {
   values: PropTypes.object,
 };
 
-WaitDisplay.defaultProps = {
+PrimaryInfusionDisplay.defaultProps = {
   values: {
     length: null,
+    pressure: null,
     notes: null
   }
 };
 
-export default WaitDisplay;
+export default PrimaryInfusionDisplay;

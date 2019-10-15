@@ -9,8 +9,14 @@ import {Headline} from "../../common";
 import colors from "../../../constants/Colors";
 import { isDefined } from "../../../helpers";
 import {TimeLengthPickerField} from "../../common/reduxForm";
+import { recipeStepListItemHeadline } from "../../../constants/Styles";
+
 import WaitDisplay from "../formFields/stepFields/WaitDisplay";
 import PreInfusionDisplay from "../formFields/stepFields/PreInfusionDisplay";
+import PrimaryInfusionDisplay from "../formFields/stepFields/PrimaryInfusionDisplay";
+import TaintDisplay from "../formFields/stepFields/TaintDisplay";
+import BloomDisplay from "../formFields/stepFields/BloomDisplay";
+import PourDisplay from "../formFields/stepFields/PourDisplay";
 
 const containerBackgroundColor = colors.colorWhite;
 const styles = StyleSheet.create({
@@ -120,7 +126,7 @@ export default class RecipeStepItem extends Component {
             <View style={styles.mainContentContainer}>
               <View style={styles.stepHeadlineRowContainer}>
                 <View style={{flex: 1}}>
-                  <Headline h5 noMargin>{thisRecipeStepField.name}</Headline>
+                  <Headline h5 noMargin style={recipeStepListItemHeadline}>{thisRecipeStepField.name}</Headline>
                   {/*{this._beanName(itemValues, index)}*/}
                   {/*{this._beanSubtitle(itemValues)}*/}
                 </View>
@@ -185,19 +191,19 @@ export default class RecipeStepItem extends Component {
           case 'default_wait':
             return  <WaitDisplay values={values} />;
           case 'default_taint':
-            // return  <TaintDisplay values={values} />;
+            return  <TaintDisplay values={values} />;
 
           //* Espresso Only
           case 'default_pre_infusion':
             return  <PreInfusionDisplay values={values} />;
           case 'default_primary_infusion':
-            // return  <PrimaryInfusionDisplay values={values} />;
+            return  <PrimaryInfusionDisplay values={values} />;
 
           //* Everything Else
           case 'default_bloom':
-            // return  <BloomDisplay values={values} />;
+            return  <BloomDisplay values={values} />;
           case 'default_pour':
-            // return  <PourDisplay values={values} />;
+            return  <PourDisplay values={values} />;
           default:
             return null;
         }
