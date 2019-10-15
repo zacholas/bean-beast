@@ -41,6 +41,17 @@ class RecipeAttributesFieldPicker extends Component {
     const recipeAttributes = [
       {
         type: 'attribute',
+        id: 'nickname',
+        name: 'Recipe Nickname',
+        description: `A friendly name to help you remember this recipe.`,
+        order: 1,
+        repeatable: false,
+        applicableForAllBrewMethods: true,
+        applicableBrewMethodsDefault: [],
+        // applicableBrewMethodsUser: [],
+      },
+      {
+        type: 'attribute',
         id: 'recipe_notes',
         name: 'Misc Recipe Notes',
         description: 'Any misc notes you have about this recipe.',
@@ -65,7 +76,7 @@ class RecipeAttributesFieldPicker extends Component {
         type: 'attribute',
         id: 'notes_for_next_time',
         name: 'Notes For Next Time',
-        description: `Things for you to keep in mind for the next time you use this bean ${brewMethodLabel}.`,
+        description: `Things for you to keep in mind for the next time you use this bean for ${brewMethodLabel}.`,
         order: 4,
         repeatable: false,
         applicableForAllBrewMethods: true,

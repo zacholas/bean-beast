@@ -160,6 +160,7 @@ class EditRecipeForm extends Component {
         <BodyText>Recipe Attributes</BodyText>
 
         <View>
+          {this._recipeNicknameArea()}
           {this._recipeNotesArea()}
           {this._recipeObjectivesArea()}
           {this._notesForNextTimeArea()}
@@ -568,6 +569,7 @@ class EditRecipeForm extends Component {
   }
 
   _modalSelectAttribute(attribute){
+    console.log('selected attribute: ', attribute);
     this.setState({
       editRecipeFieldModalAction: 'editField',
       editingRecipeFieldName: attribute.id,
@@ -643,6 +645,21 @@ class EditRecipeForm extends Component {
           <Headline h3>Notes for next time</Headline>
           <BodyText>{this.props.formValues.EditRecipeForm.values.notes_for_next_time}</BodyText>
           <TouchableOpacity onPress={() => { this._showEditFormFieldModal('notes_for_next_time') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
+            <Text>Edit</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
+
+  _recipeNicknameArea(){
+    if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.nickname) {
+      return (
+        <View>
+          <Headline h3>Recipe Nickname</Headline>
+          <BodyText>{this.props.formValues.EditRecipeForm.values.nickname}</BodyText>
+          <TouchableOpacity onPress={() => { this._showEditFormFieldModal('nickname') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
             <Text>Edit</Text>
           </TouchableOpacity>

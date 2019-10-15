@@ -11,11 +11,12 @@ import { grayCardBG } from "../../constants/Colors";
 
 class RecipeListItem extends Component {
   render() {
+    // console.log('data', this.props.data);
     // console.log('recipe list item with id ' + this.props.id + 'selected? ', this.props.selected);
     return (
       <View style={{ marginVertical: 10, backgroundColor: grayCardBG}}>
         <TouchableOpacity onPress={() => this.props.onPressItem(this.props.id)} style={{ padding: 10 }}>
-          {this._brewMethod()}
+          {this._title()}
 
           <View style={{ flexDirection: 'row' }}>
             <Text>Grind: {this.props.data.grind} </Text>
@@ -26,12 +27,19 @@ class RecipeListItem extends Component {
       </View>
     );
   }
-  _brewMethod(){
-    if(this.props.data.brew_method && _.size(this.props.brew_method)){
+
+  _title(){
+    const { brew_method, data: { nickname } } = this.props;
+    const name = brew_method && brew_method.name ? brew_method.name : null;
       // const thisBrewMethod = this.props.brewMethods[this.props.data.brew_method];
+    if(name || nickname) {
       return (
         <View>
-          <Headline style={{ marginBottom: 2 }} h4>{this.props.brew_method.name}</Headline>
+          <Headline style={{marginBottom: 2}} h4>
+            {nickname ? nickname : ''}
+            {nickname && name ? ` (${name})` : ''}
+            {!nickname && name ? name : ''}
+          </Headline>
         </View>
       );
     }
@@ -50,7 +58,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeListItem);
+RecipeListItem = connect(mapStateToProps, mapDispatchToProps)(RecipeListItem);
 
 RecipeListItem.propTypes = {
   data: PropTypes.object.isRequired
@@ -61,6 +69,9 @@ RecipeListItem.defaultProps = {
     grind: null,
     dose: null,
     temperature: null,
-    brew_method: null
+    brew_method: null,
+    nickname: null,
   }
 };
+
+export default RecipeListItem;

@@ -11,6 +11,7 @@ import { deleteRecipe, editRecipe } from "../../actions";
 import {textLink} from "../../constants/Styles";
 import styles from './styles';
 import {colorGray400, colorGray800} from "../../constants/Colors";
+import { isDefined } from "../../helpers";
 
 class ViewRecipeScreen extends Component {
   static navigationOptions = {
@@ -131,7 +132,7 @@ class ViewRecipeScreen extends Component {
 
 const mapStateToProps = (state, props) => {
   const recipe = state.recipes.recipes[props.navigation.getParam('id')];
-  const brew_method = _.size(state.brewMethods.brewMethods[recipe.brew_method]) ? state.brewMethods.brewMethods[recipe.brew_method] : null;
+  const brew_method = isDefined(recipe) && recipe && isDefined(recipe.brew_method) && _.size(state.brewMethods.brewMethods[recipe.brew_method]) ? state.brewMethods.brewMethods[recipe.brew_method] : null;
   return {
     recipe,
     brew_method

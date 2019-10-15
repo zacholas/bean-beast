@@ -17,13 +17,15 @@ class RecipeList extends Component {
     })
   };
 
-  _renderItem = ({item}) => (
-    <RecipeListItem
-      id={item.id}
-      onPressItem={this._onPressItem}
-      data={item}
-    />
-  );
+  _renderItem = ({item}) => {
+    return (
+      <RecipeListItem
+        id={item.id}
+        onPressItem={this._onPressItem}
+        data={item}
+      />
+    );
+  };
 
   render() {
     const recipes = _.values(this.props.recipes.recipes);

@@ -9,8 +9,10 @@ import BrewMethodField from './fields/BrewMethodField';
 import NotesForNextTime from './fields/NotesForNextTime';
 import RecipeNotes from './fields/RecipeNotes';
 import RecipeObjectives from './fields/RecipeObjectives';
+import NicknameField from './fields/Nickname';
 
 class RecipeFormField extends Component {
+
   render() {
     switch (this.props.name) {
       case 'brew_method':
@@ -29,6 +31,8 @@ class RecipeFormField extends Component {
         return  <RecipeNotes />;
       case 'recipe_objectives':
         return  <RecipeObjectives />;
+      case 'nickname':
+        return <NicknameField />;
 
 
       default:
