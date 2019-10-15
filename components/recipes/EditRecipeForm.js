@@ -64,7 +64,7 @@ class EditRecipeForm extends Component {
         order: 7,
         values: {
           length: 70,
-          notes: 'Wait for it to drain'
+          notes: 'Wait for it to dra in'
         }
       },
       {
