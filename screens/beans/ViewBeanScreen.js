@@ -10,6 +10,8 @@ import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
 import { textLink, bodyText, marginBottomHalf, defaultMarginAmount, headerNavTextLink } from "../../constants/Styles";
 import { roastLevelDisplay } from "../../helpers/labels";
+import {colorGray1000, colorGray1200, colorGray400} from "../../constants/Colors";
+import BeanRecipes from '../../components/beans/BeanRecipes';
 
 class ViewBeanScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -39,7 +41,134 @@ class ViewBeanScreen extends Component {
     this.deleteConfirmModal = null;
     this.beanRatingCommentsFullModal = null;
     this.beanImageModal = null;
+    this.createRecipeModal = null;
     // this._beanImage = this._beanImage.bind(this);
+  }
+
+  render() {
+    const bean = this.props.bean;
+    // console.log('viewing bean: ' + bean.name);
+    return (
+      <Container>
+        {/*<Button*/}
+        {/*onPress={() => this._editBeanButtonPress()}*/}
+        {/*title="Edit Bean"*/}
+        {/*iconName="pencil"*/}
+        {/*backgroundColor="gray"*/}
+        {/*/>*/}
+        {/*<Hr />*/}
+        {/*<Text>ID: {this.props.bean.id}</Text>*/}
+        <View style={{ flexDirection: 'row' }}>
+          {this._beanImage()}
+          <View style={{ flex: 1 }}>
+            {this._beanName()}
+            {this._roasterName()}
+            <BodyText>Roasted on: {new Date(Date.parse(this.props.bean.roast_date)).toLocaleDateString("en-US")} </BodyText>
+          </View>
+        </View>
+        <Hr />
+        {this._ratingInfo()}
+        <Hr />
+        {this._originInfo()}
+        <Hr />
+        {this.props.bean.tasting_notes && `<Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline><BodyText>${this.props.bean.tasting_notes}</BodyText>`}
+        {this.props.bean.comments && `<Headline h5 style={marginBottomHalf}>Comments:</Headline><BodyText>{this.props.bean.comments}</BodyText>`}
+        {(this.props.bean.tasting_notes || this.props.bean.comments) && <Hr /> }
+
+        <Hr />
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+          <Headline h3 inline style={marginBottomHalf}>Recipes with this Bean</Headline>
+          <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => { this._newRecipeOnPress() }}>
+            <Text style={textLink}>+ Add New</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Hr />
+
+        <BeanRecipes bean_id={this.beanID} favorites={true} />
+        <BeanRecipes bean_id={this.beanID} favorites={false} />
+        {/*<View>*/}
+          {/*<View style={{ flexDirection: 'row' }}>*/}
+            {/*<Headline h5 inline style={marginBottomHalf}>Your Favorite Recipes with this Bean:</Headline>*/}
+            {/*<Text>Filter & Sort</Text>*/}
+          {/*</View>*/}
+          {/*<BeanRecipes bean_id={this.beanID} favorites={true} />*/}
+          {/*<BodyText>list of recipes</BodyText>*/}
+        {/*</View>*/}
+
+        {/*<Hr />*/}
+
+        {/*<View>*/}
+          {/*<View style={{ flexDirection: 'row' }}>*/}
+            {/*<Headline h5 style={marginBottomHalf}>All Recipes with this Bean:</Headline>*/}
+            {/*<Text>Filter & Sort</Text>*/}
+          {/*</View>*/}
+          {/*<BodyText>list of recipes</BodyText>*/}
+        {/*</View>*/}
+
+        {/*<Hr />*/}
+
+
+        {/*<BodyText>Details:</BodyText>*/}
+        {/*<BodyText>{JSON.stringify(bean)}</BodyText>*/}
+
+
+        {/*<View style={{ flexDirection: 'row' }}>*/}
+        {/*<View style={{ flex: 3, paddingRight: 7 }}>*/}
+        {/*<Button*/}
+        {/*onPress={() => {}}*/}
+        {/*title="Clone Bean"*/}
+        {/*iconName="copy"*/}
+        {/*backgroundColor="green"*/}
+        {/*/>*/}
+        {/*</View>*/}
+        {/*<View style={{ flex: 2 }}>*/}
+        {/*<Button*/}
+        {/*onPress={() => this.deleteConfirmModal.show()}*/}
+        {/*title="Delete"*/}
+        {/*iconName="trash"*/}
+        {/*/>*/}
+        {/*</View>*/}
+        {/*</View>*/}
+
+        <Button
+          onPress={() => this.deleteConfirmModal.show()}
+          title="Delete Bean"
+          iconName="trash"
+        />
+
+        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
+          <Button
+            onPress={() => {this._deleteBean()}}
+            title='Yes, delete'
+            iconName='trash'
+          />
+        </Modal>
+
+        <Modal
+          ref={(ref) => { this.createRecipeModal = ref; }}
+          headlineText="Create new recipe"
+        >
+          <BodyText>
+            *** Don't show this if they don't have any recent recipes **
+            Do you want to start from scratch or use your most recent recipe as a template? (insert most recent recipe here)
+          </BodyText>
+          <Button
+            onPress={() => {this._createRecipeFromPrevious()}}
+            title='Start from Recipe'
+            iconName='copy'
+            backgroundColor="green"
+          />
+          <Button
+            onPress={() => {this._createRecipeFromScratch()}}
+            title='Start from Scratch'
+            iconName='plus-circle'
+            backgroundColor={colorGray1200}
+          />
+        </Modal>
+      </Container>
+    );
   }
 
   _rateBeanButtonPress(){
@@ -161,7 +290,7 @@ class ViewBeanScreen extends Component {
   }
 
   _beanBlendComponentOutput(blendComponent){
-    console.log('blendComponent', blendComponent);
+    // console.log('blendComponent', blendComponent);
     const { origins, roastLevels, beanProcesses, coffeeSpecies } = this.props;
     const {
       bean_process, coffee_species, basic_roast_level, roast_level, origin,
@@ -247,83 +376,41 @@ class ViewBeanScreen extends Component {
     }
   }
 
-  render() {
-    const bean = this.props.bean;
-    // console.log('viewing bean: ' + bean.name);
-    return (
-      <Container>
-        {/*<Button*/}
-          {/*onPress={() => this._editBeanButtonPress()}*/}
-          {/*title="Edit Bean"*/}
-          {/*iconName="pencil"*/}
-          {/*backgroundColor="gray"*/}
-        {/*/>*/}
-        {/*<Hr />*/}
-        {/*<Text>ID: {this.props.bean.id}</Text>*/}
-        <View style={{ flexDirection: 'row' }}>
-          {this._beanImage()}
-          <View style={{ flex: 1 }}>
-            {this._beanName()}
-            {this._roasterName()}
-            <BodyText>Roasted on: {new Date(Date.parse(this.props.bean.roast_date)).toLocaleDateString("en-US")} </BodyText>
-          </View>
-        </View>
-        <Hr />
-        {this._ratingInfo()}
-        <Hr />
-        {this._originInfo()}
-        <Hr />
-        {this.props.bean.tasting_notes && `<Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline><BodyText>${this.props.bean.tasting_notes}</BodyText>`}
-        {this.props.bean.comments && `<Headline h5 style={marginBottomHalf}>Comments:</Headline><BodyText>{this.props.bean.comments}</BodyText>`}
-        {(this.props.bean.tasting_notes || this.props.bean.comments) && <Hr /> }
-        {/*<BodyText>Details:</BodyText>*/}
-        {/*<BodyText>{JSON.stringify(bean)}</BodyText>*/}
+  _newRecipeOnPress(){
+    //* Check if there are previous recipes and either show the picker modal or go straight to a new one from scratch
+    this.createRecipeModal.show();
+  }
 
+  _createRecipeFromScratch(){
+    this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
+      type: 'create',
+      bean_id: this.props.bean.id
+    });
+    this.createRecipeModal.hide();
+  }
 
-        {/*<View style={{ flexDirection: 'row' }}>*/}
-          {/*<View style={{ flex: 3, paddingRight: 7 }}>*/}
-            {/*<Button*/}
-              {/*onPress={() => {}}*/}
-              {/*title="Clone Bean"*/}
-              {/*iconName="copy"*/}
-              {/*backgroundColor="green"*/}
-            {/*/>*/}
-          {/*</View>*/}
-          {/*<View style={{ flex: 2 }}>*/}
-            {/*<Button*/}
-              {/*onPress={() => this.deleteConfirmModal.show()}*/}
-              {/*title="Delete"*/}
-              {/*iconName="trash"*/}
-            {/*/>*/}
-          {/*</View>*/}
-        {/*</View>*/}
-
-        <Button
-          onPress={() => this.deleteConfirmModal.show()}
-          title="Delete Bean"
-          iconName="trash"
-        />
-
-        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
-          <Button
-            onPress={() => {this._deleteBean()}}
-            title='Yes, delete'
-            iconName='trash'
-          />
-        </Modal>
-      </Container>
-    );
+  _createRecipeFromPrevious(){
+    // this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
+    //   type: 'create',
+    //   bean: this.props.bean
+    // })
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  bean: state.beans.beans[props.navigation.getParam('id')],
-  roaster: state.beans.beans[props.navigation.getParam('id')] ? state.cafes.cafes[state.beans.beans[props.navigation.getParam('id')].cafe] : null,
-  origins: state.origins.origins,
-  roastLevels: state.roastLevels.roastLevels,
-  beanProcesses: state.beanProcesses.beanProcesses,
-  coffeeSpecies: state.coffeeSpecies.coffeeSpecies
-});
+const mapStateToProps = (state, props) => {
+  const beanID = props.navigation.getParam('id');
+  const thisBean = _.size(state.beans) && _.size(state.beans.beans) ? state.beans.beans[beanID] : null;
+  const thisBeanRecipes = thisBean ? _.filter(state.recipes.recipes, (recipe) => { return recipe.bean_id === beanID }) : {};
+  return {
+    bean: thisBean,
+    roaster: thisBean ? state.cafes.cafes[thisBean.cafe] : null,
+    origins: state.origins.origins,
+    roastLevels: state.roastLevels.roastLevels,
+    beanProcesses: state.beanProcesses.beanProcesses,
+    coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
+    recipes: thisBeanRecipes
+  }
+};
 
 export default connect(mapStateToProps, { deleteBean, editBean })(ViewBeanScreen);
 
@@ -333,6 +420,7 @@ ViewBeanScreen.propTypes = {
 
 ViewBeanScreen.defaultProps = {
   bean: {
+    id: false,
     name: ''
   }
 };

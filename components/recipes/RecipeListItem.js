@@ -23,6 +23,7 @@ class RecipeListItem extends Component {
             <Text>Dose: {this.props.data.dose} </Text>
             <Text>Temp: {this.props.data.temperature} </Text>
           </View>
+          <Text>Bean page: {this.props.beanPage}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -61,7 +62,8 @@ const mapDispatchToProps = dispatch => ({});
 RecipeListItem = connect(mapStateToProps, mapDispatchToProps)(RecipeListItem);
 
 RecipeListItem.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  beanPage: PropTypes.bool
 };
 
 RecipeListItem.defaultProps = {
@@ -71,7 +73,8 @@ RecipeListItem.defaultProps = {
     temperature: null,
     brew_method: null,
     nickname: null,
-  }
+  },
+  beanPage: false
 };
 
 export default RecipeListItem;

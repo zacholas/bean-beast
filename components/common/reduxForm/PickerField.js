@@ -13,7 +13,8 @@ const SelectComponent = ({
   label,
   type,
   meta: { touched, error, warning },
-  options
+  options,
+  placeholderText
 }) => {
   let pickerOptions = _.map(options, (option, i ) => {
     return <Picker.Item key={option.id} value={option.id} label={option.name} />
@@ -22,7 +23,7 @@ const SelectComponent = ({
   return (
     <View style={styles.inputContainer}>
       <Picker selectedValue={restInput.value.toString()} onValueChange={onChange} {...restInput}>
-        <Picker.Item key='default' value='' label='–  Select an Option  –' />
+        <Picker.Item key='default' value='' label={placeholderText} />
         {pickerOptions}
       </Picker>
       {touched &&
@@ -45,6 +46,7 @@ const PickerField = (props) => {
         validate={props.validate}
         component={SelectComponent}
         options={props.options}
+        placeholderText={props.placeholderText}
       />
     </View>
   );
@@ -55,6 +57,11 @@ export { PickerField };
 PickerField.propTypes = {
   name: PropTypes.string.isRequired,
   validate: PropTypes.array,
-  options: PropTypes.array.isRequired
+  options: PropTypes.array.isRequired,
+  placeholderText: PropTypes.string
+};
+
+PickerField.defaultProps = {
+  placeholderText: '–  Select an Option  –',
 };
 

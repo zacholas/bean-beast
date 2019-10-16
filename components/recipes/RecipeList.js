@@ -4,6 +4,8 @@ import { View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import RecipeListItem from './RecipeListItem';
 import * as navRoutes from '../../constants/NavRoutes';
+import PropTypes from "prop-types";
+import {Button} from "../common";
 
 class RecipeList extends Component {
 
@@ -23,6 +25,7 @@ class RecipeList extends Component {
         id={item.id}
         onPressItem={this._onPressItem}
         data={item}
+        beanPage={this.props.beanPage}
       />
     );
   };
@@ -47,3 +50,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);
+
+RecipeList.propTypes = {
+  beanPage: PropTypes.bool,
+};
+
+RecipeList.defaultProps = {
+  beanPage: false,
+};

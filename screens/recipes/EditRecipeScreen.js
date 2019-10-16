@@ -8,10 +8,22 @@ class EditRecipeScreen extends Component {
     super(props);
     this.type = props.navigation.getParam('type', 'create');
     this.recipe = props.navigation.getParam('recipe', null);
+    if(this.type === 'create'){
+      this.bean_id = props.navigation.getParam('bean_id', null);
+    }
+    else {
+      this.bean_id = this.recipe.bean_id ? this.recipe.bean_id : null;
+    }
   }
 
   render() {
-    return <EditRecipeForm type={this.type} navigation={this.props.navigation} />;
+    return (
+      <EditRecipeForm
+        type={this.type}
+        navigation={this.props.navigation}
+        bean_id={this.bean_id}
+      />
+    );
     // return (
     //   <Container>
     //     {this._pageTitle()}

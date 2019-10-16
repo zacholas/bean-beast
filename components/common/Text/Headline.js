@@ -26,8 +26,11 @@ const Headline = (props) => {
       output = props.children.toUpperCase();
     }
   }
+
+  const wrapperStyle = props.inline === true ? { flex: 1 } : null ;
+
   return (
-    <View>
+    <View style={wrapperStyle}>
       <Text style={StyleSheet.flatten([specialHeadingStyle, !props.noMargin && marginBottom, props.style])}>
         {output}
       </Text>
@@ -45,7 +48,8 @@ Headline.propTypes = {
   h4: PropTypes.bool,
   h5: PropTypes.bool,
   h6: PropTypes.bool,
-  noMargin: PropTypes.bool
+  noMargin: PropTypes.bool,
+  inline: PropTypes.bool // allow it to wrap
 };
 
 Headline.defaultProps = {
@@ -56,4 +60,5 @@ Headline.defaultProps = {
   h4: false,
   h5: false,
   h6: false,
+  inline: true,
 };

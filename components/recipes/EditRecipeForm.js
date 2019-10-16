@@ -21,6 +21,7 @@ import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wait_length } from "../../helpers";
 import { recipe_steps_validation } from "./recipeSteps/RecipeStepsFormValidation";
+import { beanTitleDisplay } from "../../helpers/labels";
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -57,6 +58,8 @@ class EditRecipeForm extends Component {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
+    this.props.change('bean_id', this.props.bean_id);
+
     // this.props.change('recipe_steps', [
     //   {
     //     id: 'hij789',
@@ -131,8 +134,29 @@ class EditRecipeForm extends Component {
 
     // console.log(thisForm);
 
+    let beans = _.map(this.props.beans.beans, (bean) => {
+      bean.name = beanTitleDisplay(bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
+      return bean;
+    });
+
+    beans = _.orderBy(beans, ['name'], ['asc']);
+
     return (
       <Container>
+        <View style={{ flexDirection: 'row' }}>
+          {/*<View style={{ position: 'absolute', top: 0, left: 0 }}>*/}
+          <View>
+            <Text>Recipe Date</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <PickerField
+              name="bean_id"
+              options={beans}
+              placeholderText="–  Select a Bean  –"
+            />
+          </View>
+        </View>
+
         {this._brewMethodArea()}
         <View style={styles.recipePrimaryInfoBar}>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
@@ -613,7 +637,6 @@ class EditRecipeForm extends Component {
         <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>
           <Icon name="coffee" size={56} />
           {thisBrewMethod && thisBrewMethod.name && <Headline style={{ marginBottom: 0 }}>{thisBrewMethod.name}</Headline>}
-          <BodyText>Probably should say something here about which bean it belongs to</BodyText>
         </TouchableOpacity>
       );
     }
@@ -622,16 +645,12 @@ class EditRecipeForm extends Component {
         <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>
           <Icon name="plus" size={56} />
           <Headline style={{ marginBottom: 0 }}>Select Brew Method</Headline>
-          <BodyText>Probably should say something here about which bean it belongs to</BodyText>
         </TouchableOpacity>
       );
     }
 
     return (
       <View style={styles.brewMethodContainer}>
-        <View style={{ position: 'absolute', top: 0, left: 0 }}>
-          <Text>Date (IDK if I want modified or created)</Text>
-        </View>
         {brewMethodOutput}
       </View>
     );
@@ -706,6 +725,9 @@ const mapStateToProps = (state) => {
     brewMethods: state.brewMethods,
     recipeSteps: state.recipeSteps,
     formValues: state.form,
+    beans: state.beans,
+    origins: state.origins,
+    beanProcesses: state.beanProcesses,
     fields: getFormMeta('EditRecipeForm')(state),
   }
 };

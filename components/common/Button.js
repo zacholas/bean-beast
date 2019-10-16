@@ -54,40 +54,51 @@ const styles = StyleSheet.create({
   },
 });
 
+const isColor = (hex) => {
+  const regex = RegExp(/^#([0-9A-F]{3}){1,2}$/i);
+  return regex.test(hex);
+};
+
 const buttonBackgroundColor = (props) => {
   let backgroundColor;
   if (props.backgroundColor) {
-    switch (props.backgroundColor) {
-      case 'black':
-        backgroundColor = '#273247';
-        break;
-      case 'gray':
-        backgroundColor = '#989898';
-        break;
-      case 'blue':
-        backgroundColor = '#3255d1';
-        break;
-      case 'blue_alt':
-        backgroundColor = '#7397c9';
-        break;
-      case 'purple':
-        backgroundColor = '#ab31d3';
-        break;
-      case 'turquoise':
-        backgroundColor = '#2cbfb4';
-        break;
-      case 'yellow':
-        backgroundColor = '#98c919';
-        break;
-      case 'green':
-        backgroundColor = '#98c919';
-        break;
-      case 'red':
-      default:
-        backgroundColor = '#e93639';
-        break;
+    if(isColor(props.backgroundColor)){
+      backgroundColor = props.backgroundColor
     }
-  } else {
+    else {
+      switch (props.backgroundColor) {
+        case 'black':
+          backgroundColor = '#273247';
+          break;
+        case 'gray':
+          backgroundColor = '#989898';
+          break;
+        case 'blue':
+          backgroundColor = '#3255d1';
+          break;
+        case 'blue_alt':
+          backgroundColor = '#7397c9';
+          break;
+        case 'purple':
+          backgroundColor = '#ab31d3';
+          break;
+        case 'turquoise':
+          backgroundColor = '#2cbfb4';
+          break;
+        case 'yellow':
+          backgroundColor = '#98c919';
+          break;
+        case 'green':
+          backgroundColor = '#98c919';
+          break;
+        case 'red':
+        default:
+          backgroundColor = '#e93639';
+          break;
+      }
+    }
+  }
+  else {
     backgroundColor = '#e93639';
   }
   return ({
@@ -141,5 +152,17 @@ export { Button };
 Button.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
-  backgroundColor: PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red'])
+  // backgroundColor: PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red'])
+  // backgroundColor: PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red'])
+  backgroundColor: PropTypes.oneOfType([
+    function(props, propName, componentName) {
+      if (!/^#([0-9A-F]{3}){1,2}$/i.test(props[propName])) {
+        return new Error(
+          'Invalid prop `' + propName + '` supplied to' +
+          ' `' + componentName + '`. Validation failed.'
+        );
+      }
+    },
+    PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red']),
+  ]),
 };
