@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import * as navRoutes from '../../constants/NavRoutes';
 import PropTypes from "prop-types";
 import {BodyText, Button, Headline, Hr} from "../common";
-import {marginBottomHalf} from "../../constants/Styles";
+import {cardGray, marginBottomHalf, textLink} from "../../constants/Styles";
+import {prettyDate, temperatureInUserPreference} from "../../helpers/labels";
 
 class BeanRecipes extends Component {
 
@@ -14,28 +16,53 @@ class BeanRecipes extends Component {
   };
 
   _onPressItem = (id) => {
-    // this.props.navigation.navigate(navRoutes.VIEW_RECIPE, {
-    //   id
-    // })
+    this.props.navigation.navigate(navRoutes.VIEW_RECIPE, {
+      id
+    })
   };
+
+  _itemTexts(item){
+    const thisBrewMethodID = item.brew_method ? item.brew_method : false;
+    const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
+
+    let itemTexts = [];
+    if( item.modified ){ itemTexts.push(prettyDate(item.modified)); }
+    if( item.nickname ){ itemTexts.push(`“${item.nickname}”`); }
+    if( thisBrewMethod && thisBrewMethod.name ){ itemTexts.push(thisBrewMethod.name); }
+    if( item.grind ){ itemTexts.push(`Grind: ${item.grind}`); }
+    if( item.dose ){ itemTexts.push(`Dose: ${item.dose}g`); }
+    if( item.temperature ){ itemTexts.push(`Temp: ${temperatureInUserPreference(item.temperature, this.props.userPreferences)}`); }
+
+    let output = '';
+
+    for(let i = 0; i < itemTexts.length; i++){
+      output += itemTexts[i];
+      output += i < (itemTexts.length - 1) ? ' — ' : '';
+    }
+
+    return <Text>{output}</Text>;
+  }
 
   _renderItem = ({item}) => {
     console.log('this recipe', item);
+    //* TODO show rating info here once I create it
     return (
-      <View
+      <TouchableOpacity
         id={item.id}
-        onPressItem={this._onPressItem}
+        onPress={() => { this._onPressItem(item.id) }}
         data={item}
         beanPage={this.props.beanPage}
+        style={{ ...cardGray, flexDirection: 'row' }}
       >
-        <Text>hi</Text>
-      </View>
-      // <RecipeListItem
-      //   id={item.id}
-      //   onPressItem={this._onPressItem}
-      //   data={item}
-      //   beanPage={this.props.beanPage}
-      // />
+        <View style={{ flex: 1 }}>
+          {this._itemTexts(item)}
+        </View>
+        {/*<View style={{ marginLeft: 10 }}>*/}
+          {/*<TouchableOpacity>*/}
+            {/*<Icon name="copy" size={16} style={textLink} />*/}
+          {/*</TouchableOpacity>*/}
+        {/*</View>*/}
+      </TouchableOpacity>
     );
   };
 
@@ -47,6 +74,7 @@ class BeanRecipes extends Component {
     }
     else {
       theseRecipes = _.filter(recipes, (recipe) => { return recipe.bean_id === bean_id });
+      theseRecipes = _.orderBy(theseRecipes, ['modified'], ['desc']);
       theseRecipes = _.values(theseRecipes);
     }
     //
@@ -76,7 +104,9 @@ class BeanRecipes extends Component {
 }
 
 const mapStateToProps = state => ({
-  recipes: state.recipes.recipes
+  recipes: state.recipes.recipes,
+  brewMethods: state.brewMethods,
+  userPreferences: state.userPreferences
 });
 
 const mapDispatchToProps = dispatch => ({});

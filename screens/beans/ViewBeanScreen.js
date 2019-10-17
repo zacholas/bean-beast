@@ -9,7 +9,7 @@ import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
 import { textLink, bodyText, marginBottomHalf, defaultMarginAmount, headerNavTextLink } from "../../constants/Styles";
-import { roastLevelDisplay } from "../../helpers/labels";
+import {prettyDate, roastLevelDisplay} from "../../helpers/labels";
 import {colorGray1000, colorGray1200, colorGray400} from "../../constants/Colors";
 import BeanRecipes from '../../components/beans/BeanRecipes';
 
@@ -63,7 +63,7 @@ class ViewBeanScreen extends Component {
           <View style={{ flex: 1 }}>
             {this._beanName()}
             {this._roasterName()}
-            <BodyText>Roasted on: {new Date(Date.parse(this.props.bean.roast_date)).toLocaleDateString("en-US")} </BodyText>
+            <BodyText>Roasted on: {prettyDate(this.props.bean.roast_date)} </BodyText>
           </View>
         </View>
         <Hr />
@@ -86,8 +86,8 @@ class ViewBeanScreen extends Component {
 
         <Hr />
 
-        <BeanRecipes bean_id={this.beanID} favorites={true} />
-        <BeanRecipes bean_id={this.beanID} favorites={false} />
+        <BeanRecipes bean_id={this.beanID} favorites={true} navigation={this.props.navigation} />
+        <BeanRecipes bean_id={this.beanID} favorites={false} navigation={this.props.navigation} />
         {/*<View>*/}
           {/*<View style={{ flexDirection: 'row' }}>*/}
             {/*<Headline h5 inline style={marginBottomHalf}>Your Favorite Recipes with this Bean:</Headline>*/}
@@ -408,7 +408,7 @@ const mapStateToProps = (state, props) => {
     roastLevels: state.roastLevels.roastLevels,
     beanProcesses: state.beanProcesses.beanProcesses,
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
-    recipes: thisBeanRecipes
+    recipes: thisBeanRecipes,
   }
 };
 

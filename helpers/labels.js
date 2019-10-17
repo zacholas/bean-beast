@@ -1,4 +1,5 @@
 import _ from "lodash";
+import {connect} from "react-redux";
 
 export const  roastLevelDisplay = (roast_level) => {
   switch (roast_level) {
@@ -77,4 +78,19 @@ export const secondsToTimeStringDisplay = seconds => {
   output += s ? s + ' Sec' : '';
 
   return output;
+};
+
+export const prettyDate = (timestamp) => {
+  // return new Date(Date.parse(timestamp)).toLocaleDateString("en-US"); // Didn't work
+  return new Date(timestamp).toLocaleDateString("en-US");
+};
+
+export const temperatureInUserPreference = (temperature, userPreferences) => {
+  const userTempType = _.size(userPreferences) && _.size(userPreferences.global) && userPreferences.global.temperatureMeasurement ? userPreferences.global.temperatureMeasurement : 'c';
+  if(userTempType === 'f'){
+    //* Convert C to F
+    const farenheitTemp = (temperature * (9/5)) + 32;
+    return `${Math.round( farenheitTemp * 10 ) / 10}° F`;
+  }
+  return `${Math.round( temperature * 10 ) / 10}° C`;
 };

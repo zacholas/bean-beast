@@ -114,7 +114,8 @@ const BeansStack = createStackNavigator({
   [navRoutes.BEANS_LIST]: BeansListScreen,
   [navRoutes.EDIT_BEAN]: EditBeanScreen,
   [navRoutes.VIEW_BEAN]: ViewBeanScreen,
-  [navRoutes.RATE_BEAN]: RateBeanScreen
+  [navRoutes.RATE_BEAN]: RateBeanScreen,
+  [navRoutes.VIEW_RECIPE]: ViewRecipeScreen,
 });
 
 BeansStack.navigationOptions = {
