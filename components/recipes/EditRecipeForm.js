@@ -654,14 +654,15 @@ class EditRecipeForm extends Component {
     const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
 
     const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
+    const thisBeanCafe = _.size(this.props.cafes) && _.size(this.props.cafes.cafes) && thisBean && thisBean.cafe && this.props.cafes.cafes[thisBean.cafe] ? this.props.cafes.cafes[thisBean.cafe] : false;
+
 
     return (
       <View style={styles.brewMethodContainer}>
         {brewMethodOutput}
 
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { this._showEditFormFieldModal('bean_id') }}>
-          <Text>Bean: </Text>
-          <Text>{_.size(values) && values.bean_id &&  thisBean ? thisBean.name : '+ Choose Bean'}</Text>
+          <Text>{_.size(values) && values.bean_id && thisBean ? `${thisBeanCafe && thisBeanCafe.name ? `Roaster: ${thisBeanCafe.name} | ` : ''}Bean: ${thisBean.name}` : '» Choose Bean'}</Text>
           {this._fieldErrorDisplay('bean_id')}
           {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
         </TouchableOpacity>
@@ -742,6 +743,7 @@ const mapStateToProps = (state) => {
     origins: state.origins,
     beanProcesses: state.beanProcesses,
     fields: getFormMeta('EditRecipeForm')(state),
+    cafes: state.cafes,
   }
 };
 
