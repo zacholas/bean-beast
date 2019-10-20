@@ -26,6 +26,10 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
 
+  //* Things I will need to use eventually
+  activeItemBackground: '#007bff', // for things like cards, picker lists, etc
+  activeItemColor: '#fff',
+
   //* Bootstrap Colors
   colorPrimary: '#007bff',
   colorSecondary: '#6c757d',

@@ -4,7 +4,7 @@ import DoseField from './fields/DoseField';
 import GrindField from './fields/GrindField';
 import TemperatureField from './fields/TemperatureField';
 import BrewMethodField from './fields/BrewMethodField';
-import BeanField from './fields/BeanField';
+import { BeanPickerField } from './fields/BeanPickerField';
 
 //* Popup Attributes
 import NotesForNextTime from './fields/NotesForNextTime';
@@ -29,25 +29,25 @@ class RecipeFormField extends Component {
       case 'temperature':
         return <TemperatureField />;
       case 'bean_id':
-        return <BeanField />;
+        return <BeanPickerField name="bean_id" />;
 
-      case 'bean_idOLD':
-        let beans = _.map(this.props.beans.beans, (bean) => {
-          bean.name = beanTitleDisplay(bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
-          return bean;
-        });
-
-        beans = _.orderBy(beans, ['name'], ['asc']);
-
-        return (
-          <View>
-            <PickerField
-              name="bean_id"
-              options={beans}
-              placeholderText="–  Select a Bean  –"
-            />
-          </View>
-        );
+      // case 'bean_idOLD':
+      //   let beans = _.map(this.props.beans.beans, (bean) => {
+      //     bean.name = beanTitleDisplay(bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
+      //     return bean;
+      //   });
+      //
+      //   beans = _.orderBy(beans, ['name'], ['asc']);
+      //
+      //   return (
+      //     <View>
+      //       <PickerField
+      //         name="bean_id"
+      //         options={beans}
+      //         placeholderText="–  Select a Bean  –"
+      //       />
+      //     </View>
+      //   );
 
 
       case 'notes_for_next_time':
