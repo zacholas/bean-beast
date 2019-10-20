@@ -149,15 +149,16 @@ class EditRecipeForm extends Component {
             <Text>Recipe Date</Text>
           </View>
           <View style={{ flex: 1 }}>
-            <PickerField
-              name="bean_id"
-              options={beans}
-              placeholderText="–  Select a Bean  –"
-            />
+            {/*<PickerField*/}
+              {/*name="bean_id"*/}
+              {/*options={beans}*/}
+              {/*placeholderText="–  Select a Bean  –"*/}
+            {/*/>*/}
           </View>
         </View>
 
         {this._brewMethodArea()}
+
         <View style={styles.recipePrimaryInfoBar}>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Text>Grind</Text>
@@ -649,9 +650,21 @@ class EditRecipeForm extends Component {
       );
     }
 
+    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+
+    const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
+
     return (
       <View style={styles.brewMethodContainer}>
         {brewMethodOutput}
+
+        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { this._showEditFormFieldModal('bean_id') }}>
+          <Text>Bean: </Text>
+          <Text>{_.size(values) && values.bean_id &&  thisBean ? thisBean.name : '+ Choose Bean'}</Text>
+          {this._fieldErrorDisplay('bean_id')}
+          {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
+        </TouchableOpacity>
       </View>
     );
 
