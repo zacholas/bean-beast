@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.8,
     shadowRadius: 5,
+    maxHeight: '95%'
     // position: 'absolute',
     // top: 15,
     // right: 15,
