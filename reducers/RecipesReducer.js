@@ -30,12 +30,14 @@ const sampleRecipesStructure = {
           file: 'localpath://tofile',
         }
       ],
+      overall_rating: 7,
       notes_for_next_time: 'Careful not to drop the aeropress on Karma',
       rating_information: {
         //* Note: Not sure yet how I want to structure this.
         //  The way it's laid out below is referencing the IDs of items in the ratings table.
         //  TODO if I'm going to take this approach, it might make sense to have the
         //     "overall bean rating" to pull from this same approach.
+        //     10/20 -- But also maybe not, since I will have overall rating for mvp but maybe not the others.
         'default_overall_rating': {
           id: 'default_overall_rating',
           value: 7

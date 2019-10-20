@@ -156,7 +156,7 @@ export default class BeanDetailsFormFields extends Component {
           name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin` : 'origin'}
           label={originFieldLabel}
           options={origins}
-          validate={[required]}
+          // validate={[required]}
         />
 
         <TextField

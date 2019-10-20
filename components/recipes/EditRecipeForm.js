@@ -185,6 +185,7 @@ class EditRecipeForm extends Component {
         <BodyText>Recipe Attributes</BodyText>
 
         <View>
+          {/*TODO STYLE THESE: */}
           {this._recipeNicknameArea()}
           {this._recipeNotesArea()}
           {this._recipeObjectivesArea()}
@@ -206,12 +207,14 @@ class EditRecipeForm extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.recipeCriteriaRatingContainer}>
-            <TouchableOpacity style={StyleSheet.flatten([styles.recipeCriteriaRating, styles.recipeCriteriaRatingEmpty])}>
-              <Icon name="plus" size={15} style={{ color: colorGray800, marginBottom: 4 }} />
-              <Headline h6 style={{ marginBottom: 0, textAlign: 'center', color: colorGray800, fontSize: 9 }}>Add Rating</Headline>
-            </TouchableOpacity>
-          </View>
+
+          {/*TODO CREATE THE RATING STUFF*/}
+          {/*<View style={styles.recipeCriteriaRatingContainer}>*/}
+            {/*<TouchableOpacity style={StyleSheet.flatten([styles.recipeCriteriaRating, styles.recipeCriteriaRatingEmpty])}>*/}
+              {/*<Icon name="plus" size={15} style={{ color: colorGray800, marginBottom: 4 }} />*/}
+              {/*<Headline h6 style={{ marginBottom: 0, textAlign: 'center', color: colorGray800, fontSize: 9 }}>Add Rating</Headline>*/}
+            {/*</TouchableOpacity>*/}
+          {/*</View>*/}
         </View>
         <Hr />
 
