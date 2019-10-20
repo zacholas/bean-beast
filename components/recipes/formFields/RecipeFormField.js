@@ -4,6 +4,7 @@ import DoseField from './fields/DoseField';
 import GrindField from './fields/GrindField';
 import TemperatureField from './fields/TemperatureField';
 import BrewMethodField from './fields/BrewMethodField';
+import BeanField from './fields/BeanField';
 
 //* Popup Attributes
 import NotesForNextTime from './fields/NotesForNextTime';
@@ -28,6 +29,9 @@ class RecipeFormField extends Component {
       case 'temperature':
         return <TemperatureField />;
       case 'bean_id':
+        return <BeanField />;
+
+      case 'bean_idOLD':
         let beans = _.map(this.props.beans.beans, (bean) => {
           bean.name = beanTitleDisplay(bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
           return bean;
