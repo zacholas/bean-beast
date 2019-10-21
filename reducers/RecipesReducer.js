@@ -123,7 +123,8 @@ export default (state = INITIAL_STATE, action) => {
             recipe_notes: action.payload.data.recipe_notes,
             recipe_objectives: action.payload.data.recipe_objectives,
             favorite_information: action.payload.data.favorite_information,
-            recipe_steps: action.payload.data.recipe_steps
+            recipe_steps: action.payload.data.recipe_steps,
+            overall_rating: action.payload.data.overall_rating,
           },
         },
       };
@@ -150,7 +151,8 @@ export default (state = INITIAL_STATE, action) => {
             recipe_notes: action.payload.data.recipe_notes,
             recipe_objectives: action.payload.data.recipe_objectives,
             favorite_information: action.payload.data.favorite_information,
-            recipe_steps: action.payload.data.recipe_steps
+            recipe_steps: action.payload.data.recipe_steps,
+            overall_rating: action.payload.data.overall_rating,
           }
         }
       };

@@ -70,16 +70,29 @@ class BeanRecipes extends Component {
     const { bean_id, favorites, recipes } = this.props;
     let theseRecipes = false;
     if(this.props.favorites === true){
-
+      theseRecipes = _.filter(recipes, (recipe) => {
+        return recipe.bean_id === bean_id && _.size(recipe.favorite_information) && recipe.favorite_information.is_favorite === true;
+      });
+      theseRecipes = _.orderBy(theseRecipes, ['modified'], ['desc']);
+      theseRecipes = _.values(theseRecipes);
     }
     else {
-      theseRecipes = _.filter(recipes, (recipe) => { return recipe.bean_id === bean_id });
+      theseRecipes = _.filter(recipes, (recipe) => {
+        return (
+          recipe.bean_id === bean_id &&
+          (
+            !_.size(recipe.favorite_information) ||
+            typeof recipe.favorite_information.is_favorite === 'undefined' ||
+            recipe.favorite_information.is_favorite === false
+          )
+        );
+      });
       theseRecipes = _.orderBy(theseRecipes, ['modified'], ['desc']);
       theseRecipes = _.values(theseRecipes);
     }
     //
-    // console.log(recipes);
-    if(theseRecipes) {
+    // console.log(this.props.favorites === true ? 'Favorite recipes' : 'Non fav recipes', theseRecipes);
+    if(_.size(theseRecipes)) {
       return (
         <View>
           <View>

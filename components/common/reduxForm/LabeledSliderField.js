@@ -141,19 +141,29 @@ const LabeledSliderComponent = ({
     notchesOutput = <View style={styles.notchContainer}>{notches}</View>;
   }
 
+  // console.log('value', restInput.value);
+  // console.log('value', parseFloat(restInput.value));
+  const minVal = !isNaN(parseFloat(minimumValue)) ? parseFloat(minimumValue) : 0;
+  const maxVal = !isNaN(parseFloat(maximumValue)) ? parseFloat(maximumValue) : 1;
+  const zStep = !isNaN(parseFloat(step)) ? parseFloat(step) : 0.1;
+  const value = !isNaN(parseFloat(restInput.value)) ? parseFloat(restInput.value) : minVal;
+
   return (
     <View style={inputContainer}>
       <View style={styles.sliderOuterContainer}>
         {topLabelOutput}
         <View style={styles.sliderContainer}>
           <Slider
-            onValueChange={(val) => onChange(_.round(val, getDecimalLength(step)))}
+            onSlidingComplete={(val) => onChange(_.round(val, getDecimalLength(step)))}
             {...restInput}
-            value={parseFloat(restInput.value)}
-            minimumValue={parseFloat(minimumValue)}
-            maximumValue={parseFloat(maximumValue)}
-            step={parseFloat(step)}
+            value={value}
+            minimumValue={minVal}
+            maximumValue={maxVal}
+            step={zStep}
             style={{zIndex: 2, position: 'relative'}}
+            // minimumValue={0}
+            // maximumValue={1}
+            // step={1}
           />
           {notchesOutput}
         </View>

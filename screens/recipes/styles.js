@@ -39,9 +39,11 @@ export default StyleSheet.create({
     ...marginBottom,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center'
   },
   recipeOverallRatingSliderContainer: {
     flex: 1,
+    marginRight: 20,
   },
   recipeAddToFavoritesContainer: {
 

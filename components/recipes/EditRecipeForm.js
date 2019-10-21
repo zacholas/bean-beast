@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { reduxForm, arrayPush, SubmissionError, getFormMeta } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
-import { TextField, PickerField } from "../common/reduxForm";
+import { TextField, PickerField, LabeledSliderField } from "../common/reduxForm";
 import {BodyText, Button, Container, Headline, Hr} from "../common";
 import {required, throwError} from "../../helpers";
 import _ from "lodash";
@@ -22,6 +22,7 @@ import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wait_length } from "../../helpers";
 import { recipe_steps_validation } from "./recipeSteps/RecipeStepsFormValidation";
 import { beanTitleDisplay } from "../../helpers/labels";
+import { FavoriteField } from "./formFields/fields/FavoriteField";
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -199,12 +200,35 @@ class EditRecipeForm extends Component {
         <View style={styles.recipeRatingContainer}>
           <View style={styles.recipeOverallRatingBar}>
             <View style={styles.recipeOverallRatingSliderContainer}>
-              <BodyText noMargin>Rating Slider</BodyText>
+              <LabeledSliderField
+                name="overall_rating"
+                // label="Overall Recipe Rating"
+                step={1}
+                minimumValue={0}
+                maximumValue={10}
+                tallNotches={[0, 5, 10]}
+                topLabels={[
+                  {
+                    content: <Icon name="frown-o" size={30} />,
+                    containerStyle: { marginLeft: 2 }
+                  },
+                  {
+                    content: <Icon name="meh-o" size={30} />
+                  },
+                  {
+                    content: <Icon name="smile-o" size={30} />,
+                    containerStyle: { marginRight: 2 }
+                  }
+                ]}
+                bottomLabels={[
+                  { content: 'Hated it' },
+                  { content: 'Meh' },
+                  { content: 'Loved it' }
+                ]}
+              />
             </View>
             <View style={styles.recipeAddToFavoritesContainer}>
-              <TouchableOpacity>
-                <Icon name="heart" size={40} style={{ color: '#e74c3c'}} />
-              </TouchableOpacity>
+              <FavoriteField name="favorite_information" />
             </View>
           </View>
 
@@ -735,9 +759,16 @@ class EditRecipeForm extends Component {
   }
 }
 
+const initializedValues = {
+  overall_rating: 5,
+};
+
 const mapStateToProps = (state) => {
   return {
-    initialValues: state.recipes.currentlyEditingRecipe,
+    initialValues: {
+      ...initializedValues,
+      ...state.recipes.currentlyEditingRecipe
+    },
     loading: state.recipes.loading,
     brewMethods: state.brewMethods,
     recipeSteps: state.recipeSteps,
