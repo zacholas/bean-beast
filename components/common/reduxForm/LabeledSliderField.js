@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
-import {StyleSheet, Text, View, Slider, Picker} from 'react-native';
+import {StyleSheet, Text, View, Picker} from 'react-native';
+// import { Slider } from 'react-native';
+import Slider from "react-native-slider";
 import { Field } from 'redux-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -160,10 +162,8 @@ const LabeledSliderComponent = ({
             minimumValue={minVal}
             maximumValue={maxVal}
             step={zStep}
-            style={{zIndex: 2, position: 'relative'}}
-            // minimumValue={0}
-            // maximumValue={1}
-            // step={1}
+            style={{zIndex: 2, position: 'relative', marginHorizontal: 5}}
+            // thumbTouchSize={{width: 60, height: 60}}
           />
           {notchesOutput}
         </View>
