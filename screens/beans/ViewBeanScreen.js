@@ -308,7 +308,7 @@ class ViewBeanScreen extends Component {
         {(origin_region && originOutput) && `, ${origin_region}`}
         {(origin_region && !originOutput) && origin_region}
         {origin_details && ` (${origin_details})`}
-        {' — '}
+        {originOutput || origin_region || origin_details ? ' — ' : ''}
         {(beanProcessOutput && beanProcessOutput.name) && beanProcessOutput.name}
         {
           (beanProcessOutput && beanProcessOutput.name) &&
