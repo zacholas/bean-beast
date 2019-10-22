@@ -9,7 +9,7 @@ import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteBean, editBean } from "../../actions";
 import { textLink, bodyText, marginBottomHalf, defaultMarginAmount, headerNavTextLink } from "../../constants/Styles";
-import {prettyDate, roastLevelDisplay} from "../../helpers/labels";
+import { prettyDate, roastLevelDisplay, temperatureInUserPreference } from "../../helpers/labels";
 import {colorGray1000, colorGray1200, colorGray400} from "../../constants/Colors";
 import BeanRecipes from '../../components/beans/BeanRecipes';
 
@@ -48,6 +48,8 @@ class ViewBeanScreen extends Component {
   render() {
     const bean = this.props.bean;
     // console.log('viewing bean: ' + bean.name);
+    // console.log('this bean recipes', this.props.recipes);
+    const recentRecipe = this._getMostRecentRecipe();
     return (
       <Container>
         {/*<Button*/}
@@ -151,9 +153,9 @@ class ViewBeanScreen extends Component {
           headlineText="Create new recipe"
         >
           <BodyText>
-            *** Don't show this if they don't have any recent recipes **
-            Do you want to start from scratch or use your most recent recipe as a template? (insert most recent recipe here)
+            Do you want to start from scratch or use your most recent recipe as a template?
           </BodyText>
+          {recentRecipe ? this._recentRecipeModalOutput(recentRecipe) : null}
           <Button
             onPress={() => {this._createRecipeFromPrevious()}}
             title='Start from Recipe'
@@ -378,7 +380,45 @@ class ViewBeanScreen extends Component {
 
   _newRecipeOnPress(){
     //* Check if there are previous recipes and either show the picker modal or go straight to a new one from scratch
-    this.createRecipeModal.show();
+    if(_.size(this.props.recipes)){
+      this.createRecipeModal.show();
+    }
+    else {
+      this._createRecipeFromScratch();
+    }
+  }
+
+  _getMostRecentRecipe(){
+    if(_.size(this.props.recipes)){
+      let recipes = _.orderBy(this.props.recipes, ['modified'], ['desc']);
+      recipes = _.values(recipes);
+      console.log('recipes', recipes);
+      console.log('first recipe', recipes[0]);
+      return recipes[0];
+    }
+    return false;
+  }
+
+  _recentRecipeModalOutput(item){
+    const thisBrewMethodID = item.brew_method ? item.brew_method : false;
+    const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
+
+    let itemTexts = [];
+    if( item.modified ){ itemTexts.push(prettyDate(item.modified)); }
+    if( item.nickname ){ itemTexts.push(`“${item.nickname}”`); }
+    if( thisBrewMethod && thisBrewMethod.name ){ itemTexts.push(thisBrewMethod.name); }
+    if( item.grind ){ itemTexts.push(`Grind: ${item.grind}`); }
+    if( item.dose ){ itemTexts.push(`Dose: ${item.dose}g`); }
+    if( item.temperature ){ itemTexts.push(`Temp: ${temperatureInUserPreference(item.temperature, this.props.userPreferences)}`); }
+
+    let output = '';
+
+    for(let i = 0; i < itemTexts.length; i++){
+      output += itemTexts[i];
+      output += i < (itemTexts.length - 1) ? ' — ' : '';
+    }
+
+    return <BodyText>{`(Your most recent recipe was: ${output})`}</BodyText>;
   }
 
   _createRecipeFromScratch(){
@@ -390,10 +430,13 @@ class ViewBeanScreen extends Component {
   }
 
   _createRecipeFromPrevious(){
-    // this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
-    //   type: 'create',
-    //   bean: this.props.bean
-    // })
+    const recentRecipe = this._getMostRecentRecipe();
+    if(recentRecipe && recentRecipe.id){
+      // this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
+      //   type: 'edit',
+      //   id: id
+      // })
+    }
   }
 }
 

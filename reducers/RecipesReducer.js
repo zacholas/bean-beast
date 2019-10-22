@@ -102,6 +102,7 @@ export default (state = INITIAL_STATE, action) => {
         currentlyEditingRecipe: null
       };
     case types.RECIPE_CREATING:
+      console.log('creating');
       return { ...state,
         loading: true,
         error: '',
@@ -129,7 +130,6 @@ export default (state = INITIAL_STATE, action) => {
         },
       };
 
-    //* Not working yet
     case types.RECIPE_UPDATING:
       return { ...state,
         loading: true,
@@ -156,6 +156,23 @@ export default (state = INITIAL_STATE, action) => {
           }
         }
       };
+    case types.RECIPE_CLONING:
+      const newNickname = state.recipes[action.payload.cloning_id].nickname ? `${state.recipes[action.payload.cloning_id].nickname} (Copy)` : undefined;
+      return { ...state,
+        loading: true,
+        error: '',
+        recipes: {
+          ...state.recipes,
+          [action.payload.id]: {
+            ...state.recipes[action.payload.cloning_id],
+            id: action.payload.id,
+            nickname: newNickname,
+            created: action.payload.created,
+            modified: action.payload.modified,
+          }
+        }
+      };
+
     case types.RECIPE_DELETING:
       const newRecipes = _.omit(state.recipes, action.payload);
       return { ...state,

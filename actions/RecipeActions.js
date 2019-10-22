@@ -2,6 +2,8 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
 import { throwError, generateRandomID } from "../helpers";
+import * as configuredStore from '../configureStore';
+const { store } = configuredStore.default();
 // import { NavigationActions, StackActions } from "react-navigation";
 
 export const saveRecipe = (values) => {
@@ -16,6 +18,7 @@ export const saveRecipe = (values) => {
 const _createRecipe = (values) => {
   const id = generateRandomID('recipe');
   return (dispatch) => {
+    console.log('about to create');
     _creatingRecipe(dispatch, values, id)
       .then(() => {
         dispatch({
@@ -43,6 +46,7 @@ const _createRecipe = (values) => {
 };
 
 const _creatingRecipe = (dispatch, values, id) => new Promise((resolve, reject) => {
+  console.log('creating');
   dispatch({
     type: types.RECIPE_CREATING,
     payload: {
@@ -111,9 +115,11 @@ export const deleteRecipe = (id, navigation) => {
         dispatch({
           type: types.RECIPE_DELETE_SUCCESS,
         });
-        navigation.navigate({
-          routeName: navRoutes.RECIPE_LIST
-        });
+        if(navigation){
+          navigation.navigate({
+            routeName: navRoutes.RECIPE_LIST
+          });
+        }
       })
       .catch(error => {
         dispatch({
@@ -121,9 +127,11 @@ export const deleteRecipe = (id, navigation) => {
           payload: error,
         });
         throwError(error, '/actions/RecipeActions.js', 'deleteRecipe');
-        navigation.navigate({
-          routeName: navRoutes.RECIPE_LIST
-        });
+        if(navigation) {
+          navigation.navigate({
+            routeName: navRoutes.RECIPE_LIST
+          });
+        }
         showMessage({
           message: "Error",
           description: "There was an error deleting the recipe.",
@@ -155,3 +163,42 @@ export const editRecipe = (recipeData) => {
     payload: recipeData
   };
 };
+
+export const cloneRecipe = (id, cloning_id) => {
+  return (dispatch) => {
+    _cloningRecipe(dispatch, id, cloning_id)
+      .then(() => {
+        dispatch({
+          type: types.RECIPE_CLONE_SUCCESS,
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: types.RECIPE_CLONE_FAIL,
+          payload: error,
+        });
+        throwError(error, '/actions/RecipeActions.js', 'cloneRecipe');
+        // values.navigation.goBack();
+        showMessage({
+          message: "Error",
+          description: "There was an error cloning the recipe.",
+          type: "danger",
+          autoHide: false,
+          icon: 'auto'
+        });
+      });
+  };
+};
+
+const _cloningRecipe = (dispatch, id, cloning_id) => new Promise((resolve, reject) => {
+  dispatch({
+    type: types.RECIPE_CLONING,
+    payload: {
+      id,
+      cloning_id,
+      created: new Date().getTime(),
+      modified: new Date().getTime(),
+    }
+  });
+  resolve();
+});

@@ -9,3 +9,7 @@ export const RECIPE_UPDATE_FAIL     = 'recipe_update_fail';
 export const RECIPE_DELETING        = 'recipe_deleting';
 export const RECIPE_DELETE_SUCCESS  = 'recipe_delete_success';
 export const RECIPE_DELETE_FAIL     = 'recipe_delete_fail';
+export const RECIPE_CLONE = 'recipe_clone';
+export const RECIPE_CLONING = 'recipe_cloning';
+export const RECIPE_CLONE_SUCCESS = 'recipe_clone_success';
+export const RECIPE_CLONE_FAIL = 'recipe_clone_fail';
