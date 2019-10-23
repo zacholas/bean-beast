@@ -12,11 +12,13 @@ class EditRecipeScreen extends Component {
       this.bean_id = props.navigation.getParam('bean_id', null);
     }
     else {
+      console.log('setting bean id to', this.recipe.bean_id);
       this.bean_id = this.recipe.bean_id ? this.recipe.bean_id : null;
     }
   }
 
   render() {
+    // console.log('edit recipe props', this.props);
     return (
       <EditRecipeForm
         type={this.type}

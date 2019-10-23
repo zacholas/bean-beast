@@ -7,11 +7,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Headline, Hr, BodyText, Container, Button } from "../../components/common";
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
-import { deleteBean, editBean } from "../../actions";
+import { deleteBean, editBean, cloneRecipe, editRecipe } from "../../actions";
 import { textLink, bodyText, marginBottomHalf, defaultMarginAmount, headerNavTextLink } from "../../constants/Styles";
 import { prettyDate, roastLevelDisplay, temperatureInUserPreference } from "../../helpers/labels";
 import {colorGray1000, colorGray1200, colorGray400} from "../../constants/Colors";
 import BeanRecipes from '../../components/beans/BeanRecipes';
+import { generateRandomID } from "../../helpers";
 
 class ViewBeanScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,8 +43,27 @@ class ViewBeanScreen extends Component {
     this.beanRatingCommentsFullModal = null;
     this.beanImageModal = null;
     this.createRecipeModal = null;
+
+    this.state = {
+      new_cloned_recipe_id: null,
+    }
     // this._beanImage = this._beanImage.bind(this);
   }
+
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    const newRecipeID = this.state.new_cloned_recipe_id;
+    const newRecipe = _.size(nextProps.recipes) && _.size(nextProps.recipes.recipes) && nextProps.recipes.recipes[newRecipeID] ? nextProps.recipes.recipes[newRecipeID] : null;
+
+    if(this.props.recipes.loading === true && nextProps.recipes.loading === false && newRecipeID && newRecipe){
+      this.setState({ new_cloned_recipe_id: null });
+      this.props.editRecipe(newRecipe);
+      this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
+        type: 'edit',
+        recipe: newRecipe
+      });
+    }
+  }
+
 
   render() {
     const bean = this.props.bean;
@@ -380,7 +400,7 @@ class ViewBeanScreen extends Component {
 
   _newRecipeOnPress(){
     //* Check if there are previous recipes and either show the picker modal or go straight to a new one from scratch
-    if(_.size(this.props.recipes)){
+    if(_.size(this.props.beanRecipes)){
       this.createRecipeModal.show();
     }
     else {
@@ -389,11 +409,11 @@ class ViewBeanScreen extends Component {
   }
 
   _getMostRecentRecipe(){
-    if(_.size(this.props.recipes)){
-      let recipes = _.orderBy(this.props.recipes, ['modified'], ['desc']);
+    if(_.size(this.props.beanRecipes)){
+      let recipes = _.orderBy(this.props.beanRecipes, ['modified'], ['desc']);
       recipes = _.values(recipes);
-      console.log('recipes', recipes);
-      console.log('first recipe', recipes[0]);
+      // console.log('recipes', recipes);
+      // console.log('first recipe', recipes[0]);
       return recipes[0];
     }
     return false;
@@ -431,11 +451,11 @@ class ViewBeanScreen extends Component {
 
   _createRecipeFromPrevious(){
     const recentRecipe = this._getMostRecentRecipe();
-    if(recentRecipe && recentRecipe.id){
-      // this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
-      //   type: 'edit',
-      //   id: id
-      // })
+    const id = generateRandomID('recipe');
+    if(id && recentRecipe && recentRecipe.id){
+      this.props.cloneRecipe(id, recentRecipe.id);
+      this.setState({ new_cloned_recipe_id: id });
+      this.createRecipeModal.hide();
     }
   }
 }
@@ -451,11 +471,12 @@ const mapStateToProps = (state, props) => {
     roastLevels: state.roastLevels.roastLevels,
     beanProcesses: state.beanProcesses.beanProcesses,
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
-    recipes: thisBeanRecipes,
+    beanRecipes: thisBeanRecipes,
+    recipes: state.recipes
   }
 };
 
-export default connect(mapStateToProps, { deleteBean, editBean })(ViewBeanScreen);
+export default connect(mapStateToProps, { deleteBean, editBean, cloneRecipe, editRecipe })(ViewBeanScreen);
 
 ViewBeanScreen.propTypes = {
   bean: PropTypes.object.isRequired

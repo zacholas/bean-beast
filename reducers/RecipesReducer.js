@@ -102,7 +102,6 @@ export default (state = INITIAL_STATE, action) => {
         currentlyEditingRecipe: null
       };
     case types.RECIPE_CREATING:
-      console.log('creating');
       return { ...state,
         loading: true,
         error: '',
@@ -189,6 +188,7 @@ export default (state = INITIAL_STATE, action) => {
     case types.RECIPE_CREATE_SUCCESS:
     case types.RECIPE_UPDATE_SUCCESS:
     case types.RECIPE_DELETE_SUCCESS:
+    case types.RECIPE_CLONE_SUCCESS:
       return { ...state,
         loading: false,
         currentlyEditingRecipe: null
@@ -196,6 +196,7 @@ export default (state = INITIAL_STATE, action) => {
     case types.RECIPE_CREATE_FAIL:
     case types.RECIPE_UPDATE_FAIL:
     case types.RECIPE_DELETE_FAIL:
+    case types.RECIPE_CLONE_FAIL:
       return { ...state,
         loading: false,
         error: action.payload

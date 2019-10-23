@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import PropTypes from "prop-types";
 import { beanTitleDisplay, roastLevelDisplay } from "../../helpers/labels";

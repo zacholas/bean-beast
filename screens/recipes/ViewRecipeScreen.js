@@ -8,20 +8,43 @@ import {Headline, Hr, BodyText, Container, Button} from "../../components/common
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteRecipe, editRecipe } from "../../actions";
-import {textLink} from "../../constants/Styles";
+import { headerNavTextLink, textLink } from "../../constants/Styles";
 import styles from './styles';
 import {colorGray400, colorGray800} from "../../constants/Colors";
 import { isDefined } from "../../helpers";
+import { LabeledSliderField } from "../../components/common/reduxForm";
 
 class ViewRecipeScreen extends Component {
-  static navigationOptions = {
-    title: 'View Recipe',
+  static navigationOptions = ({ navigation }) => {
+    let headerRightOutput = <View />;
+    const { params } = navigation.state;
+    if(params.recipe && params.onPress){
+      headerRightOutput = (
+        <TouchableOpacity onPress={params.onPress}>
+          <Text style={headerNavTextLink}><Icon name="pencil" size={16} style={textLink} /> Edit</Text>
+        </TouchableOpacity>
+      );
+    }
+    return {
+      title: 'View Recipe',
+      headerRight: headerRightOutput
+    }
   };
 
   constructor(props){
     super(props);
     this.recipeID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
+  }
+
+  componentDidMount(): void {
+    const recipe = this.props.recipe;
+    if(recipe){
+      this.props.navigation.setParams({
+        onPress: () => this._editRecipeButtonPress(recipe),
+        recipe
+      })
+    }
   }
 
   render() {
@@ -41,15 +64,15 @@ class ViewRecipeScreen extends Component {
         <View style={styles.recipePrimaryInfoBar}>
           <View style={styles.recipePrimaryInfo}>
             <Text>Grind</Text>
-            <Text>{this.props.recipe.grind}</Text>
+            <Text>{recipe.grind}</Text>
           </View>
           <View style={styles.recipePrimaryInfo}>
             <Text>Dose</Text>
-            <Text>{this.props.recipe.dose}</Text>
+            <Text>{recipe.dose}</Text>
           </View>
           <View style={styles.recipePrimaryInfo}>
             <Text>Temp</Text>
-            <Text>{this.props.recipe.temperature}</Text>
+            <Text>{recipe.temperature}</Text>
           </View>
         </View>
 
@@ -58,21 +81,42 @@ class ViewRecipeScreen extends Component {
         <View style={styles.recipeRatingContainer}>
           <View style={styles.recipeOverallRatingBar}>
             <View style={styles.recipeOverallRatingSliderContainer}>
-              <BodyText noMargin>Rating Slider</BodyText>
+              <LabeledSliderField
+                name="overall_rating"
+                value={recipe.overall_rating}
+                step={1}
+                disabled
+                minimumValue={0}
+                maximumValue={10}
+                tallNotches={[0, 5, 10]}
+                topLabels={[
+                  {
+                    content: <Icon name="frown-o" size={30} />,
+                    containerStyle: { marginLeft: 2 }
+                  },
+                  {
+                    content: <Icon name="meh-o" size={30} />
+                  },
+                  {
+                    content: <Icon name="smile-o" size={30} />,
+                    containerStyle: { marginRight: 2 }
+                  }
+                ]}
+                bottomLabels={[
+                  { content: 'Hated it' },
+                  { content: 'Meh' },
+                  { content: 'Loved it' }
+                ]}
+              />
             </View>
             <View style={styles.recipeAddToFavoritesContainer}>
-              <TouchableOpacity>
-                <Icon name="heart" size={40} style={{ color: '#e74c3c'}} />
-              </TouchableOpacity>
+              {this._favoriteOutput()}
+              {/*<FavoriteField name="favorite_information" />*/}
             </View>
           </View>
-          <View style={styles.recipeCriteriaRatingContainer}>
-            <TouchableOpacity style={StyleSheet.flatten([styles.recipeCriteriaRating, styles.recipeCriteriaRatingEmpty])}>
-              <Icon name="plus" size={15} style={{ color: colorGray800, marginBottom: 4 }} />
-              <Headline h6 style={{ marginBottom: 0, textAlign: 'center', color: colorGray800, fontSize: 9 }}>Add Rating</Headline>
-            </TouchableOpacity>
-          </View>
         </View>
+
+
         <Hr />
 
         <View>
@@ -85,9 +129,6 @@ class ViewRecipeScreen extends Component {
         </View>
         <Hr />
 
-        <View>
-          <BodyText>+ circle to add new</BodyText>
-        </View>
 
         <BodyText>Details:</BodyText>
         <BodyText>{JSON.stringify(recipe)}</BodyText>
@@ -116,11 +157,32 @@ class ViewRecipeScreen extends Component {
     );
   }
 
-  _editRecipeButtonPress(){
-    this.props.editRecipe(this.props.recipe);
+  _favoriteOutput(){
+    const recipe = this.props.recipe;
+    if(recipe && recipe.favorite_information){
+      if(recipe.favorite_information.is_favorite === true){
+        return (
+          <TouchableOpacity onPress={() => { }} style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="heart" size={40} style={{ color: '#e74c3c' }} />
+            <Headline h6 style={{ width: 80, textAlign: 'center' }}>Favorited</Headline>
+          </TouchableOpacity>
+        )
+      }
+
+      return (
+        <TouchableOpacity onPress={() => { }} style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Icon name="heart" size={40} style={{ color: colorGray400 }} />
+          <Headline h6 style={{ width: 80, textAlign: 'center' }}>Save as Favorite?</Headline>
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  _editRecipeButtonPress(recipe = this.props.recipe){
+    this.props.editRecipe(recipe);
     this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
       type: 'edit',
-      recipe: this.props.recipe
+      recipe: recipe
     })
   }
 

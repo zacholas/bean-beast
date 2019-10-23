@@ -82,6 +82,97 @@ const Notch = (props) => {
   );
 };
 
+const LabeledSliderDisplayComponent = ({
+  label,
+  type,
+  minimumValue,
+  maximumValue,
+  step,
+  showNotches,
+  tallNotches,
+  topLabels,
+  bottomLabels,
+  value
+}) => {
+  let topLabelOutput, bottomLabelOutput, notchesOutput;
+
+  if(topLabels && topLabels.length){
+    const topLabelItems = _.map(topLabels, (topLabel, i ) => {
+      let labelItemStyle = { ...styles.labelItem, ...topLabel.containerStyle };
+      if(i === 0){
+        labelItemStyle = { ...styles.labelItem, ...styles.firstLabelItem, ...topLabel.containerStyle }
+      }
+      else if(i === (topLabels.length - 1)){
+        labelItemStyle = { ...styles.labelItem, ...styles.lastLabelItem, ...topLabel.containerStyle }
+      }
+      return (
+        <Text style={labelItemStyle} key={i}>
+          {topLabel.content}
+        </Text>
+      );
+    });
+    topLabelOutput = <View style={styles.topLabelsContainer}>{topLabelItems}</View>;
+  }
+
+  if(bottomLabels && bottomLabels.length){
+    const bottomLabelItems = _.map(bottomLabels, (bottomLabel, i ) => {
+      let labelItemStyle = { ...styles.labelItem, ...bottomLabel.containerStyle };
+      if(i === 0){
+        labelItemStyle = { ...styles.labelItem, ...styles.firstLabelItem, ...bottomLabel.containerStyle }
+      }
+      else if(i === (bottomLabels.length - 1)){
+        labelItemStyle = { ...styles.labelItem, ...styles.lastLabelItem, ...bottomLabel.containerStyle }
+      }
+      return (
+        <Text style={labelItemStyle} key={i}>
+          {bottomLabel.content}
+        </Text>
+      );
+    });
+    bottomLabelOutput = <View style={styles.bottomLabelsContainer}>{bottomLabelItems}</View>;
+  }
+
+  if(showNotches === true){
+    const totalSteps = (maximumValue - minimumValue) / step + 1;
+    let notches = [];
+    for(let i = 0; i < totalSteps; i++){
+      const tall = tallNotches.includes(i);
+      notches.push(<Notch key={i} tall={tall} />);
+    }
+    notchesOutput = <View style={styles.notchContainer}>{notches}</View>;
+  }
+
+  // console.log('value', restInput.value);
+  // console.log('value', parseFloat(restInput.value));
+  const minVal = !isNaN(parseFloat(minimumValue)) ? parseFloat(minimumValue) : 0;
+  const maxVal = !isNaN(parseFloat(maximumValue)) ? parseFloat(maximumValue) : 1;
+  const zStep = !isNaN(parseFloat(step)) ? parseFloat(step) : 0.1;
+  const displayValue = !isNaN(parseFloat(value)) ? parseFloat(value) : minVal;
+
+  return (
+    <View style={inputContainer}>
+      <View style={styles.sliderOuterContainer}>
+        {topLabelOutput}
+        <View style={styles.sliderContainer}>
+          <Slider
+            // onSlidingComplete={(val) => onChange(_.round(val, getDecimalLength(step)))}
+            // {...restInput}
+            value={displayValue}
+            minimumValue={minVal}
+            maximumValue={maxVal}
+            step={zStep}
+            style={{zIndex: 2, position: 'relative', marginHorizontal: 5}}
+            disabled
+            // thumbTouchSize={{width: 60, height: 60}}
+          />
+          {notchesOutput}
+        </View>
+        {bottomLabelOutput}
+      </View>
+    </View>
+  );
+};
+
 const LabeledSliderComponent = ({
   input: { onChange, ...restInput },
   label,
@@ -177,6 +268,29 @@ const LabeledSliderComponent = ({
 };
 
 const LabeledSliderField = (props) => {
+  //* Function to display a read-only field
+  if(props.disabled === true){
+    return (
+      <View style={{ alignItems: 'stretch' }}>
+        { props.label && <Text style={StyleSheet.flatten([bodyText, label])}>{props.label}:</Text> }
+        <View>
+          <LabeledSliderDisplayComponent
+            name={props.name}
+            validate={props.validate}
+            minimumValue={props.minimumValue}
+            maximumValue={props.maximumValue}
+            step={props.step}
+            showNotches={props.showNotches}
+            tallNotches={props.tallNotches}
+            topLabels={props.topLabels}
+            bottomLabels={props.bottomLabels}
+            value={props.value}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={{ alignItems: 'stretch' }}>
       { props.label && <Text style={StyleSheet.flatten([bodyText, label])}>{props.label}:</Text> }
@@ -216,6 +330,8 @@ LabeledSliderField.propTypes = {
     content: PropTypes.node,
     containerStyle: PropTypes.object
   })),
+  disabled: PropTypes.bool,
+  value: PropTypes.number,
 };
 
 LabeledSliderField.defaultProps = {
@@ -223,4 +339,5 @@ LabeledSliderField.defaultProps = {
   maximumValue: 1,
   step: 0.1,
   showNotches: true,
+  disabled: false
 };

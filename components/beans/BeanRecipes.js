@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import {BodyText, Button, Headline, Hr} from "../common";
 import {cardGray, marginBottomHalf, textLink} from "../../constants/Styles";
 import {prettyDate, temperatureInUserPreference} from "../../helpers/labels";
-import { cloneRecipe, deleteRecipe } from "../../actions";
+import { cloneRecipe, deleteRecipe, editRecipe } from "../../actions";
 import { generateRandomID } from "../../helpers";
 import Modal from "../../components/common/Modal";
 import Colors from '../../constants/Colors';
@@ -33,11 +33,27 @@ class BeanRecipes extends Component {
     this.deleteConfirmModal = null;
     this.state = {
       recipe_id: null,
+      new_cloned_recipe_id: null,
+    }
+  }
+
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    const newRecipeID = this.state.new_cloned_recipe_id;
+    const newRecipe = _.size(nextProps.recipes) && _.size(nextProps.recipes.recipes) && nextProps.recipes.recipes[newRecipeID] ? nextProps.recipes.recipes[newRecipeID] : null;
+
+    if(this.props.recipes.loading === true && nextProps.recipes.loading === false && newRecipeID && newRecipe){
+      this.setState({ new_cloned_recipe_id: null });
+      this.props.editRecipe(newRecipe);
+      this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
+        type: 'edit',
+        recipe: newRecipe
+      });
     }
   }
 
   render() {
-    const { bean_id, favorites, recipes } = this.props;
+    const { bean_id, favorites }  = this.props;
+    const recipes = this.props.recipes.recipes;
     let theseRecipes = false;
     if(this.props.favorites === true){
       theseRecipes = _.filter(recipes, (recipe) => {
@@ -154,8 +170,9 @@ class BeanRecipes extends Component {
     const id = generateRandomID('recipe');
     if(item.id && this.props.cloneRecipe){
       this.props.cloneRecipe(id, item.id);
-      // console.log('done', this.props.recipes);
-      // console.log('done', this.props.recipes[id]);
+      this.setState({ new_cloned_recipe_id: id });
+      // console.log('done', this.props.recipes.recipes);
+      // console.log('done', this.props.recipes.recipes[id]);
     }
   }
 
@@ -171,12 +188,12 @@ class BeanRecipes extends Component {
 }
 
 const mapStateToProps = state => ({
-  recipes: state.recipes.recipes,
+  recipes: state.recipes,
   brewMethods: state.brewMethods,
   userPreferences: state.userPreferences
 });
 
-export default connect(mapStateToProps, { cloneRecipe, deleteRecipe })(BeanRecipes);
+export default connect(mapStateToProps, { cloneRecipe, deleteRecipe, editRecipe })(BeanRecipes);
 
 BeanRecipes.propTypes = {
   bean_id: PropTypes.string.isRequired,
