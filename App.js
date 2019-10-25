@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage, SafeAreaView } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -47,11 +47,11 @@ export default class App extends React.Component {
       return (
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <AppNavigator />
               <FlashMessage position="top" />
-            </View>
+            </SafeAreaView>
           </PersistGate>
         </Provider>
       );
@@ -60,16 +60,15 @@ export default class App extends React.Component {
 
   _loadResourcesAsync = async () => {
     return Promise.all([
-      Asset.loadAsync([
-        require('./assets/images/robot-dev.png'),
-        require('./assets/images/robot-prod.png'),
-      ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         ...Ionicons.font,
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
-        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        // 'avenir-next-300': require('./assets/fonts/AvenirNextLTPro-Light.otf'),
+        'avenir-next-400': require('./assets/fonts/AvenirNextLTPro-Regular.otf'),
+        'galano-grotesque-700': require('./assets/fonts/GalanoGrotesque-Bold.otf'),
+        'galano-grotesque-800': require('./assets/fonts/GalanoGrotesque-ExtraBold.otf'),
       }),
     ]);
   };

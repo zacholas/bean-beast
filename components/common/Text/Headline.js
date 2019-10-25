@@ -6,6 +6,7 @@ import {
   h1, h2, h3, h4, h5, h6
 } from '../Styles';
 import PropTypes from "prop-types";
+import {centerEverything} from "../../../constants/Styles";
 
 const Headline = (props) => {
   let specialHeadingStyle = headline;
@@ -27,11 +28,12 @@ const Headline = (props) => {
     }
   }
 
-  const wrapperStyle = props.inline === true ? { flex: 1 } : null ;
+  const wrapperStyle = props.inline === true ? { ...props.wrapperStyle, flex: 1 } : props.wrapperStyle ;
+  const centeredStyle = props.centered === true ? centerEverything : null;
 
   return (
-    <View style={wrapperStyle}>
-      <Text style={StyleSheet.flatten([specialHeadingStyle, !props.noMargin && marginBottom, props.style])}>
+    <View style={{ ...wrapperStyle, ...centeredStyle }}>
+      <Text style={StyleSheet.flatten([specialHeadingStyle, !props.noMargin && marginBottom, centeredStyle, props.style])}>
         {output}
       </Text>
     </View>
@@ -42,6 +44,7 @@ export { Headline };
 
 Headline.propTypes = {
   style: PropTypes.object,
+  wrapperStyle: PropTypes.object,
   h1: PropTypes.bool,
   h2: PropTypes.bool,
   h3: PropTypes.bool,
@@ -49,11 +52,13 @@ Headline.propTypes = {
   h5: PropTypes.bool,
   h6: PropTypes.bool,
   noMargin: PropTypes.bool,
-  inline: PropTypes.bool // allow it to wrap
+  inline: PropTypes.bool, // allow it to wrap
+  centered: PropTypes.bool
 };
 
 Headline.defaultProps = {
   style: {},
+  wrapperStyle: {},
   h1: false,
   h2: false,
   h3: false,
@@ -61,4 +66,5 @@ Headline.defaultProps = {
   h5: false,
   h6: false,
   inline: true,
+  centered: false,
 };

@@ -7,13 +7,18 @@ import {
   Text,
   TouchableOpacity,
   View,
+  SafeAreaView,
+  Linking
 } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import { SvgUri } from 'react-native-svg';
 
 import { MonoText } from '../components/StyledText';
 import { connect } from 'react-redux';
 import Modal from '../components/common/Modal';
-import {Button} from "../components/common";
+import {BodyText, Button, Container, Headline, Hr, ScrollContainer} from "../components/common";
+import Logo from '../assets/images/beanbeast_logo.svg';
+import {centerEverything, textLink} from "../constants/Styles";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -23,186 +28,42 @@ class HomeScreen extends React.Component {
   render() {
     // console.log('home state', this.props);
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get zzstarted by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            <Text style={{...styles.getStartedText, marginBottom: 15}}>What are you doing?</Text>
-            <Text style={styles.getStartedText}>Drinking a coffee at a cafe</Text>
-            <Text style={styles.getStartedText}>Brewing coffee at home</Text>
-            <Text style={styles.getStartedText}>Buying new beans</Text>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
+      <ScrollContainer contentContainerStyle={{...centerEverything}}>
+        <View style={{ flexDirection: 'row', ...styles.logoContainer, ...centerEverything }}>
+          <Logo width={70} height={70} style={{ marginLeft: 10, flex: 1, }} />
+          <View style={{ flex: 1, paddingLeft: 20 }}>
+            <Headline noMargin wrapperStyle={centerEverything} h3>Welcome to Bean Beast!</Headline>
           </View>
         </View>
-      </View>
+
+        <View style={{ centerEverything, marginTop: 20 }}>
+          <BodyText style={centerEverything}>
+            Thanks so much for participating in the BBBeta. If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
+            <Text onPress={() => { Linking.openURL(`mailto:zach@zachswinehart.com?subject=Bean%20Beast%20Feedback`)}} style={textLink}>zach@zachswinehart.com</Text>.</BodyText>
+        </View>
+
+        <Hr/>
+        <Headline h4 centered>Your Favorite Recipes</Headline>
+
+          <Headline h4 centered>Whatcha up to today?</Headline>
+          <Button title="Buying new Beans" onPress={() => {}}/>
+      </ScrollContainer>
     );
   }
-
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
+  logoContainer: {
     paddingTop: 30,
   },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
 });
 
+export default HomeScreen;
 
-const mapStateToProps = state => ({
-  state
-});
-
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+// const mapStateToProps = state => ({
+//   state
+// });
+//
+// const mapDispatchToProps = dispatch => ({});
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

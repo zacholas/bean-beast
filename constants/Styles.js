@@ -24,33 +24,47 @@ export const marginBottomHalf = {
   marginBottom: halfMarginAmount,
 };
 
+export const headingDefaults = {
+  fontFamily: 'galano-grotesque-700',
+};
+
 export const h1 = {
-  fontSize: 40,
+  ...headingDefaults,
+  fontSize: 32,
   // fontWeight: fontWeightLight
 };
 
 export const h2 = {
-  fontSize: 33,
+  ...headingDefaults,
+  fontSize: 30,
 };
 
 export const h3 = {
+  ...headingDefaults,
   fontSize: 26,
 };
 
 export const h4 = {
+  ...headingDefaults,
   fontSize: 22
 };
 
 export const h5 = {
-  fontSize: 14,
-  fontWeight: fontWeightBold,
-  letterSpacing: 1
+  ...headingDefaults,
+  fontSize: 15,
+  // fontWeight: fontWeightBold,
+  letterSpacing: 1,
+
+  fontFamily: 'galano-grotesque-800',
 };
 
 export const h6 = {
-  fontSize: 10,
-  fontWeight: fontWeightBold,
-  letterSpacing: 1
+  ...headingDefaults,
+  fontSize: 12,
+  // fontWeight: fontWeightBold,
+  letterSpacing: 1,
+
+  fontFamily: 'galano-grotesque-800',
 };
 
 export const headline = {
@@ -58,8 +72,8 @@ export const headline = {
 };
 
 export const bodyText = {
-  fontSize: 15,
-  // fontFamily: 'Raleway-Regular',
+  fontSize: 16,
+  fontFamily: 'avenir-next-400',
 };
 
 export const centerText = {

@@ -125,7 +125,7 @@ class zModal extends Component {
         return this.props.headlineJSX;
       }
       if (this.props.headlineText) {
-        return <Headline inline={false}>{this.props.headlineText}</Headline>;
+        return <Headline inline={false} h4>{this.props.headlineText}</Headline>;
       }
     }
   }

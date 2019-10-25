@@ -13,8 +13,8 @@
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#363533"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -41,6 +41,10 @@
           }
         }
       ]
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
     }
   }
 }

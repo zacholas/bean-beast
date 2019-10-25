@@ -2,6 +2,13 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
+//* Icons
+import IconHome from '../assets/icons/beanbeast-line-med.svg';
+import IconCafes from '../assets/icons/shop.svg';
+import IconBeans from '../assets/icons/bean.svg';
+import IconRecipes from '../assets/icons/cup-of-coffee.svg';
+import IconMenu from '../assets/icons/menu-med.svg';
+
 import * as navRoutes from '../constants/NavRoutes';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -39,14 +46,15 @@ const HomeStack = createStackNavigator({
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
+    <IconHome focused={focused} width={25} height={25} />
+    // <TabBarIcon
+    //   focused={focused}
+    //   name={
+    //     Platform.OS === 'ios'
+    //       ? `ios-information-circle${focused ? '' : '-outline'}`
+    //       : 'md-information-circle'
+    //   }
+    // />
   ),
 };
 
@@ -73,12 +81,13 @@ const CafeStack = createStackNavigator({
 });
 
 CafeStack.navigationOptions = {
-  tabBarLabel: 'Cafes / Roasters',
+  tabBarLabel: 'Roasters',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
+    <IconCafes focused={focused} width={25} height={25} />
+    // <TabBarIcon
+    //   focused={focused}
+    //   name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    // />
   ),
 };
 
@@ -93,10 +102,11 @@ const RecipeStack = createStackNavigator({
 RecipeStack.navigationOptions = {
   tabBarLabel: 'Recipes',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
+    <IconRecipes focused={focused} width={25} height={25} />
+    // <TabBarIcon
+    //   focused={focused}
+    //   name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    // />
   ),
 };
 
@@ -121,10 +131,11 @@ const BeansStack = createStackNavigator({
 BeansStack.navigationOptions = {
   tabBarLabel: 'Beans',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
+    <IconBeans focused={focused} width={22} height={22} />
+    // <TabBarIcon
+    //   focused={focused}
+    //   name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    // />
   ),
 };
 
@@ -170,10 +181,11 @@ const MoreStack = createStackNavigator(
 MoreStack.navigationOptions = {
   tabBarLabel: 'More',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
-    />
+    <IconMenu focused={focused} width={20} height={20} />
+    // <TabBarIcon
+    //   focused={focused}
+    //   name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
+    // />
   ),
 };
 
