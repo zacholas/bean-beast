@@ -17,6 +17,7 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import EquipmentScreen from '../screens/EquipmentScreen';
 import MenuMoreScreen from '../screens/MenuMoreScreen';
+import HelpScreen from '../screens/HelpScreen';
 
 
 //* Cafes
@@ -171,6 +172,7 @@ const MoreStack = createStackNavigator(
   {
     [navRoutes.MENU_MORE]: MenuMoreScreen,
     [navRoutes.SETTINGS]: SettingsScreen,
+    [navRoutes.HELP]: HelpScreen
   },
   {
     // mode: 'modal',

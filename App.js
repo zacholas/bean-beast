@@ -47,11 +47,11 @@ export default class App extends React.Component {
       return (
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
               {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
               <AppNavigator />
               <FlashMessage position="top" />
-            </SafeAreaView>
+            </View>
           </PersistGate>
         </Provider>
       );

@@ -1,3 +1,5 @@
+import { Platform, StatusBar } from 'react-native';
+
 export * from './styles/RecipeSteps';
 
 // import colorWhite from './Colors';
@@ -28,43 +30,62 @@ export const headingDefaults = {
   fontFamily: 'galano-grotesque-700',
 };
 
+export const h1FontSize = 32;
 export const h1 = {
   ...headingDefaults,
-  fontSize: 32,
+  fontSize: h1FontSize,
+  lineHeight: Platform.OS === 'ios' ? h1FontSize * 0.5 : undefined,
+  paddingTop: Platform.OS === 'ios' ? h1FontSize : undefined
   // fontWeight: fontWeightLight
 };
 
+export const h2FontSize = 30;
 export const h2 = {
   ...headingDefaults,
-  fontSize: 30,
+  fontSize: h2FontSize,
+  lineHeight: Platform.OS === 'ios' ? h2FontSize * 0.5 : undefined,
+  paddingTop: Platform.OS === 'ios' ? h2FontSize : undefined
 };
 
+export const h3FontSize = 26;
 export const h3 = {
   ...headingDefaults,
-  fontSize: 26,
+  fontSize: h3FontSize,
+  lineHeight: Platform.OS === 'ios' ? h3FontSize * 0.5 : undefined,
+  paddingTop: Platform.OS === 'ios' ? h3FontSize : undefined
 };
 
+export const h4FontSize = 22;
 export const h4 = {
   ...headingDefaults,
-  fontSize: 22
+  fontSize: h4FontSize,
+  lineHeight: Platform.OS === 'ios' ? h4FontSize * 0.5 : undefined,
+  paddingTop: Platform.OS === 'ios' ? h4FontSize : undefined
 };
 
+export const h5FontSize = 15;
 export const h5 = {
   ...headingDefaults,
-  fontSize: 15,
   // fontWeight: fontWeightBold,
   letterSpacing: 1,
 
   fontFamily: 'galano-grotesque-800',
+  fontSize: h5FontSize,
+  lineHeight: Platform.OS === 'ios' ? h5FontSize * 0.5 : undefined,
+  paddingTop: Platform.OS === 'ios' ? h5FontSize : undefined
 };
 
+export const h6FontSize = 12;
 export const h6 = {
   ...headingDefaults,
-  fontSize: 12,
   // fontWeight: fontWeightBold,
   letterSpacing: 1,
 
   fontFamily: 'galano-grotesque-800',
+
+  fontSize: h6FontSize,
+  lineHeight: Platform.OS === 'ios' ? h6FontSize * 0.5 : undefined,
+  paddingTop: Platform.OS === 'ios' ? h6FontSize : undefined
 };
 
 export const headline = {

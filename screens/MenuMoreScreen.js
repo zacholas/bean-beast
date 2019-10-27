@@ -14,13 +14,17 @@ export default class MenuMoreScreen extends Component {
   render() {
     return (
       <Container>
+        {/*<MoreMenuLink*/}
+          {/*title="Settings"*/}
+          {/*onPress={() => this.props.navigation.navigate(navRoutes.SETTINGS)}*/}
+        {/*/>*/}
+        {/*<MoreMenuLink*/}
+          {/*title="Equipment"*/}
+          {/*onPress={() => this.props.navigation.navigate(navRoutes.EQUIPMENT)}*/}
+        {/*/>*/}
         <MoreMenuLink
-          title="Settings"
-          onPress={() => this.props.navigation.navigate(navRoutes.SETTINGS)}
-        />
-        <MoreMenuLink
-          title="Equipment"
-          onPress={() => this.props.navigation.navigate(navRoutes.EQUIPMENT)}
+          title="Help / How to Use Bean Beast"
+          onPress={() => this.props.navigation.navigate(navRoutes.HELP)}
         />
       </Container>
     );

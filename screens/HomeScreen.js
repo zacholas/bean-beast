@@ -29,10 +29,10 @@ class HomeScreen extends React.Component {
     // console.log('home state', this.props);
     return (
       <ScrollContainer contentContainerStyle={{...centerEverything}}>
-        <View style={{ flexDirection: 'row', ...styles.logoContainer, ...centerEverything }}>
-          <Logo width={70} height={70} style={{ marginLeft: 10, flex: 1, }} />
+        <View style={{ flexDirection: 'row', ...styles.logoContainer, ...centerEverything, marginTop: 20 }}>
+          <Logo width={80} height={80} style={{ marginLeft: 10, }} />
           <View style={{ flex: 1, paddingLeft: 20 }}>
-            <Headline noMargin wrapperStyle={centerEverything} h3>Welcome to Bean Beast!</Headline>
+            <Headline noMargin wrapperStyle={{ justifyContent: 'center', width: '100%'}} style={{  }} h3>Welcome to Bean Beast!</Headline>
           </View>
         </View>
 
@@ -43,12 +43,18 @@ class HomeScreen extends React.Component {
         </View>
 
         <Hr/>
-        <Headline h4 centered>Your Favorite Recipes</Headline>
+        {this._favoriteRecipes()}
 
-          <Headline h4 centered>Whatcha up to today?</Headline>
-          <Button title="Buying new Beans" onPress={() => {}}/>
+        <Headline h4 centered>Whatcha up to today?</Headline>
+        <Button title="Buying new Beans" onPress={() => {}}/>
       </ScrollContainer>
     );
+  }
+
+  _favoriteRecipes(){
+    return (
+      <Headline h4 centered>Your Favorite Recipes</Headline>
+    )
   }
 }
 
@@ -58,12 +64,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+// export default HomeScreen;
 
-// const mapStateToProps = state => ({
-//   state
-// });
-//
-// const mapDispatchToProps = dispatch => ({});
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+const mapStateToProps = state => ({
+  recipes: state.recipes,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
