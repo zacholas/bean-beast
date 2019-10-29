@@ -183,7 +183,7 @@ const MoreStack = createStackNavigator(
 MoreStack.navigationOptions = {
   tabBarLabel: 'More',
   tabBarIcon: ({ focused }) => (
-    <IconMenu focused={focused} width={20} height={20} />
+    <IconMenu style={{ color: '#f00' }} focused={focused} width={20} height={20} />
     // <TabBarIcon
     //   focused={focused}
     //   name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}

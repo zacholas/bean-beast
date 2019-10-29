@@ -8,6 +8,7 @@ import {
   recipeStepListItemSubTextNotesText,
   recipeStepListItemSubTextNotesTitle
 } from "../../../../constants/styles/RecipeSteps";
+import { BodyText } from "../../../common";
 
 class PrimaryInfusionDisplay extends Component {
   _primaryInfusion(values){
@@ -28,7 +29,7 @@ class PrimaryInfusionDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._primaryInfusion(values)}
-        {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
+        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }

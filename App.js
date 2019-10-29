@@ -67,6 +67,7 @@ export default class App extends React.Component {
         // to remove this if you are not using it in your app
         // 'avenir-next-300': require('./assets/fonts/AvenirNextLTPro-Light.otf'),
         'avenir-next-400': require('./assets/fonts/AvenirNextLTPro-Regular.otf'),
+        'avenir-next-600': require('./assets/fonts/AvenirNextLTPro-Demi.otf'),
         'galano-grotesque-700': require('./assets/fonts/GalanoGrotesque-Bold.otf'),
         'galano-grotesque-800': require('./assets/fonts/GalanoGrotesque-ExtraBold.otf'),
       }),

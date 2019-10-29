@@ -8,7 +8,7 @@ export const recipeStepListItemInnerTextContainer = {
 };
 
 export const recipeStepListItemSubText = {
-
+  marginBottom: 0
 };
 
 export const recipeStepListItemSubTextNotesTitle = {

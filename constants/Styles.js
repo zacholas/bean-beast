@@ -97,6 +97,11 @@ export const bodyText = {
   fontFamily: 'avenir-next-400',
 };
 
+export const boldBodyText = {
+  fontWeight: fontWeightBold,
+  fontFamily: 'avenir-next-600',
+};
+
 export const centerText = {
   textAlign: 'center',
 };

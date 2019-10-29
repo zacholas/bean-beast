@@ -7,13 +7,14 @@ import {
   recipeStepListItemSubTextNotesTitle,
   recipeStepListItemInnerTextContainer
 } from "../../../../constants/styles/RecipeSteps";
+import { BodyText } from "../../../common";
 
 class TaintDisplay extends Component {
   render() {
     const { values } = this.props;
     return (
       <View style={recipeStepListItemInnerTextContainer}>
-        {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
+        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }

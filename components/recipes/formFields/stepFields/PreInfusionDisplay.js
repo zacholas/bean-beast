@@ -8,17 +8,18 @@ import {
   recipeStepListItemSubTextNotesText,
   recipeStepListItemSubTextNotesTitle
 } from "../../../../constants/styles/RecipeSteps";
+import { BodyText } from "../../../common";
 
 class PreInfusionDisplay extends Component {
   _preinfusion(values){
     const { length, pressure } = values;
     if(length || pressure){
       return (
-        <Text style={recipeStepListItemSubText}>
+        <BodyText style={recipeStepListItemSubText}>
           Pre-Infuse
           {pressure ? ` at ${pressure} Bar Pressure` : ''}
           {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
-        </Text>
+        </BodyText>
       );
     }
   }
@@ -28,7 +29,7 @@ class PreInfusionDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._preinfusion(values)}
-        {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
+        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }

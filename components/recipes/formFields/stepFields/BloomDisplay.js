@@ -8,17 +8,18 @@ import {
   recipeStepListItemSubTextNotesText,
   recipeStepListItemSubTextNotesTitle
 } from "../../../../constants/styles/RecipeSteps";
+import { BodyText } from "../../../common";
 
 class BloomDisplay extends Component {
   _bloom(values){
     const { length, water_amount } = values;
     if(length || water_amount){
       return (
-        <Text style={recipeStepListItemSubText}>
+        <BodyText style={recipeStepListItemSubText}>
           {length ? `Bloom for ${secondsToTimeStringDisplay(length)}` : ''}
           {!length && water_amount ? `Bloom` : ''}
           {water_amount && ` with ${water_amount}g of Water`}
-        </Text>
+        </BodyText>
       );
     }
   }
@@ -28,7 +29,7 @@ class BloomDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._bloom(values)}
-        {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
+        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }

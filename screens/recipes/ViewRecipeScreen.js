@@ -66,7 +66,7 @@ class ViewRecipeScreen extends Component {
         {recipe.nickname ? <Headline h1>{recipe.nickname}</Headline> : null}
 
         <BodyText>
-          Rating & Favoriting probs
+          Rating & Favoriting probs; also brew method, bean name, and roaster info
         </BodyText>
 
         {this._recipeStepsOutput()}
@@ -74,14 +74,7 @@ class ViewRecipeScreen extends Component {
 
 
 
-        <View style={styles.brewMethodContainer}>
-          <View style={{ position: 'absolute', top: 0, left: 0 }}>
-            <Text>Date (IDK if I want modified or created)</Text>
-          </View>
-          <Icon name="coffee" size={56} />
-          <Headline style={{ marginBottom: 0 }}>{_.size(this.props.brew_method) && this.props.brew_method.name ? this.props.brew_method.name : null}</Headline>
-          <BodyText>Probably should say something here about which bean it belongs to</BodyText>
-        </View>
+
 
         <View style={styles.recipePrimaryInfoBar}>
           <View style={styles.recipePrimaryInfo}>
@@ -139,29 +132,29 @@ class ViewRecipeScreen extends Component {
         </View>
 
 
-        <Hr />
+        {/*<Hr />*/}
 
-        <View>
-          <BodyText>Non-sortable recipe options</BodyText>
-        </View>
-        <Hr />
+        {/*<View>*/}
+          {/*<BodyText>Non-sortable recipe options</BodyText>*/}
+        {/*</View>*/}
+        {/*<Hr />*/}
 
-        <View>
-          <BodyText>sortable recipe steps</BodyText>
-        </View>
-        <Hr />
+        {/*<View>*/}
+          {/*<BodyText>sortable recipe steps</BodyText>*/}
+        {/*</View>*/}
+        {/*<Hr />*/}
 
 
-        <BodyText>Details:</BodyText>
-        <BodyText>{JSON.stringify(recipe)}</BodyText>
-        <Hr />
-        <BodyText>Delete, edit, clone (maybe)</BodyText>
-        <Button
-          onPress={() => this._editRecipeButtonPress()}
-          title="Edit Recipe"
-          iconName="pencil"
-          backgroundColor="gray"
-        />
+        {/*<BodyText>Details:</BodyText>*/}
+        {/*<BodyText>{JSON.stringify(recipe)}</BodyText>*/}
+        {/*<Hr />*/}
+        {/*<BodyText>Delete, edit, clone (maybe)</BodyText>*/}
+        {/*<Button*/}
+          {/*onPress={() => this._editRecipeButtonPress()}*/}
+          {/*title="Edit Recipe"*/}
+          {/*iconName="pencil"*/}
+          {/*backgroundColor="gray"*/}
+        {/*/>*/}
 
         <Button
           onPress={() => this.deleteConfirmModal.show()}
@@ -301,17 +294,18 @@ class ViewRecipeScreen extends Component {
       return (
         <View>
           <Hr/>
-          <Headline h3>Recipe Steps</Headline>
+          <Headline h3 noMargin>Recipe Steps</Headline>
+          {this.props.brew_method && this.props.brew_method.name ? <BodyText noMargin>Brew method: {this.props.brew_method.name}</BodyText> : <View/>}
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <ViewRecipeStepRow headerRow />
+            <ViewRecipeStepRow headerRow parentProps={{}} />
             {/*<View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>*/}
               {/*<View style={{ flex: 1, alignSelf: 'stretch' }}><BodyText noMargin>Step</BodyText></View>*/}
               {/*<View style={{ width: 60 }}><BodyText noMargin>Total Time</BodyText></View>*/}
               {/*<View style={{ width: 70 }}><BodyText noMargin>Total Weight</BodyText></View>*/}
             {/*</View>*/}
             {
-              recipeStepsToRender.map((step) => { // This will render a row for each data element.
-                return <ViewRecipeStepRow step={step} key={step.field.id} />;
+              recipeStepsToRender.map((step, index) => { // This will render a row for each data element.
+                return <ViewRecipeStepRow step={step} key={step.field.id} index={index} parentProps={this.props} />;
                 // return this._renderRecipeStepRow(step);
               })
             }

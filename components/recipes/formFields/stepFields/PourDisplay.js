@@ -8,6 +8,7 @@ import {
   recipeStepListItemSubTextNotesText,
   recipeStepListItemSubTextNotesTitle
 } from "../../../../constants/styles/RecipeSteps";
+import { BodyText } from "../../../common";
 
 class PourDisplay extends Component {
   _pour(values){
@@ -17,12 +18,12 @@ class PourDisplay extends Component {
     }
     if(duration || water_amount){
       return (
-        <Text style={recipeStepListItemSubText}>
+        <BodyText style={recipeStepListItemSubText}>
           {`Pour `}
           {water_amount ? `${water_amount}g of Water` : ''}
           {(water_amount && duration) ? ' ' : ''}
           {duration ? `over the course of ${secondsToTimeStringDisplay(duration)}` : ''}
-        </Text>
+        </BodyText>
       );
     }
   }
@@ -32,7 +33,7 @@ class PourDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._pour(values)}
-        {values.notes && <Text style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></Text>}
+        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }
