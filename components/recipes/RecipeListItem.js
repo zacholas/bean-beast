@@ -19,23 +19,24 @@ class RecipeListItem extends Component {
   render() {
     console.log('data', this.props);
     const itemTexts = this._itemTexts();
+    const beanInfo = this._beanInfo();
     // console.log('recipe list item with id ' + this.props.id + 'selected? ', this.props.selected);
     const item = this.props.data;
     return (
       <View style={{ marginVertical: 10, backgroundColor: grayCardBG}}>
         <TouchableOpacity onPress={() => this.props.onPressItem(this.props.id)} style={{ padding: 10, flexDirection: 'row' }}>
           {item.modified ? (
-            <View style={{ ...centerEverything, paddingRight: 12, paddingLeft: 3 }}>
+            <View style={{ ...centerEverything, paddingRight: 16, paddingLeft: 3 }}>
               <BodyText noMargin style={{ marginBottom: -6, fontSize: 20, marginTop: 3 }}>{new Date(item.modified).getDate()}</BodyText>
               <Headline noMargin h6>{getMonthFromTimestamp(item.modified, true)}</Headline>
             </View>
           ) : <View/> }
-          <View style={{ ...centerEverything, flex: 1 }}>
+          <View style={{ justifyContent: 'center', flex: 1 }}>
             <BodyText noMargin>
               {/*{this._itemTexts()}*/}
               {itemTexts}
-              {itemTexts ? ' — ' : ''}
-              {this._beanInfo()}
+              {itemTexts && beanInfo ? ' — ' : ''}
+              {beanInfo}
             </BodyText>
           </View>
         </TouchableOpacity>

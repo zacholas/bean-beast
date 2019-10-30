@@ -472,10 +472,12 @@ class ViewRecipeScreen extends Component {
 
     // recipeStepsToRender.push(...recipe.recipe_steps);
 
-
-
+    console.log('recipeStepsToRender')
     const orderedRecipeSteps = _.orderBy(recipe.recipe_steps, ['order'], ['asc']);
     _.forEach(orderedRecipeSteps, (step) => {
+      const indexToPushTo = _.size(recipeStepsToRender) && recipeStepsToRender.length ? recipeStepsToRender.length - 1 : 0;
+      const prevTotalTime = _.size(recipeStepsToRender) && _.size(recipeStepsToRender[indexToPushTo]) && recipeStepsToRender[indexToPushTo].totalTime ? Number(recipeStepsToRender[indexToPushTo].totalTime) : 0;
+      const prevTotalWeight = _.size(recipeStepsToRender) && _.size(recipeStepsToRender[indexToPushTo]) && recipeStepsToRender[indexToPushTo].totalWeight ? Number(recipeStepsToRender[indexToPushTo].totalWeight) : 0;
       // console.log('step', value);
       switch (step.field_id) {
         case 'default_wait':
@@ -483,8 +485,8 @@ class ViewRecipeScreen extends Component {
         case 'default_primary_infusion':
           // values.length
           recipeStepsToRender.push({
-            totalTime: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalTime) + Number(step.values.length),
-            totalWeight: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalWeight),
+            totalTime: prevTotalTime + Number(step.values.length),
+            totalWeight: prevTotalWeight,
             field: {
               ...step
             }
@@ -495,8 +497,8 @@ class ViewRecipeScreen extends Component {
         case 'default_bloom':
           // values.length, values.water_amount
           recipeStepsToRender.push({
-            totalTime: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalTime) + Number(step.values.length),
-            totalWeight: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalWeight) + Number(step.values.water_amount),
+            totalTime: prevTotalTime + Number(step.values.length),
+            totalWeight: prevTotalWeight + Number(step.values.water_amount),
             field: {
               ...step
             }
@@ -506,8 +508,8 @@ class ViewRecipeScreen extends Component {
         case 'default_pour':
           // values.duration, values.water_amount
           recipeStepsToRender.push({
-            totalTime: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalTime) + Number(step.values.duration),
-            totalWeight: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalWeight) + Number(step.values.water_amount),
+            totalTime: prevTotalTime + Number(step.values.duration),
+            totalWeight: prevTotalWeight + Number(step.values.water_amount),
             field: {
               ...step
             }
@@ -516,8 +518,8 @@ class ViewRecipeScreen extends Component {
 
         case 'default_taint':
           recipeStepsToRender.push({
-            totalTime: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalTime),
-            totalWeight: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalWeight),
+            totalTime: prevTotalTime,
+            totalWeight: prevTotalWeight,
             field: {
               ...step
             }
