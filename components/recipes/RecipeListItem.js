@@ -28,8 +28,8 @@ class RecipeListItem extends Component {
 
   _itemTexts(item = this.props.data){
     const thisBrewMethodID = item.brew_method ? item.brew_method : false;
-    const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
-
+    // const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
+    const thisBrewMethod = this.props.brew_method ? this.props.brew_method : false;
     let itemTexts = [];
     if( item.modified ){ itemTexts.push(prettyDate(item.modified)); }
     if( item.nickname ){ itemTexts.push(`“${item.nickname}”`); }

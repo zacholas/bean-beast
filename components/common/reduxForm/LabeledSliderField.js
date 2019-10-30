@@ -10,6 +10,7 @@ import {
 } from '../Styles';
 import { inputContainer, errorText, warningText, label } from "./Styles";
 import PropTypes from "prop-types";
+import Colors from "../../../constants/Colors";
 
 const styles = StyleSheet.create({
   sliderOuterContainer: {
@@ -163,6 +164,8 @@ const LabeledSliderDisplayComponent = ({
             step={zStep}
             style={{zIndex: 2, position: 'relative', marginHorizontal: 5}}
             disabled
+            thumbTintColor={'transparent'}
+            minimumTrackTintColor={Colors.colorPrimary}
             // thumbTouchSize={{width: 60, height: 60}}
           />
           {notchesOutput}

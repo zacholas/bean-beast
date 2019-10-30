@@ -13,6 +13,8 @@ export const colorGray1200 = '#5d616d';
 //* Defaults for things
 export const grayCardBG = colorGray200;
 
+export const colorHeartRed = '#e74c3c';
+
 export default {
   //* These came from react native default I think
   tintColor,

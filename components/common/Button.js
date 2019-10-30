@@ -120,7 +120,7 @@ const buttonIcon = (props) => {
   } else if (iconName) {
     return (
       <View style={styles.iconContainer}>
-        <Icon name={iconName} size={22} color="#fff" style={styles.icon} />
+        <Icon name={iconName} size={props.buttonIconSize} color="#fff" style={styles.icon} />
       </View>
     );
   }
@@ -136,7 +136,7 @@ const Button = (props) => {
       <View style={styles.textOuterContainer}>
         {buttonIcon(props)}
         <View style={styles.textContainer}>
-          <Text style={styles.textStyle}>
+          <Text style={{ ...styles.textStyle, ...props.textStyle }}>
             {props.title ? props.title.toUpperCase() : undefined}
           </Text>
         </View>
@@ -152,6 +152,8 @@ export { Button };
 Button.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  textStyle: PropTypes.object,
+  buttonIconSize: PropTypes.number,
   // backgroundColor: PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red'])
   // backgroundColor: PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red'])
   backgroundColor: PropTypes.oneOfType([
@@ -165,4 +167,9 @@ Button.propTypes = {
     },
     PropTypes.oneOf(['black', 'gray', 'blue', 'blue_alt', 'purple', 'turquoise', 'yellow', 'green', 'red']),
   ]),
+};
+
+Button.defaultProps = {
+  textStyle: {},
+  buttonIconSize: 22
 };

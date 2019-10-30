@@ -8,17 +8,18 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  Linking
+  Linking, FlatList
 } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
-import { SvgUri } from 'react-native-svg';
-
-import { MonoText } from '../components/StyledText';
+import _ from 'lodash';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import Modal from '../components/common/Modal';
 import {BodyText, Button, Container, Headline, Hr, ScrollContainer} from "../components/common";
 import Logo from '../assets/images/beanbeast_logo.svg';
 import {centerEverything, textLink} from "../constants/Styles";
+import * as navRoutes from "../constants/NavRoutes";
+import RecipeListItem from "../components/recipes/RecipeListItem";
+import { colorHeartRed } from "../constants/Colors";
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -44,18 +45,90 @@ class HomeScreen extends React.Component {
 
         <Hr/>
         {this._favoriteRecipes()}
+        {this._recentRecipes()}
 
-        <Headline h4 centered>Whatcha up to today?</Headline>
-        <Button title="Buying new Beans" onPress={() => {}}/>
+        {/*<Headline h4 centered>Whatcha up to today?</Headline>*/}
+        {/*<Button title="Buying new Beans" onPress={() => {}} />*/}
       </ScrollContainer>
     );
   }
 
-  _favoriteRecipes(){
-    return (
-      <Headline h4 centered>Your Favorite Recipes</Headline>
-    )
+  _recentRecipes(){
+    if(_.size(this.props.recipes) && _.size(this.props.recipes.recipes)) {
+      let recipes = this.props.recipes.recipes;
+      let i = 0;
+      recipes = _.orderBy(recipes, ['modified'], ['desc']);
+      recipes = _.filter(recipes, (recipe) => {
+        i++;
+        return i <= 3;
+      });
+      recipes = _.values(recipes);
+      if(_.size(recipes)) {
+        return (
+          <View>
+            <Headline h4 centered noMargin>Recent Recipes</Headline>
+            <FlatList
+              data={recipes}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              style={{marginTop: -12}}
+            />
+          </View>
+        )
+      }
+    }
   }
+
+  _favoriteRecipes(){
+    if(_.size(this.props.recipes) && _.size(this.props.recipes.recipes)) {
+      let recipes = this.props.recipes.recipes;
+      let i = 1;
+      recipes = _.orderBy(recipes, ['modified'], ['desc']);
+      recipes = _.filter(recipes, (recipe) => {
+        if (i > 3) {
+          return false;
+        }
+        i++;
+        return _.size(recipe.favorite_information) && recipe.favorite_information.is_favorite === true;
+      });
+      recipes = _.values(recipes);
+      if(_.size(recipes)) {
+        return (
+          <View>
+            <Headline h4 centered noMargin>Recent <Icon name="heart" size={20} style={{ color: colorHeartRed }} /> <Text style={{ color: colorHeartRed }}>Favorite</Text> Recipes</Headline>
+            <FlatList
+              data={recipes}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              style={{marginTop: -12, marginBottom: 20 }}
+            />
+            {/*<Hr/>*/}
+          </View>
+        )
+      }
+    }
+  }
+
+  _keyExtractor = (item, index) => {
+    return item.id;
+  };
+
+  _onPressItem = (id) => {
+    this.props.navigation.navigate(navRoutes.VIEW_RECIPE, {
+      id
+    })
+  };
+
+  _renderItem = ({item}) => {
+    return (
+      <RecipeListItem
+        id={item.id}
+        onPressItem={this._onPressItem}
+        data={item}
+        beanPage={this.props.beanPage}
+      />
+    );
+  };
 }
 
 const styles = StyleSheet.create({

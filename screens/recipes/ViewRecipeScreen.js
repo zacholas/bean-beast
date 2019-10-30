@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import {Headline, Hr, BodyText, Container, Button} from "../../components/common";
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteRecipe, editRecipe, markRecipeAsFavorite, cloneRecipe } from "../../actions";
-import { bodyText, headerNavTextLink, textLink } from "../../constants/Styles";
+import { bodyText, defaultMarginAmount, headerNavTextLink, textLink } from "../../constants/Styles";
 import styles from './styles';
-import { colorGray100, colorGray200, colorGray400, colorGray800 } from "../../constants/Colors";
+import { colorGray100, colorGray200, colorGray400, colorGray800, colorHeartRed } from "../../constants/Colors";
 import { generateRandomID, isDefined } from "../../helpers";
 import { LabeledSliderField } from "../../components/common/reduxForm";
 import { prettyDate, temperatureInUserPreference } from "../../helpers/labels";
 import ViewRecipeStepRow from '../../components/recipes/ViewRecipeStepRow';
 import BrewMethodIcon from "../../components/recipes/BrewMethodIcon";
+import { Strong } from "../../components/common/Text/Strong";
 
 class ViewRecipeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -38,6 +39,7 @@ class ViewRecipeScreen extends Component {
     super(props);
     this.recipeID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
+    this.beanImageModal = null;
     this.state = {
       new_cloned_recipe_id: null,
     }
@@ -68,11 +70,34 @@ class ViewRecipeScreen extends Component {
   }
 
   render() {
-    const recipe = this.props.recipe;
-    // console.log(recipe);
+    const { recipe } = this.props;
+    // const recipe = this.props.recipe;
+    console.log(recipe);
     return (
       <Container>
-        <View style={styles.recipePrimaryInfoBar}>
+        <View style={{ flexDirection: 'row', marginBottom: -15 }}>
+          <View style={{ flex: 1, marginRight: 4 }}>
+            <Button
+              onPress={() => this.deleteConfirmModal.show()}
+              title="Delete Recipe"
+              iconName="trash"
+              textStyle={{ fontSize: 13 }}
+              buttonIconSize={15}
+            />
+          </View>
+          <View style={{ flex: 1, marginLeft: 4 }}>
+            <Button
+              onPress={() => { this._cloneRecipe(recipe) }}
+              title="Clone Recipe"
+              iconName="copy"
+              backgroundColor={'green'}
+              textStyle={{ fontSize: 13 }}
+              buttonIconSize={15}
+            />
+          </View>
+        </View>
+
+        <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
           {recipe.brew_method && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && _.size(this.props.brewMethods.brewMethods[recipe.brew_method]) && this.props.brewMethods.brewMethods[recipe.brew_method].name ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem, flex: 1.5 }}>
               <BrewMethodIcon brew_method_id={recipe.brew_method} size={26} />
@@ -102,6 +127,10 @@ class ViewRecipeScreen extends Component {
             </View>
           ) : <View/>}
         </View>
+
+        {this._beanInfo()}
+
+
 
         {recipe.nickname ? <Headline noMargin h1>{recipe.nickname}</Headline> : null}
 
@@ -151,14 +180,13 @@ class ViewRecipeScreen extends Component {
           </View>
         </View>
 
+        {recipe.recipe_notes || recipe.recipe_objectives || recipe.notes_for_next_time ? <Hr/> : <View/>}
 
-        <BodyText>
-          Rating & Favoriting probs; also brew method, bean name, and roaster info. Prob have the various note fields at the top; maybe in expanders.
-        </BodyText>
+        {recipe.recipe_notes ? <BodyText><Strong>Notes: </Strong>{recipe.recipe_notes}</BodyText> : <View/>}
+        {recipe.recipe_objectives ? <BodyText><Strong>Objectives: </Strong>{recipe.recipe_objectives}</BodyText> : <View/>}
+        {recipe.notes_for_next_time ? <BodyText><Strong>Notes for next time: </Strong>{recipe.notes_for_next_time}</BodyText> : <View/>}
 
         <Hr/>
-
-
 
         {this._recipeStepsOutput()}
 
@@ -193,25 +221,9 @@ class ViewRecipeScreen extends Component {
           {/*backgroundColor="gray"*/}
         {/*/>*/}
 
-        <Hr/>
+        {/*<Hr/>*/}
 
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 1, marginRight: 4 }}>
-            <Button
-              onPress={() => { this._cloneRecipe(recipe) }}
-              title="Clone Recipe"
-              iconName="copy"
-              backgroundColor={'green'}
-            />
-          </View>
-          <View style={{ flex: 1, marginLeft: 4 }}>
-            <Button
-              onPress={() => this.deleteConfirmModal.show()}
-              title="Delete Recipe"
-              iconName="trash"
-            />
-          </View>
-        </View>
+
         <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
           <Button
             onPress={() => {this._deleteRecipe()}}
@@ -221,6 +233,58 @@ class ViewRecipeScreen extends Component {
         </Modal>
       </Container>
     );
+  }
+
+  _beanImage(){
+    const { bean } = this.props;
+    if(bean && bean.bean_image !== undefined){
+      const beanImage = bean.bean_image;
+      return (
+        <View>
+          <TouchableOpacity onPress={() => { this.beanImageModal.show() }}>
+            <Image source={{ uri: beanImage }} style={{ width: 70, height: 70, marginRight: 15, marginVertical: -10, marginLeft: -10 }} />
+          </TouchableOpacity>
+          <Modal
+            ref={(ref) => { this.beanImageModal = ref; }}
+            dismissButtonText='Close'
+            headlineText='Bean Image'
+          >
+            <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+              <Image source={{ uri: beanImage }} style={{ width: 400, height: 600, maxWidth: '100%' }} resizeMode="contain" />
+            </View>
+          </Modal>
+        </View>
+      );
+    }
+  }
+
+  _beanInfo(){
+    const { recipe, bean, roaster } = this.props;
+    if(bean){
+
+      let doseContent = String('');
+      let roasterContent = String('');
+      if(bean.name){
+        doseContent += `${bean.name}`;
+        if(roaster && roaster.name) {
+          roasterContent = <Text style={{ fontStyle: 'italic' }}> (Roasted by {roaster.name})</Text>;
+        }
+      }
+
+      return (
+        <View style={{ ...styles.recipePrimaryInfoBar }}>
+          <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem, flexDirection: 'row', justifyContent: 'flex-start' }}>
+            {this._beanImage()}
+            <View style={{ flex: 1 }}>
+              {doseContent || roasterContent ? <BodyText noMargin><Strong>Bean:</Strong> {doseContent}{roasterContent}</BodyText> : <View/>}
+            </View>
+            {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>{this.props.brewMethods.brewMethods[recipe.brew_method].name}</Headline>*/}
+          </View>
+        </View>
+      );
+    }
+
+
   }
 
   _cloneRecipe(item){
@@ -239,7 +303,7 @@ class ViewRecipeScreen extends Component {
       if(recipe.favorite_information.is_favorite === true){
         return (
           <TouchableOpacity onPress={() => { this.props.markRecipeAsFavorite(recipe.id) }} style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name="heart" size={40} style={{ color: '#e74c3c' }} />
+            <Icon name="heart" size={40} style={{ color: colorHeartRed }} />
             <Headline h6 style={{ width: 80, textAlign: 'center' }}>Favorited</Headline>
           </TouchableOpacity>
         )
@@ -442,12 +506,16 @@ const mapStateToProps = (state, props) => {
     ...recipe
   };
   const brew_method = isDefined(recipe) && recipe && isDefined(recipe.brew_method) && _.size(state.brewMethods.brewMethods[recipe.brew_method]) ? state.brewMethods.brewMethods[recipe.brew_method] : null;
+  const beanID = recipe.bean_id ? recipe.bean_id : false;
+  const roasterID = _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] && state.beans.beans[beanID].cafe ? state.beans.beans[beanID].cafe : false;
   return {
     recipe,
     brew_method,
     userPreferences: state.userPreferences,
     brewMethods: state.brewMethods,
-    recipes: state.recipes
+    recipes: state.recipes,
+    bean: beanID && _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] ? state.beans.beans[beanID] : false,
+    roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false
   };
 };
 
