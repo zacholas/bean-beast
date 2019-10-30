@@ -7,14 +7,15 @@ import { connect } from 'react-redux';
 import {Headline, Hr, BodyText, Container, Button} from "../../components/common";
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
-import { deleteRecipe, editRecipe } from "../../actions";
-import { headerNavTextLink, textLink } from "../../constants/Styles";
+import { deleteRecipe, editRecipe, markRecipeAsFavorite, cloneRecipe } from "../../actions";
+import { bodyText, headerNavTextLink, textLink } from "../../constants/Styles";
 import styles from './styles';
-import {colorGray400, colorGray800} from "../../constants/Colors";
-import { isDefined } from "../../helpers";
+import { colorGray100, colorGray200, colorGray400, colorGray800 } from "../../constants/Colors";
+import { generateRandomID, isDefined } from "../../helpers";
 import { LabeledSliderField } from "../../components/common/reduxForm";
-import { prettyDate } from "../../helpers/labels";
+import { prettyDate, temperatureInUserPreference } from "../../helpers/labels";
 import ViewRecipeStepRow from '../../components/recipes/ViewRecipeStepRow';
+import BrewMethodIcon from "../../components/recipes/BrewMethodIcon";
 
 class ViewRecipeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -37,6 +38,23 @@ class ViewRecipeScreen extends Component {
     super(props);
     this.recipeID = props.navigation.getParam('id');
     this.deleteConfirmModal = null;
+    this.state = {
+      new_cloned_recipe_id: null,
+    }
+  }
+
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    const newRecipeID = this.state.new_cloned_recipe_id;
+    const newRecipe = _.size(nextProps.recipes) && _.size(nextProps.recipes.recipes) && nextProps.recipes.recipes[newRecipeID] ? nextProps.recipes.recipes[newRecipeID] : null;
+
+    if(this.props.recipes.loading === true && nextProps.recipes.loading === false && newRecipeID && newRecipe){
+      this.setState({ new_cloned_recipe_id: null });
+      this.props.editRecipe(newRecipe);
+      this.props.navigation.navigate(navRoutes.EDIT_RECIPE, {
+        type: 'edit',
+        recipe: newRecipe
+      });
+    }
   }
 
   componentDidMount(): void {
@@ -51,47 +69,49 @@ class ViewRecipeScreen extends Component {
 
   render() {
     const recipe = this.props.recipe;
-    console.log(recipe);
+    // console.log(recipe);
     return (
       <Container>
+        <View style={styles.recipePrimaryInfoBar}>
+          {recipe.brew_method && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && _.size(this.props.brewMethods.brewMethods[recipe.brew_method]) && this.props.brewMethods.brewMethods[recipe.brew_method].name ? (
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem, flex: 1.5 }}>
+              <BrewMethodIcon brew_method_id={recipe.brew_method} size={26} />
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>{this.props.brewMethods.brewMethods[recipe.brew_method].name}</Headline>
+            </View>
+          ) : <View/>}
+
+          {recipe.grind ? (
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.grind}</BodyText>
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Grind</Headline>
+            </View>
+          ) : <View/>}
+
+          {recipe.dose ? (
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.dose}g</BodyText>
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Dose</Headline>
+            </View>
+          ) : <View/>}
+
+          {recipe.temperature ? (
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
+              {/*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*/}
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences)}</BodyText>
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>
+            </View>
+          ) : <View/>}
+        </View>
+
+        {recipe.nickname ? <Headline noMargin h1>{recipe.nickname}</Headline> : null}
+
+
+
         <BodyText>
-          Prob have the various note fields at the top; maybe in expanders.
-        </BodyText>
-        <BodyText noMargin>
           {recipe.created ? `Created: ${prettyDate(recipe.created)}` : null}
           {recipe.created && recipe.modified && recipe.modified !== recipe.created ? ` | ` : null}
           {recipe.modified && recipe.modified !== recipe.created ? `Modified: ${prettyDate(recipe.modified)}` : null}
         </BodyText>
-        {/*{recipe.mod}*/}
-        {recipe.nickname ? <Headline h1>{recipe.nickname}</Headline> : null}
-
-        <BodyText>
-          Rating & Favoriting probs; also brew method, bean name, and roaster info
-        </BodyText>
-
-        {this._recipeStepsOutput()}
-
-
-
-
-
-
-        <View style={styles.recipePrimaryInfoBar}>
-          <View style={styles.recipePrimaryInfo}>
-            <Text>Grind</Text>
-            <Text>{recipe.grind}</Text>
-          </View>
-          <View style={styles.recipePrimaryInfo}>
-            <Text>Dose</Text>
-            <Text>{recipe.dose}</Text>
-          </View>
-          <View style={styles.recipePrimaryInfo}>
-            <Text>Temp</Text>
-            <Text>{recipe.temperature}</Text>
-          </View>
-        </View>
-
-        <Hr />
 
         <View style={styles.recipeRatingContainer}>
           <View style={styles.recipeOverallRatingBar}>
@@ -132,6 +152,23 @@ class ViewRecipeScreen extends Component {
         </View>
 
 
+        <BodyText>
+          Rating & Favoriting probs; also brew method, bean name, and roaster info. Prob have the various note fields at the top; maybe in expanders.
+        </BodyText>
+
+        <Hr/>
+
+
+
+        {this._recipeStepsOutput()}
+
+
+
+
+
+        {/*<Hr />*/}
+
+
         {/*<Hr />*/}
 
         {/*<View>*/}
@@ -156,11 +193,25 @@ class ViewRecipeScreen extends Component {
           {/*backgroundColor="gray"*/}
         {/*/>*/}
 
-        <Button
-          onPress={() => this.deleteConfirmModal.show()}
-          title="Delete Recipe"
-          iconName="trash"
-        />
+        <Hr/>
+
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 1, marginRight: 4 }}>
+            <Button
+              onPress={() => { this._cloneRecipe(recipe) }}
+              title="Clone Recipe"
+              iconName="copy"
+              backgroundColor={'green'}
+            />
+          </View>
+          <View style={{ flex: 1, marginLeft: 4 }}>
+            <Button
+              onPress={() => this.deleteConfirmModal.show()}
+              title="Delete Recipe"
+              iconName="trash"
+            />
+          </View>
+        </View>
         <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
           <Button
             onPress={() => {this._deleteRecipe()}}
@@ -172,12 +223,22 @@ class ViewRecipeScreen extends Component {
     );
   }
 
+  _cloneRecipe(item){
+    const id = generateRandomID('recipe');
+    if(item.id && this.props.cloneRecipe){
+      this.props.cloneRecipe(id, item.id);
+      this.setState({ new_cloned_recipe_id: id });
+      // console.log('done', this.props.recipes.recipes);
+      // console.log('done', this.props.recipes.recipes[id]);
+    }
+  }
+
   _favoriteOutput(){
     const recipe = this.props.recipe;
     if(recipe && recipe.favorite_information){
       if(recipe.favorite_information.is_favorite === true){
         return (
-          <TouchableOpacity onPress={() => { }} style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <TouchableOpacity onPress={() => { this.props.markRecipeAsFavorite(recipe.id) }} style={{ alignItems: 'center', justifyContent: 'center' }}>
             <Icon name="heart" size={40} style={{ color: '#e74c3c' }} />
             <Headline h6 style={{ width: 80, textAlign: 'center' }}>Favorited</Headline>
           </TouchableOpacity>
@@ -185,7 +246,7 @@ class ViewRecipeScreen extends Component {
       }
 
       return (
-        <TouchableOpacity onPress={() => { }} style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <TouchableOpacity onPress={() => { this.props.markRecipeAsFavorite(recipe.id) }} style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Icon name="heart" size={40} style={{ color: colorGray400 }} />
           <Headline h6 style={{ width: 80, textAlign: 'center' }}>Save as Favorite?</Headline>
         </TouchableOpacity>
@@ -283,6 +344,16 @@ class ViewRecipeScreen extends Component {
           });
           break;
 
+        case 'default_taint':
+          recipeStepsToRender.push({
+            totalTime: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalTime),
+            totalWeight: Number(recipeStepsToRender[recipeStepsToRender.length - 1].totalWeight),
+            field: {
+              ...step
+            }
+          });
+          break;
+
         default:
           break;
       }
@@ -293,7 +364,7 @@ class ViewRecipeScreen extends Component {
     if(_.size(recipeStepsToRender)){
       return (
         <View>
-          <Hr/>
+          {/*<Hr/>*/}
           <Headline h3 noMargin>Recipe Steps</Headline>
           {this.props.brew_method && this.props.brew_method.name ? <BodyText noMargin>Brew method: {this.props.brew_method.name}</BodyText> : <View/>}
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -351,6 +422,19 @@ const defaultRecipeProps = {
   temperature: null,
 };
 
+const thisStyles = StyleSheet.create({
+  gridCalloutItem: {
+    justifyContent: 'flex-end'
+  },
+  gridCalloutText: {
+    fontSize: 21
+  },
+  gridCalloutLabel: {
+    ...bodyText,
+    fontSize: 12
+  }
+});
+
 const mapStateToProps = (state, props) => {
   let recipe = state.recipes.recipes[props.navigation.getParam('id')];
   recipe = {
@@ -360,11 +444,14 @@ const mapStateToProps = (state, props) => {
   const brew_method = isDefined(recipe) && recipe && isDefined(recipe.brew_method) && _.size(state.brewMethods.brewMethods[recipe.brew_method]) ? state.brewMethods.brewMethods[recipe.brew_method] : null;
   return {
     recipe,
-    brew_method
+    brew_method,
+    userPreferences: state.userPreferences,
+    brewMethods: state.brewMethods,
+    recipes: state.recipes
   };
 };
 
-export default connect(mapStateToProps, { deleteRecipe, editRecipe })(ViewRecipeScreen);
+export default connect(mapStateToProps, { deleteRecipe, editRecipe, markRecipeAsFavorite, cloneRecipe })(ViewRecipeScreen);
 
 ViewRecipeScreen.propTypes = {
   recipe: PropTypes.object

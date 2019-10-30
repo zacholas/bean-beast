@@ -15,7 +15,7 @@ class PreInfusionDisplay extends Component {
     const { length, pressure } = values;
     if(length || pressure){
       return (
-        <BodyText style={recipeStepListItemSubText}>
+        <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}>
           Pre-Infuse
           {pressure ? ` at ${pressure} Bar Pressure` : ''}
           {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
@@ -29,7 +29,7 @@ class PreInfusionDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._preinfusion(values)}
-        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
+        {values.notes && <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }
@@ -37,6 +37,7 @@ class PreInfusionDisplay extends Component {
 
 PreInfusionDisplay.propTypes = {
   values: PropTypes.object,
+  style: PropTypes.object,
 };
 
 PreInfusionDisplay.defaultProps = {
@@ -44,7 +45,8 @@ PreInfusionDisplay.defaultProps = {
     length: null,
     pressure: null,
     notes: null
-  }
+  },
+  style: {}
 };
 
 export default PreInfusionDisplay;

@@ -23,6 +23,7 @@ import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wai
 import { recipe_steps_validation } from "./recipeSteps/RecipeStepsFormValidation";
 import { beanTitleDisplay } from "../../helpers/labels";
 import { FavoriteField } from "./formFields/fields/FavoriteField";
+import BrewMethodIcon from "./BrewMethodIcon";
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -663,7 +664,8 @@ class EditRecipeForm extends Component {
       const thisBrewMethod = thisBrewMethodID && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && this.props.brewMethods.brewMethods[thisBrewMethodID] ? this.props.brewMethods.brewMethods[thisBrewMethodID] : false;
       brewMethodOutput = (
         <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>
-          <Icon name="coffee" size={56} />
+          {/*<Icon name="coffee" size={56} />*/}
+          <BrewMethodIcon brew_method={thisBrewMethod.id} />
           {thisBrewMethod && thisBrewMethod.name && <Headline style={{ marginBottom: 0 }}>{thisBrewMethod.name}</Headline>}
         </TouchableOpacity>
       );

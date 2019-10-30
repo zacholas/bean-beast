@@ -15,11 +15,11 @@ class PrimaryInfusionDisplay extends Component {
     const { length, pressure } = values;
     if(length || pressure){
       return (
-        <Text style={recipeStepListItemSubText}>
+        <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}>
           Extract
           {pressure ? ` at ${pressure} Bar Pressure` : ''}
           {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
-        </Text>
+        </BodyText>
       );
     }
   }
@@ -29,7 +29,7 @@ class PrimaryInfusionDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._primaryInfusion(values)}
-        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
+        {values.notes && <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }
@@ -37,6 +37,7 @@ class PrimaryInfusionDisplay extends Component {
 
 PrimaryInfusionDisplay.propTypes = {
   values: PropTypes.object,
+  style: PropTypes.object,
 };
 
 PrimaryInfusionDisplay.defaultProps = {
@@ -44,7 +45,8 @@ PrimaryInfusionDisplay.defaultProps = {
     length: null,
     pressure: null,
     notes: null
-  }
+  },
+  style: {}
 };
 
 export default PrimaryInfusionDisplay;

@@ -14,7 +14,7 @@ class TaintDisplay extends Component {
     const { values } = this.props;
     return (
       <View style={recipeStepListItemInnerTextContainer}>
-        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
+        {values.notes && <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }
@@ -22,13 +22,15 @@ class TaintDisplay extends Component {
 
 TaintDisplay.propTypes = {
   values: PropTypes.object,
+  style: PropTypes.object,
 };
 
 TaintDisplay.defaultProps = {
   values: {
     length: null,
     notes: null
-  }
+  },
+  style: {}
 };
 
 export default TaintDisplay;

@@ -171,6 +171,23 @@ export default (state = INITIAL_STATE, action) => {
           }
         }
       };
+    case types.RECIPE_TOGGLE_FAVORITE:
+      const currentFavStatus = state.recipes[action.payload.id].favorite_information.is_favorite;
+      return { ...state,
+        loading: false,
+        error: '',
+        recipes: {
+          ...state.recipes,
+          [action.payload.id]: {
+            ...state.recipes[action.payload.id],
+            favorite_information: {
+              ...state.recipes[action.payload.id].favorite_information,
+              is_favorite: !currentFavStatus,
+              favorited_on: action.payload.modified,
+            }
+          }
+        }
+      };
 
     case types.RECIPE_DELETING:
       const newRecipes = _.omit(state.recipes, action.payload);

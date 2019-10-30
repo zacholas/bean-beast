@@ -13,3 +13,4 @@ export const RECIPE_CLONE = 'recipe_clone';
 export const RECIPE_CLONING = 'recipe_cloning';
 export const RECIPE_CLONE_SUCCESS = 'recipe_clone_success';
 export const RECIPE_CLONE_FAIL = 'recipe_clone_fail';
+export const RECIPE_TOGGLE_FAVORITE = 'recipeToggleFavorite';

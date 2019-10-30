@@ -202,3 +202,16 @@ const _cloningRecipe = (dispatch, id, cloning_id) => new Promise((resolve, rejec
   });
   resolve();
 });
+
+//* Todo could one day consider making this promise style once I have the database situation set up
+export const markRecipeAsFavorite = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: types.RECIPE_TOGGLE_FAVORITE,
+      payload: {
+        id,
+        modified: new Date().getTime(),
+      }
+    });
+  };
+};

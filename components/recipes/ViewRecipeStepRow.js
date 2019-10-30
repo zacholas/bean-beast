@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { BodyText, Headline } from "../common";
 import PropTypes from "prop-types";
 import _ from 'lodash';
@@ -17,7 +17,8 @@ class ViewRecipeStepRow extends Component {
   constructor(props){
     super(props);
     this.state = {
-      hoursEnabled: _.size(props.parentProps) && _.size(props.parentProps.brew_method) && props.parentProps.brew_method.id && props.parentProps.brew_method.id === 'default_cold_brew'
+      hoursEnabled: _.size(props.parentProps) && _.size(props.parentProps.brew_method) && props.parentProps.brew_method.id && props.parentProps.brew_method.id === 'default_cold_brew',
+      crossedOut: false,
     };
   }
 
@@ -36,12 +37,24 @@ class ViewRecipeStepRow extends Component {
       <View style={styles.row}>
         <View style={styles.stepCol}>
           {/*{this._numberOutput()}*/}
-          {this._stepOutput()}
+          <TouchableOpacity onPress={() => this._toggleItemCrossedOut()}>
+            {this._stepOutput()}
+          </TouchableOpacity>
         </View>
         <View style={styles.timeCol}><BodyText noMargin style={styles.smallText}>{this._timeOutput()}</BodyText></View>
         <View style={styles.weightCol}><BodyText noMargin style={styles.smallText}>{this._weightOutput()}</BodyText></View>
       </View>
     );
+  }
+
+  _toggleItemCrossedOut(){
+    this.setState({ crossedOut: !this.state.crossedOut });
+  }
+
+  _style(){
+    return {
+      textDecorationLine: this.state.crossedOut === true ? 'line-through' : 'none'
+    }
   }
 
   _numberOutput(){
@@ -60,7 +73,7 @@ class ViewRecipeStepRow extends Component {
       //* Pseudo
       case 'temperature':
         if(values.temperature){
-          return <BodyText noMargin>Heat water to {temperatureInUserPreference(values.temperature, this.props.userPreferences)}</BodyText>;
+          return <BodyText noMargin style={this._style()}>Heat water to {temperatureInUserPreference(values.temperature, this.props.userPreferences)}</BodyText>;
         }
         break;
       case 'dose':
@@ -73,33 +86,35 @@ class ViewRecipeStepRow extends Component {
           }
         }
         if(values.dose){
-          return <BodyText noMargin><Strong>Weigh {values.dose}g</Strong>{doseContent}{roasterContent}</BodyText>;
+          return <BodyText noMargin style={this._style()}>Weigh {values.dose}g{doseContent}{roasterContent}</BodyText>;
+          // return <BodyText noMargin style={this._style()}><Strong>Weigh {values.dose}g</Strong>{doseContent}{roasterContent}</BodyText>;
         }
         break;
       case 'grind':
         if(typeof values.grind !== 'undefined'){
-          return <BodyText noMargin>Grind the beans at setting "{values.grind}"</BodyText>;
+          return <BodyText noMargin style={this._style()}>Grind the beans at setting "{values.grind}"</BodyText>;
         }
+        break;
 
       //* Universal
       case 'default_wait':
-        return  <WaitDisplay values={values} />;
+        return  <WaitDisplay values={values} style={this._style()} />;
       case 'default_taint':
-        return  <TaintDisplay values={values} />;
+        return  <TaintDisplay values={values} style={this._style()} />;
 
       //* Espresso Only
       case 'default_pre_infusion':
-        return  <PreInfusionDisplay values={values} />;
+        return  <PreInfusionDisplay values={values} style={this._style()} />;
       case 'default_primary_infusion':
-        return  <PrimaryInfusionDisplay values={values} />;
+        return  <PrimaryInfusionDisplay values={values} style={this._style()} />;
 
       //* Everything Else
       case 'default_bloom':
-        return  <BloomDisplay values={values} />;
+        return  <BloomDisplay values={values} style={this._style()} />;
       case 'default_pour':
-        return  <PourDisplay values={values} />;
+        return  <PourDisplay values={values} style={this._style()} />;
       default:
-        return <BodyText noMargin>{field_id}</BodyText>;
+        // return <BodyText noMargin style={this._style()}>{field_id}</BodyText>;
     }
   }
 
@@ -158,9 +173,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'flex-end',
+    paddingRight: 20
   },
   timeCol: {
-    width: 60
+    width: 60,
+    marginRight: 10
   },
   weightCol: {
     width: 70

@@ -14,7 +14,7 @@ import { BodyText } from "../../../common";
 class WaitDisplay extends Component {
   _waitTime(length){
     if(!isNaN(length) && length){
-      return <BodyText style={recipeStepListItemSubText}>Wait for {secondsToTimeStringDisplay(length)}</BodyText>;
+      return <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}>Wait for {secondsToTimeStringDisplay(length)}</BodyText>;
     }
   }
 
@@ -23,7 +23,7 @@ class WaitDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._waitTime(values.length)}
-        {values.notes && <BodyText style={recipeStepListItemSubText}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
+        {values.notes && <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
       </View>
     );
   }
@@ -31,13 +31,15 @@ class WaitDisplay extends Component {
 
 WaitDisplay.propTypes = {
   values: PropTypes.object,
+  style: PropTypes.object,
 };
 
 WaitDisplay.defaultProps = {
   values: {
     length: null,
     notes: null
-  }
+  },
+  style: {}
 };
 
 export default WaitDisplay;
