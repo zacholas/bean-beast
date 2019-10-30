@@ -19,6 +19,7 @@ import {centerEverything, textLink} from "../constants/Styles";
 import * as navRoutes from "../constants/NavRoutes";
 import RecipeListItem from "../components/recipes/RecipeListItem";
 import { colorHeartRed } from "../constants/Colors";
+import { ActionSheetOptions, connectActionSheet } from '@expo/react-native-action-sheet';
 
 
 class HomeScreen extends React.Component {
@@ -27,7 +28,6 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    // console.log('home state', this.props);
     return (
       <ScrollContainer contentContainerStyle={{...centerEverything}}>
         <View style={{ flexDirection: 'row', ...styles.logoContainer, ...centerEverything, marginTop: 20 }}>
@@ -145,4 +145,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+HomeScreen = connectActionSheet(HomeScreen);
+HomeScreen = connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default HomeScreen;

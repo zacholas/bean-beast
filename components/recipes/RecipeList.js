@@ -31,7 +31,9 @@ class RecipeList extends Component {
   };
 
   render() {
-    const recipes = _.values(this.props.recipes.recipes);
+    let recipes = this.props.recipes.recipes;
+    recipes = _.orderBy(recipes, ['modified'], ['desc']);
+    recipes = _.values(recipes);
     // console.log(recipes);
     return (
       <FlatList

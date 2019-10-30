@@ -81,10 +81,6 @@ export const secondsToTimeStringDisplay = seconds => {
   return output;
 };
 
-export const prettyDate = (timestamp) => {
-  // return new Date(Date.parse(timestamp)).toLocaleDateString("en-US"); // Didn't work
-  return new Date(timestamp).toLocaleDateString("en-US");
-};
 
 export const temperatureInUserPreference = (temperature, userPreferences) => {
   const userTempType = _.size(userPreferences) && _.size(userPreferences.global) && userPreferences.global.temperatureMeasurement ? userPreferences.global.temperatureMeasurement : 'c';
@@ -94,4 +90,19 @@ export const temperatureInUserPreference = (temperature, userPreferences) => {
     return `${Math.round( farenheitTemp * 10 ) / 10}° F`;
   }
   return `${Math.round( temperature * 10 ) / 10}° C`;
+};
+
+export const prettyDate = (timestamp) => {
+  // return new Date(Date.parse(timestamp)).toLocaleDateString("en-US"); // Didn't work
+  return new Date(timestamp).toLocaleDateString("en-US");
+};
+
+
+export const getMonthFromTimestamp = (timestamp, abbreviated = false) => {
+  let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  if(abbreviated === true){
+    monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec" ];
+  }
+  const d = new Date(timestamp);
+  return monthNames[d.getMonth()];
 };

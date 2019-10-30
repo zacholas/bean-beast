@@ -17,15 +17,17 @@ import { prettyDate, temperatureInUserPreference } from "../../helpers/labels";
 import ViewRecipeStepRow from '../../components/recipes/ViewRecipeStepRow';
 import BrewMethodIcon from "../../components/recipes/BrewMethodIcon";
 import { Strong } from "../../components/common/Text/Strong";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 class ViewRecipeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     let headerRightOutput = <View />;
+    console.log('this props', this.props);
     const { params } = navigation.state;
     if(params.recipe && params.onPress){
       headerRightOutput = (
         <TouchableOpacity onPress={params.onPress}>
-          <Text style={headerNavTextLink}><Icon name="pencil" size={16} style={textLink} /> Edit</Text>
+          <Text style={headerNavTextLink}><Icon name="ellipsis-h" size={16} style={textLink} /> Actions</Text>
         </TouchableOpacity>
       );
     }
@@ -33,6 +35,111 @@ class ViewRecipeScreen extends Component {
       title: 'View Recipe',
       headerRight: headerRightOutput
     }
+  };
+
+  _showActionSheet = () => {
+    const {
+      withTitle,
+      withMessage,
+      withIcons,
+      withSeparators,
+      withCustomStyles,
+      onSelection,
+      showActionSheetWithOptions,
+      recipe
+    } = this.props;
+
+    // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
+    // const options = [
+    //   'Delete',
+    //   'Edit',
+    //   'Clone',
+    //   'Share',
+    //   'Cancel'
+    // ];
+    // const cancelButtonIndex = 4;
+
+    const options = [
+      'Delete',
+      'Edit',
+      'Clone',
+      'Cancel'
+    ];
+    const cancelButtonIndex = 3;
+
+
+
+    const icons = withIcons
+      ? [icon('delete'), icon('save'), icon('share'), icon('cancel')]
+      : undefined;
+    const title = withTitle ? 'Choose An Action' : undefined;
+    const message = withMessage
+      ? 'This library tries to mimic the native share sheets as close as possible.'
+      : undefined;
+    const destructiveButtonIndex = 0;
+
+    const textStyle: TextStyle | undefined = withCustomStyles
+      ? {
+        fontSize: 20,
+        fontWeight: '500',
+        color: 'blue',
+      }
+      : undefined;
+    const titleTextStyle: TextStyle | undefined = withCustomStyles
+      ? {
+        fontSize: 24,
+        textAlign: 'center',
+        fontWeight: '700',
+        color: 'orange',
+      }
+      : undefined;
+    const messageTextStyle: TextStyle | undefined = withCustomStyles
+      ? {
+        fontSize: 12,
+        color: 'purple',
+        textAlign: 'right',
+      }
+      : undefined;
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        destructiveButtonIndex,
+        title,
+        message,
+        icons,
+        // Android only
+        tintIcons: true,
+        // Android only; default is true
+        showSeparators: withSeparators,
+        // Affects Android only; default is false
+        textStyle,
+        // Android only
+        titleTextStyle,
+        // Android only
+        messageTextStyle, // Android only
+      },
+      buttonIndex => {
+        switch (buttonIndex) {
+          case 0:
+            this.deleteConfirmModal.show();
+            break;
+          case 1:
+            // console.log('edit it');
+            this._editRecipeButtonPress();
+            break;
+          case 2:
+            this._cloneRecipe(recipe);
+            break;
+          case 3: // cancel
+          default:
+            break;
+        }
+        // Do something here depending on the button index selected
+        // console.log('buttonIndex: ', buttonIndex)
+        // onSelection(buttonIndex);
+      }
+    );
   };
 
   constructor(props){
@@ -63,7 +170,8 @@ class ViewRecipeScreen extends Component {
     const recipe = this.props.recipe;
     if(recipe){
       this.props.navigation.setParams({
-        onPress: () => this._editRecipeButtonPress(recipe),
+        // onPress: () => this._editRecipeButtonPress(recipe),
+        onPress: () => this._showActionSheet(),
         recipe
       })
     }
@@ -75,27 +183,27 @@ class ViewRecipeScreen extends Component {
     console.log(recipe);
     return (
       <Container>
-        <View style={{ flexDirection: 'row', marginBottom: -15 }}>
-          <View style={{ flex: 1, marginRight: 4 }}>
-            <Button
-              onPress={() => this.deleteConfirmModal.show()}
-              title="Delete Recipe"
-              iconName="trash"
-              textStyle={{ fontSize: 13 }}
-              buttonIconSize={15}
-            />
-          </View>
-          <View style={{ flex: 1, marginLeft: 4 }}>
-            <Button
-              onPress={() => { this._cloneRecipe(recipe) }}
-              title="Clone Recipe"
-              iconName="copy"
-              backgroundColor={'green'}
-              textStyle={{ fontSize: 13 }}
-              buttonIconSize={15}
-            />
-          </View>
-        </View>
+        {/*<View style={{ flexDirection: 'row', marginBottom: -15 }}>*/}
+          {/*<View style={{ flex: 1, marginRight: 4 }}>*/}
+            {/*<Button*/}
+              {/*onPress={() => this.deleteConfirmModal.show()}*/}
+              {/*title="Delete Recipe"*/}
+              {/*iconName="trash"*/}
+              {/*textStyle={{ fontSize: 13 }}*/}
+              {/*buttonIconSize={15}*/}
+            {/*/>*/}
+          {/*</View>*/}
+          {/*<View style={{ flex: 1, marginLeft: 4 }}>*/}
+            {/*<Button*/}
+              {/*onPress={() => { this._cloneRecipe(recipe) }}*/}
+              {/*title="Clone Recipe"*/}
+              {/*iconName="copy"*/}
+              {/*backgroundColor={'green'}*/}
+              {/*textStyle={{ fontSize: 13 }}*/}
+              {/*buttonIconSize={15}*/}
+            {/*/>*/}
+          {/*</View>*/}
+        {/*</View>*/}
 
         <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
           {recipe.brew_method && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && _.size(this.props.brewMethods.brewMethods[recipe.brew_method]) && this.props.brewMethods.brewMethods[recipe.brew_method].name ? (
@@ -283,8 +391,6 @@ class ViewRecipeScreen extends Component {
         </View>
       );
     }
-
-
   }
 
   _cloneRecipe(item){
@@ -519,7 +625,9 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, { deleteRecipe, editRecipe, markRecipeAsFavorite, cloneRecipe })(ViewRecipeScreen);
+ViewRecipeScreen = connectActionSheet(ViewRecipeScreen);
+ViewRecipeScreen = connect(mapStateToProps, { deleteRecipe, editRecipe, markRecipeAsFavorite, cloneRecipe })(ViewRecipeScreen);
+export default ViewRecipeScreen;
 
 ViewRecipeScreen.propTypes = {
   recipe: PropTypes.object

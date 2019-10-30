@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, AsyncStorage, SafeAreaView } from 'react-native';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
+import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
 import { Ionicons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import * as Sentry from 'sentry-expo';
@@ -25,12 +26,13 @@ Sentry.init({
 const { store, persistor } = configuredStore.default();
 // persistor.purge();
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
 
   render() {
+    // console.log('app props', this.props);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <Provider store={store}>
@@ -83,6 +85,18 @@ export default class App extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
+}
+
+const ConnectedApp = connectActionSheet(App);
+
+export default class AppContainer extends React.Component {
+  render() {
+    return (
+      <ActionSheetProvider>
+        <ConnectedApp />
+      </ActionSheetProvider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
