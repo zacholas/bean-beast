@@ -71,10 +71,12 @@ class RecipeListItem extends Component {
 
   _beanInfo(){
     const { bean, roaster } = this.props;
+    console.log('bean', beanTitleDisplay(bean, this.props.origins, this.props.beanProcesses));
+    // console.log('bean', bean);
     if(bean){
       let beanContent = String('');
       let roasterContent = String('');
-      if(bean.name){
+      if(bean){
         beanContent += `${beanTitleDisplay(bean, this.props.origins, this.props.beanProcesses)}`;
         if(roaster && roaster.name) {
           roasterContent = <Text style={{ fontStyle: 'italic' }}> (Roasted by {roaster.name})</Text>;
@@ -100,8 +102,8 @@ const mapStateToProps = (state, props) => {
     brew_method,
     bean: beanID && _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] ? state.beans.beans[beanID] : false,
     roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false,
-    origins: state.origins,
-    beanProcesses: state.beanProcesses
+    origins: state.origins.origins,
+    beanProcesses: state.beanProcesses.beanProcesses
   };
 };
 
