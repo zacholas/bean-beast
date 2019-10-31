@@ -8,7 +8,7 @@ import { grayCardBG } from "../../constants/Colors";
 import { cardGray, centerEverything, textLink } from "../../constants/Styles";
 import Icon from "../beans/BeanRecipes";
 import Colors from "../../constants/Colors";
-import { getMonthFromTimestamp, prettyDate, temperatureInUserPreference } from "../../helpers/labels";
+import { beanTitleDisplay, getMonthFromTimestamp, prettyDate, temperatureInUserPreference } from "../../helpers/labels";
 import styles from "../../screens/recipes/styles";
 import { Strong } from "../common/Text/Strong";
 
@@ -72,18 +72,17 @@ class RecipeListItem extends Component {
   _beanInfo(){
     const { bean, roaster } = this.props;
     if(bean){
-
-      let doseContent = String('');
+      let beanContent = String('');
       let roasterContent = String('');
       if(bean.name){
-        doseContent += `${bean.name}`;
+        beanContent += `${beanTitleDisplay(bean, this.props.origins, this.props.beanProcesses)}`;
         if(roaster && roaster.name) {
           roasterContent = <Text style={{ fontStyle: 'italic' }}> (Roasted by {roaster.name})</Text>;
         }
       }
 
       return (
-        <Text><Strong>Bean:</Strong> {doseContent}{roasterContent}</Text>
+        <Text><Strong>Bean:</Strong> {beanContent}{roasterContent}</Text>
       );
     }
   }
@@ -100,7 +99,9 @@ const mapStateToProps = (state, props) => {
   return {
     brew_method,
     bean: beanID && _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] ? state.beans.beans[beanID] : false,
-    roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false
+    roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false,
+    origins: state.origins,
+    beanProcesses: state.beanProcesses
   };
 };
 
