@@ -30,7 +30,8 @@
       "permissions": [
         "CAMERA"
       ],
-      "package": "com.zachswinehart.beanbeast"
+      "package": "com.zachswinehart.beanbeast",
+      "versionCode": 2
     },
     "hooks": {
       "postPublish": [
