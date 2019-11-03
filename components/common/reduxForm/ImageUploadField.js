@@ -13,8 +13,6 @@ import {
 import * as styles from "./Styles";
 import PropTypes from "prop-types";
 
-
-
 class ImageUploadComponent extends Component {
   // render() {
   //   const { input: { value, onChange } } = this.props;
@@ -58,11 +56,12 @@ class ImageUploadComponent extends Component {
 
   getPermissionAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
     this.setState({ hasGalleryPermission: status === 'granted' });
   };
 
   getCameraPermissionAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   };
 
