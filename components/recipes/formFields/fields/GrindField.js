@@ -7,7 +7,7 @@ class GrindField extends Component {
   render() {
     return (
       <View>
-        <Text>You are currently looking at the grind field.</Text>
+        {/*<Text>You are currently looking at the grind field.</Text>*/}
         <TextField
           name="grind"
           label="Grind"

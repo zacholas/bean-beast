@@ -17,7 +17,7 @@ import { Strong } from "../common/Text/Strong";
 
 class RecipeListItem extends Component {
   render() {
-    console.log('data', this.props);
+    // console.log('data', this.props);
     const itemTexts = this._itemTexts();
     const beanInfo = this._beanInfo();
     // console.log('recipe list item with id ' + this.props.id + 'selected? ', this.props.selected);
@@ -71,7 +71,7 @@ class RecipeListItem extends Component {
 
   _beanInfo(){
     const { bean, roaster } = this.props;
-    console.log('bean', beanTitleDisplay(bean, this.props.origins, this.props.beanProcesses));
+    // console.log('bean', beanTitleDisplay(bean, this.props.origins, this.props.beanProcesses));
     // console.log('bean', bean);
     if(bean){
       let beanContent = String('');

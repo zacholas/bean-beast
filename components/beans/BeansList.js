@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import BeanListItem from './BeanListItem';
 import * as navRoutes from '../../constants/NavRoutes';
 import { editBean } from "../../actions";
+import { Headline } from "../common";
 
 class BeanList extends Component {
 
@@ -33,27 +34,43 @@ class BeanList extends Component {
   );
 
   render() {
-    const orderedBeans = _.orderBy(this.props.beans.beans, ['modified'], ['desc']);
-    // const beans = _.values(this.props.beans.beans);
-    const beans = _.values(orderedBeans);
+    let theseBeans = this.props.beans.beans;
 
-    // console.log(beans);
-    return (
-      <FlatList
-        data={beans}
-        keyExtractor={this._keyExtractor}
-        renderItem={this._renderItem}
-      />
-    );
+    if(this.props.cafe){
+      theseBeans = _.filter(theseBeans, (bean) => {
+        return bean.cafe && bean.cafe === this.props.cafe;
+      });
+    }
+
+
+
+    if(_.size(theseBeans)){
+      const orderedBeans = _.orderBy(theseBeans, ['modified'], ['desc']);
+      const beans = _.values(orderedBeans);
+
+      return (
+        <View>
+          {this.props.cafe && <Headline h3 inline style={{ marginBottom: -20}}>Beans by this Roaster:</Headline>}
+          <FlatList
+            data={beans}
+            keyExtractor={this._keyExtractor}
+            renderItem={this._renderItem}
+          />
+        </View>
+      );
+    }
+    return <View />
   }
 }
 
-const mapStateToProps = state => ({
-  beans: state.beans,
-  cafes: state.cafes,
-  origins: state.origins,
-  beanProcesses: state.beanProcesses
-});
+const mapStateToProps = (state, props) => {
+  return {
+    beans: state.beans,
+    cafes: state.cafes,
+    origins: state.origins,
+    beanProcesses: state.beanProcesses
+  }
+};
 
 
 export default connect(mapStateToProps, { editBean })(BeanList);

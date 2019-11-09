@@ -16,7 +16,7 @@ import Modal from "../common/Modal";
 import styles from "../../screens/recipes/styles";
 import {colorGray800} from "../../constants/Colors";
 import colors from "../../constants/Colors";
-import {marginBottom} from "../../constants/Styles";
+import { defaultMarginAmount, marginBottom, textLink } from "../../constants/Styles";
 import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wait_length } from "../../helpers";
@@ -24,6 +24,7 @@ import { recipe_steps_validation } from "./recipeSteps/RecipeStepsFormValidation
 import { beanTitleDisplay } from "../../helpers/labels";
 import { FavoriteField } from "./formFields/fields/FavoriteField";
 import BrewMethodIcon from "./BrewMethodIcon";
+import RecipeAttribute from "./RecipeAttribute";
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -170,11 +171,11 @@ class EditRecipeForm extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
             <Text>Dose</Text>
-            <Text>{_.size(values) && values.dose ? values.dose : '+ Add'}</Text>
+            <Text>{_.size(values) && values.dose ? `${values.dose}g` : '+ Add'}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('temperature') }}>
             <Text>Temp</Text>
-            <Text>{_.size(values) && values.temperature ? values.temperature : '+ Add'}</Text>
+            <Text>{_.size(values) && values.temperature ? `${values.temperature}°` : '+ Add'}</Text>
           </TouchableOpacity>
         </View>
 
@@ -184,17 +185,24 @@ class EditRecipeForm extends Component {
           {/*validate={[required]}*/}
         {/*/>*/}
 
-        <BodyText>Recipe Attributes</BodyText>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+          <View style={{ flex: 1 }}>
+            <Headline h4 noMargin inline>Recipe Attributes:</Headline>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => this._showModalAttributesMenu()}><BodyText noMargin style={{ ...textLink, marginBottom: 8 }}>+ Add New</BodyText></TouchableOpacity>
+          </View>
+        </View>
 
         <View>
-          {/*TODO STYLE THESE: */}
+          {this._hasRecipeAttributes() ? <View/> : <BodyText>None yet. Press "Add New" to add recipe notes, nickname, etc.</BodyText>}
           {this._recipeNicknameArea()}
           {this._recipeNotesArea()}
           {this._recipeObjectivesArea()}
           {this._notesForNextTimeArea()}
         </View>
 
-        <TouchableOpacity onPress={() => this._showModalAttributesMenu()}><BodyText>+ Add New</BodyText></TouchableOpacity>
+
 
         <Hr />
 
@@ -697,20 +705,28 @@ class EditRecipeForm extends Component {
         </TouchableOpacity>
       </View>
     );
+  }
 
+  _hasRecipeAttributes(){
+    return (
+      this._editRecipeFormValues() &&
+      (
+        this.props.formValues.EditRecipeForm.values.notes_for_next_time ||
+        this.props.formValues.EditRecipeForm.values.nickname ||
+        this.props.formValues.EditRecipeForm.values.recipe_notes ||
+        this.props.formValues.EditRecipeForm.values.recipe_objectives
+      )
+    );
   }
 
   _notesForNextTimeArea(){
     if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.notes_for_next_time) {
       return (
-        <View>
-          <Headline h3>Notes for next time</Headline>
-          <BodyText>{this.props.formValues.EditRecipeForm.values.notes_for_next_time}</BodyText>
-          <TouchableOpacity onPress={() => { this._showEditFormFieldModal('notes_for_next_time') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
-            <Text>Edit</Text>
-          </TouchableOpacity>
-        </View>
+        <RecipeAttribute
+          label="Notes for Next Time:"
+          content={this.props.formValues.EditRecipeForm.values.notes_for_next_time}
+          onEditPress={() => { this._showEditFormFieldModal('notes_for_next_time') }}
+        />
       );
     }
   }
@@ -718,14 +734,11 @@ class EditRecipeForm extends Component {
   _recipeNicknameArea(){
     if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.nickname) {
       return (
-        <View>
-          <Headline h3>Recipe Nickname</Headline>
-          <BodyText>{this.props.formValues.EditRecipeForm.values.nickname}</BodyText>
-          <TouchableOpacity onPress={() => { this._showEditFormFieldModal('nickname') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
-            <Text>Edit</Text>
-          </TouchableOpacity>
-        </View>
+        <RecipeAttribute
+          label="Recipe Nickname:"
+          content={this.props.formValues.EditRecipeForm.values.nickname}
+          onEditPress={() => { this._showEditFormFieldModal('nickname') }}
+        />
       );
     }
   }
@@ -733,14 +746,11 @@ class EditRecipeForm extends Component {
   _recipeNotesArea(){
     if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.recipe_notes) {
       return (
-        <View>
-          <Headline h3>Recipe Notes</Headline>
-          <BodyText>{this.props.formValues.EditRecipeForm.values.recipe_notes}</BodyText>
-          <TouchableOpacity onPress={() => { this._showEditFormFieldModal('recipe_notes') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
-            <Text>Edit</Text>
-          </TouchableOpacity>
-        </View>
+        <RecipeAttribute
+          label="Recipe Notes:"
+          content={this.props.formValues.EditRecipeForm.values.recipe_notes}
+          onEditPress={() => { this._showEditFormFieldModal('recipe_notes') }}
+        />
       );
     }
   }
@@ -748,14 +758,11 @@ class EditRecipeForm extends Component {
   _recipeObjectivesArea(){
     if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.recipe_objectives) {
       return (
-        <View>
-          <Headline h3>Recipe Objectives</Headline>
-          <BodyText>{this.props.formValues.EditRecipeForm.values.recipe_objectives}</BodyText>
-          <TouchableOpacity onPress={() => { this._showEditFormFieldModal('recipe_objectives') }} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="pencil" size={16} style={{ marginRight: 7 }} />
-            <Text>Edit</Text>
-          </TouchableOpacity>
-        </View>
+        <RecipeAttribute
+          label="Recipe Objectives:"
+          content={this.props.formValues.EditRecipeForm.values.recipe_objectives}
+          onEditPress={() => { this._showEditFormFieldModal('recipe_objectives') }}
+        />
       );
     }
   }

@@ -6,6 +6,8 @@ import {Headline, Hr, BodyText, Container, Button} from "../../components/common
 import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteCafe, editCafe } from "../../actions";
+import BeansList from "../../components/beans/BeansList";
+import { marginBottomHalf } from "../../constants/Styles";
 
 
 // import styles from './styles';
@@ -40,20 +42,25 @@ class ViewCafeScreen extends Component {
       <Container>
         {this._cafeName()}
         <Hr />
-        <BodyText>Details:</BodyText>
-        <BodyText>{JSON.stringify(cafe)}</BodyText>
-        <Hr />
-        <BodyText>Delete, edit, clone (maybe)</BodyText>
+        {/*<BodyText>Details:</BodyText>*/}
+        {/*<BodyText>{JSON.stringify(cafe)}</BodyText>*/}
+        {/*<Hr />*/}
+        {/*<BodyText>Delete, edit, clone (maybe)</BodyText>*/}
+
+        <BeansList navigation={this.props.navigation} cafe={this.cafeID} />
+
+        {/*<Hr />*/}
+
         <Button
           onPress={() => this._editCafeButtonPress()}
-          title="Edit Cafe"
+          title="Edit Roaster"
           iconName="pencil"
           backgroundColor="gray"
         />
 
         <Button
           onPress={() => this.deleteConfirmModal.show()}
-          title="Delete Cafe"
+          title="Delete Roaster"
           iconName="trash"
         />
         <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>

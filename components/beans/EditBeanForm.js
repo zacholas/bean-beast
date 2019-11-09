@@ -37,6 +37,8 @@ class EditBeanForm extends Component {
       this.props.change('type', this.props.type);
       this.props.change('navigation', this.props.navigation);
     }
+
+    console.log('will mount')
     // else {
     //   this.props.change('type', this.props.navigation.getParam('type', 'create'));
     // }
@@ -48,6 +50,7 @@ class EditBeanForm extends Component {
   }
 
   _changeFieldOnPropsReceived(nextProps, modalDataFieldName, formFieldName){
+    // console.log('changing field because props received');
     // console.log('~~~~~~~~~~ New style: ~~~~~~~~~~~~~~');
     // console.log('nextProps.modalData[modalDataFieldName]: ', nextProps.modalData[modalDataFieldName]);
     // console.log('`${nextProps.modalData.fieldPrefix}[${formFieldName}]`', `${nextProps.modalData.fieldPrefix}[${formFieldName}]`);
@@ -275,7 +278,7 @@ const mapStateToProps = (state) => {
 
 EditBeanForm = reduxForm({
   form: 'EditBeanForm',
-  destroyOnUnmount: true,
+  destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true

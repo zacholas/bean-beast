@@ -6,7 +6,7 @@ class DoseField extends Component {
   render() {
     return (
       <View>
-        <Text>You are currently looking at the dose field.</Text>
+        {/*<Text>You are currently looking at the dose field.</Text>*/}
         <TextField
           name="dose"
           label="Dose"

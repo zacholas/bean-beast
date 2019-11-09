@@ -17,13 +17,19 @@ class CafeList extends Component {
     })
   };
 
-  _renderItem = ({item}) => (
-    <CafeListItem
-      id={item.id}
-      onPressItem={this._onPressItem}
-      title={item.name}
-    />
-  );
+  _renderItem = ({item}) => {
+    const cafeBeans = _.filter(this.props.beans.beans, (bean) => {
+      return bean.cafe && bean.cafe === item.id;
+    });
+    return (
+      <CafeListItem
+        id={item.id}
+        onPressItem={this._onPressItem}
+        title={item.name}
+        beans={cafeBeans}
+      />
+    );
+  };
 
   render() {
     const cafes = _.values(this.props.cafes.cafes);
@@ -39,7 +45,8 @@ class CafeList extends Component {
 }
 
 const mapStateToProps = state => ({
-  cafes: state.cafes
+  cafes: state.cafes,
+  beans: state.beans
 });
 
 const mapDispatchToProps = dispatch => ({});
