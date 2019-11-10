@@ -83,7 +83,7 @@ export const secondsToTimeStringDisplay = seconds => {
 
 
 export const temperatureInUserPreference = (temperature, userPreferences) => {
-  const userTempType = _.size(userPreferences) && _.size(userPreferences.global) && userPreferences.global.temperatureMeasurement ? userPreferences.global.temperatureMeasurement : 'c';
+  const userTempType = _.size(userPreferences) && userPreferences.global_temperatureMeasurement ? userPreferences.global_temperatureMeasurement : 'c';
   if(userTempType === 'f'){
     //* Convert C to F
     const farenheitTemp = (temperature * (9/5)) + 32;

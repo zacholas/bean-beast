@@ -8,7 +8,12 @@ import { grayCardBG } from "../../constants/Colors";
 import { cardGray, centerEverything, textLink } from "../../constants/Styles";
 import Icon from "../beans/BeanRecipes";
 import Colors from "../../constants/Colors";
-import { beanTitleDisplay, getMonthFromTimestamp, prettyDate, temperatureInUserPreference } from "../../helpers/labels";
+import {
+  beanTitleDisplay,
+  getMonthFromTimestamp,
+  prettyDate,
+  temperatureInUserPreference,
+} from "../../helpers/labels";
 import styles from "../../screens/recipes/styles";
 import { Strong } from "../common/Text/Strong";
 
@@ -21,6 +26,8 @@ class RecipeListItem extends Component {
     const itemTexts = this._itemTexts();
     const beanInfo = this._beanInfo();
     // console.log('recipe list item with id ' + this.props.id + 'selected? ', this.props.selected);
+
+
     const item = this.props.data;
     return (
       <View style={{ marginVertical: 10, backgroundColor: grayCardBG}}>
@@ -38,6 +45,15 @@ class RecipeListItem extends Component {
               {itemTexts && beanInfo ? ' — ' : ''}
               {beanInfo}
             </BodyText>
+            {item.grind || item.dose || item.temperature ? (
+              <BodyText noMargin>
+                {item.grind && `Grind: ${item.grind}` || ''}
+                {item.grind && (item.dose || item.temperature) ? '; ' : ''}
+                {item.dose && `${item.dose}g ` || ''}
+                {item.temperature ? `@ ${temperatureInUserPreference(item.temperature, this.props.userPreferences)}` : ''}
+                {/*{item.temperature && `@ ${item.temperature}° ` || ''}*/}
+              </BodyText>
+            ) : <View/>}
           </View>
         </TouchableOpacity>
       </View>
@@ -103,7 +119,8 @@ const mapStateToProps = (state, props) => {
     bean: beanID && _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] ? state.beans.beans[beanID] : false,
     roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false,
     origins: state.origins.origins,
-    beanProcesses: state.beanProcesses.beanProcesses
+    beanProcesses: state.beanProcesses.beanProcesses,
+    userPreferences: state.userPreferences
   };
 };
 

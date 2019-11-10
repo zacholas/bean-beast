@@ -5,6 +5,7 @@ export const LINKS = 'links';
 export const SETTINGS = 'settings';
 export const MENU_MORE = 'menuMore';
 export const HELP = 'help';
+export const PREFERENCES = 'preferences';
 
 //* Cafes
 export const CAFE_LIST = 'cafeList';

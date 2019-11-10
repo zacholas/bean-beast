@@ -195,7 +195,7 @@ class EditRecipeForm extends Component {
         </View>
 
         <View>
-          {this._hasRecipeAttributes() ? <View/> : <BodyText>None yet. Press "Add New" to add recipe notes, nickname, etc.</BodyText>}
+          {this._hasRecipeAttributes() ? <View/> : <BodyText style={{ fontStyle: 'italic' }}>None yet. Press "Add New" to add recipe notes, nickname, etc.</BodyText>}
           {this._recipeNicknameArea()}
           {this._recipeNotesArea()}
           {this._recipeObjectivesArea()}

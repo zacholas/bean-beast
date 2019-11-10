@@ -113,7 +113,8 @@ export default class BeanBlendFormLayout extends Component {
         {!parentProps.singleOrigin && <Button title="Add New" onPress={() => fields.push({
           //* Default props when adding a new empty item. Should more or less match what's defined in EditBeanForm.js
           coffee_species: getFirstCoffeeSpecies(this.props.coffeeSpecies),
-          roast_level_advanced_mode: this.props.userPreferences.beanEntry.roastLevelAdvancedMode,
+          // roast_level_advanced_mode: this.props.userPreferences.beanEntry.roastLevelAdvancedMode,
+          roast_level_advanced_mode: this.props.userPreferences.bean_roastLevelAdvancedMode,
           basic_roast_level: 3
         })} />}
       </View>

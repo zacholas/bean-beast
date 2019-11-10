@@ -5,3 +5,4 @@ export * from './RoastLevelActions';
 export * from './CoffeeSpeciesActions';
 export * from './BeanProcessActions';
 export * from './RecipeActions';
+export * from './UserPreferencesActions';

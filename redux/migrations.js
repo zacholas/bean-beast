@@ -310,6 +310,17 @@ export const migrations = {
         }
       }
     }
+  },
+  17: (state) => {
+    return {
+      ...state,
+      userPreferences: {
+        ...state.userPreferences,
+        global_temperatureMeasurement: state.userPreferences.global.temperatureMeasurement,
+        bean_roastLevelAdvancedMode: state.userPreferences.beanEntry.roastLevelAdvancedMode,
+        global: undefined,
+        beanEntry: undefined
+      }
+    }
   }
 };
-

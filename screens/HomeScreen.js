@@ -20,6 +20,7 @@ import * as navRoutes from "../constants/NavRoutes";
 import RecipeListItem from "../components/recipes/RecipeListItem";
 import { colorHeartRed } from "../constants/Colors";
 import { ActionSheetOptions, connectActionSheet } from '@expo/react-native-action-sheet';
+import { showMessage } from "react-native-flash-message";
 
 
 class HomeScreen extends React.Component {
@@ -40,7 +41,7 @@ class HomeScreen extends React.Component {
         <View style={{ centerEverything, marginTop: 20 }}>
           <BodyText style={centerEverything}>
             Thanks so much for participating in the BBBeta. If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
-            <Text onPress={() => { Linking.openURL(`mailto:zach@zachswinehart.com?subject=Bean%20Beast%20Feedback`)}} style={textLink}>zach@zachswinehart.com</Text>.</BodyText>
+            <Text onPress={() => { this._emailButtonPress() }} style={textLink}>zach@zachswinehart.com</Text>.</BodyText>
         </View>
 
         <Hr/>
@@ -51,6 +52,26 @@ class HomeScreen extends React.Component {
         {/*<Button title="Buying new Beans" onPress={() => {}} />*/}
       </ScrollContainer>
     );
+  }
+
+  _emailButtonPress(){
+    const url = `mailto:zach@zachswinehart.com?subject=Bean%20Beast%20Feedback`;
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (!supported) {
+          console.log("Can't handle url: " + url);
+          showMessage({
+            message: "Uh oh!",
+            description: "Looks like you don't have a default email app that can open mail links. Guess you'll have to manually type in the email address. :'(",
+            type: "warning",
+            autoHide: false,
+            icon: 'auto'
+          });
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      // .catch((err) => console.error('An error occurred', err));
   }
 
   _recentRecipes(){

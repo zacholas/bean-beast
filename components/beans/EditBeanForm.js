@@ -38,7 +38,6 @@ class EditBeanForm extends Component {
       this.props.change('navigation', this.props.navigation);
     }
 
-    console.log('will mount')
     // else {
     //   this.props.change('type', this.props.navigation.getParam('type', 'create'));
     // }
@@ -66,7 +65,7 @@ class EditBeanForm extends Component {
   //* If the user adds a new cafe, origin, etc. in a modal, we then want to select that option on the form
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
     if(_.size(nextProps.modalData)){
-      console.log('EditBeanForm.js — incoming modal data: ', nextProps.modalData);
+      // console.log('EditBeanForm.js — incoming modal data: ', nextProps.modalData);
     }
 
     this._changeFieldOnPropsReceived(nextProps, 'beanProcess', 'bean_process');
@@ -125,7 +124,7 @@ class EditBeanForm extends Component {
             // });
             this.props.saveBean(values);
             this.props.destroy();
-            console.log('save bean with ', values);
+            // console.log('save bean with ', values);
           })}
           iconName="check"
           backgroundColor="green"
@@ -264,7 +263,8 @@ const mapStateToProps = (state) => {
       beanBlendComponents: [{
         //* NOTE: When updating the initial bean values here, be sure to update them in \components\beans\BeanBlendFormLayout.js @ ~line 101
         coffee_species: getFirstCoffeeSpecies(state.coffeeSpecies.coffeeSpecies),
-        roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode,
+        // roast_level_advanced_mode: state.userPreferences.beanEntry.roastLevelAdvancedMode,
+        roast_level_advanced_mode: state.userPreferences.bean_roastLevelAdvancedMode,
         basic_roast_level: 3
       }],
       ...state.beans.currentlyEditingBean,
