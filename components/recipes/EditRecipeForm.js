@@ -150,9 +150,9 @@ class EditRecipeForm extends Component {
       <Container>
         <View style={{ flexDirection: 'row' }}>
           {/*<View style={{ position: 'absolute', top: 0, left: 0 }}>*/}
-          <View>
-            <Text>Recipe Date</Text>
-          </View>
+          {/*<View>*/}
+            {/*<Text>Recipe Date</Text>*/}
+          {/*</View>*/}
           <View style={{ flex: 1 }}>
             {/*<PickerField*/}
               {/*name="bean_id"*/}
