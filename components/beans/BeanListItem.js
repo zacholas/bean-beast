@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import PropTypes from "prop-types";
 import { beanTitleDisplay, roastLevelDisplay } from "../../helpers/labels";
@@ -47,12 +48,14 @@ export default class BeanListItem extends Component {
   }
 
   _beanImage(){
-    const beanImage = this.props.bean.bean_image;
-    return (
-      <View style={{ width: 50, marginRight: 10 }}>
-        <Image source={{ uri: beanImage }} style={{ width: 50, height: 50, marginRight: 15 }} />
-      </View>
-    );
+    const beanImage = _.size(this.props.bean) && this.props.bean.bean_image ? this.props.bean.bean_image : null;
+    if(beanImage) {
+      return (
+        <View style={{width: 50, marginRight: 10}}>
+          <Image source={{uri: beanImage}} style={{width: 50, height: 50, marginRight: 15}} />
+        </View>
+      );
+    }
   }
 }
 
