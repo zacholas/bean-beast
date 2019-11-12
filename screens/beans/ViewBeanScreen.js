@@ -67,6 +67,7 @@ class ViewBeanScreen extends Component {
 
   render() {
     const bean = this.props.bean;
+    const { tasting_notes, comments } = bean;
     // console.log('viewing bean: ' + bean.name);
     // console.log('this bean recipes', this.props.recipes);
     const recentRecipe = this._getMostRecentRecipe();
@@ -93,9 +94,9 @@ class ViewBeanScreen extends Component {
         <Hr />
         {this._originInfo()}
         <Hr />
-        {this.props.bean.tasting_notes && `<Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline><BodyText>${this.props.bean.tasting_notes}</BodyText>`}
-        {this.props.bean.comments && `<Headline h5 style={marginBottomHalf}>Comments:</Headline><BodyText>{this.props.bean.comments}</BodyText>`}
-        {(this.props.bean.tasting_notes || this.props.bean.comments) && <Hr /> }
+        {tasting_notes ? <View><Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline><BodyText>{tasting_notes}</BodyText></View> : <View />}
+        {comments ? <View><Headline h5 style={marginBottomHalf}>Comments:</Headline><BodyText>{comments}</BodyText></View> : <View />}
+        {(this.props.bean.tasting_notes || this.props.bean.comments) ? <Hr /> : <View />}
 
         <Hr />
 
