@@ -82,14 +82,49 @@ export const secondsToTimeStringDisplay = seconds => {
 };
 
 
-export const temperatureInUserPreference = (temperature, userPreferences) => {
+export const temperatureInUserPreference = (temperature, userPreferences, temperatureMeasurement = null) => {
   const userTempType = _.size(userPreferences) && userPreferences.global_temperatureMeasurement ? userPreferences.global_temperatureMeasurement : 'c';
+  const thisTempType = temperatureMeasurement ? temperatureMeasurement : 'c';
+  let tempNumber;
   if(userTempType === 'f'){
-    //* Convert C to F
-    const farenheitTemp = (temperature * (9/5)) + 32;
-    return `${Math.round( farenheitTemp * 10 ) / 10}° F`;
+    if(thisTempType === 'c'){
+      //* Convert C to F
+      const farenheitTemp = (temperature * (9/5)) + 32;
+      tempNumber = `${Math.round( farenheitTemp * 10 ) / 10}`;
+    }
+    else {
+      tempNumber = Math.round( temperature * 10 ) / 10;
+    }
   }
-  return `${Math.round( temperature * 10 ) / 10}° C`;
+  else {
+    if(thisTempType === 'f'){
+      //* Convert F to C
+      const celsiusTemp = (temperature - 32) * (5/9);
+      tempNumber = `${Math.round( celsiusTemp * 10 ) / 10}`;
+    }
+    else {
+      tempNumber = Math.round( temperature * 10 ) / 10;
+    }
+  }
+  // return `${Math.round( temperature * 10 ) / 10}° C`;
+
+  return `${tempNumber}° ${userTempType.toString().toUpperCase()}`
+};
+
+export const temperatureInOtherUnit = (temperature, temperatureMeasurement = null) => {
+  if(!temperature){
+    return null;
+  }
+
+  const thisTempType = temperatureMeasurement ? temperatureMeasurement : 'c';
+
+  if(thisTempType === 'f'){
+    const celsiusTemp = (temperature - 32) * (5/9);
+    return `${Math.round( celsiusTemp * 10 ) / 10}° C`;
+  }
+
+  const farenheitTemp = (temperature * (9/5)) + 32;
+  return `${Math.round( farenheitTemp * 10 ) / 10} ° F`;
 };
 
 export const prettyDate = (timestamp) => {

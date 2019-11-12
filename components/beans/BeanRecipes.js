@@ -128,7 +128,7 @@ class BeanRecipes extends Component {
     if( thisBrewMethod && thisBrewMethod.name ){ itemTexts.push(thisBrewMethod.name); }
     if( item.grind ){ itemTexts.push(`Grind: ${item.grind}`); }
     if( item.dose ){ itemTexts.push(`Dose: ${item.dose}g`); }
-    if( item.temperature ){ itemTexts.push(`Temp: ${temperatureInUserPreference(item.temperature, this.props.userPreferences)}`); }
+    if( item.temperature ){ itemTexts.push(`Temp: ${temperatureInUserPreference(item.temperature, this.props.userPreferences, item.temperatureMeasurement)}`); }
 
     let output = '';
 

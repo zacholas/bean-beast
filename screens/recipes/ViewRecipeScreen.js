@@ -230,7 +230,7 @@ class ViewRecipeScreen extends Component {
           {recipe.temperature ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
               {/*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*/}
-              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences)}</BodyText>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>
               <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>
             </View>
           ) : <View/>}
@@ -436,7 +436,8 @@ class ViewRecipeScreen extends Component {
           field_id: 'temperature',
           id: 'temperature',
           values: {
-            temperature: recipe.temperature
+            temperature: recipe.temperature,
+            temperatureMeasurement: recipe.temperatureMeasurement
           }
         }
       })

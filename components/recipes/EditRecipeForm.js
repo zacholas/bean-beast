@@ -21,7 +21,7 @@ import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wait_length } from "../../helpers";
 import { recipe_steps_validation } from "./recipeSteps/RecipeStepsFormValidation";
-import { beanTitleDisplay } from "../../helpers/labels";
+import {beanTitleDisplay, temperatureInOtherUnit} from "../../helpers/labels";
 import { FavoriteField } from "./formFields/fields/FavoriteField";
 import BrewMethodIcon from "./BrewMethodIcon";
 import RecipeAttribute from "./RecipeAttribute";
@@ -144,6 +144,8 @@ class EditRecipeForm extends Component {
 
     beans = _.orderBy(beans, ['name'], ['asc']);
 
+    const tempInOtherUnit = temperatureInOtherUnit(values.temperature, values.temperatureMeasurement);
+
     return (
       <Container>
         <View style={{ flexDirection: 'row' }}>
@@ -164,18 +166,19 @@ class EditRecipeForm extends Component {
 
         <View style={styles.recipePrimaryInfoBar}>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
-            <Text>Grind</Text>
-            <Text>{_.size(values) && values.grind ? values.grind : '+ Add'}</Text>
+            <Headline h6 noMargin>Grind</Headline>
+            <BodyText noMargin>{_.size(values) && values.grind ? values.grind : '+ Add'}</BodyText>
             {this._fieldErrorDisplay('grind')}
             {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
           </TouchableOpacity>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
-            <Text>Dose</Text>
-            <Text>{_.size(values) && values.dose ? `${values.dose}g` : '+ Add'}</Text>
+            <Headline h6 noMargin>Dose</Headline>
+            <BodyText noMargin>{_.size(values) && values.dose ? `${values.dose}g` : '+ Add'}</BodyText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('temperature') }}>
-            <Text>Temp</Text>
-            <Text>{_.size(values) && values.temperature ? `${values.temperature}°` : '+ Add'}</Text>
+            <Headline h6 noMargin>Temp</Headline>
+            <BodyText noMargin>{_.size(values) && values.temperature ? `${values.temperature}° ${values.temperatureMeasurement ? values.temperatureMeasurement.toString().toUpperCase() : 'C'}` : '+ Add'}</BodyText>
+            {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
           </TouchableOpacity>
         </View>
 
@@ -699,7 +702,7 @@ class EditRecipeForm extends Component {
         {brewMethodOutput}
 
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { this._showEditFormFieldModal('bean_id') }}>
-          <Text>{_.size(values) && values.bean_id && thisBean ? `${thisBeanCafe && thisBeanCafe.name ? `Roaster: ${thisBeanCafe.name} | ` : ''}Bean: ${thisBean.name}` : '» Choose Bean'}</Text>
+          <BodyText noMargin>{_.size(values) && values.bean_id && thisBean ? `${thisBeanCafe && thisBeanCafe.name ? `Roaster: ${thisBeanCafe.name} | ` : ''}Bean: ${thisBean.name}` : '» Press Here to Choose Bean'}</BodyText>
           {this._fieldErrorDisplay('bean_id')}
           {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
         </TouchableOpacity>

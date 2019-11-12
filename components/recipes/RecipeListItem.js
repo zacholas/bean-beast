@@ -50,7 +50,7 @@ class RecipeListItem extends Component {
                 {item.grind && `Grind: ${item.grind}` || ''}
                 {item.grind && (item.dose || item.temperature) ? '; ' : ''}
                 {item.dose && `${item.dose}g ` || ''}
-                {item.temperature ? `@ ${temperatureInUserPreference(item.temperature, this.props.userPreferences)}` : ''}
+                {item.temperature ? `@ ${temperatureInUserPreference(item.temperature, this.props.userPreferences, item.temperatureMeasurement)}` : ''}
                 {/*{item.temperature && `@ ${item.temperature}° ` || ''}*/}
               </BodyText>
             ) : <View/>}
@@ -71,7 +71,7 @@ class RecipeListItem extends Component {
     if( thisBrewMethod && thisBrewMethod.name ){ itemTexts.push(thisBrewMethod.name); }
     // if( item.grind ){ itemTexts.push(`Grind: ${item.grind}`); }
     // if( item.dose ){ itemTexts.push(`Dose: ${item.dose}g`); }
-    // if( item.temperature ){ itemTexts.push(`Temp: ${temperatureInUserPreference(item.temperature, this.props.userPreferences)}`); }
+    // if( item.temperature ){ itemTexts.push(`Temp: ${temperatureInUserPreference(item.temperature, this.props.userPreferences, item.temperatureMeasurement)}`); }
 
     let output = '';
 

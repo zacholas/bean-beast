@@ -1,7 +1,7 @@
 import { showMessage, hideMessage } from "react-native-flash-message";
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
-import { throwError, generateRandomID } from "../helpers";
+import {throwError, generateRandomID, temperatureConvertFtoC} from "../helpers";
 import * as configuredStore from '../configureStore';
 const { store } = configuredStore.default();
 // import { NavigationActions, StackActions } from "react-navigation";
@@ -47,6 +47,8 @@ const _createRecipe = (values) => {
 
 const _creatingRecipe = (dispatch, values, id) => new Promise((resolve, reject) => {
   console.log('creating');
+  //* Convert F to C
+  // values.temperature = values.temperatureMeasurement === 'f' ? temperatureConvertFtoC(values.temperature) : values.temperature;
   dispatch({
     type: types.RECIPE_CREATING,
     payload: {
@@ -87,6 +89,7 @@ const _updateRecipe = (values) => {
 };
 
 const _updatingRecipe = (dispatch, values) => new Promise((resolve, reject) => {
+  // values.temperature = values.temperatureMeasurement === 'f' ? temperatureConvertFtoC(values.temperature) : values.temperature;
   dispatch({
     type: types.RECIPE_UPDATING,
     payload: {

@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { BodyText, Headline } from "../common";
 import PropTypes from "prop-types";
 import _ from 'lodash';
-import { secondsToTimeStringDisplay, temperatureInUserPreference } from "../../helpers/labels";
+import {secondsToTimeStringDisplay, temperatureInOtherUnit, temperatureInUserPreference} from "../../helpers/labels";
 import WaitDisplay from "./formFields/stepFields/WaitDisplay";
 import TaintDisplay from "./formFields/stepFields/TaintDisplay";
 import PreInfusionDisplay from "./formFields/stepFields/PreInfusionDisplay";
@@ -73,7 +73,7 @@ class ViewRecipeStepRow extends Component {
       //* Pseudo
       case 'temperature':
         if(values.temperature){
-          return <BodyText noMargin style={this._style()}>Heat water to {temperatureInUserPreference(values.temperature, this.props.userPreferences)}</BodyText>;
+          return <BodyText noMargin style={this._style()}>Heat water to {temperatureInUserPreference(values.temperature, this.props.userPreferences, values.temperatureMeasurement)} ({temperatureInOtherUnit(values.temperature, values.temperatureMeasurement)})</BodyText>;
         }
         break;
       case 'dose':

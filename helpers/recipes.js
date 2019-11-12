@@ -8,3 +8,7 @@ export const recipeStepFieldDefaultValues = (field_id) => {
       return {};
   }
 };
+
+export const temperatureConvertFtoC = (temperature) => {
+  return (temperature - 32) * (5/9);
+};
