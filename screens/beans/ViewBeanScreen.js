@@ -27,7 +27,7 @@ class ViewBeanScreen extends Component {
           bean
         })
       }}>
-        <Text style={headerNavTextLink}><Icon name="pencil" size={16} style={textLink} /> Edit Bean</Text>
+        <BodyText noMargin style={headerNavTextLink}><Icon name="pencil" size={16} style={textLink} /> Edit Bean</BodyText>
       </TouchableOpacity>
     ) : null;
 

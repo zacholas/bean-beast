@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  Linking, FlatList
+  Linking, FlatList, StatusBar
 } from 'react-native';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -43,6 +43,14 @@ class HomeScreen extends React.Component {
             Thanks so much for participating in the BBBeta. If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
             <Text onPress={() => { this._emailButtonPress() }} style={textLink}>zach@zachswinehart.com</Text>.</BodyText>
         </View>
+
+        <View>
+          <Button title="How to use this app" onPress={() => { this.props.navigation.navigate(navRoutes.HELP) }} backgroundColor="gray" />
+        </View>
+
+        {/*<View>*/}
+          {/*<Button title='Click this button to break the app and throw an error' onPress={() => this.djsjj.kffkfk()}/>*/}
+        {/*</View>*/}
 
         <Hr/>
         {this._favoriteRecipes()}
@@ -92,7 +100,7 @@ class HomeScreen extends React.Component {
               data={recipes}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
-              style={{marginTop: -12}}
+              style={styles.recipesContainer}
             />
           </View>
         )
@@ -121,7 +129,7 @@ class HomeScreen extends React.Component {
               data={recipes}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
-              style={{marginTop: -12, marginBottom: 20 }}
+              style={{ ...styles.recipesContainer, marginBottom: 20 }}
             />
             {/*<Hr/>*/}
           </View>
@@ -156,6 +164,9 @@ const styles = StyleSheet.create({
   logoContainer: {
     paddingTop: 30,
   },
+  recipesContainer: {
+    paddingTop: Platform.OS === 'ios' ? -12 : 0,
+  }
 });
 
 // export default HomeScreen;

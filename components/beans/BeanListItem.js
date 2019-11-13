@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import PropTypes from "prop-types";
 import { beanTitleDisplay, roastLevelDisplay } from "../../helpers/labels";
 import { defaultMarginAmount } from "../../constants/Styles";
-import { Hr } from "../common";
+import { BodyText, Hr } from "../common";
 
 // import styles from './styles';
 
@@ -21,8 +21,10 @@ export default class BeanListItem extends Component {
         >
           {this._beanImage()}
           <View>
-            {this._beanTitle()}
-            {this._roasterName()}
+            <BodyText noMargin>
+              {this._beanTitle()}
+              {this._roasterName()}
+            </BodyText>
           </View>
 
         </TouchableOpacity>

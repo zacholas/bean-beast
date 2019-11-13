@@ -3,6 +3,7 @@ import { Platform, StatusBar, StyleSheet, View, AsyncStorage, SafeAreaView } fro
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
+import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import * as Sentry from 'sentry-expo';
@@ -22,6 +23,7 @@ Sentry.init({
   // enableInExpoDevelopment: true,
   debug: true
 });
+Sentry.setRelease(Constants.manifest.revisionId);
 
 const { store, persistor } = configuredStore.default();
 // persistor.purge();
