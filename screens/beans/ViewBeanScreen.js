@@ -334,7 +334,7 @@ class ViewBeanScreen extends Component {
     const coffeeSpeciesOutput = (coffee_species !== undefined && coffee_species && _.size(coffeeSpecies) && coffeeSpecies[coffee_species] !== undefined) ? coffeeSpecies[coffee_species] : false;
 
     return (
-      <Text>
+      <BodyText>
         {originOutput && originOutput.name}
         {(origin_region && originOutput) && `, ${origin_region}`}
         {(origin_region && !originOutput) && origin_region}
@@ -351,7 +351,7 @@ class ViewBeanScreen extends Component {
         {(basic_roast_level || (advancedRoastLevelOutput && advancedRoastLevelOutput.name)) && '; '}
         {(coffeeSpeciesOutput && coffeeSpeciesOutput.name) && coffeeSpeciesOutput.name}
         {elevation}
-      </Text>
+      </BodyText>
     )
   }
 

@@ -37,7 +37,7 @@ export default class BeanListItem extends Component {
     const output = beanTitleDisplay(this.props.bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
 
     if(output){
-      return <Text>{output}</Text>;
+      return <Text>{output} </Text>;
     }
   }
 
