@@ -57,7 +57,7 @@ class BeanFieldComponent extends Component {
   }
 
   render() {
-    let cafes = false;
+    let cafes = [];
     if(_.size(this.props.cafes.cafes)){
       cafes = _.map(this.props.cafes.cafes, (cafe) => {
         let cafeBeans = [];
@@ -77,16 +77,29 @@ class BeanFieldComponent extends Component {
         return typeof cafe !== 'undefined';
       });
       cafes = _.orderBy(cafes, ['name'], ['asc']);
-    }
 
+      if(_.size(cafes)){
+        return (
+          <SectionList
+            sections={cafes}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({ item }) => this._renderItem(item)}
+            renderSectionHeader={({section}) => this._renderSectionHeader(section)}
+          />
+        );
+      }
+    }
     return (
-      <SectionList
-        sections={cafes}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => this._renderItem(item)}
-        renderSectionHeader={({section}) => this._renderSectionHeader(section)}
-      />
+      <View>
+        <Headline h3 noMargin>
+          Uh oh!
+        </Headline>
+        <BodyText>
+          You'll need to add some beans before you can select them here.
+        </BodyText>
+      </View>
     );
+
   }
 
   _renderItem(item){

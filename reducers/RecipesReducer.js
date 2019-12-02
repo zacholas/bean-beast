@@ -174,7 +174,7 @@ export default (state = INITIAL_STATE, action) => {
         }
       };
     case types.RECIPE_TOGGLE_FAVORITE:
-      const currentFavStatus = state.recipes[action.payload.id].favorite_information.is_favorite;
+      const currentFavStatus = _.size(state.recipes) && _.size(state.recipes[action.payload.id]) && _.size(state.recipes[action.payload.id].favorite_information) && state.recipes[action.payload.id].favorite_information.is_favorite ? state.recipes[action.payload.id].favorite_information.is_favorite : false;
       return { ...state,
         loading: false,
         error: '',
