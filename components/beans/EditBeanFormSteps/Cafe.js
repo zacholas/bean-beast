@@ -6,7 +6,7 @@ import * as styles from "../../common/reduxForm/Styles";
 import { BodyText } from "../../common";
 import _ from "lodash";
 import { required } from "../../../helpers";
-import { PickerField } from "../../common/reduxForm";
+import { PickerField, PickerSelectField } from "../../common/reduxForm";
 import EditCafeForm from "../../cafes/EditCafeForm";
 import Modal from '../../common/Modal';
 
@@ -19,20 +19,40 @@ export default class Cafe extends Component {
   render() {
     const cafeFieldLabel = (
       <View style={{flexDirection: 'row'}}>
-        <Text style={{...bodyText, ...styles.label, flex: 1}}>Roastery:</Text>
+        <Text style={{...bodyText, ...styles.label, flex: 1}}>Roastery*:</Text>
         <TouchableOpacity onPress={() => this.addCafeModal.show()}>
           <BodyText style={textLink}>+ Add New Roastery</BodyText>
         </TouchableOpacity>
       </View>
     );
 
-    const cafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
+    const orderedCafes = _.orderBy(this.props.cafes, ['name'], ['asc']);
+
+    let cafes = [];
+    if(_.size(orderedCafes)){
+      cafes = _.map(orderedCafes, (cafe) => {
+        let output = '';
+        output = cafe.name ? output.concat(cafe.name) : output;
+
+        return {
+          key: cafe.id,
+          value: cafe.id,
+          label: output
+        };
+      });
+    }
 
     return (
       <View>
-        <PickerField
-          name="cafe"
-          label={cafeFieldLabel}
+        {/*<PickerField*/}
+          {/*name="cafe"*/}
+          {/*label={cafeFieldLabel}*/}
+          {/*options={cafes}*/}
+          {/*validate={[required]}*/}
+        {/*/>*/}
+        {cafeFieldLabel}
+        <PickerSelectField
+          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.cafe` : 'cafe'}
           options={cafes}
           validate={[required]}
         />

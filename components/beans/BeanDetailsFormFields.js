@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Text, TouchableOpacity, View } from 'react-native';
 import _ from "lodash";
-import { PickerField, SwitchField, TextField } from "../common/reduxForm";
+import { PickerField, PickerSelectField, SwitchField, TextField } from "../common/reduxForm";
 import Modal from "../common/Modal";
 import { bodyText, textLink } from "../../constants/Styles";
 import * as styles from "../common/reduxForm/Styles";
@@ -89,39 +89,81 @@ export default class BeanDetailsFormFields extends Component {
       </View>
     );
 
+    //* Origins options
     //* TODO probably have them ordered by number at some point
     // const orderedOrigins = _.orderBy(this.props.origins, ['country', 'region'], ['asc', 'asc']);
     const orderedOrigins = _.orderBy(this.props.origins, ['name'], ['asc']);
-    const origins = _.map(orderedOrigins, (origin) => {
-      return {
-        id: origin.id,
-        name: origin.name
-      };
-    });
+    let origins = [];
+    if(_.size(orderedOrigins)){
+      origins = _.map(orderedOrigins, (origin) => {
+        return {
+          key: origin.id,
+          value: origin.id,
+          label: origin.name
+        };
+      });
+    }
+    // const origins = _.map(orderedOrigins, (origin) => {
+    //   return {
+    //     id: origin.id,
+    //     name: origin.name
+    //   };
+    // });
 
+
+
+    //* Bean Process Picker Items
     const orderedBeanProcesses = _.orderBy(this.props.beanProcesses, ['order'], ['asc']);
-    const beanProcesses = _.map(orderedBeanProcesses, (beanProcess) => {
-      let output = '';
-      output = beanProcess.name ? output.concat(beanProcess.name) : output;
+    // const beanProcessesOld = _.map(orderedBeanProcesses, (beanProcess) => {
+    //   let output = '';
+    //   output = beanProcess.name ? output.concat(beanProcess.name) : output;
+    //
+    //   return {
+    //     id: beanProcess.id,
+    //     name: output
+    //   };
+    // });
+    let beanProcesses = [];
+    if(_.size(orderedBeanProcesses)){
+      beanProcesses = _.map(orderedBeanProcesses, (beanProcess) => {
+        let output = '';
+        output = beanProcess.name ? output.concat(beanProcess.name) : output;
 
-      return {
-        id: beanProcess.id,
-        name: output
-      };
-    });
+        return {
+          key: beanProcess.id,
+          value: beanProcess.id,
+          label: output
+        };
+      });
+    }
 
+
+    //* Species Options
     const orderedCoffeeSpecies = _.orderBy(this.props.coffeeSpecies, ['order'], ['asc']);
-    const coffeeSpecies = _.map(orderedCoffeeSpecies, (coffeeSpecies) => {
-      let output = '';
-      output = coffeeSpecies.name ? output.concat(coffeeSpecies.name) : output;
+    let coffeeSpecies = [];
+    if(_.size(orderedCoffeeSpecies)){
+      coffeeSpecies = _.map(orderedCoffeeSpecies, (coffeeSpecies) => {
+        let output = '';
+        output = coffeeSpecies.name ? output.concat(coffeeSpecies.name) : output;
 
-      return {
-        id: coffeeSpecies.id,
-        name: output
-      };
-    });
+        return {
+          key: coffeeSpecies.id,
+          value: coffeeSpecies.id,
+          label: output
+        };
+      });
+    }
+    // const coffeeSpecies = _.map(orderedCoffeeSpecies, (coffeeSpecies) => {
+    //   let output = '';
+    //   output = coffeeSpecies.name ? output.concat(coffeeSpecies.name) : output;
+    //
+    //   return {
+    //     id: coffeeSpecies.id,
+    //     name: output
+    //   };
+    // });
 
-    // console.log('field prefix: ', this.props.fieldPrefix);
+
 
     return (
       <View>
@@ -136,28 +178,33 @@ export default class BeanDetailsFormFields extends Component {
 
         <Hr />
 
-        <PickerField
+        {/*<PickerField*/}
+          {/*name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.bean_process` : 'bean_process'}*/}
+          {/*// name="bean_process"*/}
+          {/*label={beanProcessFieldLabel}*/}
+          {/*options={beanProcesses}*/}
+        {/*/>*/}
+
+        {beanProcessFieldLabel}
+        <PickerSelectField
           name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.bean_process` : 'bean_process'}
-          // name="bean_process"
-          label={beanProcessFieldLabel}
           options={beanProcesses}
         />
 
         <Hr />
-
-        {/*<TextField*/}
-          {/*name="origin_country"*/}
-          {/*label={this.countryLabel()}*/}
-          {/*validate={[required]}*/}
+        {/*<PickerField*/}
+          {/*// name="origin"*/}
+          {/*name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin` : 'origin'}*/}
+          {/*label={originFieldLabel}*/}
+          {/*options={origins}*/}
+          {/*// validate={[required]}*/}
         {/*/>*/}
-
-        <PickerField
-          // name="origin"
+        {originFieldLabel}
+        <PickerSelectField
           name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.origin` : 'origin'}
-          label={originFieldLabel}
           options={origins}
-          // validate={[required]}
         />
+        <Hr/>
 
         <TextField
           // name="origin_region"
@@ -179,10 +226,15 @@ export default class BeanDetailsFormFields extends Component {
 
         <Hr />
 
-        <PickerField
-          // name="coffee_species"
+        {/*<PickerField*/}
+          {/*// name="coffee_species"*/}
+          {/*name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.coffee_species` : 'coffee_species'}*/}
+          {/*label={coffeeSpeciesFieldLabel}*/}
+          {/*options={coffeeSpecies}*/}
+        {/*/>*/}
+        {coffeeSpeciesFieldLabel}
+        <PickerSelectField
           name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.coffee_species` : 'coffee_species'}
-          label={coffeeSpeciesFieldLabel}
           options={coffeeSpecies}
         />
 

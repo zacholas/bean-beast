@@ -359,7 +359,7 @@ class ViewBeanScreen extends Component {
     return (
       <View style={{ flexDirection: 'row', ...marginBottomHalf }}>
         <View style={{ width: 50 }}>
-          <Text>{blendComponent.item.blend_percent} %</Text>
+          <BodyText noMargin>{blendComponent.item.blend_percent} %</BodyText>
         </View>
         <View style={{ flex: 1 }}>
           {this._beanBlendComponentOutput(blendComponent.item)}

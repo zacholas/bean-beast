@@ -18,8 +18,84 @@ const pickerSelectStyles = StyleSheet.create({
   inputAndroid: {
     ...bodyText,
   },
+  viewContainer: {
+    flexDirection: 'row',
+  },
+  placeholder: {
+    color: '#000'
+  }
 });
 
+const conditionalPickerSelectStyles = {
+  normal: {
+    iconContainer: {
+      top: 0,
+      right: 0,
+      position: 'relative',
+      paddingTop: Platform.OS === 'ios' ? 3 : 7,
+      paddingLeft: 7,
+      flex: 0,
+      textAlign: 'right',
+      marginLeft: 'auto'
+    },
+    inputIOSContainer: {
+      flexDirection: 'row',
+      flex: 1
+    },
+    inputAndroidContainer: {
+      flexDirection: 'row',
+      flex: 1
+    },
+  },
+  inline: {
+    iconContainer: {
+      top: 0,
+      right: 0,
+      position: 'relative',
+      paddingTop: Platform.OS === 'ios' ? 3 : 7,
+      paddingLeft: 7,
+    },
+    inputIOSContainer: {
+      flexDirection: 'row',
+    },
+    inputAndroidContainer: {
+      flexDirection: 'row',
+    },
+  }
+};
+
+const fieldLayoutStyles = {
+  normal: {
+    outerContainer: {
+    },
+    mainContainer: {
+      borderRadius: 2,
+      borderWidth: 1,
+      borderColor: Colors.colorGray800,
+      paddingVertical: 9,
+      paddingHorizontal: 14
+    },
+    spacerItem: {
+      display: 'none'
+    },
+  },
+  inline: {
+    outerContainer: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    mainContainer: {
+      borderRadius: 2,
+      borderWidth: 1,
+      borderColor: Colors.colorGray800,
+      paddingVertical: 3,
+      paddingHorizontal: 6
+    },
+    spacerItem: {
+      flex: 1,
+    },
+  }
+};
 
 const SelectComponent = ({
   input: { onChange, ...restInput },
@@ -28,7 +104,10 @@ const SelectComponent = ({
   meta: { touched, error, warning },
   options,
   placeholderText,
-  defaultValue
+  defaultValue,
+  containerStyle,
+  fieldLayout,
+  pickerStyle
 }) => {
   let selectedValue = undefined;
   if(restInput.value.toString()){
@@ -38,13 +117,9 @@ const SelectComponent = ({
     selectedValue = defaultValue;
   }
   return (
-    <View style={styles.inputContainer}>
-      {/*<RNPickerSelect*/}
-        {/*onValueChange={(value) => console.log(value)}*/}
-        {/*items={options}*/}
-      {/*/>*/}
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{ borderRadius: 2, borderWidth: 1, borderColor: Colors.colorPrimary, paddingVertical: 3, paddingHorizontal: 6 }}>
+    <View style={{ ...styles.inputContainer, ...containerStyle }}>
+      <View style={fieldLayout === 'normal' ? {...fieldLayoutStyles.normal.outerContainer} : {...fieldLayoutStyles.inline.outerContainer}}>
+        <View style={fieldLayout === 'normal' ? {...fieldLayoutStyles.normal.mainContainer} : {...fieldLayoutStyles.inline.mainContainer}}>
           <RNPickerSelect
             onValueChange={onChange}
             items={options}
@@ -55,34 +130,24 @@ const SelectComponent = ({
             itemKey={selectedValue}
             {...restInput}
             useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              fontFamily: 'avenir-next-400',
-              viewContainer: {
-                flexDirection: 'row',
-              },
-              inputIOSContainer: {
-                flexDirection: 'row',
-              },
-              inputAndroidContainer: {
-                flexDirection: 'row',
-              },
-              iconContainer: {
-                // top: 3,
-                // right: -23,
-                top: 0,
-                right: 0,
-                position: 'relative',
-                paddingTop: Platform.OS === 'ios' ? 3 : 7,
-                paddingLeft: 7,
-              },
-            }}
+            style={
+              fieldLayout === 'normal' ? {
+                ...pickerSelectStyles,
+                ...conditionalPickerSelectStyles.normal,
+                ...pickerStyle
+              } :
+              {
+                ...pickerSelectStyles,
+                ...conditionalPickerSelectStyles.inline,
+                ...pickerStyle
+              }
+            }
             Icon={() => {
-              return <Icon name="chevron-down" size={14} style={{ color: Colors.colorPrimary, margin: 0 }} />;
+              return <Icon name="chevron-down" size={14} style={{ color: Colors.colorGray1200, margin: 0 }} />;
             }}
           />
         </View>
-        <View style={{ flex: 1 }} />
+        <View style={fieldLayout === 'normal' ? {...fieldLayoutStyles.normal.spacerItem} : {...fieldLayoutStyles.inline.spacerItem}} />
       </View>
       {/*<Picker selectedValue={restInput.value.toString()} onValueChange={onChange} {...restInput}>*/}
         {/*<Picker.Item key='default' value='' label={placeholderText} />*/}
@@ -111,6 +176,8 @@ const PickerSelectField = (props) => {
         placeholderText={props.placeholderText}
         defaultValue={props.defaultValue}
         containerStyle={props.containerStyle}
+        fieldLayout={props.fieldLayout}
+        pickerStyle={props.pickerStyle}
       />
     </View>
   );
@@ -125,9 +192,15 @@ PickerSelectField.propTypes = {
   placeholderText: PropTypes.string,
   defaultValue: PropTypes.string,
   containerStyle: PropTypes.object,
+  pickerStyle: PropTypes.object,
+  fieldLayout: PropTypes.oneOf(['normal', 'inline']),
 };
 
 PickerSelectField.defaultProps = {
   placeholderText: '–  Select an Option  –',
+  defaultValue: null,
+  fieldLayout: 'normal',
+  containerStyle: {},
+  pickerStyle: {}
 };
 

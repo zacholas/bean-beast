@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { Text, TouchableOpacity, View } from 'react-native';
 import _ from "lodash";
-import { ImageUploadField, LabeledSliderField, PickerField, SwitchField } from "../../common/reduxForm";
+import {
+  ImageUploadField,
+  LabeledSliderField,
+  PickerField,
+  PickerSelectField,
+  SwitchField
+} from "../../common/reduxForm";
 import Modal from "../../common/Modal";
 import { bodyText, textLink } from "../../../constants/Styles";
 import * as styles from "../../common/reduxForm/Styles";
@@ -71,7 +77,7 @@ export default class RoastLevelFormField extends Component {
     else {
       const roastLevelFieldLabel = (
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Roast Level:</Text>
+          <Text style={{ ...bodyText, ...styles.label, flex: 1 }}>Advanced Roast Level:</Text>
           <TouchableOpacity onPress={() => this.addRoastLevelModal.show()}>
             {/*<BodyText style={textLink}>+ Add New Roast Level</BodyText>*/}
             <BodyText style={textLink}>+ Add New</BodyText>
@@ -79,30 +85,57 @@ export default class RoastLevelFormField extends Component {
         </View>
       );
 
-
-
       const orderedRoastLevels = _.orderBy(this.props.roastLevels, ['order'], ['asc']);
       // console.log(orderedRoastLevels);
-      const roastLevels = _.map(orderedRoastLevels, (roastLevel) => {
-        let output = '';
-        output = roastLevel.name ? output.concat(roastLevel.name) : output;
+      let roastLevels = [];
+      if(_.size(orderedRoastLevels)){
+        roastLevels = _.map(orderedRoastLevels, (roastLevel) => {
+          let output = '';
+          output = roastLevel.name ? output.concat(roastLevel.name) : output;
 
-        return {
-          id: roastLevel.id,
-          name: output
-        };
-      });
+          return {
+            key: roastLevel.id,
+            value: roastLevel.id,
+            label: output
+          };
+        });
+      }
 
-      // TODO decide whether I want to require the roast level or not below.
       return (
-        <PickerField
-          name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level` : 'roast_level'}
-          // name="roast_level"
-          label={roastLevelFieldLabel}
-          options={roastLevels}
-          // validate={[required]}
-        />
-      )
+        <View>
+          {roastLevelFieldLabel}
+          <PickerSelectField
+            name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level` : 'roast_level'}
+            options={roastLevels}
+          />
+        </View>
+      );
+
+
+      //
+      //
+      // const orderedRoastLevels = _.orderBy(this.props.roastLevels, ['order'], ['asc']);
+      // // console.log(orderedRoastLevels);
+      // const roastLevels = _.map(orderedRoastLevels, (roastLevel) => {
+      //   let output = '';
+      //   output = roastLevel.name ? output.concat(roastLevel.name) : output;
+      //
+      //   return {
+      //     id: roastLevel.id,
+      //     name: output
+      //   };
+      // });
+      //
+      // // TODO decide whether I want to require the roast level or not below.
+      // return (
+      //   <PickerField
+      //     name={this.props.fieldPrefix ? `${this.props.fieldPrefix}.roast_level` : 'roast_level'}
+      //     // name="roast_level"
+      //     label={roastLevelFieldLabel}
+      //     options={roastLevels}
+      //     // validate={[required]}
+      //   />
+      // )
     }
   }
 
