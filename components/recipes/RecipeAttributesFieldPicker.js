@@ -76,7 +76,7 @@ class RecipeAttributesFieldPicker extends Component {
         type: 'attribute',
         id: 'notes_for_next_time',
         name: 'Notes For Next Time',
-        description: `Things for you to keep in mind for the next time you use this bean for ${brewMethodLabel}.`,
+        description: `Things for you to keep in mind for the next time you use this bean ${brewMethodLabel}.`,
         order: 4,
         repeatable: false,
         applicableForAllBrewMethods: true,

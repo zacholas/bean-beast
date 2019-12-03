@@ -486,7 +486,7 @@ class ViewRecipeScreen extends Component {
         case 'default_primary_infusion':
           // values.length
           recipeStepsToRender.push({
-            totalTime: prevTotalTime + Number(step.values.length),
+            totalTime: prevTotalTime + Number(_.size(step) && _.size(step.values) && step.values.length ? step.values.length : 0),
             totalWeight: prevTotalWeight,
             field: {
               ...step
@@ -498,8 +498,8 @@ class ViewRecipeScreen extends Component {
         case 'default_bloom':
           // values.length, values.water_amount
           recipeStepsToRender.push({
-            totalTime: prevTotalTime + Number(step.values.length),
-            totalWeight: prevTotalWeight + Number(step.values.water_amount),
+            totalTime: prevTotalTime + Number(_.size(step) && _.size(step.values) && step.values.length ? step.values.length : 0),
+            totalWeight: prevTotalWeight + Number(_.size(step) && _.size(step.values) && step.values.water_amount ? step.values.water_amount : 0),
             field: {
               ...step
             }
@@ -509,8 +509,8 @@ class ViewRecipeScreen extends Component {
         case 'default_pour':
           // values.duration, values.water_amount
           recipeStepsToRender.push({
-            totalTime: prevTotalTime + Number(step.values.duration),
-            totalWeight: prevTotalWeight + Number(step.values.water_amount),
+            totalTime: prevTotalTime + Number(_.size(step) && _.size(step.values) && step.values.duration ? step.values.duration : 0),
+            totalWeight: prevTotalWeight + Number(_.size(step) && _.size(step.values) && step.values.water_amount ? step.values.water_amount : 0),
             field: {
               ...step
             }

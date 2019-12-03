@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { TextField, PickerSelectField } from "../../../common/reduxForm";
 import {isDefined, isNumber, required} from "../../../../helpers";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { BodyText, Headline } from "../../../common";
 import _ from "../../../../screens/recipes/ViewRecipeScreen";
 import {connectActionSheet} from "@expo/react-native-action-sheet";
 import {connect} from "react-redux";
 import {cloneRecipe, deleteRecipe, editRecipe, markRecipeAsFavorite} from "../../../../actions";
+import Colors from "../../../../constants/Colors";
 
 class TemperatureField extends Component {
   render() {
