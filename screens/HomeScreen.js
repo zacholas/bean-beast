@@ -13,6 +13,7 @@ import {
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
+import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import {BodyText, Button, Container, Headline, Hr, ScrollContainer} from "../components/common";
 import Logo from '../assets/images/beanbeast_logo.svg';
 import {centerEverything, textLink} from "../constants/Styles";
@@ -28,6 +29,7 @@ class HomeScreen extends React.Component {
     header: null,
   };
 
+
   render() {
     return (
       <ScrollContainer contentContainerStyle={{...centerEverything}}>
@@ -40,7 +42,7 @@ class HomeScreen extends React.Component {
 
         <View style={{ centerEverything, marginTop: 20 }}>
           <BodyText style={centerEverything}>
-            Thanks so much for participating in the BBBeta. If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
+            Thanks so much for participating in the Bean Beast beta test. If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
             <Text onPress={() => { this._emailButtonPress() }} style={textLink}>zach@zachswinehart.com</Text>.</BodyText>
         </View>
 

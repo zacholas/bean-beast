@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, DatePickerAndroid, DatePickerIOS, Platform } from 'react-native';
 import { Field } from 'redux-form';
 import DatePicker from 'react-native-datepicker';
+import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
 import {
   bodyText,
 } from '../Styles';
@@ -42,6 +43,8 @@ const DatePickerComponent = ({
   // else {
   //   // TODO android datepicker
   // }
+
+  const colorScheme = Appearance.getColorScheme();
   return (
     <View style={styles.inputContainer}>
       {/*{datePicker}*/}
@@ -63,6 +66,14 @@ const DatePickerComponent = ({
           },
           dateInput: {
             marginLeft: 36
+          },
+          datePicker: {
+            color: '#fff',
+            backgroundColor: colorScheme === 'dark' ? '#222' : 'white'
+          },
+          datePickerCon: {
+            color: '#000',
+            backgroundColor: colorScheme === 'dark' ? '#333' : 'white'
           }
           // ... You can check the source to find the other keys.
         }}

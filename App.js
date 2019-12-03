@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, AsyncStorage, SafeAreaView } from 'react-native';
+import { AppearanceProvider } from 'react-native-appearance';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
@@ -95,7 +96,9 @@ export default class AppContainer extends React.Component {
   render() {
     return (
       <ActionSheetProvider>
-        <ConnectedApp />
+        <AppearanceProvider>
+          <ConnectedApp />
+        </AppearanceProvider>
       </ActionSheetProvider>
     );
   }
