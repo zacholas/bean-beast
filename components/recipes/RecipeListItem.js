@@ -6,7 +6,6 @@ import { BodyText, Headline } from "../common";
 import {connect} from "react-redux";
 import { grayCardBG } from "../../constants/Colors";
 import { cardGray, centerEverything, textLink } from "../../constants/Styles";
-import Icon from "../beans/BeanRecipes";
 import Colors from "../../constants/Colors";
 import {
   beanTitleDisplay,
@@ -55,6 +54,7 @@ class RecipeListItem extends Component {
               </BodyText>
             ) : <View/>}
           </View>
+          {this.props.rightSideContent}
         </TouchableOpacity>
       </View>
     );
@@ -130,7 +130,8 @@ RecipeListItem = connect(mapStateToProps, mapDispatchToProps)(RecipeListItem);
 
 RecipeListItem.propTypes = {
   data: PropTypes.object.isRequired,
-  beanPage: PropTypes.bool
+  beanPage: PropTypes.bool,
+  rightSideContent: PropTypes.node
 };
 
 RecipeListItem.defaultProps = {
@@ -141,7 +142,8 @@ RecipeListItem.defaultProps = {
     brew_method: null,
     nickname: null,
   },
-  beanPage: false
+  beanPage: false,
+  rightSideContent: <View />
 };
 
 export default RecipeListItem;

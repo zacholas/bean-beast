@@ -93,12 +93,12 @@ class ViewBeanScreen extends Component {
         {this._ratingInfo()}
         <Hr />
         {this._originInfo()}
-        <Hr />
+        {/*<Hr />*/}
         {tasting_notes ? <View><Headline h5 style={marginBottomHalf}>Tasting Notes:</Headline><BodyText>{tasting_notes}</BodyText></View> : <View />}
         {comments ? <View><Headline h5 style={marginBottomHalf}>Comments:</Headline><BodyText>{comments}</BodyText></View> : <View />}
         {(this.props.bean.tasting_notes || this.props.bean.comments) ? <Hr /> : <View />}
 
-        <Hr />
+        {/*<Hr />*/}
 
         <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
           <Headline h3 inline style={marginBottomHalf}>Recipes with this Bean</Headline>
@@ -382,6 +382,7 @@ class ViewBeanScreen extends Component {
           <View>
             {this._beanBlendComponentOutput(beanBlendComponents[0])}
           </View>
+          <Hr />
         </View>
       )
     }
@@ -395,6 +396,7 @@ class ViewBeanScreen extends Component {
             keyExtractor={this._blendComponentKeyExtractor}
             renderItem={this._renderBeanBlendComponent.bind(this)}
           />
+          <Hr />
         </View>
       )
     }

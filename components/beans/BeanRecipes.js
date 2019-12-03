@@ -12,6 +12,7 @@ import { cloneRecipe, deleteRecipe, editRecipe } from "../../actions";
 import { generateRandomID } from "../../helpers";
 import Modal from "../../components/common/Modal";
 import Colors from '../../constants/Colors';
+import RecipeListItem from "../recipes/RecipeListItem";
 
 const Styles = {
   sideIcons: {
@@ -20,6 +21,7 @@ const Styles = {
     textAlign: 'center',
     margin: -15,
     marginLeft: 10,
+    marginRight: -7,
     padding: 4
   },
   sideIcon: {
@@ -141,28 +143,23 @@ class BeanRecipes extends Component {
   }
 
   _renderItem = ({item}) => {
-    // console.log('this recipe', item);
-    //* TODO show rating info here once I create it
     return (
-      <TouchableOpacity
+      <RecipeListItem
         id={item.id}
-        onPress={() => { this._onPressItem(item.id) }}
+        onPressItem={() => { this._onPressItem(item.id) }}
         data={item}
         beanPage={this.props.beanPage}
-        style={{ ...cardGray, flexDirection: 'row' }}
-      >
-        <View style={{ flex: 1 }}>
-          {this._itemTexts(item)}
-        </View>
-        <View style={Styles.sideIcons}>
-          <TouchableOpacity onPress={() => this._cloneRecipe(item)} style={Styles.sideIcon}>
-            <Icon name="copy" size={16} style={textLink} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this._onPressDelete(item.id)} style={Styles.sideIcon}>
-            <Icon name="trash" size={16} style={{ color: Colors.colorDanger }} />
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
+        rightSideContent={
+          <View style={Styles.sideIcons}>
+            <TouchableOpacity onPress={() => this._cloneRecipe(item)} style={Styles.sideIcon}>
+              <Icon name="copy" size={16} style={textLink} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._onPressDelete(item.id)} style={Styles.sideIcon}>
+              <Icon name="trash" size={16} style={{ color: Colors.colorDanger }} />
+            </TouchableOpacity>
+          </View>
+        }
+      />
     );
   };
 
