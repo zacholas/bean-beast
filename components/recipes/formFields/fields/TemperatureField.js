@@ -45,7 +45,6 @@ class TemperatureField extends Component {
                 }
               ]}
               defaultValue={this.props.userPreferences && this.props.userPreferences.global_temperatureMeasurement ? this.props.userPreferences.global_temperatureMeasurement : null}
-              containerStyle={{ marginBottom: 0 }}
               fieldLayout={'inline'}
             />
           </View>

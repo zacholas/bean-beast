@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import BeanListItem from './BeanListItem';
 import * as navRoutes from '../../constants/NavRoutes';
@@ -50,7 +50,7 @@ class BeanList extends Component {
 
       return (
         <View>
-          {this.props.cafe && <Headline h3 inline style={{ marginBottom: -20}}>Beans by this Roaster:</Headline>}
+          {this.props.cafe && <Headline h3 inline style={{ marginBottom: Platform.OS === 'ios' ? -20 : 0 }}>Beans by this Roaster:</Headline>}
           <FlatList
             data={beans}
             keyExtractor={this._keyExtractor}

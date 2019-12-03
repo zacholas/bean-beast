@@ -3,7 +3,7 @@ import {FlatList, View, Text, TouchableOpacity} from "react-native";
 import _ from 'lodash';
 import PropTypes from "prop-types";
 import { marginBottom } from "../../../constants/Styles";
-import {Headline} from "../../common";
+import { BodyText, Headline } from "../../common";
 
 class RecipeStepFieldPicker extends Component {
   render() {
@@ -28,8 +28,8 @@ class RecipeStepFieldPicker extends Component {
     // console.log(item);
     return (
       <TouchableOpacity onPress={() => this.props.onStepPress(item)} style={{ paddingVertical: 10 }}>
-        <Text>{item.name}</Text>
-        {item.description && <Text style={{ fontSize: 9 }}>{item.description}</Text>}
+        <BodyText noMargin>{item.name}</BodyText>
+        {item.description && <BodyText style={{ fontSize: 9 }} noMargin>{item.description}</BodyText>}
       </TouchableOpacity>
     );
   };

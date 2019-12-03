@@ -12,13 +12,14 @@ import { BodyText } from "../../../common";
 
 class PreInfusionDisplay extends Component {
   _preinfusion(values){
-    const { length, pressure } = values;
+    const { length, pressure, water_amount } = values;
     if(length || pressure){
       return (
         <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}>
           Pre-Infuse
+          {water_amount ? ` ${water_amount}g` : ''}
           {pressure ? ` at ${pressure} Bar Pressure` : ''}
-          {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
+          {length ? ` over ${secondsToTimeStringDisplay(length)}` : null}
         </BodyText>
       );
     }
@@ -44,7 +45,8 @@ PreInfusionDisplay.defaultProps = {
   values: {
     length: null,
     pressure: null,
-    notes: null
+    notes: null,
+    water_amount: null
   },
   style: {}
 };

@@ -159,6 +159,8 @@ class TimeLengthPickerComponent extends Component {
             onChangeText={(itemValue) => this.setState({hours: itemValue})}
             validate={[isNumber]}
             number
+            keyboardType="numeric"
+            selectTextOnFocus
             placeholder={'00'}
             value={this.state.hours.toString()}
           />
@@ -180,6 +182,8 @@ class TimeLengthPickerComponent extends Component {
               onChangeText={(itemValue) => this.setState({minutes: itemValue})}
               validate={[isNumber]}
               number
+              keyboardType="numeric"
+              selectTextOnFocus
               placeholder={'00'}
               value={this.state.minutes.toString()}
             />
@@ -204,6 +208,8 @@ class TimeLengthPickerComponent extends Component {
               onChangeText={(itemValue) => this.setState({seconds: itemValue})}
               validate={[isNumber]}
               number
+              keyboardType="numeric"
+              selectTextOnFocus
               placeholder={'00'}
               value={this.state.seconds.toString()}
             />

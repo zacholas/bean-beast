@@ -28,7 +28,7 @@ class EditBeanForm extends Component {
     super(props);
     this.state = {
       formStep: this.props.navigation.getParam('formStep', 1),
-      formSteps: 5
+      formSteps: 4
     };
   }
 
@@ -160,28 +160,33 @@ class EditBeanForm extends Component {
 
   formStepThree(){
     return (
-      <BeanName
-        formValues={this.props.formValues}
-        origins={this.props.origins}
-        beanProcesses={this.props.beanProcesses}
-      />
-    );
-  }
-
-  formStepFour(){
-    return (
       <View>
+        <Cafe navigation={this.props.navigation} cafes={this.props.cafes} />
+        <BeanName
+          formValues={this.props.formValues}
+          origins={this.props.origins}
+          beanProcesses={this.props.beanProcesses}
+        />
         <DatePickerField
           name="roast_date"
           label="Roast Date"
           mode="date"
         />
-        <Cafe navigation={this.props.navigation} cafes={this.props.cafes} />
       </View>
     );
   }
 
-  formStepFive(){
+  formStepFour(){
+    // return (
+    //   <View>
+    //     <DatePickerField
+    //       name="roast_date"
+    //       label="Roast Date"
+    //       mode="date"
+    //     />
+    //     <Cafe navigation={this.props.navigation} cafes={this.props.cafes} />
+    //   </View>
+    // );
     return (
       <View>
         <TextField
@@ -197,6 +202,23 @@ class EditBeanForm extends Component {
       </View>
     );
   }
+
+  // formStepFive(){
+  //   return (
+  //     <View>
+  //       <TextField
+  //         name="tasting_notes"
+  //         label="Tasting Notes"
+  //         multiline
+  //       />
+  //       <TextField
+  //         name="comments"
+  //         label="Comments / Misc. Notes"
+  //         multiline
+  //       />
+  //     </View>
+  //   );
+  // }
 
   getFormStep(){
     switch (this.state.formStep){

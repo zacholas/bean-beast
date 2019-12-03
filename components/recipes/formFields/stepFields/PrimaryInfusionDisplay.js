@@ -12,13 +12,15 @@ import { BodyText } from "../../../common";
 
 class PrimaryInfusionDisplay extends Component {
   _primaryInfusion(values){
-    const { length, pressure } = values;
-    if(length || pressure){
+    console.log('prmary infusion values', values);
+    const { length, pressure, water_amount } = values;
+    if(length || pressure || water_amount){
       return (
         <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}>
           Extract
+          {water_amount ? ` ${water_amount}g` : ''}
           {pressure ? ` at ${pressure} Bar Pressure` : ''}
-          {length ? ` for ${secondsToTimeStringDisplay(length)}` : null}
+          {length ? ` over ${secondsToTimeStringDisplay(length)}` : null}
         </BodyText>
       );
     }
@@ -44,7 +46,8 @@ PrimaryInfusionDisplay.defaultProps = {
   values: {
     length: null,
     pressure: null,
-    notes: null
+    notes: null,
+    water_amount: null
   },
   style: {}
 };

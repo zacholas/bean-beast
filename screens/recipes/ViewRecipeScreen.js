@@ -482,8 +482,6 @@ class ViewRecipeScreen extends Component {
       // console.log('step', value);
       switch (step.field_id) {
         case 'default_wait':
-        case 'default_pre_infusion':
-        case 'default_primary_infusion':
           // values.length
           recipeStepsToRender.push({
             totalTime: prevTotalTime + Number(_.size(step) && _.size(step.values) && step.values.length ? step.values.length : 0),
@@ -494,9 +492,10 @@ class ViewRecipeScreen extends Component {
           });
           break;
 
-        //* Everything Else
+        //* Fields with... values.length, values.water_amount
         case 'default_bloom':
-          // values.length, values.water_amount
+        case 'default_pre_infusion':
+        case 'default_primary_infusion':
           recipeStepsToRender.push({
             totalTime: prevTotalTime + Number(_.size(step) && _.size(step.values) && step.values.length ? step.values.length : 0),
             totalWeight: prevTotalWeight + Number(_.size(step) && _.size(step.values) && step.values.water_amount ? step.values.water_amount : 0),
@@ -506,8 +505,8 @@ class ViewRecipeScreen extends Component {
           });
           break;
 
+        //* Fields with... values.duration, values.water_amount
         case 'default_pour':
-          // values.duration, values.water_amount
           recipeStepsToRender.push({
             totalTime: prevTotalTime + Number(_.size(step) && _.size(step.values) && step.values.duration ? step.values.duration : 0),
             totalWeight: prevTotalWeight + Number(_.size(step) && _.size(step.values) && step.values.water_amount ? step.values.water_amount : 0),
