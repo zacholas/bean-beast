@@ -10,6 +10,7 @@ import CoffeeSpeciesReducer from './CoffeeSpeciesReducer';
 import RecipesReducer from './RecipesReducer';
 import BrewMethodsReducer from './BrewMethodsReducer';
 import RecipeStepsReducer from './RecipeStepsReducer';
+import EquipmentReducer from './EquipmentReducer';
 
 export default combineReducers({
   form: formReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   brewMethods: BrewMethodsReducer,
   recipeSteps: RecipeStepsReducer,
   userPreferences: UserPreferencesReducer,
+  equipment: EquipmentReducer,
 });

@@ -18,10 +18,10 @@ export default class MenuMoreScreen extends Component {
           {/*title="Settings"*/}
           {/*onPress={() => this.props.navigation.navigate(navRoutes.SETTINGS)}*/}
         {/*/>*/}
-        {/*<MoreMenuLink*/}
-          {/*title="Equipment"*/}
-          {/*onPress={() => this.props.navigation.navigate(navRoutes.EQUIPMENT)}*/}
-        {/*/>*/}
+        <MoreMenuLink
+          title="Equipment"
+          onPress={() => this.props.navigation.navigate(navRoutes.EQUIPMENT)}
+        />
         <MoreMenuLink
           title="App Preferences"
           onPress={() => this.props.navigation.navigate(navRoutes.PREFERENCES)}

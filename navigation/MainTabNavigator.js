@@ -175,6 +175,7 @@ const MoreStack = createStackNavigator(
     [navRoutes.SETTINGS]: SettingsScreen,
     [navRoutes.HELP]: HelpScreen,
     [navRoutes.PREFERENCES]: UserPreferencesScreen,
+    [navRoutes.EQUIPMENT]: EquipmentScreen,
   },
   {
     // mode: 'modal',

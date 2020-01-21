@@ -42,7 +42,7 @@ class HomeScreen extends React.Component {
 
         <View style={{ centerEverything, marginTop: 20 }}>
           <BodyText style={centerEverything}>
-            Thanks so much for participating in the Bean Beast beta test. If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
+            If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}
             <Text onPress={() => { this._emailButtonPress() }} style={textLink}>zach@zachswinehart.com</Text>.</BodyText>
         </View>
 

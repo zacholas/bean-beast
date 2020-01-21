@@ -7,3 +7,4 @@ export * from './coffeeSpecies';
 export * from './recipes';
 export * from './brewMethods';
 export * from './userPreferences';
+export * from './equipment';

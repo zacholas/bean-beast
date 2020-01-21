@@ -6,3 +6,4 @@ export * from './CoffeeSpeciesActions';
 export * from './BeanProcessActions';
 export * from './RecipeActions';
 export * from './UserPreferencesActions';
+export * from './EquipmentActions';

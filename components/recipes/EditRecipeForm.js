@@ -696,10 +696,17 @@ class EditRecipeForm extends Component {
     const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
     const thisBeanCafe = _.size(this.props.cafes) && _.size(this.props.cafes.cafes) && thisBean && thisBean.cafe && this.props.cafes.cafes[thisBean.cafe] ? this.props.cafes.cafes[thisBean.cafe] : false;
 
+    const equipmentOutput = (
+      <TouchableOpacity onPress={() => { this._showEditFormFieldModal('equipment') }}>
+        <BodyText style={{ marginBottom: 0 }}>Select brew equipment (optional)</BodyText>
+      </TouchableOpacity>
+    );
 
     return (
       <View style={styles.brewMethodContainer}>
         {brewMethodOutput}
+
+        {equipmentOutput}
 
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { this._showEditFormFieldModal('bean_id') }}>
           <BodyText noMargin>{_.size(values) && values.bean_id && thisBean ? `${thisBeanCafe && thisBeanCafe.name ? `Roaster: ${thisBeanCafe.name} | ` : ''}Bean: ${thisBean.name}` : '» Press Here to Choose Bean'}</BodyText>
@@ -790,6 +797,7 @@ const mapStateToProps = (state) => {
     beanProcesses: state.beanProcesses,
     fields: getFormMeta('EditRecipeForm')(state),
     cafes: state.cafes,
+    equipment: state.equipment
   }
 };
 
