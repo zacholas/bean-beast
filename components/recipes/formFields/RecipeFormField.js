@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
+import { connect } from "react-redux";
+
 import DoseField from './fields/DoseField';
 import GrindField from './fields/GrindField';
 import TemperatureField from './fields/TemperatureField';
 import BrewMethodField from './fields/BrewMethodField';
+import BrewEquipmentField from './fields/BrewEquipmentField';
 import { BeanPickerField } from './fields/BeanPickerField';
 
 //* Popup Attributes
@@ -11,10 +14,7 @@ import NotesForNextTime from './fields/NotesForNextTime';
 import RecipeNotes from './fields/RecipeNotes';
 import RecipeObjectives from './fields/RecipeObjectives';
 import NicknameField from './fields/Nickname';
-import { PickerField } from "../../common/reduxForm";
-import _ from "lodash";
-import { beanTitleDisplay } from "../../../helpers/labels";
-import { connect } from "react-redux";
+
 
 class RecipeFormField extends Component {
 
@@ -22,6 +22,8 @@ class RecipeFormField extends Component {
     switch (this.props.name) {
       case 'brew_method':
         return <BrewMethodField />;
+      case 'brew_equipment':
+        return <BrewEquipmentField />;
       case 'dose':
         return <DoseField />;
       case 'grind':

@@ -38,104 +38,24 @@ class EditRecipeForm extends Component {
     };
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const { handleSubmit, loading } = this.props;
-  //   const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
-  //   const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
-  //   const { submitErrors } = thisForm;
-  //   // console.log('receive props; old form: ', thisForm);
-  //
-  //   const newForm = _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) ? nextProps.formValues.EditRecipeForm : false;
-  //   const newValues = newForm && _.size(newForm.values) ? newForm.values : false;
-  //   const formSubmitFailed = newForm && newForm.submitFailed ? newForm.submitFailed : false;
-  //   // console.log('new form: ', newForm);
-  //   console.log('submit failed?', formSubmitFailed);
-  //   // If they've already failed to submit the form, validate the it so that we can remove errors that are no longer relevant.
-  //   if(formSubmitFailed === true && newValues){
-  //     console.log('newValues', newValues);
-  //     // this._validateForm(newValues);
-  //   };
-  // }
-
   componentWillMount(): void {
     this.props.change('navigation', this.props.navigation);
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
     this.props.change('bean_id', this.props.bean_id);
-
-    // this.props.change('recipe_steps', [
-    //   {
-    //     id: 'hij789',
-    //     field_id: 'default_bloom',
-    //     order: 10,
-    //     values: {
-    //       length: 70,
-    //       water_amount: 30,
-    //       notes: 'Stir after pouring'
-    //     }
-    //   },
-    //   {
-    //     id: 'def456',
-    //     field_id: 'default_pour',
-    //     order: 20,
-    //     values: {
-    //       water_amount: 100,
-    //       duration: 30,
-    //       notes: 'dont pour too fast'
-    //     }
-    //   },
-    //   {
-    //     id: 'abc123',
-    //     field_id: 'default_pre_infusion',
-    //     order: 30,
-    //     values: {
-    //       length: 213,
-    //       pressure: 9,
-    //       notes: 'slow ramp up'
-    //     }
-    //   },
-    //   {
-    //     id: 'defdddd456',
-    //     field_id: 'default_primary_infusion',
-    //     order: 40,
-    //     values: {
-    //       length: 130,
-    //       pressure: 9,
-    //       notes: 'fast ramp up'
-    //     }
-    //   },
-    //   {
-    //     id: 'defdddd456sdsdssd',
-    //     field_id: 'default_taint',
-    //     order: 50,
-    //     values: {
-    //       notes: 'add lotsa sugar and shit'
-    //     }
-    //   },
-    //   {
-    //     id: 'hdddij789',
-    //     field_id: 'default_wait',
-    //     order: 60,
-    //     values: {
-    //       length: 70,
-    //       notes: 'Wait for it to drain'
-    //     }
-    //   },
-    // ]);
   }
 
   render() {
     const { handleSubmit, loading } = this.props;
     const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
     const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+    const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
+    const thisBeanCafe = _.size(this.props.cafes) && _.size(this.props.cafes.cafes) && thisBean && thisBean.cafe && this.props.cafes.cafes[thisBean.cafe] ? this.props.cafes.cafes[thisBean.cafe] : false;
     const { submitErrors } = thisForm;
     const formMeta = this.props.fields;
     if(submitErrors){
       console.log('submit errors: ', submitErrors);
     }
-    // console.log('form meta ', this.props.fields);
-
-    // console.log(thisForm);
 
     let beans = _.map(this.props.beans.beans, (bean) => {
       bean.name = beanTitleDisplay(bean, this.props.origins.origins, this.props.beanProcesses.beanProcesses);
@@ -145,6 +65,10 @@ class EditRecipeForm extends Component {
     beans = _.orderBy(beans, ['name'], ['asc']);
 
     const tempInOtherUnit = temperatureInOtherUnit(values.temperature, values.temperatureMeasurement);
+
+    //* Brew equipment
+    const thisBrewEquipmentName = _.size(values) && values.brew_equipment && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[values.brew_equipment]) && this.props.equipment.equipment[values.brew_equipment].name ? this.props.equipment.equipment[values.brew_equipment].name : null;
+    const thisGrinderName = _.size(values) && values.grinder && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[values.grinder]) && this.props.equipment.equipment[values.grinder].name ? this.props.equipment.equipment[values.grinder].name : null;
 
     return (
       <Container>
@@ -164,13 +88,34 @@ class EditRecipeForm extends Component {
 
         {this._brewMethodArea()}
 
-        <View style={styles.recipePrimaryInfoBar}>
+        {/* Choose Bean */}
+        <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('bean_id') }}>
+            <Headline h6 noMargin>Bean</Headline>
+            <BodyText noMargin>{_.size(values) && values.bean_id && thisBean ? `${thisBeanCafe && thisBeanCafe.name ? `Roaster: ${thisBeanCafe.name} | ` : ''}Bean: ${thisBean.name}` : '» Select'}</BodyText>
+            {this._fieldErrorDisplay('bean_id')}
+          </TouchableOpacity>
+        </View>
+
+        {/* Brewing Equipment & Accessories */}
+        <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Headline h6 noMargin>Grind</Headline>
             <BodyText noMargin>{_.size(values) && values.grind ? values.grind : '+ Add'}</BodyText>
+            {_.size(values) && values.grind && thisGrinderName ? <BodyText style={{ fontSize: 12 }} noMargin>({thisGrinderName})</BodyText> : <View />}
             {this._fieldErrorDisplay('grind')}
             {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('brew_equipment') }}>
+            <Headline h6 noMargin>Brew Equipment</Headline>
+            <BodyText noMargin>{_.size(values) && values.brew_equipment && thisBrewEquipmentName ? thisBrewEquipmentName : '» Select'}</BodyText>
+          </TouchableOpacity>
+        </View>
+
+        {/* Grind, Dose, Temp */}
+        <View style={styles.recipePrimaryInfoBar}>
+
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
             <Headline h6 noMargin>Dose</Headline>
             <BodyText noMargin>{_.size(values) && values.dose ? `${values.dose}g` : '+ Add'}</BodyText>
@@ -685,34 +630,14 @@ class EditRecipeForm extends Component {
       brewMethodOutput = (
         <TouchableOpacity style={styles.brewMethodInnerContainer} onPress={() => { this._showEditFormFieldModal('brew_method') }}>
           <Icon name="plus" size={56} />
-          <Headline style={{ marginBottom: 0 }}>Select Brew Method</Headline>
+          <Headline h4 noMargin>Select Brew Method</Headline>
         </TouchableOpacity>
       );
     }
 
-    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
-    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
-
-    const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
-    const thisBeanCafe = _.size(this.props.cafes) && _.size(this.props.cafes.cafes) && thisBean && thisBean.cafe && this.props.cafes.cafes[thisBean.cafe] ? this.props.cafes.cafes[thisBean.cafe] : false;
-
-    const equipmentOutput = (
-      <TouchableOpacity onPress={() => { this._showEditFormFieldModal('equipment') }}>
-        <BodyText style={{ marginBottom: 0 }}>Select brew equipment (optional)</BodyText>
-      </TouchableOpacity>
-    );
-
     return (
       <View style={styles.brewMethodContainer}>
         {brewMethodOutput}
-
-        {equipmentOutput}
-
-        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => { this._showEditFormFieldModal('bean_id') }}>
-          <BodyText noMargin>{_.size(values) && values.bean_id && thisBean ? `${thisBeanCafe && thisBeanCafe.name ? `Roaster: ${thisBeanCafe.name} | ` : ''}Bean: ${thisBean.name}` : '» Press Here to Choose Bean'}</BodyText>
-          {this._fieldErrorDisplay('bean_id')}
-          {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
-        </TouchableOpacity>
       </View>
     );
   }

@@ -7,7 +7,8 @@ export default StyleSheet.create({
   brewMethodContainer: {
     ...centeredContainer,
     backgroundColor: grayCardBG,
-    paddingVertical: 30,
+    paddingTop: 30,
+    paddingBottom: 18,
     paddingHorizontal: 10,
     // minHeight: 200,
     position: 'relative',

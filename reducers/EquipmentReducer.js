@@ -8,22 +8,28 @@ const INITIAL_STATE = {
   equipmentTypes: {
     default_grinders: {
       id: 'default_grinders',
-      name: 'Grinders',
+      name: 'Grinder',
+      name_plural: 'Grinders',
       can_delete: false,
       order: 10,
+      can_select_multiple: false,
     },
     default_brew_methods: {
       id: 'default_brew_methods',
-      name: 'Brew Methods',
+      name: 'Brew Method',
+      name_plural: 'Brew Methods',
       can_delete: false,
       order: 20,
+      can_select_multiple: false,
     },
-    default_other: {
-      id: 'default_other',
-      name: 'Other / Accessories',
-      can_delete: false,
-      order: 30,
-    }
+    // default_other: {
+    //   id: 'default_other',
+    //   name: 'Accessory',
+    //   name_plural: 'Other / Accessories',
+    //   can_delete: false,
+    //   order: 30,
+    //   can_select_multiple: true
+    // }
   },
   equipment: {
     //* Grinders

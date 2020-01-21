@@ -6,6 +6,25 @@ import PropTypes from "prop-types";
 import { BodyText, Button, Headline } from "../components/common";
 import Modal from "../components/common/Modal";
 import EditEquipmentForm from "../components/equipment/EditEquipmentForm";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { textLink } from "../constants/Styles";
+import Colors from "../constants/Colors";
+import RecipeListItem from "../components/recipes/RecipeListItem";
+
+const Styles = {
+  sideIcons: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    margin: -15,
+    marginLeft: 10,
+    marginRight: -7,
+    padding: 4
+  },
+  sideIcon: {
+    padding: 8,
+  }
+};
 
 class EquipmentScreen extends Component {
   static navigationOptions = {
@@ -26,7 +45,7 @@ class EquipmentScreen extends Component {
 
     if(_.size(equipmentTypes)){
       output = _.map(equipmentTypes, (equipmentType) => {
-        const heading = equipmentType.name ? equipmentType.name : 'Misc Equipment';
+        const heading = equipmentType.name_plural ? equipmentType.name_plural : equipmentType.name ? equipmentType.name : 'Misc Equipment';
         let equipmentOfThisType = _.filter(equipment, ['type', equipmentType.id]);
         equipmentOfThisType = _.orderBy(equipmentOfThisType, ['order'], ['asc']);
         let piecesOfEquipmentOutput = <BodyText>None Yet!</BodyText>;
@@ -36,6 +55,22 @@ class EquipmentScreen extends Component {
             return (
               <View key={equipmentItem.id}>
                 {equipmentItem.name ? <BodyText>{equipmentItem.name}</BodyText> : <View/>}
+                <RecipeListItem
+                  id={equipmentItem.id}
+                  // onPressItem={() => { this._onPressItem(item.id) }}
+                  data={equipmentItem}
+                  // beanPage={this.props.beanPage}
+                  rightSideContent={
+                    <View style={Styles.sideIcons}>
+                      <TouchableOpacity onPress={() => this._cloneRecipe(item)} style={Styles.sideIcon}>
+                        <Icon name="copy" size={16} style={textLink} />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => this._onPressDelete(item.id)} style={Styles.sideIcon}>
+                        <Icon name="trash" size={16} style={{ color: Colors.colorDanger }} />
+                      </TouchableOpacity>
+                    </View>
+                  }
+                />
               </View>
             );
           });
