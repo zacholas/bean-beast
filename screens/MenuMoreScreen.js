@@ -30,6 +30,10 @@ export default class MenuMoreScreen extends Component {
           title="Help / How to Use Bean Beast"
           onPress={() => this.props.navigation.navigate(navRoutes.HELP)}
         />
+        <MoreMenuLink
+          title="Data Migration"
+          onPress={() => this.props.navigation.navigate(navRoutes.DATA_MIGRATION)}
+        />
       </Container>
     );
   }

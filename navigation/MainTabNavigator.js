@@ -19,6 +19,7 @@ import EquipmentScreen from '../screens/EquipmentScreen';
 import MenuMoreScreen from '../screens/MenuMoreScreen';
 import HelpScreen from '../screens/HelpScreen';
 import UserPreferencesScreen from '../screens/UserPreferencesScreen';
+import DataMigrationScreen from '../screens/DataMigrationScreen';
 
 
 //* Cafes
@@ -176,6 +177,7 @@ const MoreStack = createStackNavigator(
     [navRoutes.HELP]: HelpScreen,
     [navRoutes.PREFERENCES]: UserPreferencesScreen,
     [navRoutes.EQUIPMENT]: EquipmentScreen,
+    [navRoutes.DATA_MIGRATION]: DataMigrationScreen
   },
   {
     // mode: 'modal',
