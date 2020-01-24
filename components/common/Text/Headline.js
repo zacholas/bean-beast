@@ -33,7 +33,7 @@ const Headline = (props) => {
 
   return (
     <View style={{ ...wrapperStyle, ...centeredStyle }}>
-      <Text style={StyleSheet.flatten([specialHeadingStyle, !props.noMargin && marginBottom, centeredStyle, props.style])}>
+      <Text style={StyleSheet.flatten([specialHeadingStyle, !props.noMargin && marginBottom, centeredStyle, props.style ])}>
         {output}
       </Text>
     </View>

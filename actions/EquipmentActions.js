@@ -19,64 +19,64 @@ export const editEquipment = (equipmentData) => {
 
 //* 1-21-20 so far only the _modalCreateEquipment is in use.
 export const saveEquipment = (values) => {
-  console.log('saving equipment with values: ', values);
-  if(values.type === 'create'){
-    return _createEquipment(values);
+  // console.log('saving equipment with values: ', values);
+  // if(values.type === 'create'){
+  //   return _createEquipment(values);
+  // }
+  if(values.type === 'createModal'){
+    return _modalCreateEquipment(values);
   }
   else if(values.type === 'edit'){
     return _updateEquipment(values);
   }
-  else if(values.type === 'createModal'){
-    return _modalCreateEquipment(values);
-  }
 };
 
-const _createEquipment = (values) => {
-  const id = generateRandomID('equipment');
-  return (dispatch) => {
-    _creatingEquipment(dispatch, values, id)
-      .then(() => {
-        dispatch({
-          type: types.EQUIPMENT_CREATE_SUCCESS,
-          payload: id,
-        });
-        if(Object.keys(values.modal).length){
-          values.modal.hide();
-        }
-        else {
-          values.navigation.goBack();
-        }
-      })
-      .catch(error => {
-        dispatch({
-          type: types.EQUIPMENT_CREATE_FAIL,
-          payload: error,
-        });
-        throwError(error, '/actions/EquipmentActions.js', '_createEquipment');
-        values.navigation.goBack();
-        showMessage({
-          message: "Error",
-          description: "There was an error creating the equipment.",
-          type: "danger",
-          autoHide: false,
-          icon: 'auto'
-        });
-      });
-  };
-};
+// const _createEquipment = (values) => {
+//   const id = generateRandomID('equipment');
+//   return (dispatch) => {
+//     _creatingEquipment(dispatch, values, id)
+//       .then(() => {
+//         dispatch({
+//           type: types.EQUIPMENT_CREATE_SUCCESS,
+//           payload: id,
+//         });
+//         if(Object.keys(values.modal).length){
+//           values.modal.hide();
+//         }
+//         else {
+//           values.navigation.goBack();
+//         }
+//       })
+//       .catch(error => {
+//         dispatch({
+//           type: types.EQUIPMENT_CREATE_FAIL,
+//           payload: error,
+//         });
+//         throwError(error, '/actions/EquipmentActions.js', '_createEquipment');
+//         values.navigation.goBack();
+//         showMessage({
+//           message: "Error",
+//           description: "There was an error creating the equipment.",
+//           type: "danger",
+//           autoHide: false,
+//           icon: 'auto'
+//         });
+//       });
+//   };
+// };
 
-const _creatingEquipment = (dispatch, values, id) => new Promise((resolve, reject) => {
-  dispatch({
-    type: types.EQUIPMENT_CREATING,
-    payload: {
-      id,
-      created: new Date().getTime(),
-      modified: new Date().getTime(),
-      data: values,
-    },
-  });
-  resolve();
-});
+// const _creatingEquipment = (dispatch, values, id) => new Promise((resolve, reject) => {
+//   dispatch({
+//     type: types.EQUIPMENT_CREATING,
+//     payload: {
+//       id,
+//       created: new Date().getTime(),
+//       modified: new Date().getTime(),
+//       data: values,
+//     },
+//   });
+//   resolve();
+// });
 
 const _modalCreateEquipment = (values) => {
   const id = generateRandomID('equipment');
@@ -134,7 +134,10 @@ const _updateEquipment = (values) => {
         dispatch({
           type: types.EQUIPMENT_UPDATE_SUCCESS,
         });
-        values.navigation.goBack();
+        if(values.modal) {
+          values.modal.hide();
+        }
+        // values.navigation.goBack();
       })
       .catch(error => {
         dispatch({
@@ -142,7 +145,7 @@ const _updateEquipment = (values) => {
           payload: error,
         });
         throwError(error, '/actions/EquipmentActions.js', '_updateEquipment');
-        values.navigation.goBack();
+        // values.navigation.goBack();
         showMessage({
           message: "Error",
           description: "There was an error updating the equipment.",
@@ -165,26 +168,12 @@ const _updatingEquipment = (dispatch, values) => new Promise((resolve, reject) =
   resolve();
 });
 
-//* I got this working by calling `navigation.dispatch(resetAction)` in the deleteEquipment function below, but I don't currently need it.
-// const resetAction = StackActions.reset({
-//   index: 0,
-//   actions: [
-//     NavigationActions.navigate({
-//       routeName: 'Main',
-//       action: NavigationActions.navigate({ routeName: navRoutes.EQUIPMENTES_LIST }),
-//     }),
-//   ],
-// });
-
 export const deleteEquipment = (id, navigation) => {
   return (dispatch) => {
     _deletingEquipment(dispatch, id)
       .then(() => {
         dispatch({
           type: types.EQUIPMENT_DELETE_SUCCESS,
-        });
-        navigation.navigate({
-          routeName: navRoutes.EQUIPMENTES_LIST
         });
       })
       .catch(error => {
@@ -193,10 +182,6 @@ export const deleteEquipment = (id, navigation) => {
           payload: error,
         });
         throwError(error, '/actions/EquipmentActions.js', 'deleteEquipment');
-        // navigation.navigate({
-        //   routeName: navRoutes.EQUIPMENTES_LIST
-        // });
-        navigation.goBack();
         showMessage({
           message: "Error",
           description: "There was an error deleting the equipment.",

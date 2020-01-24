@@ -85,9 +85,9 @@ class BeanRecipes extends Component {
         <View>
           <View>
             <View style={{flexDirection: 'row'}}>
-              <Headline h5 inline style={marginBottomHalf}>Your {this.props.favorites === true && 'Favorite '}Recipes with
+              <Headline h5 inline noMargin>Your {this.props.favorites === true && 'Favorite '}Recipes with
                 this Bean:</Headline>
-              <Text>Filter & Sort</Text>
+              {/*<Text>Filter & Sort</Text>*/}
             </View>
             <FlatList
               data={theseRecipes}

@@ -50,7 +50,7 @@ class BeanList extends Component {
 
       return (
         <View>
-          {this.props.cafe && <Headline h3 inline style={{ marginBottom: Platform.OS === 'ios' ? -20 : 0 }}>Beans by this Roaster:</Headline>}
+          {this.props.cafe && <Headline h3 noMargin>Beans by this Roaster:</Headline>}
           <FlatList
             data={beans}
             keyExtractor={this._keyExtractor}

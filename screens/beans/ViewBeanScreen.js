@@ -247,7 +247,7 @@ class ViewBeanScreen extends Component {
 
   _beanName(){
     if(this.props.bean.name !== undefined){
-      return <Headline>{this.props.bean.name}</Headline>;
+      return <Headline noMargin>{this.props.bean.name}</Headline>;
     }
   }
 

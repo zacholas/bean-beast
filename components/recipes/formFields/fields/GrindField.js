@@ -41,7 +41,7 @@ class GrindField extends Component {
 
 const mapStateToProps = (state) => {
   const grinders = _.filter(state.equipment.equipment, (equipment) => {
-    return equipment.type === 'default_grinders';
+    return equipment.equipmentType === 'default_grinders';
   });
   const orderedGrinders = _.orderBy(grinders, ['order'], ['asc']);
 

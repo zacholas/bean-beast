@@ -32,7 +32,7 @@ class BrewEquipmentField extends Component {
 
 const mapStateToProps = (state) => {
   const brewEquipment = _.filter(state.equipment.equipment, (equipment) => {
-    return equipment.type === 'default_brew_methods';
+    return equipment.equipmentType === 'default_brew_methods';
   });
   const orderedBrewEquipment = _.orderBy(brewEquipment, ['order'], ['asc']);
   return {

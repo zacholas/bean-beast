@@ -7,12 +7,13 @@ import { BodyText, Button, Headline } from "../components/common";
 import Modal from "../components/common/Modal";
 import EditEquipmentForm from "../components/equipment/EditEquipmentForm";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { textLink } from "../constants/Styles";
-import Colors from "../constants/Colors";
-import RecipeListItem from "../components/recipes/RecipeListItem";
+import { centerEverything, textLink } from "../constants/Styles";
+import Colors, { grayCardBG } from "../constants/Colors";
+import { deleteEquipment, editEquipment, createEquipment } from "../actions";
 
 const Styles = {
   sideIcons: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
@@ -34,8 +35,10 @@ class EquipmentScreen extends Component {
   constructor(props) {
     super(props);
     this.addEquipmentModal = null;
+    this.deleteConfirmModal = null;
     this.state = {
-      mounted: false
+      mounted: false,
+      modalFormType: 'createModal'
     }
   }
 
@@ -46,31 +49,29 @@ class EquipmentScreen extends Component {
     if(_.size(equipmentTypes)){
       output = _.map(equipmentTypes, (equipmentType) => {
         const heading = equipmentType.name_plural ? equipmentType.name_plural : equipmentType.name ? equipmentType.name : 'Misc Equipment';
-        let equipmentOfThisType = _.filter(equipment, ['type', equipmentType.id]);
+        let equipmentOfThisType = _.filter(equipment, ['equipmentType', equipmentType.id]);
         equipmentOfThisType = _.orderBy(equipmentOfThisType, ['order'], ['asc']);
         let piecesOfEquipmentOutput = <BodyText>None Yet!</BodyText>;
 
         if(_.size(equipmentOfThisType)){
           piecesOfEquipmentOutput = _.map(equipmentOfThisType, (equipmentItem) => {
+            const equipmentItemName = equipmentItem.name ? equipmentItem.name : 'Unnamed Piece of Equipment';
+
             return (
               <View key={equipmentItem.id}>
-                {equipmentItem.name ? <BodyText>{equipmentItem.name}</BodyText> : <View/>}
-                <RecipeListItem
-                  id={equipmentItem.id}
-                  // onPressItem={() => { this._onPressItem(item.id) }}
-                  data={equipmentItem}
-                  // beanPage={this.props.beanPage}
-                  rightSideContent={
-                    <View style={Styles.sideIcons}>
-                      <TouchableOpacity onPress={() => this._cloneRecipe(item)} style={Styles.sideIcon}>
-                        <Icon name="copy" size={16} style={textLink} />
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={() => this._onPressDelete(item.id)} style={Styles.sideIcon}>
-                        <Icon name="trash" size={16} style={{ color: Colors.colorDanger }} />
-                      </TouchableOpacity>
-                    </View>
-                  }
-                />
+                <View style={{ marginBottom: 10, backgroundColor: grayCardBG, padding: 10, flexDirection: 'row' }}>
+                  <View style={{ justifyContent: 'center', flex: 1 }}>
+                    <BodyText noMargin>{equipmentItemName}</BodyText>
+                  </View>
+                  <View style={Styles.sideIcons}>
+                    <TouchableOpacity onPress={() => this._onPressEdit(equipmentItem)} style={Styles.sideIcon}>
+                      <Icon name="pencil" size={16} style={textLink} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this._onPressDelete(equipmentItem.id)} style={Styles.sideIcon}>
+                      <Icon name="trash" size={16} style={{ color: Colors.colorDanger }} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             );
           });
@@ -100,7 +101,7 @@ class EquipmentScreen extends Component {
       <View>
         <ScrollView style={{padding:15}}>
           <View >
-            <Button onPress={() => { this.addEquipmentModal.show() }} title="Add new Equipment" />
+            <Button onPress={() => { this._onPressCreate() }} title="Add new Equipment" />
           </View>
 
           {this.equipmentOutput()}
@@ -109,13 +110,42 @@ class EquipmentScreen extends Component {
 
         <Modal ref={(ref) => { this.addEquipmentModal = ref; }} headlineText="Add New Equipment">
           <EditEquipmentForm
-            type="createModal"
+            type={this.state.modalFormType}
             navigation={this.props.navigation}
             modal={this.addEquipmentModal}
           />
         </Modal>
+        <Modal ref={(ref) => { this.deleteConfirmModal = ref; }}>
+          <Button
+            onPress={() => {this._deleteRecipe()}}
+            title='Yes, delete'
+            iconName='trash'
+          />
+        </Modal>
       </View>
     );
+  }
+
+  _onPressCreate() {
+    this.setState({ modalFormType: 'createModal' });
+    this.props.createEquipment();
+    this.addEquipmentModal.show();
+  }
+
+  _onPressEdit(equipment){
+    this.setState({ modalFormType: 'edit' });
+    this.props.editEquipment(equipment);
+    this.addEquipmentModal.show();
+  }
+
+  _onPressDelete(equipment_id){
+    this.setState({ equipment_id });
+    this.deleteConfirmModal.show();
+  }
+
+  _deleteRecipe(){
+    this.deleteConfirmModal.hide();
+    this.props.deleteEquipment(this.state.equipment_id, false);
   }
 }
 
@@ -126,7 +156,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, {})(EquipmentScreen);
+export default connect(mapStateToProps, { deleteEquipment, editEquipment, createEquipment })(EquipmentScreen);
 
 EquipmentScreen.propTypes = {
   equipment: PropTypes.object,

@@ -34,29 +34,41 @@ const INITIAL_STATE = {
   equipment: {
     //* Grinders
     default_niche_zero: {
-      type: 'default_grinders',
+      equipmentType: 'default_grinders',
       id: 'default_niche_zero',
       name: 'Niche Zero',
       order: 10,
     },
+    default_sette: {
+      equipmentType: 'default_grinders',
+      id: 'default_sette',
+      name: 'Baratza Sette',
+      order: 20,
+    },
+    default_rocky: {
+      equipmentType: 'default_grinders',
+      id: 'default_rocky',
+      name: 'Rancilio Rocky',
+      order: 30,
+    },
 
     //* Brew Methods
     default_v60: {
-      type: 'default_brew_methods',
+      equipmentType: 'default_brew_methods',
       id: 'default_v60',
       name: 'V60',
       order: 10,
       brew_method: 'default_pour_over'
     },
     default_kalita_wave: {
-      type: 'default_brew_methods',
+      equipmentType: 'default_brew_methods',
       id: 'default_kalita_wave',
       name: 'Kalita Wave',
       order: 20,
       brew_method: 'default_pour_over'
     },
     default_chemex: {
-      type: 'default_brew_methods',
+      equipmentType: 'default_brew_methods',
       id: 'default_chemex',
       name: 'Chemex',
       order: 30,
@@ -86,7 +98,7 @@ export default (state = INITIAL_STATE, action) => {
             id: action.payload.id,
             name: action.payload.data.name,
             order: action.payload.data.order,
-            type: action.payload.data.equipmentType,
+            equipmentType: action.payload.data.equipmentType,
           },
         },
       };
@@ -101,7 +113,7 @@ export default (state = INITIAL_STATE, action) => {
             modified: action.payload.modified,
             name: action.payload.data.name,
             order: action.payload.data.order,
-            type: action.payload.data.equipmentType,
+            equipmentType: action.payload.data.equipmentType,
           }
         }
       };

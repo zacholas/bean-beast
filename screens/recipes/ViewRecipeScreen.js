@@ -13,7 +13,7 @@ import styles from './styles';
 import { colorGray100, colorGray200, colorGray400, colorGray800, colorHeartRed } from "../../constants/Colors";
 import { generateRandomID, isDefined } from "../../helpers";
 import { LabeledSliderField } from "../../components/common/reduxForm";
-import { prettyDate, temperatureInUserPreference } from "../../helpers/labels";
+import { prettyDate, temperatureInOtherUnit, temperatureInUserPreference } from "../../helpers/labels";
 import ViewRecipeStepRow from '../../components/recipes/ViewRecipeStepRow';
 import BrewMethodIcon from "../../components/recipes/BrewMethodIcon";
 import { Strong } from "../../components/common/Text/Strong";
@@ -181,6 +181,11 @@ class ViewRecipeScreen extends Component {
     const { recipe } = this.props;
     // const recipe = this.props.recipe;
     console.log(recipe);
+
+    const tempInOtherUnit = temperatureInOtherUnit(recipe.temperature, recipe.temperatureMeasurement);
+    const thisBrewEquipmentName = _.size(recipe) && recipe.brew_equipment && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[recipe.brew_equipment]) && this.props.equipment.equipment[recipe.brew_equipment].name ? this.props.equipment.equipment[recipe.brew_equipment].name : null;
+    const thisGrinderName = _.size(recipe) && recipe.grinder && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[recipe.grinder]) && this.props.equipment.equipment[recipe.grinder].name ? this.props.equipment.equipment[recipe.grinder].name : null;
+
     return (
       <Container>
         {/*<View style={{ flexDirection: 'row', marginBottom: -15 }}>*/}
@@ -207,16 +212,51 @@ class ViewRecipeScreen extends Component {
 
         <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
           {recipe.brew_method && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && _.size(this.props.brewMethods.brewMethods[recipe.brew_method]) && this.props.brewMethods.brewMethods[recipe.brew_method].name ? (
-            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem, flex: 1.5 }}>
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem   }}>
               <BrewMethodIcon brew_method_id={recipe.brew_method} size={26} />
               <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>{this.props.brewMethods.brewMethods[recipe.brew_method].name}</Headline>
             </View>
           ) : <View/>}
 
+          {recipe.brew_equipment && thisBrewEquipmentName ? (
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{thisBrewEquipmentName}</BodyText>
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Brew Equipment</Headline>
+            </View>
+          ) : <View/>}
+
+          {/*{recipe.grind ? (*/}
+            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>*/}
+              {/*<BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.grind}</BodyText>*/}
+              {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Grind</Headline>*/}
+              {/*{_.size(recipe) && recipe.grind && thisGrinderName ? <BodyText style={{ fontSize: 12 }} noMargin>({thisGrinderName})</BodyText> : <View />}*/}
+            {/*</View>*/}
+          {/*) : <View/>}*/}
+
+          {/*{recipe.dose ? (*/}
+            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>*/}
+              {/*<BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.dose}g</BodyText>*/}
+              {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Dose</Headline>*/}
+            {/*</View>*/}
+          {/*) : <View/>}*/}
+
+          {/*{recipe.temperature ? (*/}
+            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>*/}
+              {/*/!*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*!/*/}
+              {/*<BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>*/}
+              {/*{tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}*/}
+              {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>*/}
+            {/*</View>*/}
+          {/*) : <View/>}*/}
+        </View>
+
+
+        <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
           {recipe.grind ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
               <BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.grind}</BodyText>
               <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Grind</Headline>
+              {_.size(recipe) && recipe.grind && thisGrinderName ? <BodyText style={{ fontSize: 12 }} noMargin>({thisGrinderName})</BodyText> : <View />}
             </View>
           ) : <View/>}
 
@@ -231,17 +271,26 @@ class ViewRecipeScreen extends Component {
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
               {/*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*/}
               <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>
+              {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
               <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>
             </View>
           ) : <View/>}
         </View>
 
+        {/*{recipe.brew_equipment ? (*/}
+          {/*<View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>*/}
+            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem, flexDirection: 'row', justifyContent: 'flex-start' }}>*/}
+              {/*<View style={{ flex: 1 }}>*/}
+                {/*<BodyText noMargin><Strong>Brew Equipment:</Strong> {thisBrewEquipmentName}</BodyText>*/}
+              {/*</View>*/}
+            {/*</View>*/}
+          {/*</View>*/}
+        {/*) : <View/>}*/}
+
         {this._beanInfo()}
 
 
-
         {recipe.nickname ? <Headline noMargin h1>{recipe.nickname}</Headline> : null}
-
 
 
         <BodyText>
@@ -623,7 +672,8 @@ const mapStateToProps = (state, props) => {
     brewMethods: state.brewMethods,
     recipes: state.recipes,
     bean: beanID && _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] ? state.beans.beans[beanID] : false,
-    roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false
+    roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false,
+    equipment: state.equipment
   };
 };
 

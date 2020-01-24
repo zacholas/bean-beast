@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { beanTitleDisplay, roastLevelDisplay } from "../../helpers/labels";
 import { defaultMarginAmount } from "../../constants/Styles";
 import { BodyText, Hr } from "../common";
+import { grayCardBG } from "../../constants/Colors";
 
 // import styles from './styles';
 
@@ -14,10 +15,10 @@ export default class BeanListItem extends Component {
     // console.log('bean cafe info', this.props.cafe);
     // console.log('bean props', this.props.bean);
     return (
-      <View>
+      <View style={{ backgroundColor: grayCardBG, marginBottom: 10 }}>
         <TouchableOpacity
           onPress={() => this.props.onPressItem(this.props.id, this.props.bean, this.props.editBeanAction)}
-          style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: defaultMarginAmount / 2 }}
+          style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}
         >
           {this._beanImage()}
           <View>

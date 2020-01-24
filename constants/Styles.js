@@ -35,8 +35,9 @@ export const h1 = {
   ...headingDefaults,
   fontSize: h1FontSize,
   lineHeight: Platform.OS === 'ios' ? h1FontSize * 0.5 : undefined,
-  paddingTop: Platform.OS === 'ios' ? h1FontSize : undefined
+  paddingTop: Platform.OS === 'ios' ? h1FontSize : undefined,
   // fontWeight: fontWeightLight
+  marginBottom: Platform.OS === 'ios' ? h1FontSize * -0.3 : 3,
 };
 
 export const h2FontSize = 30;
@@ -44,7 +45,8 @@ export const h2 = {
   ...headingDefaults,
   fontSize: h2FontSize,
   lineHeight: Platform.OS === 'ios' ? h2FontSize * 0.5 : undefined,
-  paddingTop: Platform.OS === 'ios' ? h2FontSize : undefined
+  paddingTop: Platform.OS === 'ios' ? h2FontSize : undefined,
+  marginBottom: Platform.OS === 'ios' ? h2FontSize * -0.3 : 3,
 };
 
 export const h3FontSize = 26;
@@ -52,7 +54,8 @@ export const h3 = {
   ...headingDefaults,
   fontSize: h3FontSize,
   lineHeight: Platform.OS === 'ios' ? h3FontSize * 0.5 : undefined,
-  paddingTop: Platform.OS === 'ios' ? h3FontSize : undefined
+  paddingTop: Platform.OS === 'ios' ? h3FontSize : undefined,
+  marginBottom: Platform.OS === 'ios' ? h3FontSize * -0.3 : 3,
 };
 
 export const h4FontSize = 22;
@@ -60,7 +63,8 @@ export const h4 = {
   ...headingDefaults,
   fontSize: h4FontSize,
   lineHeight: Platform.OS === 'ios' ? h4FontSize * 0.5 : undefined,
-  paddingTop: Platform.OS === 'ios' ? h4FontSize : undefined
+  paddingTop: Platform.OS === 'ios' ? h4FontSize : undefined,
+  marginBottom: Platform.OS === 'ios' ? h4FontSize * -0.2 : 3,
 };
 
 export const h5FontSize = 15;
@@ -72,7 +76,8 @@ export const h5 = {
   fontFamily: 'galano-grotesque-800',
   fontSize: h5FontSize,
   lineHeight: Platform.OS === 'ios' ? h5FontSize * 0.5 : undefined,
-  paddingTop: Platform.OS === 'ios' ? h5FontSize : undefined
+  paddingTop: Platform.OS === 'ios' ? h5FontSize : undefined,
+  marginBottom: Platform.OS === 'ios' ? h5FontSize * -0.2 : 3,
 };
 
 export const h6FontSize = 12;
@@ -85,7 +90,8 @@ export const h6 = {
 
   fontSize: h6FontSize,
   lineHeight: Platform.OS === 'ios' ? h6FontSize * 0.5 : undefined,
-  paddingTop: Platform.OS === 'ios' ? h6FontSize : undefined
+  paddingTop: Platform.OS === 'ios' ? h6FontSize : undefined,
+  marginBottom: Platform.OS === 'ios' ? h6FontSize * -0.2 : 3,
 };
 
 export const headline = {

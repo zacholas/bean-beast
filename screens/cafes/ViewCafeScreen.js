@@ -7,7 +7,7 @@ import Modal from "../../components/common/Modal";
 import * as navRoutes from "../../constants/NavRoutes";
 import { deleteCafe, editCafe } from "../../actions";
 import BeansList from "../../components/beans/BeansList";
-import { marginBottomHalf } from "../../constants/Styles";
+import { marginBottomHalf, marginBottom } from "../../constants/Styles";
 
 
 // import styles from './styles';
@@ -41,16 +41,14 @@ class ViewCafeScreen extends Component {
 
       <Container>
         {this._cafeName()}
-        <Hr />
         {/*<BodyText>Details:</BodyText>*/}
         {/*<BodyText>{JSON.stringify(cafe)}</BodyText>*/}
         {/*<Hr />*/}
         {/*<BodyText>Delete, edit, clone (maybe)</BodyText>*/}
 
-        <BeansList navigation={this.props.navigation} cafe={this.cafeID} />
+        <BeansList navigation={this.props.navigation} cafe={this.cafeID} style={{ marginTop: 0 }}/>
 
-        {/*<Hr />*/}
-
+        <View style={marginBottom} />
         <Button
           onPress={() => this._editCafeButtonPress()}
           title="Edit Roaster"
@@ -89,7 +87,7 @@ class ViewCafeScreen extends Component {
 
   _cafeName(){
     if(this.props.cafe.name !== undefined){
-      return <Headline>{this.props.cafe.name}</Headline>;
+      return <Headline noMargin>{this.props.cafe.name}</Headline>;
     }
   }
 }

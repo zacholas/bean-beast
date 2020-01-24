@@ -113,7 +113,7 @@ export default (state = INITIAL_STATE, action) => {
             id: action.payload.id,
             bean_id: action.payload.data.bean_id,
             brew_method: action.payload.data.brew_method, // brew method ID
-            brew_method_equipment: action.payload.data.brew_method_equipment, // ID of the piece of equipment
+            brew_equipment: action.payload.data.brew_equipment, // ID of the piece of equipment
             grind: action.payload.data.grind, // String
             grinder: action.payload.data.grinder, // ID of the piece of equipment
             dose: action.payload.data.dose, // Grams to hundredths
@@ -141,7 +141,7 @@ export default (state = INITIAL_STATE, action) => {
             modified: action.payload.modified,
             bean_id: action.payload.data.bean_id,
             brew_method: action.payload.data.brew_method, // brew method ID
-            brew_method_equipment: action.payload.data.brew_method_equipment, // ID of the piece of equipment
+            brew_equipment: action.payload.data.brew_equipment, // ID of the piece of equipment
             grind: action.payload.data.grind, // String
             grinder: action.payload.data.grinder, // ID of the piece of equipment
             dose: action.payload.data.dose, // Grams to hundredths
