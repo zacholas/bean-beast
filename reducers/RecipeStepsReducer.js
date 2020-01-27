@@ -172,5 +172,13 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  return state;
+  switch (action.type){
+    case types.IMPORT_EXPORTED_DATA:
+      return {
+        ...state,
+        ...action.payload.recipeSteps
+      };
+    default:
+      return state;
+  }
 };

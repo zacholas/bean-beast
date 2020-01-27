@@ -196,7 +196,11 @@ export default (state = INITIAL_STATE, action) => {
             rating_comments: action.payload.rating_comments
           }
         }
-
+      };
+    case types.IMPORT_EXPORTED_DATA:
+      return {
+        ...state,
+        ...action.payload.beans
       };
     default:
       return state;

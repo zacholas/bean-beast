@@ -7,3 +7,4 @@ export * from './BeanProcessActions';
 export * from './RecipeActions';
 export * from './UserPreferencesActions';
 export * from './EquipmentActions';
+export * from './GlobalActions';

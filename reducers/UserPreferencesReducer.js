@@ -21,7 +21,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.USER_PREFERENCES_SAVING:
-      console.log('saving user preferences with', action.payload);
+      // console.log('saving user preferences with', action.payload);
       return {
         ...state,
         ...action.payload.data,
@@ -32,6 +32,11 @@ export default (state = INITIAL_STATE, action) => {
         // beanEntry: {
         //   ...state.beanEntry
         // }
+      };
+    case types.IMPORT_EXPORTED_DATA:
+      return {
+        ...state,
+        ...action.payload.userPreferences
       };
     default:
       return state;

@@ -85,6 +85,11 @@ export default (state = INITIAL_STATE, action) => {
         loading: false,
         error: action.payload
       };
+    case types.IMPORT_EXPORTED_DATA:
+      return {
+        ...state,
+        ...action.payload.coffeeSpecies
+      };
     default:
       return state;
   }
