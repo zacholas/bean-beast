@@ -43,7 +43,7 @@ class HomeScreen extends React.Component {
         <View style={{ centerEverything, marginTop: 20 }}>
           <BodyText>
             As of late January 2020, the app officially launched and you're one of the early trailblazers. Congrats! If you want to see the development roadmap, you can view that here:
-            <Text onPress={() => { Linking.openURL('http://beanbeast.com/roadmap'); }}>http://beanbeast.com/roadmap</Text>
+            {' '}<Text style={textLink} onPress={() => { Linking.openURL('http://beanbeast.com/roadmap'); }}>http://beanbeast.com/roadmap</Text>
           </BodyText>
           <BodyText style={centerEverything}>
             If you have any feedback, bugs, etc. that you want to send me, you can email me at{` `}

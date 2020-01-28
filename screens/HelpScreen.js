@@ -33,9 +33,10 @@ class HelpScreen extends React.Component {
         <Hr/>
 
         <Headline h4 noMargin>Too Long; Didn't Read</Headline>
-        <BodyText>1. Add a new bean.</BodyText>
-        <BodyText>2. Add a new recipe to it.</BodyText>
-        <BodyText>3. Tweak the recipe & repeat.</BodyText>
+        <BodyText>1. Add your equipment in the "More" tab.</BodyText>
+        <BodyText>2. Add a new bean.</BodyText>
+        <BodyText>3. Add a new recipe to it.</BodyText>
+        <BodyText>4. Tweak the recipe & repeat.</BodyText>
 
         <Hr />
 

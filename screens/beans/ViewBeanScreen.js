@@ -67,6 +67,12 @@ class ViewBeanScreen extends Component {
 
   render() {
     const bean = this.props.bean;
+
+    //* Fix for when bean is deleted
+    if(!bean){
+      return <View />
+    }
+
     const { tasting_notes, comments } = bean;
     // console.log('viewing bean: ' + bean.name);
     // console.log('this bean recipes', this.props.recipes);
@@ -490,12 +496,12 @@ const mapStateToProps = (state, props) => {
 export default connect(mapStateToProps, { deleteBean, editBean, cloneRecipe, editRecipe })(ViewBeanScreen);
 
 ViewBeanScreen.propTypes = {
-  bean: PropTypes.object.isRequired
+  bean: PropTypes.object
 };
 
 ViewBeanScreen.defaultProps = {
   bean: {
     id: false,
-    name: ''
+    name: '',
   }
 };
