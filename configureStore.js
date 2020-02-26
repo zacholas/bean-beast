@@ -9,7 +9,7 @@ import rootReducer from './reducers';
 
 const persistConfig = {
   key: 'root',
-  version: 23,
+  version: 25,
   storage,
   debug: true,
   blacklist: ['form'],

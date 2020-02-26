@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.16",
+    "version": "1.0.17",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -37,7 +37,7 @@
         "WRITE_EXTERNAL_STORAGE"
       ],
       "package": "com.zachswinehart.bean_beast",
-      "versionCode": 16
+      "versionCode": 17
     },
     "hooks": {
       "postPublish": [

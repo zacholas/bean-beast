@@ -82,6 +82,15 @@ export const secondsToTimeStringDisplay = seconds => {
 };
 
 
+export const temperatureInRecipePreference = (temperature, userPreferences, temperatureMeasurement = null) => {
+  // const userTempType = _.size(userPreferences) && userPreferences.global_temperatureMeasurement ? userPreferences.global_temperatureMeasurement : 'c';
+  const thisTempType = temperatureMeasurement ? temperatureMeasurement : 'c';
+  let tempNumber = `${Math.round( temperature * 10 ) / 10}`;
+
+  return `${tempNumber}° ${thisTempType.toString().toUpperCase()}`
+};
+
+
 export const temperatureInUserPreference = (temperature, userPreferences, temperatureMeasurement = null) => {
   const userTempType = _.size(userPreferences) && userPreferences.global_temperatureMeasurement ? userPreferences.global_temperatureMeasurement : 'c';
   const thisTempType = temperatureMeasurement ? temperatureMeasurement : 'c';

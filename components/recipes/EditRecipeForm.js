@@ -21,7 +21,12 @@ import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wait_length } from "../../helpers";
 import { recipe_steps_validation } from "./recipeSteps/RecipeStepsFormValidation";
-import {beanTitleDisplay, temperatureInOtherUnit} from "../../helpers/labels";
+import {
+  beanTitleDisplay,
+  temperatureInOtherUnit,
+  temperatureInRecipePreference,
+  temperatureInUserPreference
+} from "../../helpers/labels";
 import { FavoriteField } from "./formFields/fields/FavoriteField";
 import BrewMethodIcon from "./BrewMethodIcon";
 import RecipeAttribute from "./RecipeAttribute";
@@ -43,6 +48,21 @@ class EditRecipeForm extends Component {
     this.props.change('type', this.props.type);
     this.props.change('modal', this.props.modal);
     this.props.change('bean_id', this.props.bean_id);
+
+    console.log('temperatureMeasurement when mounting: ', this.props.initialValues.temperatureMeasurement);
+    if(!this.props.initialValues.temperatureMeasurement || this.props.initialValues.temperatureMeasurement === ''){
+      console.log('no temp!', this.props.userPreferences.global_temperatureMeasurement)
+      const tempPreference = _.size(this.props) && _.size(this.props.userPreferences) && this.props.userPreferences.global_temperatureMeasurement ? this.props.userPreferences.global_temperatureMeasurement : false;
+      if(tempPreference){
+        this.props.change('temperatureMeasurement', tempPreference);
+      }
+    }
+  }
+
+  componentDidMount(): void {
+    // const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+    // const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+    // console.log('values when mounting: ', this.props.initialValues);
   }
 
   render() {
@@ -64,6 +84,11 @@ class EditRecipeForm extends Component {
 
     beans = _.orderBy(beans, ['name'], ['asc']);
 
+    // let temperature = null;
+    // if(values.temperature && values.temperatureMeasurement){
+    //
+    // }
+    const temperature = _.size(values) && values.temperature ? temperatureInRecipePreference(values.temperature, this.props.userPreferences, values.temperatureMeasurement) : false;
     const tempInOtherUnit = temperatureInOtherUnit(values.temperature, values.temperatureMeasurement);
 
     //* Brew equipment
@@ -122,7 +147,8 @@ class EditRecipeForm extends Component {
           </TouchableOpacity>
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('temperature') }}>
             <Headline h6 noMargin>Temp</Headline>
-            <BodyText noMargin>{_.size(values) && values.temperature ? `${values.temperature}° ${values.temperatureMeasurement ? values.temperatureMeasurement.toString().toUpperCase() : 'C'}` : '+ Add'}</BodyText>
+            {/*<BodyText noMargin>{_.size(values) && values.temperature ? `${values.temperature}° ${values.temperatureMeasurement ? values.temperatureMeasurement.toString().toUpperCase() : 'C'}` : '+ Add'}</BodyText>*/}
+            <BodyText noMargin>{temperature ? temperature : '+ Add'}</BodyText>
             {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
           </TouchableOpacity>
         </View>
@@ -542,6 +568,10 @@ class EditRecipeForm extends Component {
   }
 
   _getModalContent(){
+    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+    // console.log('values', values);
+
     switch (this.state.editRecipeFieldModalAction){
       case 'recipeStepsMenu':
         return (
@@ -564,7 +594,10 @@ class EditRecipeForm extends Component {
 
       case 'editField':
         return (
-          <RecipeFormField name={this.state.editingRecipeFieldName} />
+          <RecipeFormField
+            name={this.state.editingRecipeFieldName}
+            temperatureMeasurement={values.temperatureMeasurement}
+          />
         );
 
       case 'editStep':
@@ -722,7 +755,8 @@ const mapStateToProps = (state) => {
     beanProcesses: state.beanProcesses,
     fields: getFormMeta('EditRecipeForm')(state),
     cafes: state.cafes,
-    equipment: state.equipment
+    equipment: state.equipment,
+    userPreferences: state.userPreferences,
   }
 };
 

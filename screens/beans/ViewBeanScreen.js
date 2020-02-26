@@ -489,7 +489,8 @@ const mapStateToProps = (state, props) => {
     beanProcesses: state.beanProcesses.beanProcesses,
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
     beanRecipes: thisBeanRecipes,
-    recipes: state.recipes
+    recipes: state.recipes,
+    brewMethods: state.brewMethods
   }
 };
 

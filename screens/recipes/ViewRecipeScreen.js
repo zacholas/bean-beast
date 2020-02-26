@@ -13,7 +13,12 @@ import styles from './styles';
 import { colorGray100, colorGray200, colorGray400, colorGray800, colorHeartRed } from "../../constants/Colors";
 import { generateRandomID, isDefined } from "../../helpers";
 import { LabeledSliderField } from "../../components/common/reduxForm";
-import { prettyDate, temperatureInOtherUnit, temperatureInUserPreference } from "../../helpers/labels";
+import {
+  prettyDate,
+  temperatureInOtherUnit,
+  temperatureInRecipePreference,
+  temperatureInUserPreference
+} from "../../helpers/labels";
 import ViewRecipeStepRow from '../../components/recipes/ViewRecipeStepRow';
 import BrewMethodIcon from "../../components/recipes/BrewMethodIcon";
 import { Strong } from "../../components/common/Text/Strong";
@@ -22,7 +27,7 @@ import { connectActionSheet } from "@expo/react-native-action-sheet";
 class ViewRecipeScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     let headerRightOutput = <View />;
-    console.log('this props', this.props);
+    // console.log('this props', this.props);
     const { params } = navigation.state;
     if(params.recipe && params.onPress){
       headerRightOutput = (
@@ -180,7 +185,7 @@ class ViewRecipeScreen extends Component {
   render() {
     const { recipe } = this.props;
     // const recipe = this.props.recipe;
-    console.log(recipe);
+    // console.log(recipe);
 
     const tempInOtherUnit = temperatureInOtherUnit(recipe.temperature, recipe.temperatureMeasurement);
     const thisBrewEquipmentName = _.size(recipe) && recipe.brew_equipment && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[recipe.brew_equipment]) && this.props.equipment.equipment[recipe.brew_equipment].name ? this.props.equipment.equipment[recipe.brew_equipment].name : null;
@@ -270,7 +275,7 @@ class ViewRecipeScreen extends Component {
           {recipe.temperature ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
               {/*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*/}
-              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInRecipePreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>
               {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
               <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>
             </View>
@@ -522,7 +527,7 @@ class ViewRecipeScreen extends Component {
 
     // recipeStepsToRender.push(...recipe.recipe_steps);
 
-    console.log('recipeStepsToRender')
+    // console.log('recipeStepsToRender')
     const orderedRecipeSteps = _.orderBy(recipe.recipe_steps, ['order'], ['asc']);
     _.forEach(orderedRecipeSteps, (step) => {
       const indexToPushTo = _.size(recipeStepsToRender) && recipeStepsToRender.length ? recipeStepsToRender.length - 1 : 0;
@@ -674,7 +679,7 @@ const mapStateToProps = (state, props) => {
     bean: beanID && _.size(state.beans) && _.size(state.beans.beans) && state.beans.beans[beanID] ? state.beans.beans[beanID] : false,
     roaster: roasterID && _.size(state.cafes) && _.size(state.cafes.cafes) && state.cafes.cafes[roasterID] ? state.cafes.cafes[roasterID] : false,
     equipment: state.equipment
-  };
+  }
 };
 
 ViewRecipeScreen = connectActionSheet(ViewRecipeScreen);

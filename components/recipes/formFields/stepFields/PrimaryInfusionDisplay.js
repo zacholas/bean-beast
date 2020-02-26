@@ -12,7 +12,7 @@ import { BodyText } from "../../../common";
 
 class PrimaryInfusionDisplay extends Component {
   _primaryInfusion(values){
-    console.log('prmary infusion values', values);
+    // console.log('primary infusion values', values);
     const { length, pressure, water_amount } = values;
     if(length || pressure || water_amount){
       return (
@@ -31,7 +31,7 @@ class PrimaryInfusionDisplay extends Component {
     return (
       <View style={recipeStepListItemInnerTextContainer}>
         {this._primaryInfusion(values)}
-        {values.notes && <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
+        {values.notes ? <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesTitle}>Notes: </Text><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText> : <View />}
       </View>
     );
   }

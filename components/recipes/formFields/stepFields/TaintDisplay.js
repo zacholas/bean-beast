@@ -14,7 +14,7 @@ class TaintDisplay extends Component {
     const { values } = this.props;
     return (
       <View style={recipeStepListItemInnerTextContainer}>
-        {values.notes && <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText>}
+        {values.notes ? <BodyText style={{ ...recipeStepListItemSubText, ...this.props.style }}><Text style={recipeStepListItemSubTextNotesText}>{values.notes}</Text></BodyText> : <View />}
       </View>
     );
   }

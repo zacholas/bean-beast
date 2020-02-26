@@ -29,7 +29,7 @@ class RecipeFormField extends Component {
       case 'grind':
         return <GrindField />;
       case 'temperature':
-        return <TemperatureField />;
+        return <TemperatureField temperatureMeasurement={this.props.temperatureMeasurement} />;
       case 'bean_id':
         return <BeanPickerField name="bean_id" />;
 

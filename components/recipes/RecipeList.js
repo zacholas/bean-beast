@@ -34,7 +34,6 @@ class RecipeList extends Component {
     let recipes = this.props.recipes.recipes;
     recipes = _.orderBy(recipes, ['modified'], ['desc']);
     recipes = _.values(recipes);
-    // console.log(recipes);
     return (
       <FlatList
         data={recipes}

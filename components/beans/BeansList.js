@@ -43,7 +43,6 @@ class BeanList extends Component {
     }
 
 
-
     if(_.size(theseBeans)){
       const orderedBeans = _.orderBy(theseBeans, ['modified'], ['desc']);
       const beans = _.values(orderedBeans);

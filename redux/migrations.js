@@ -358,5 +358,35 @@ export const migrations = {
         }
       }
     }
+  },
+  24: state => {
+    const newRecipes = _.filter(state.recipes.recipes, recipe => {
+      if(!recipe.temperatureMeasurement){
+        recipe.temperatureMeasurement = 'c';
+      }
+
+      return recipe;
+    });
+    return {
+      ...state,
+      recipes: {
+        ...state.recipes,
+        recipes: newRecipes
+      }
+    }
+  },
+  25: state => {
+    let newRecipes = {};
+    _.forEach(state.recipes.recipes, recipe => {
+      newRecipes[recipe.id] = recipe
+    });
+
+    return {
+      ...state,
+      recipes: {
+        ...state.recipes,
+        recipes: newRecipes
+      }
+    }
   }
 };

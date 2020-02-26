@@ -9,9 +9,19 @@ import {connectActionSheet} from "@expo/react-native-action-sheet";
 import {connect} from "react-redux";
 import {cloneRecipe, deleteRecipe, editRecipe, markRecipeAsFavorite} from "../../../../actions";
 import Colors from "../../../../constants/Colors";
+import { temperatureInUserPreference } from "../../../../helpers/labels";
 
 class TemperatureField extends Component {
   render() {
+    // console.log('this.props.temperatureMeasurement', this.props.temperatureMeasurement);
+    // let tempMeasurement = null;
+    // if(this.props.temperatureMeasurement){
+    //   tempMeasurement = this.props.temperatureMeasurement;
+    // }
+    // else if(this.props.userPreferences && this.props.userPreferences.global_temperatureMeasurement){
+    //   tempMeasurement = this.props.userPreferences.global_temperatureMeasurement;
+    // }
+
     return (
       <View>
         <Headline h4>Temperature</Headline>
@@ -44,7 +54,7 @@ class TemperatureField extends Component {
                   label: 'Fahrenheit'
                 }
               ]}
-              defaultValue={this.props.userPreferences && this.props.userPreferences.global_temperatureMeasurement ? this.props.userPreferences.global_temperatureMeasurement : null}
+              // defaultValue={tempMeasurement}
               fieldLayout={'inline'}
             />
           </View>
