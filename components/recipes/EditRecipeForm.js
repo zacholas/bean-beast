@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField, LabeledSliderField } from "../common/reduxForm";
 import {BodyText, Button, Container, Headline, Hr} from "../common";
-import {required, throwError} from "../../helpers";
+import { getDaysOffRoast, isDefined, required, throwError } from "../../helpers";
 import _ from "lodash";
 import RecipeFormField from './formFields/RecipeFormField';
 import RecipeStepFormField from './formFields/RecipeStepFormField';
@@ -39,7 +39,8 @@ class EditRecipeForm extends Component {
       editRecipeFieldModalAction: null,
       editingRecipeFieldName: null,
       showModalBackToFieldListButton: false,
-      stepFieldIndex: null
+      stepFieldIndex: null,
+      loaded: false
     };
   }
 
@@ -51,7 +52,7 @@ class EditRecipeForm extends Component {
 
     console.log('temperatureMeasurement when mounting: ', this.props.initialValues.temperatureMeasurement);
     if(!this.props.initialValues.temperatureMeasurement || this.props.initialValues.temperatureMeasurement === ''){
-      console.log('no temp!', this.props.userPreferences.global_temperatureMeasurement)
+      console.log('no temp!', this.props.userPreferences.global_temperatureMeasurement);
       const tempPreference = _.size(this.props) && _.size(this.props.userPreferences) && this.props.userPreferences.global_temperatureMeasurement ? this.props.userPreferences.global_temperatureMeasurement : false;
       if(tempPreference){
         this.props.change('temperatureMeasurement', tempPreference);
@@ -63,6 +64,35 @@ class EditRecipeForm extends Component {
     // const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
     // const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
     // console.log('values when mounting: ', this.props.initialValues);
+  }
+
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    const currentBeanID = _.size(this.props) && _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.bean_id ? this.props.formValues.EditRecipeForm.values.bean_id : null;
+    const nextBeanID = _.size(nextProps) && _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) && _.size(nextProps.formValues.EditRecipeForm.values) && nextProps.formValues.EditRecipeForm.values.bean_id ? nextProps.formValues.EditRecipeForm.values.bean_id : null;
+    const daysOffRoast = _.size(nextProps) && _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) && _.size(nextProps.formValues.EditRecipeForm.values) && nextProps.formValues.EditRecipeForm.values.days_off_roast ? nextProps.formValues.EditRecipeForm.values.days_off_roast : undefined;
+    //* Bean has changed, so re-set the time off roast.
+    if(nextBeanID && nextBeanID !== currentBeanID && this.state.loaded === true){
+      console.log('next bean is different than prev')
+      const nextBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[nextBeanID] ? this.props.beans.beans[nextBeanID] : false;
+      const daysOffRoast = getDaysOffRoast(nextBean);
+      if(daysOffRoast && daysOffRoast.diffDays){
+        this.props.change('days_off_roast', daysOffRoast.diffDays);
+      }
+      else {
+        this.props.change('days_off_roast', null); // For if they switch to a bean that doesn't have the roast date enabled
+      }
+    }
+    //* For cloning a recipe initial setting
+    else if(this.state.loaded === false && nextBeanID && !isDefined(daysOffRoast)){
+      console.log('doing the initial setting of the time off roast');
+      const nextBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[nextBeanID] ? this.props.beans.beans[nextBeanID] : false;
+      const daysOffRoast = getDaysOffRoast(nextBean);
+      if(daysOffRoast && daysOffRoast.diffDays){
+        this.props.change('days_off_roast', daysOffRoast.diffDays);
+      }
+    }
+
+    this.setState({ loaded: true }); // Using this to make sure we're comparing to the nextProps AFTER the component has been initialized
   }
 
   render() {
@@ -169,6 +199,8 @@ class EditRecipeForm extends Component {
         </View>
 
         <View>
+          {this._getDaysOffRoast()}
+
           {this._hasRecipeAttributes() ? <View/> : <BodyText style={{ fontStyle: 'italic' }}>None yet. Press "Add New" to add recipe notes, nickname, etc.</BodyText>}
           {this._recipeNicknameArea()}
           {this._recipeNotesArea()}
@@ -686,6 +718,23 @@ class EditRecipeForm extends Component {
       )
     );
   }
+
+  _getDaysOffRoast() {
+    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+    if(values.days_off_roast){
+      return <View><BodyText>{values.days_off_roast === 1 ? `${values.days_off_roast} Day off roast` : `${values.days_off_roast} Days off roast`}</BodyText></View>
+    }
+    // else {
+    //   const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
+    //   const daysOffRoast = getDaysOffRoast(thisBean);
+    //   if (thisBean && daysOffRoast && daysOffRoast.output) {
+    //     return <View><BodyText>{daysOffRoast.output}</BodyText></View>
+    //   }
+    //   return <View />;
+    // }
+  }
+
 
   _notesForNextTimeArea(){
     if(this._editRecipeFormValues() && this.props.formValues.EditRecipeForm.values.notes_for_next_time) {

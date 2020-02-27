@@ -92,7 +92,9 @@ class ViewBeanScreen extends Component {
           <View style={{ flex: 1 }}>
             {this._beanName()}
             {this._roasterName()}
-            <BodyText>Roasted on: {prettyDate(this.props.bean.roast_date)} </BodyText>
+            {_.size(this.props.bean) && this.props.bean.roast_date ? (
+              <BodyText>Roasted on: {prettyDate(this.props.bean.roast_date)} </BodyText>
+            ) : <View/>}
           </View>
         </View>
         <Hr />

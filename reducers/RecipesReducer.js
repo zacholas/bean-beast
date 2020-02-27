@@ -126,6 +126,7 @@ export default (state = INITIAL_STATE, action) => {
             favorite_information: action.payload.data.favorite_information,
             recipe_steps: action.payload.data.recipe_steps,
             overall_rating: action.payload.data.overall_rating,
+            days_off_roast: action.payload.data.days_off_roast
           },
         },
       };
@@ -154,6 +155,7 @@ export default (state = INITIAL_STATE, action) => {
             favorite_information: action.payload.data.favorite_information,
             recipe_steps: action.payload.data.recipe_steps,
             overall_rating: action.payload.data.overall_rating,
+            days_off_roast: action.payload.data.days_off_roast
           }
         }
       };
@@ -170,6 +172,8 @@ export default (state = INITIAL_STATE, action) => {
             nickname: newNickname,
             created: action.payload.created,
             modified: action.payload.modified,
+            // days_off_roast: action.payload.days_off_roast
+            days_off_roast: undefined
           }
         }
       };

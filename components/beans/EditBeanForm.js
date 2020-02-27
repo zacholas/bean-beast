@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { TextField, DatePickerField, PickerField } from "../common/reduxForm";
+import { TextField, DatePickerField, PickerField, SwitchField } from "../common/reduxForm";
 import { BodyText, Button, Headline, ScrollContainer } from "../common";
 import { saveBean, clearBeanModalData } from "../../actions";
 import BeanPhoto from "./EditBeanFormSteps/BeanPhoto";
@@ -15,7 +15,7 @@ import Cafe from "./EditBeanFormSteps/Cafe";
 import * as navRoutes from "../../constants/NavRoutes";
 import ProgressBar from "../common/ProgressBar";
 import { bodyText, defaultMarginAmount, defaultPaddingAmount, textLink } from "../../constants/Styles";
-import {getDefaultRoastLevel, getFirstCoffeeSpecies} from "../../helpers";
+import { getDefaultRoastLevel, getFirstCoffeeSpecies, isDefined } from "../../helpers";
 
 // import EditCafeForm from "../cafes/EditCafeForm";
 // import Modal from "../common/Modal";
@@ -37,6 +37,22 @@ class EditBeanForm extends Component {
       this.props.change('type', this.props.type);
       this.props.change('navigation', this.props.navigation);
     }
+
+    const initialValues = this.props.initialValues ? this.props.initialValues : {};
+
+    // if(!isDefined(initialValues.roast_date_active)){
+    //   // this.props.change('roast_date_active', false);
+    // }
+    //
+    // if(!isDefined(initialValues.roast_date)){
+    //   this.props.change('roast_date', new Date());
+    // }
+    //
+    // if(!isDefined(initialValues.bean_type)){
+    //   this.props.change('bean_type', 'single_origin');
+    // }
+    //
+    // console.log('initial vals ', initialValues);
 
     // else {
     //   this.props.change('type', this.props.navigation.getParam('type', 'create'));
@@ -159,6 +175,7 @@ class EditBeanForm extends Component {
   }
 
   formStepThree(){
+    const roastDateActive = _.size(this.props.formValues) && _.size(this.props.formValues.EditBeanForm) && _.size(this.props.formValues.EditBeanForm.values) && this.props.formValues.EditBeanForm.values.roast_date_active ? this.props.formValues.EditBeanForm.values.roast_date_active : false;
     return (
       <View>
         <Cafe navigation={this.props.navigation} cafes={this.props.cafes} />
@@ -167,11 +184,21 @@ class EditBeanForm extends Component {
           origins={this.props.origins}
           beanProcesses={this.props.beanProcesses}
         />
-        <DatePickerField
-          name="roast_date"
-          label="Roast Date"
-          mode="date"
+        <SwitchField
+          name="roast_date_active"
+          label="Do you know the roast date?"
+          valueLabelPosition="right"
+          containerStyle={{ flexDirection: 'row' }}
+          valueLabelTrue="Yes"
+          valueLabelFalse="No"
         />
+        {roastDateActive ? (
+          <DatePickerField
+            name="roast_date"
+            label="Roast Date"
+            mode="date"
+          />
+        ) : <View/>}
       </View>
     );
   }
@@ -271,9 +298,14 @@ class EditBeanForm extends Component {
 const initializedValues = {
   roast_date: new Date(),
   bean_type: 'single_origin',
+  roast_date_active: false,
 };
 
 const mapStateToProps = (state) => {
+  // const currentlyEditingBean = _.size(state.beans) && state.beans.currentlyEditingBean ? state.beans.currentlyEditingBean : {};
+  // const theseInitializedValues = _.size(currentlyEditingBean) ? null : initializedValues;
+  // console.log('initializing bean', state.beans.currentlyEditingBean);
+  // console.log('theseInitializedValues', theseInitializedValues);
   return {
     cafes: state.cafes.cafes,
     origins: state.origins.origins,
@@ -282,6 +314,7 @@ const mapStateToProps = (state) => {
     coffeeSpecies: state.coffeeSpecies.coffeeSpecies,
     initialValues: {
       ...initializedValues,
+      // ...theseInitializedValues,
       beanBlendComponents: [{
         //* NOTE: When updating the initial bean values here, be sure to update them in \components\beans\BeanBlendFormLayout.js @ ~line 101
         coffee_species: getFirstCoffeeSpecies(state.coffeeSpecies.coffeeSpecies),

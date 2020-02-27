@@ -1,7 +1,8 @@
 import { showMessage, hideMessage } from "react-native-flash-message";
+import _ from 'lodash';
 import * as types from '../constants/types';
 import * as navRoutes from '../constants/NavRoutes';
-import {throwError, generateRandomID, temperatureConvertFtoC} from "../helpers";
+import { throwError, generateRandomID, temperatureConvertFtoC, getDaysOffRoast } from "../helpers";
 import * as configuredStore from '../configureStore';
 const { store } = configuredStore.default();
 // import { NavigationActions, StackActions } from "react-navigation";
@@ -18,7 +19,10 @@ export const saveRecipe = (values) => {
 const _createRecipe = (values) => {
   const id = generateRandomID('recipe');
   return (dispatch) => {
-    console.log('about to create');
+  // return (dispatch, getState) => {
+    // const thisBean = _.size(values) && values.bean_id && _.size(getState().beans) && _.size(getState().beans.beans) && getState().beans.beans[values.bean_id] ? getState().beans.beans[values.bean_id] : null;
+    // const daysOffRoast = getDaysOffRoast(thisBean);
+    // _creatingRecipe(dispatch, values, id, daysOffRoast)
     _creatingRecipe(dispatch, values, id)
       .then(() => {
         dispatch({
@@ -45,6 +49,7 @@ const _createRecipe = (values) => {
   };
 };
 
+// const _creatingRecipe = (dispatch, values, id, daysOffRoast) => new Promise((resolve, reject) => {
 const _creatingRecipe = (dispatch, values, id) => new Promise((resolve, reject) => {
   console.log('creating');
   //* Convert F to C
@@ -55,7 +60,10 @@ const _creatingRecipe = (dispatch, values, id) => new Promise((resolve, reject) 
       id,
       created: new Date().getTime(),
       modified: new Date().getTime(),
-      data: values,
+      data: {
+        ...values,
+        // days_off_roast: daysOffRoast ? daysOffRoast.diffDays : undefined
+      },
     },
   });
   resolve();
@@ -168,7 +176,12 @@ export const editRecipe = (recipeData) => {
 };
 
 export const cloneRecipe = (id, cloning_id) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+  // return (dispatch, getState) => {
+    // const thisRecipe = _.size(getState().recipes) && _.size(getState().recipes.recipes) && getState().recipes.recipes[cloning_id] ? getState().recipes.recipes[cloning_id] : null;
+    // const thisBean = _.size(thisRecipe) && thisRecipe.bean_id && _.size(getState().beans) && _.size(getState().beans.beans) && getState().beans.beans[thisRecipe.bean_id] ? getState().beans.beans[thisRecipe.bean_id] : null;
+    // const daysOffRoast = getDaysOffRoast(thisBean);
+    // _cloningRecipe(dispatch, id, cloning_id, daysOffRoast)
     _cloningRecipe(dispatch, id, cloning_id)
       .then(() => {
         dispatch({
@@ -193,6 +206,7 @@ export const cloneRecipe = (id, cloning_id) => {
   };
 };
 
+// const _cloningRecipe = (dispatch, id, cloning_id, daysOffRoast) => new Promise((resolve, reject) => {
 const _cloningRecipe = (dispatch, id, cloning_id) => new Promise((resolve, reject) => {
   dispatch({
     type: types.RECIPE_CLONING,
@@ -201,6 +215,7 @@ const _cloningRecipe = (dispatch, id, cloning_id) => new Promise((resolve, rejec
       cloning_id,
       created: new Date().getTime(),
       modified: new Date().getTime(),
+      // days_off_roast: daysOffRoast ? daysOffRoast.diffDays : undefined
     }
   });
   resolve();

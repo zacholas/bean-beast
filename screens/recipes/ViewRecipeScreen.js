@@ -342,8 +342,9 @@ class ViewRecipeScreen extends Component {
           </View>
         </View>
 
-        {recipe.recipe_notes || recipe.recipe_objectives || recipe.notes_for_next_time ? <Hr/> : <View/>}
+        {recipe.recipe_notes || recipe.recipe_objectives || recipe.notes_for_next_time || recipe.days_off_roast ? <Hr/> : <View/>}
 
+        {recipe.days_off_roast ? <BodyText><Strong>Days off roast: </Strong>{recipe.days_off_roast}</BodyText> : <View/>}
         {recipe.recipe_notes ? <BodyText><Strong>Notes: </Strong>{recipe.recipe_notes}</BodyText> : <View/>}
         {recipe.recipe_objectives ? <BodyText><Strong>Objectives: </Strong>{recipe.recipe_objectives}</BodyText> : <View/>}
         {recipe.notes_for_next_time ? <BodyText><Strong>Notes for next time: </Strong>{recipe.notes_for_next_time}</BodyText> : <View/>}

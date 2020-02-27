@@ -388,5 +388,24 @@ export const migrations = {
         recipes: newRecipes
       }
     }
-  }
+  },
+  26: state => {
+    let newBeans = {};
+    _.forEach(state.beans.beans, bean => {
+      if(typeof bean.roast_date_active === "undefined"){
+        bean.roast_date_active = true;
+      }
+
+      newBeans[bean.id] = bean
+    });
+
+
+    return {
+      ...state,
+      beans: {
+        ...state.beans,
+        beans: newBeans
+      }
+    }
+  },
 };
