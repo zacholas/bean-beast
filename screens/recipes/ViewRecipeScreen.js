@@ -29,7 +29,7 @@ class ViewRecipeScreen extends Component {
     let headerRightOutput = <View />;
     // console.log('this props', this.props);
     const { params } = navigation.state;
-    if(params.recipe && params.onPress){
+    if(_.size(params) && params.recipe && params.onPress){
       headerRightOutput = (
         <TouchableOpacity onPress={params.onPress}>
           <Text style={headerNavTextLink}><Icon name="ellipsis-h" size={16} style={textLink} /> Actions</Text>
