@@ -118,7 +118,6 @@ class HomeScreen extends React.Component {
     if(_.size(this.props.recipes) && _.size(this.props.recipes.recipes)) {
       let recipes = this.props.recipes.recipes;
       let i = 1;
-      recipes = _.orderBy(recipes, ['modified'], ['desc']);
       recipes = _.filter(recipes, (recipe) => {
         if (i > 3) {
           return false;
@@ -126,6 +125,7 @@ class HomeScreen extends React.Component {
         i++;
         return _.size(recipe.favorite_information) && recipe.favorite_information.is_favorite === true;
       });
+      recipes = _.orderBy(recipes, ['modified'], ['desc']);
       recipes = _.values(recipes);
       if(_.size(recipes)) {
         return (

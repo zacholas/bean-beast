@@ -29,7 +29,14 @@ const _createRecipe = (values) => {
           type: types.RECIPE_CREATE_SUCCESS,
           payload: id,
         });
-        values.navigation.goBack();
+        if(id){
+          values.navigation.navigate(navRoutes.VIEW_RECIPE, {
+            id
+          });
+        }
+        else {
+          values.navigation.goBack();
+        }
       })
       .catch(error => {
         dispatch({
@@ -76,7 +83,14 @@ const _updateRecipe = (values) => {
         dispatch({
           type: types.RECIPE_UPDATE_SUCCESS,
         });
-        values.navigation.goBack();
+        if(values.id){
+          values.navigation.navigate(navRoutes.VIEW_RECIPE, {
+            id: values.id
+          });
+        }
+        else {
+          values.navigation.goBack();
+        }
       })
       .catch(error => {
         dispatch({
@@ -175,8 +189,10 @@ export const editRecipe = (recipeData) => {
   };
 };
 
-export const cloneRecipe = (id, cloning_id) => {
-  return (dispatch, getState) => {
+export const cloneRecipe = (id, cloning_id, navigation) => {
+  return (dispatch) => {
+
+    // console.log('navigation', navigation);
   // return (dispatch, getState) => {
     // const thisRecipe = _.size(getState().recipes) && _.size(getState().recipes.recipes) && getState().recipes.recipes[cloning_id] ? getState().recipes.recipes[cloning_id] : null;
     // const thisBean = _.size(thisRecipe) && thisRecipe.bean_id && _.size(getState().beans) && _.size(getState().beans.beans) && getState().beans.beans[thisRecipe.bean_id] ? getState().beans.beans[thisRecipe.bean_id] : null;

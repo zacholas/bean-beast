@@ -39,9 +39,20 @@ const _createBean = (values) => {
         // from it. Although if they're creating it from within a taste, they'd want to go back so we'll have to consider
         // the source path when routing here I think.
         // values.navigation.goBack();
-        values.navigation.navigate({
-          routeName: navRoutes.BEANS_LIST
-        });
+        // values.navigation.navigate({
+        //   routeName: navRoutes.BEANS_LIST
+        // });
+
+        if(id){
+          values.navigation.navigate(navRoutes.VIEW_BEAN, {
+            id
+          });
+        }
+        else {
+          values.navigation.navigate({
+            routeName: navRoutes.BEANS_LIST
+          });
+        }
       })
       .catch(error => {
         dispatch({
@@ -84,10 +95,19 @@ const _updateBean = (values) => {
         dispatch({
           type: types.BEAN_UPDATE_SUCCESS,
         });
-        // values.navigation.goBack();
-        values.navigation.navigate({
-          routeName: navRoutes.BEANS_LIST
-        });
+        // values.navigation.navigate({
+        //   routeName: navRoutes.BEANS_LIST
+        // });
+        if(values.id){
+          values.navigation.navigate(navRoutes.VIEW_BEAN, {
+            id: values.id
+          });
+        }
+        else {
+          values.navigation.navigate({
+            routeName: navRoutes.BEANS_LIST
+          });
+        }
       })
       .catch(error => {
         dispatch({

@@ -451,7 +451,7 @@ class ViewRecipeScreen extends Component {
   _cloneRecipe(item){
     const id = generateRandomID('recipe');
     if(item.id && this.props.cloneRecipe){
-      this.props.cloneRecipe(id, item.id);
+      this.props.cloneRecipe(id, item.id, this.props.navigation);
       this.setState({ new_cloned_recipe_id: id });
       // console.log('done', this.props.recipes.recipes);
       // console.log('done', this.props.recipes.recipes[id]);

@@ -472,7 +472,7 @@ class ViewBeanScreen extends Component {
     const recentRecipe = this._getMostRecentRecipe();
     const id = generateRandomID('recipe');
     if(id && recentRecipe && recentRecipe.id){
-      this.props.cloneRecipe(id, recentRecipe.id);
+      this.props.cloneRecipe(id, recentRecipe.id, this.props.navigation);
       this.setState({ new_cloned_recipe_id: id });
       this.createRecipeModal.hide();
     }
