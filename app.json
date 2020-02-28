@@ -31,7 +31,8 @@
         "NSPhotoLibraryUsageDescription": "Bean Beast needs to access your camera roll so that you can upload images of your coffee. Your images will not be shared without your permission.",
         "NSPhotoLibraryAddUsageDescription": "Bean Beast needs to access your camera roll so that you can upload images of your coffee. Your images will not be shared without your permission."
       },
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "buildNumber": "1.0.18"
     },
     "android": {
       "permissions": [
