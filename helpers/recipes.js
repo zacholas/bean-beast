@@ -64,7 +64,8 @@ export const getBrewRatio = recipe => {
         return false;
       }
       const upperRatio = Number(liquidGrams) / Number(recipe.dose);
-      const upperRatioDisplay = upperRatio > 5 ? roundToWholeNumber(upperRatio) : roundToOne(upperRatio);
+      // const upperRatioDisplay = upperRatio > 5 ? roundToWholeNumber(upperRatio) : roundToOne(upperRatio); // Maybe have a user preference for whether or not they want the decimals
+      const upperRatioDisplay = roundToOne(upperRatio);
       return `1 : ${upperRatioDisplay}`;
     }
   }
