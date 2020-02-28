@@ -7,16 +7,23 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField, LabeledSliderField } from "../common/reduxForm";
 import {BodyText, Button, Container, Headline, Hr} from "../common";
-import { getDaysOffRoast, isDefined, required, throwError } from "../../helpers";
+import { getBrewRatio, getDaysOffRoast, isDefined, isNumeric, required, throwError } from "../../helpers";
 import _ from "lodash";
 import RecipeFormField from './formFields/RecipeFormField';
 import RecipeStepFormField from './formFields/RecipeStepFormField';
 import RecipeSteps from './recipeSteps/RecipeSteps';
 import Modal from "../common/Modal";
 import styles from "../../screens/recipes/styles";
-import {colorGray800} from "../../constants/Colors";
+import {
+  colorGray100,
+  colorGray1200,
+  colorGray400,
+  colorGray600,
+  colorGray800,
+  colorWhite
+} from "../../constants/Colors";
 import colors from "../../constants/Colors";
-import { defaultMarginAmount, marginBottom, textLink } from "../../constants/Styles";
+import { bodyText, defaultMarginAmount, marginBottom, textLink } from "../../constants/Styles";
 import RecipeStepFieldPicker from './recipeSteps/RecipeStepFieldPicker';
 import RecipeAttributesFieldPicker from './RecipeAttributesFieldPicker';
 import { generateRandomID, recipeStepFieldDefaultValues, recipeSteps_default_wait_length } from "../../helpers";
@@ -30,6 +37,18 @@ import {
 import { FavoriteField } from "./formFields/fields/FavoriteField";
 import BrewMethodIcon from "./BrewMethodIcon";
 import RecipeAttribute from "./RecipeAttribute";
+import { Strong } from "../common/Text/Strong";
+
+const thisStyles = StyleSheet.create({
+  gridDynamicItem: {
+    ...styles.recipePrimaryInfo,
+    backgroundColor: colorWhite,
+    justifyContent: 'flex-end',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: colorGray400
+  }
+});
 
 class EditRecipeForm extends Component {
   constructor(props){
@@ -70,6 +89,7 @@ class EditRecipeForm extends Component {
     const currentBeanID = _.size(this.props) && _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) && _.size(this.props.formValues.EditRecipeForm.values) && this.props.formValues.EditRecipeForm.values.bean_id ? this.props.formValues.EditRecipeForm.values.bean_id : null;
     const nextBeanID = _.size(nextProps) && _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) && _.size(nextProps.formValues.EditRecipeForm.values) && nextProps.formValues.EditRecipeForm.values.bean_id ? nextProps.formValues.EditRecipeForm.values.bean_id : null;
     const daysOffRoast = _.size(nextProps) && _.size(nextProps.formValues) && _.size(nextProps.formValues.EditRecipeForm) && _.size(nextProps.formValues.EditRecipeForm.values) && nextProps.formValues.EditRecipeForm.values.days_off_roast ? nextProps.formValues.EditRecipeForm.values.days_off_roast : undefined;
+
     //* Bean has changed, so re-set the time off roast.
     if(nextBeanID && nextBeanID !== currentBeanID && this.state.loaded === true){
       console.log('next bean is different than prev')
@@ -125,6 +145,9 @@ class EditRecipeForm extends Component {
     const thisBrewEquipmentName = _.size(values) && values.brew_equipment && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[values.brew_equipment]) && this.props.equipment.equipment[values.brew_equipment].name ? this.props.equipment.equipment[values.brew_equipment].name : null;
     const thisGrinderName = _.size(values) && values.grinder && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[values.grinder]) && this.props.equipment.equipment[values.grinder].name ? this.props.equipment.equipment[values.grinder].name : null;
 
+    const brewRatio = getBrewRatio(values);
+    const daysOffRoast = _.size(values) && values.days_off_roast ? values.days_off_roast : undefined;
+
     return (
       <Container>
         <View style={{ flexDirection: 'row' }}>
@@ -154,6 +177,7 @@ class EditRecipeForm extends Component {
 
         {/* Brewing Equipment & Accessories */}
         <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
+          {/*Grind*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Headline h6 noMargin>Grind</Headline>
             <BodyText noMargin>{_.size(values) && values.grind ? values.grind : '+ Add'}</BodyText>
@@ -162,6 +186,7 @@ class EditRecipeForm extends Component {
             {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
           </TouchableOpacity>
 
+          {/*Equipment*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('brew_equipment') }}>
             <Headline h6 noMargin>Brew Equipment</Headline>
             <BodyText noMargin>{_.size(values) && values.brew_equipment && thisBrewEquipmentName ? thisBrewEquipmentName : '» Select'}</BodyText>
@@ -169,18 +194,31 @@ class EditRecipeForm extends Component {
         </View>
 
         {/* Grind, Dose, Temp */}
-        <View style={styles.recipePrimaryInfoBar}>
+        <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
 
+          {/*Dose*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
             <Headline h6 noMargin>Dose</Headline>
             <BodyText noMargin>{_.size(values) && values.dose ? `${values.dose}g` : '+ Add'}</BodyText>
           </TouchableOpacity>
+
+          {/* Yield */}
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('yield') }}>
+            <Headline h6 noMargin>Yield</Headline>
+            <BodyText noMargin>{_.size(values) && values.yield ? `${values.yield}g` : '+ Add'}</BodyText>
+            {/*{this._fieldErrorDisplay('grind')}*/}
+            {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
+          </TouchableOpacity>
+
+          {/*Temp*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('temperature') }}>
             <Headline h6 noMargin>Temp</Headline>
             {/*<BodyText noMargin>{_.size(values) && values.temperature ? `${values.temperature}° ${values.temperatureMeasurement ? values.temperatureMeasurement.toString().toUpperCase() : 'C'}` : '+ Add'}</BodyText>*/}
             <BodyText noMargin>{temperature ? temperature : '+ Add'}</BodyText>
             {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
           </TouchableOpacity>
+
+
         </View>
 
         {/*<TextField*/}
@@ -188,6 +226,27 @@ class EditRecipeForm extends Component {
           {/*label="Grind2"*/}
           {/*validate={[required]}*/}
         {/*/>*/}
+
+        {/*<View style={{ flexDirection: 'row', alignItems: 'space-between' }}>*/}
+          {/*{this._getDaysOffRoast()}*/}
+          {/*{brewRatio ? <View style={{ flex: 1 }}><BodyText><Strong>Brew ratio: </Strong>{brewRatio}</BodyText></View> : <View/>}*/}
+        {/*</View>*/}
+
+        <View style={{ ...styles.recipePrimaryInfoBar }}>
+          {isDefined(daysOffRoast) && isNumeric(daysOffRoast) ? (
+            <View style={thisStyles.gridDynamicItem}>
+              <BodyText noMargin style={{ fontSize: 21 }}>{daysOffRoast}</BodyText>
+              <Headline h6 noMargin style={{ ...bodyText, fontSize: 12 }}>Days off Roast</Headline>
+            </View>
+          ) : <View/>}
+
+          {brewRatio ? (
+            <View style={thisStyles.gridDynamicItem}>
+              <BodyText noMargin style={{ fontSize: 21 }}>{brewRatio}</BodyText>
+              <Headline h6 noMargin style={{ ...bodyText, fontSize: 12 }}>Brew Ratio</Headline>
+            </View>
+          ) : <View/>}
+        </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
           <View style={{ flex: 1 }}>
@@ -198,8 +257,9 @@ class EditRecipeForm extends Component {
           </View>
         </View>
 
+
+
         <View>
-          {this._getDaysOffRoast()}
 
           {this._hasRecipeAttributes() ? <View/> : <BodyText style={{ fontStyle: 'italic' }}>None yet. Press "Add New" to add recipe notes, nickname, etc.</BodyText>}
           {this._recipeNicknameArea()}
@@ -723,7 +783,7 @@ class EditRecipeForm extends Component {
     const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
     const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
     if(values.days_off_roast){
-      return <View><BodyText>{values.days_off_roast === 1 ? `${values.days_off_roast} Day off roast` : `${values.days_off_roast} Days off roast`}</BodyText></View>
+      return <View style={{ flex: 1 }}><BodyText><Strong>Days off roast: </Strong>{values.days_off_roast}</BodyText></View>
     }
     // else {
     //   const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;

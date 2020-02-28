@@ -11,7 +11,7 @@ import { deleteRecipe, editRecipe, markRecipeAsFavorite, cloneRecipe } from "../
 import { bodyText, defaultMarginAmount, headerNavTextLink, textLink } from "../../constants/Styles";
 import styles from './styles';
 import { colorGray100, colorGray200, colorGray400, colorGray800, colorHeartRed } from "../../constants/Colors";
-import { generateRandomID, isDefined } from "../../helpers";
+import { generateRandomID, getBrewRatio, isDefined } from "../../helpers";
 import { LabeledSliderField } from "../../components/common/reduxForm";
 import {
   prettyDate,
@@ -190,6 +190,7 @@ class ViewRecipeScreen extends Component {
     const tempInOtherUnit = temperatureInOtherUnit(recipe.temperature, recipe.temperatureMeasurement);
     const thisBrewEquipmentName = _.size(recipe) && recipe.brew_equipment && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[recipe.brew_equipment]) && this.props.equipment.equipment[recipe.brew_equipment].name ? this.props.equipment.equipment[recipe.brew_equipment].name : null;
     const thisGrinderName = _.size(recipe) && recipe.grinder && _.size(this.props.equipment) && _.size(this.props.equipment.equipment) && _.size(this.props.equipment.equipment[recipe.grinder]) && this.props.equipment.equipment[recipe.grinder].name ? this.props.equipment.equipment[recipe.grinder].name : null;
+    const brewRatio = getBrewRatio(recipe);
 
     return (
       <Container>
@@ -216,6 +217,15 @@ class ViewRecipeScreen extends Component {
         {/*</View>*/}
 
         <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
+          {recipe.brew_equipment && thisBrewEquipmentName ? (
+            <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{thisBrewEquipmentName}</BodyText>
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Brew Equipment</Headline>
+            </View>
+          ) : <View/>}
+        </View>
+
+        <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
           {recipe.brew_method && _.size(this.props.brewMethods) && _.size(this.props.brewMethods.brewMethods) && _.size(this.props.brewMethods.brewMethods[recipe.brew_method]) && this.props.brewMethods.brewMethods[recipe.brew_method].name ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem   }}>
               <BrewMethodIcon brew_method_id={recipe.brew_method} size={26} />
@@ -223,36 +233,14 @@ class ViewRecipeScreen extends Component {
             </View>
           ) : <View/>}
 
-          {recipe.brew_equipment && thisBrewEquipmentName ? (
+          {recipe.temperature ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
-              <BodyText noMargin style={thisStyles.gridCalloutText}>{thisBrewEquipmentName}</BodyText>
-              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Brew Equipment</Headline>
+              {/*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*/}
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInRecipePreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>
+              {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>
             </View>
           ) : <View/>}
-
-          {/*{recipe.grind ? (*/}
-            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>*/}
-              {/*<BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.grind}</BodyText>*/}
-              {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Grind</Headline>*/}
-              {/*{_.size(recipe) && recipe.grind && thisGrinderName ? <BodyText style={{ fontSize: 12 }} noMargin>({thisGrinderName})</BodyText> : <View />}*/}
-            {/*</View>*/}
-          {/*) : <View/>}*/}
-
-          {/*{recipe.dose ? (*/}
-            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>*/}
-              {/*<BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.dose}g</BodyText>*/}
-              {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Dose</Headline>*/}
-            {/*</View>*/}
-          {/*) : <View/>}*/}
-
-          {/*{recipe.temperature ? (*/}
-            {/*<View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>*/}
-              {/*/!*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*!/*/}
-              {/*<BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInUserPreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>*/}
-              {/*{tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}*/}
-              {/*<Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>*/}
-            {/*</View>*/}
-          {/*) : <View/>}*/}
         </View>
 
 
@@ -272,12 +260,10 @@ class ViewRecipeScreen extends Component {
             </View>
           ) : <View/>}
 
-          {recipe.temperature ? (
+          {recipe.yield ? (
             <View style={{ ...styles.recipePrimaryInfo, ...thisStyles.gridCalloutItem }}>
-              {/*<View style={{ ...styles.recipePrimaryInfo, backgroundColor: colorGray100 }}>*/}
-              <BodyText noMargin style={thisStyles.gridCalloutText}>{temperatureInRecipePreference(recipe.temperature, this.props.userPreferences, recipe.temperatureMeasurement)}</BodyText>
-              {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
-              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Temp</Headline>
+              <BodyText noMargin style={thisStyles.gridCalloutText}>{recipe.yield}g</BodyText>
+              <Headline h6 noMargin style={thisStyles.gridCalloutLabel}>Yield</Headline>
             </View>
           ) : <View/>}
         </View>
@@ -344,6 +330,7 @@ class ViewRecipeScreen extends Component {
 
         {recipe.recipe_notes || recipe.recipe_objectives || recipe.notes_for_next_time || recipe.days_off_roast ? <Hr/> : <View/>}
 
+        {brewRatio ? <BodyText><Strong>Brew ratio: </Strong>{brewRatio}</BodyText> : <View/>}
         {recipe.days_off_roast ? <BodyText><Strong>Days off roast: </Strong>{recipe.days_off_roast}</BodyText> : <View/>}
         {recipe.recipe_notes ? <BodyText><Strong>Notes: </Strong>{recipe.recipe_notes}</BodyText> : <View/>}
         {recipe.recipe_objectives ? <BodyText><Strong>Objectives: </Strong>{recipe.recipe_objectives}</BodyText> : <View/>}
