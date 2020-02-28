@@ -8,9 +8,9 @@ class DoseField extends Component {
   render() {
     return (
       <View>
-        <Headline h4>Yield</Headline>
+        <Headline h4 noMargin>Yield</Headline>
+        <BodyText>The total amount of liquid coffee produced by this recipe.</BodyText>
         <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-          {/*<Text>You are currently looking at the temperature field.</Text>*/}
           <View style={{ width: 90 }}>
             <TextField
               name="yield"
@@ -23,6 +23,7 @@ class DoseField extends Component {
             <BodyText>grams</BodyText>
           </View>
         </View>
+        <BodyText>Note: if left blank, dynamically-calculated fields (like coffee:water ratio) will be calculated based off the total liquid from the recipe steps fields.</BodyText>
       </View>
     );
   }

@@ -117,6 +117,7 @@ export default (state = INITIAL_STATE, action) => {
             grind: action.payload.data.grind, // String
             grinder: action.payload.data.grinder, // ID of the piece of equipment
             dose: action.payload.data.dose, // Grams to hundredths
+            yield: action.payload.data.yield, // Grams to hundredths
             temperature: action.payload.data.temperature, // Store in deg C to hundredths
             temperatureMeasurement: action.payload.data.temperatureMeasurement,
             notes_for_next_time: action.payload.data.notes_for_next_time,
@@ -146,6 +147,7 @@ export default (state = INITIAL_STATE, action) => {
             grind: action.payload.data.grind, // String
             grinder: action.payload.data.grinder, // ID of the piece of equipment
             dose: action.payload.data.dose, // Grams to hundredths
+            yield: action.payload.data.yield, // Grams to hundredths
             temperature: action.payload.data.temperature, // Store in deg C to hundredths
             temperatureMeasurement: action.payload.data.temperatureMeasurement,
             notes_for_next_time: action.payload.data.notes_for_next_time,

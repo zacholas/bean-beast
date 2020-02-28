@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import { isDefined, isNumeric, roundToOne, roundToTwo, roundToWholeNumber } from "./generic";
+
 export const recipeStepFieldDefaultValues = (field_id) => {
   switch (field_id) {
     // case 'default_primary_infusion':
@@ -32,4 +35,38 @@ export const getDaysOffRoast = bean => {
     diffDays,
     output
   }
+};
+
+export const getTotalLiquid = recipe => {
+  if(_.size(recipe)){
+    if(isDefined(recipe.yield) && isNumeric(recipe.yield) && recipe.yield !== ''){
+      return Number(recipe.yield);
+    }
+    if(recipe.recipe_steps){
+      let totalWeight = 0;
+      _.forEach(recipe.recipe_steps, step => {
+        if(_.size(step) && _.size(step.values) && isDefined(step.values.water_amount) && !isNaN(step.values.water_amount)){
+          totalWeight += Number(step.values.water_amount);
+        }
+      });
+      return Number(totalWeight);
+    }
+  }
+
+  return false;
+};
+
+export const getBrewRatio = recipe => {
+  if(_.size(recipe) && isDefined(recipe.dose) && !isNaN(recipe.dose)){
+    const liquidGrams = getTotalLiquid(recipe);
+    if(liquidGrams){
+      if(Number(liquidGrams) === 0 || Number(recipe.dose) === 0){
+        return false;
+      }
+      const upperRatio = Number(liquidGrams) / Number(recipe.dose);
+      const upperRatioDisplay = upperRatio > 5 ? roundToWholeNumber(upperRatio) : roundToOne(upperRatio);
+      return `1 : ${upperRatioDisplay}`;
+    }
+  }
+  return false;
 };

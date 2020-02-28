@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.17.1",
+    "version": "1.0.18",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -31,7 +31,8 @@
         "NSPhotoLibraryUsageDescription": "Bean Beast needs to access your camera roll so that you can upload images of your coffee. Your images will not be shared without your permission.",
         "NSPhotoLibraryAddUsageDescription": "Bean Beast needs to access your camera roll so that you can upload images of your coffee. Your images will not be shared without your permission."
       },
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "buildNumber": "1"
     },
     "android": {
       "permissions": [
@@ -40,7 +41,7 @@
         "WRITE_EXTERNAL_STORAGE"
       ],
       "package": "com.zachswinehart.bean_beast",
-      "versionCode": 17
+      "versionCode": 18
     },
     "hooks": {
       "postPublish": [
