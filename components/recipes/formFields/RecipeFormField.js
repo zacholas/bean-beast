@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { connect } from "react-redux";
 
 import DoseField from './fields/DoseField';
+import YieldField from './fields/YieldField';
 import GrindField from './fields/GrindField';
 import TemperatureField from './fields/TemperatureField';
 import BrewMethodField from './fields/BrewMethodField';
@@ -33,6 +34,7 @@ class RecipeFormField extends Component {
       case 'bean_id':
         return <BeanPickerField name="bean_id" />;
       case 'yield':
+        return <YieldField />;
 
 
       // case 'bean_idOLD':
