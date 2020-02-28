@@ -154,6 +154,7 @@ class EditRecipeForm extends Component {
 
         {/* Brewing Equipment & Accessories */}
         <View style={{ ...styles.recipePrimaryInfoBar, marginBottom: 0 }}>
+          {/*Grind*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('grind') }}>
             <Headline h6 noMargin>Grind</Headline>
             <BodyText noMargin>{_.size(values) && values.grind ? values.grind : '+ Add'}</BodyText>
@@ -162,6 +163,7 @@ class EditRecipeForm extends Component {
             {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
           </TouchableOpacity>
 
+          {/*Equipment*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('brew_equipment') }}>
             <Headline h6 noMargin>Brew Equipment</Headline>
             <BodyText noMargin>{_.size(values) && values.brew_equipment && thisBrewEquipmentName ? thisBrewEquipmentName : '» Select'}</BodyText>
@@ -171,16 +173,29 @@ class EditRecipeForm extends Component {
         {/* Grind, Dose, Temp */}
         <View style={styles.recipePrimaryInfoBar}>
 
+          {/*Dose*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('dose') }}>
             <Headline h6 noMargin>Dose</Headline>
             <BodyText noMargin>{_.size(values) && values.dose ? `${values.dose}g` : '+ Add'}</BodyText>
           </TouchableOpacity>
+
+          {/*Temp*/}
           <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('temperature') }}>
             <Headline h6 noMargin>Temp</Headline>
             {/*<BodyText noMargin>{_.size(values) && values.temperature ? `${values.temperature}° ${values.temperatureMeasurement ? values.temperatureMeasurement.toString().toUpperCase() : 'C'}` : '+ Add'}</BodyText>*/}
             <BodyText noMargin>{temperature ? temperature : '+ Add'}</BodyText>
             {tempInOtherUnit ? <BodyText noMargin style={{ fontSize: 13 }}>({tempInOtherUnit})</BodyText> : <View />}
           </TouchableOpacity>
+
+          {/* Yield */}
+          <TouchableOpacity style={styles.recipePrimaryInfo} onPress={() => { this._showEditFormFieldModal('yield') }}>
+            <Headline h6 noMargin>Yield</Headline>
+            <BodyText noMargin>{_.size(values) && values.yield ? `${values.yield}g` : '+ Add'}</BodyText>
+            {/*{this._fieldErrorDisplay('grind')}*/}
+            {/*{submitErrors && submitErrors.grind && _.size(formMeta.grind) && formMeta.grind.touched && <Text style={{ color: '#f00' }}>{submitErrors.grind}</Text>}*/}
+          </TouchableOpacity>
+
+
         </View>
 
         {/*<TextField*/}

@@ -32,6 +32,8 @@ class RecipeFormField extends Component {
         return <TemperatureField temperatureMeasurement={this.props.temperatureMeasurement} />;
       case 'bean_id':
         return <BeanPickerField name="bean_id" />;
+      case 'yield':
+
 
       // case 'bean_idOLD':
       //   let beans = _.map(this.props.beans.beans, (bean) => {
