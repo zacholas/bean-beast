@@ -17,13 +17,16 @@ export const editBean = (beanData) => {
 };
 
 export const saveBean = (values) => {
-  console.log('saving bean with ', values);
   if(values.type === 'create'){
     return _createBean(values);
   }
   else if(values.type === 'edit'){
     return _updateBean(values);
   }
+  throwError('values.type did not match either "create" or "edit"', 'actions/BeanActions', 'saveBean', { extra: values });
+  return {
+    type: 'unknown error'
+  };
 };
 
 const _createBean = (values) => {
@@ -35,14 +38,6 @@ const _createBean = (values) => {
           type: types.BEAN_CREATE_SUCCESS,
           payload: id,
         });
-        //* Todo probably take them to this bean's page instead of back, since they'll presumably want to create a taste
-        // from it. Although if they're creating it from within a taste, they'd want to go back so we'll have to consider
-        // the source path when routing here I think.
-        // values.navigation.goBack();
-        // values.navigation.navigate({
-        //   routeName: navRoutes.BEANS_LIST
-        // });
-
         if(id){
           values.navigation.navigate(navRoutes.VIEW_BEAN, {
             id
@@ -95,9 +90,6 @@ const _updateBean = (values) => {
         dispatch({
           type: types.BEAN_UPDATE_SUCCESS,
         });
-        // values.navigation.navigate({
-        //   routeName: navRoutes.BEANS_LIST
-        // });
         if(values.id){
           values.navigation.navigate(navRoutes.VIEW_BEAN, {
             id: values.id
@@ -115,7 +107,6 @@ const _updateBean = (values) => {
           payload: error,
         });
         throwError(error, '/actions/BeanActions.js', '_updateBean');
-        // values.navigation.goBack();
         values.navigation.navigate({
           routeName: navRoutes.BEANS_LIST
         });

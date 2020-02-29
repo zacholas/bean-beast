@@ -1,33 +1,28 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, AsyncStorage, SafeAreaView } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppearanceProvider } from 'react-native-appearance';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
 import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
-import { Asset } from 'expo-asset';
 import * as Sentry from 'sentry-expo';
-// import { SentrySeverity, SentryLog } from 'react-native-sentry';
 import { PersistGate } from 'redux-persist/integration/react'
-import { createStore, applyMiddleware, compose } from 'redux';
-import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import FlashMessage from "react-native-flash-message";
 import AppNavigator from './navigation/AppNavigator';
 import * as configuredStore from './configureStore';
-// import * as types from './constants/types';
-// import reducers from './reducers';
+import { throwError } from "./helpers";
 
 Sentry.init({
   dsn: 'https://6f35c3cf2cc44de3af3a3622a1637054@sentry.io/1443579',
-  // enableInExpoDevelopment: true,
-  debug: true
+  debug: true,
+  enableInExpoDevelopment: true
 });
 Sentry.setRelease(Constants.manifest.revisionId);
 
 const { store, persistor } = configuredStore.default();
-// persistor.purge();
+// persistor.purge(); //* Wipe all persisted redux state data
 
 class App extends React.Component {
   state = {
@@ -35,7 +30,6 @@ class App extends React.Component {
   };
 
   render() {
-    // console.log('app props', this.props);
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
         <Provider store={store}>
@@ -48,7 +42,8 @@ class App extends React.Component {
           </PersistGate>
         </Provider>
       );
-    } else {
+    }
+    else {
       return (
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
@@ -66,11 +61,7 @@ class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Font.loadAsync({
-        // This is the font that we are using for our tab bar
-        ...Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free
-        // to remove this if you are not using it in your app
-        // 'avenir-next-300': require('./assets/fonts/AvenirNextLTPro-Light.otf'),
+        ...Ionicons.font, // Tab bar icons
         'avenir-next-400': require('./assets/fonts/AvenirNextLTPro-Regular.otf'),
         'avenir-next-600': require('./assets/fonts/AvenirNextLTPro-Demi.otf'),
         'galano-grotesque-700': require('./assets/fonts/GalanoGrotesque-Bold.otf'),
@@ -80,9 +71,7 @@ class App extends React.Component {
   };
 
   _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-    console.warn(error);
+    throwError(error, 'App.js', '_handleLoadingError');
   };
 
   _handleFinishLoading = () => {
@@ -90,7 +79,7 @@ class App extends React.Component {
   };
 }
 
-const ConnectedApp = connectActionSheet(App);
+const ConnectedApp = connectActionSheet(App); //* Connect the action sheet (the little popout CRUD menu thing)
 
 export default class AppContainer extends React.Component {
   render() {

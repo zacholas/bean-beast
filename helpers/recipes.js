@@ -28,7 +28,7 @@ export const getDaysOffRoast = bean => {
   let output = `${diffDays} Days off roast`;
 
   if(diffDays === 1){
-    output `${diffDays} Day off roast`;
+    output = `${diffDays} Day off roast`;
   }
 
   return {

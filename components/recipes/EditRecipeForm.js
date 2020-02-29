@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import { reduxForm, arrayPush, SubmissionError, getFormMeta } from 'redux-form';
@@ -7,7 +7,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { saveRecipe } from "../../actions";
 import { TextField, PickerField, LabeledSliderField } from "../common/reduxForm";
 import {BodyText, Button, Container, Headline, Hr} from "../common";
-import { getBrewRatio, getDaysOffRoast, isDefined, isNumeric, required, throwError } from "../../helpers";
+import {
+  getBrewRatio,
+  getDaysOffRoast,
+  isDefined,
+  isNumeric,
+  reportToSentry,
+  required,
+  throwError
+} from "../../helpers";
 import _ from "lodash";
 import RecipeFormField from './formFields/RecipeFormField';
 import RecipeStepFormField from './formFields/RecipeStepFormField';
@@ -15,11 +23,7 @@ import RecipeSteps from './recipeSteps/RecipeSteps';
 import Modal from "../common/Modal";
 import styles from "../../screens/recipes/styles";
 import {
-  colorGray100,
-  colorGray1200,
   colorGray400,
-  colorGray600,
-  colorGray800,
   colorWhite
 } from "../../constants/Colors";
 import colors from "../../constants/Colors";
@@ -38,6 +42,7 @@ import { FavoriteField } from "./formFields/fields/FavoriteField";
 import BrewMethodIcon from "./BrewMethodIcon";
 import RecipeAttribute from "./RecipeAttribute";
 import { Strong } from "../common/Text/Strong";
+import * as Sentry from "sentry-expo";
 
 const thisStyles = StyleSheet.create({
   gridDynamicItem: {
@@ -69,20 +74,12 @@ class EditRecipeForm extends Component {
     this.props.change('modal', this.props.modal);
     this.props.change('bean_id', this.props.bean_id);
 
-    console.log('temperatureMeasurement when mounting: ', this.props.initialValues.temperatureMeasurement);
     if(!this.props.initialValues.temperatureMeasurement || this.props.initialValues.temperatureMeasurement === ''){
-      console.log('no temp!', this.props.userPreferences.global_temperatureMeasurement);
       const tempPreference = _.size(this.props) && _.size(this.props.userPreferences) && this.props.userPreferences.global_temperatureMeasurement ? this.props.userPreferences.global_temperatureMeasurement : false;
       if(tempPreference){
         this.props.change('temperatureMeasurement', tempPreference);
       }
     }
-  }
-
-  componentDidMount(): void {
-    // const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
-    // const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
-    // console.log('values when mounting: ', this.props.initialValues);
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -779,21 +776,21 @@ class EditRecipeForm extends Component {
     );
   }
 
-  _getDaysOffRoast() {
-    const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
-    const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
-    if(values.days_off_roast){
-      return <View style={{ flex: 1 }}><BodyText><Strong>Days off roast: </Strong>{values.days_off_roast}</BodyText></View>
-    }
-    // else {
-    //   const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
-    //   const daysOffRoast = getDaysOffRoast(thisBean);
-    //   if (thisBean && daysOffRoast && daysOffRoast.output) {
-    //     return <View><BodyText>{daysOffRoast.output}</BodyText></View>
-    //   }
-    //   return <View />;
-    // }
-  }
+  // _getDaysOffRoast() {
+  //   const thisForm = _.size(this.props.formValues) && _.size(this.props.formValues.EditRecipeForm) ? this.props.formValues.EditRecipeForm : false;
+  //   const values = thisForm && _.size(thisForm.values) ? thisForm.values : false;
+  //   if(values.days_off_roast){
+  //     return <View style={{ flex: 1 }}><BodyText><Strong>Days off roast: </Strong>{values.days_off_roast}</BodyText></View>
+  //   }
+  //   // else {
+  //   //   const thisBean = _.size(this.props.beans) && _.size(this.props.beans.beans) && this.props.beans.beans[values.bean_id] ? this.props.beans.beans[values.bean_id] : false;
+  //   //   const daysOffRoast = getDaysOffRoast(thisBean);
+  //   //   if (thisBean && daysOffRoast && daysOffRoast.output) {
+  //   //     return <View><BodyText>{daysOffRoast.output}</BodyText></View>
+  //   //   }
+  //   //   return <View />;
+  //   // }
+  // }
 
 
   _notesForNextTimeArea(){

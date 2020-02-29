@@ -1,6 +1,7 @@
-import Sentry from "sentry-expo";
+import _ from 'lodash';
+import * as Sentry from 'sentry-expo';
 
-export const throwError = (error = 'unspecified error', filePath = false, functionName = false) => {
+export const throwError = (error = 'unspecified error', filePath = false, functionName = false, context = {}) => {
   let errorMessage = '';
   errorMessage += filePath ? filePath : '';
   errorMessage += filePath && functionName ? ' @ ' : '';
@@ -10,5 +11,15 @@ export const throwError = (error = 'unspecified error', filePath = false, functi
   errorMessage += error;
 
   console.log(errorMessage);
-  Sentry.captureException(new Error(errorMessage));
+  // Sentry.captureException(new Error(errorMessage));
+
+  Sentry.withScope(scope => {
+    if(_.size(context) && context.tags){
+      scope.setTags(context.tags);
+    }
+    if(_.size(context) && context.extra){
+      scope.setExtras(context.extra);
+    }
+    Sentry.captureException(new Error(errorMessage));
+  });
 };
